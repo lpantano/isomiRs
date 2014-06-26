@@ -1,0 +1,13 @@
+\name{put.header}
+\alias{put.header}
+\title{put header to input files}
+\usage{
+put.header(table)
+}
+\arguments{
+  \item{table}{table from IsomirDataSeq}
+}
+\description{
+put header to input files
+}
+
