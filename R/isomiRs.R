@@ -86,10 +86,10 @@ plotIso<-function(x,type="t5")
     des<-x@design
     table<-data.frame()
     for (sample in row.names(des)){
-        print(sample)
-        temp<-data.table(x@varList[[sample]][[coden]])
         uniq.dat<-as.data.frame(table(x@varList[[sample]][[coden]]$size))
-        temp<-as.data.frame(temp[,list(freq=sum(freq)),by="size"])
+        temp<-as.data.frame( x@varList[[sample]][[coden]] %>%
+                                 group_by(size) %>%
+                                 summarise(freq=sum(freq)))
         total<-sum(temp$freq)
         temp<-merge(temp,uniq.dat,by=1)
         Total<-sum(temp$Freq)

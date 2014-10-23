@@ -33,10 +33,8 @@ loadIso<-function(files,design,cov=1,header=F,skip=1){
         d<-read.table(f,header=header,skip=skip)
         
         d<-filter.table(d,cov)
-        #Run function to describe isomirs
         out<-list(summary=0,t5sum=isomir.position(d,6),t3sum=isomir.position(d,7),
                   subsum=subs.position(d,4),addsum=isomir.position(d,5))
-        #class(out)<-"Isomirs"
         listObj[[row.names(design)[idx]]]<-d
         listObjVar[[row.names(design)[idx]]]<-out
     }
@@ -44,7 +42,6 @@ loadIso<-function(files,design,cov=1,header=F,skip=1){
     IsoObj@expList<-listObj
     IsoObj@varList<-listObjVar
     IsoObj<-do.mir.table(IsoObj)
-    #class(listObj)<-"Isomirs"
     return(IsoObj)
 }
 

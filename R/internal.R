@@ -3,23 +3,22 @@
 #' @param table table from IsomirDataSeq
 put.header<-function(table)
 {
-    names(table)[c(1,3,4,7,8,9,10,13,14)]<-c("seq","freq","mir","mism","add","t3","t5","DB","ambiguity")
+    names(table)[c(1,3,4,7,8,9,10,13,14)]<-c("seq","freq","mir","mism","add","t5","t3","DB","ambiguity")
     table<-table[,c(1,3,4,7,8,9,10,13,14)]
     table[,2]<-as.numeric(table[,2])
     return(table)
 }
 
 #' filter by relative abundance to reference
-#' @import data.table
+#' @import dplyr
 #' @param table object miraligner table
 #' @param limit remove sequences lower than this number
 filter.by.cov<-function(table,limit=10)
 {
     freq=NULL
     tab.fil<-table[table$DB=="miRNA",]
-    tab.fil.out<-data.table(tab.fil)
-    tab.fil.out<-as.data.frame(tab.fil.out[,list(total=sum(freq)),
-        by=c('mir')])
+    tab.fil.out<-as.data.frame(tab.fil %>% group_by(mir) %>%
+                                   summarise(total=sum(freq)))
     tab.fil<-merge(tab.fil[,c(3,1:2,4:ncol(tab.fil))],tab.fil.out,
         by=1)
     tab.fil$score<-tab.fil$freq/tab.fil$total*100
@@ -87,7 +86,7 @@ do.mir.table<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F)
 }
 
 #' Collapse isomiRs in miRNAs 
-#' @import data.table
+#' @import dplyr
 #' @param table object miraligner table
 #' @param ref differenciate reference miRNA from rest
 #' @param iso5 differenciate trimming at 5 miRNA from rest
@@ -124,8 +123,7 @@ collapse.mirs<-function(table,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F)
     }
     
     table$id<-label
-    table.out<-data.table(table)
-    table.out<-as.data.frame(table.out[,list(total=sum(freq)),by=c('id')])
+    table.out<-as.data.frame(table %>% group_by(id) %>% summarise(total=sum(freq)))
     table.out[is.na(table.out)]<-0
     return(table.out)
 }

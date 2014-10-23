@@ -16,6 +16,49 @@ BiocStyle::latex()
 
 \maketitle
 
+We are going to use a small RNAseq data coming from human 
+frontal cortex samples to give some basic examples of isomiRs analyses. 
+There are two groups: 
+* b: individuals with less than a year
+* o: individuals in the eldery.
+
+
+<<package-load,message=FALSE>>=
+library(isomiRs)
+data(isomiRex)
+@
+
+You can plot isomiRs tendencies with `plotIso`
+
+<<package-load,message=FALSE>>=
+#check plot iso
+obj<-plotIso(isomiRex,type="t5")
+@
+
+Do differential expression analysis using DESeq2
+
+<<package-load,message=FALSE>>=
+dds<-deIso(obj,formula=~condition,ref=TRUE,iso5=T)
+#plotMA
+library(DESeq2)
+plotMA(dds)
+@
+
+Let's do a PLS model having in the count matrix the reference miRNA, 
+and all isomiRs for each miRNA.
+
+<<package-load,eval=FALSE>>=
+obj<-makeCounts(obj,ref=T)
+obj<-normIso(obj)
+pls.obj<-isoPLSDA(obj,"condition")
+isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
+@
+
+You can do the analysis just with features that are important for the model
+
+<<package-load,message=FALSE>>=
+pls.obj<-isoPLSDA(obj,"condition",refinment=TRUE)
+@
 
 
 <<package-load,message=FALSE>>=

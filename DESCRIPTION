@@ -19,6 +19,7 @@ Depends:
     DESeq2
 Imports:
     ggplot2,
+    dplyr,
     RColorBrewer,
     data.table,
     gplots,
