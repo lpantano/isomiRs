@@ -185,25 +185,13 @@ R2PermutationVector <- function(variables, group, validation,
 R2RefinedPermutationVector <- function(variables, group, validation, learn,
                                        test, tol, nperm, vip)
 {
-    
-    # Auxiliar data containing variable names and numeric ID per variable
-    dataVariables <- data.frame( variable = colnames(variables),
+     dataVariables <- data.frame( variable = colnames(variables),
                                  id = c(1:dim(variables)[2]))
-    
-    # number of individuals
     n <- length(group)
-    
-    # intitialize R2 vector
-    R2Refined.perm <- rep(NA,nperm)
-    
-    # permutation loop
+     R2Refined.perm <- rep(NA,nperm)
     for(p in 1:nperm){
-        
-        # shuffle individuals
         mysample <- group[sample(1:length(group), n, replace=FALSE)]
-        # pls-da with groups shuffled
         model.perm <- plsDA(variables, mysample, validation, learn, test)
-        
         if(model.perm$R2[dim(model.perm$R2)[1],3] < tol){
             a.perm <- which(model.perm$R2[,3] < tol)
             if(a.perm[1] > 1){ v <- (a.perm[1]-1) }
@@ -212,21 +200,16 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
         if(model.perm$R2[dim(model.perm$R2)[1],3] >= tol){
             v <- dim(model.perm$R2)[1]
         }
-        
-        # refine model based on VIPs
         vip.perm.max <- apply(model.perm$VIP[,1:v], 1, max)	
         dataVIP.perm <- data.frame(variable = row.names(model.perm$VIP),
                                    VIP = vip.perm.max)
         dataVIP.perm.ref <- dataVIP.perm[dataVIP.perm$VIP >= vip,]
         sel.vars.perm <- merge(dataVariables , dataVIP.perm.ref,
                                by.x="variable", by.y="variable")
-        variables.perm.ref <- variables[,sel.vars.perm[,2]]
-        
+        variables.perm.ref <- variables[,sel.vars.perm[,2]]       
         if(!is.null(dim(variables.perm.ref)[2])){
             model.perm.ref <- plsDA(variables.perm.ref, group, 
                 autosel = TRUE, comps = 2, validation, learn, test)
-            
-            # select components based on R2 contribution 
             if(model.perm.ref$R2[dim(model.perm.ref$R2)[1],3] <= tol){
                 a.perm.ref <- which(model.perm.ref$R2[,3] < tol)
                 if(a.perm.ref[1] > 1){ R2Refined.perm[p] <- model.perm.ref$R2[a.perm.ref[1]-1,4] }
@@ -241,7 +224,7 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
     return(R2Refined.perm)  
 }
 
-#' Components plot (LATTICE PLOT)
+#' Components plot (pairs plot)
 #' @aliases isoPLSDAplot
 #' @usage isoPLSDAplot(components, groups)
 #' @param components PLS-DA components as it comes from isoPLSDA main function
@@ -255,12 +238,9 @@ isoPLSDAplot <- function(components, groups)
     t <- dim(datacomponents)[2]-1
     n <- length(levels(factor(groups)))
     super.sym <- trellis.par.get("superpose.symbol")
-    splom(~datacomponents[,2:dim(datacomponents)[2]], groups = condition, data = datacomponents,
-          panel = panel.superpose,
-          key = list(title = "PLS-DA components",
-                     columns = t, 
-                     points = list(pch = super.sym$pch[1:n],
-                                   col = super.sym$col[1:n]),
-                     text = list(levels(factor(groups)))))
+    ggplot <- function(...) ggplot2::ggplot(...) + scale_color_brewer(palette="Set1")
+    unlockBinding("ggplot",parent.env(asNamespace("GGally")))
+    assign("ggplot",ggplot,parent.env(asNamespace("GGally")))
+    ggpairs(datacomponents, columns = 2:3, col="condition", upper="blank",legends=T)
 }
 

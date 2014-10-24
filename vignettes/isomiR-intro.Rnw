@@ -30,14 +30,14 @@ data(isomiRex)
 
 You can plot isomiRs tendencies with `plotIso`
 
-<<package-load,message=FALSE>>=
+<<package-plot-iso,message=FALSE>>=
 #check plot iso
 obj<-plotIso(isomiRex,type="t5")
 @
 
 Do differential expression analysis using DESeq2
 
-<<package-load,message=FALSE>>=
+<<package-de,message=FALSE>>=
 dds<-deIso(obj,formula=~condition,ref=TRUE,iso5=T)
 #plotMA
 library(DESeq2)
@@ -47,7 +47,7 @@ plotMA(dds)
 Let's do a PLS model having in the count matrix the reference miRNA, 
 and all isomiRs for each miRNA.
 
-<<package-load,eval=FALSE>>=
+<<package-pls,eval=FALSE>>=
 obj<-makeCounts(obj,ref=T)
 obj<-normIso(obj)
 pls.obj<-isoPLSDA(obj,"condition")
@@ -56,14 +56,7 @@ isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
 
 You can do the analysis just with features that are important for the model
 
-<<package-load,message=FALSE>>=
-
+<<package-plsplot,message=FALSE,eval=FALSE>>=
 pls.obj<-isoPLSDA(obj,"condition",refinment=TRUE)
 @
 
-
-<<package-load,message=FALSE>>=
-library(DEGreport)
-data(humanSexDEedgeR)
-library(edgeR)
-@
