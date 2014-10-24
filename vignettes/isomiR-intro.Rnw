@@ -57,6 +57,7 @@ isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
 You can do the analysis just with features that are important for the model
 
 <<package-load,message=FALSE>>=
+
 pls.obj<-isoPLSDA(obj,"condition",refinment=TRUE)
 @
 
