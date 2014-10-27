@@ -3,8 +3,8 @@
 \alias{deIso}
 \title{Do DE analysis with DESeq}
 \usage{
-deIso(x, formula, ref = F, iso5 = F, iso3 = F, add = F, mism = F,
-  seed = F)
+deIso(x, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
+  mism = FALSE, seed = FALSE)
 }
 \arguments{
   \item{x}{object isomiDataSeq}

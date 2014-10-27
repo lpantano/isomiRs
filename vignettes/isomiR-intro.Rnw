@@ -1,5 +1,4 @@
 %\VignetteIndexEntry{isomiRs}
-%\VignetteDepends{DicriMiner,lattice,DeSeq2}
 %\VignetteKeywords{smallRNA, miRNAs,isomiRs, DifferentailExpression}
 %\VignetteEngine{knitr::knitr}
 \documentclass{article}
@@ -38,8 +37,7 @@ obj<-plotIso(isomiRex,type="t5")
 Do differential expression analysis using DESeq2
 
 <<package-de,message=FALSE>>=
-dds<-deIso(obj,formula=~condition,ref=TRUE,iso5=T)
-#plotMA
+dds<-deIso(obj,formula=~condition,ref=TRUE,iso5=TRUE)
 library(DESeq2)
 plotMA(dds)
 @
@@ -48,7 +46,7 @@ Let's do a PLS model having in the count matrix the reference miRNA,
 and all isomiRs for each miRNA.
 
 <<package-pls,eval=FALSE>>=
-obj<-makeCounts(obj,ref=T)
+obj<-makeCounts(obj,ref=TRUE)
 obj<-normIso(obj)
 pls.obj<-isoPLSDA(obj,"condition")
 isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
@@ -60,3 +58,4 @@ You can do the analysis just with features that are important for the model
 pls.obj<-isoPLSDA(obj,"condition",refinment=TRUE)
 @
 
+\end{document}

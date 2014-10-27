@@ -20,8 +20,7 @@ Plot the amount of isomiRs in different samples divided by
 group
 }
 \examples{
-library(isomiRs)
 data(isomiRex)
-isomiRex<-plotIso(isomiRex,"t5")
+plotIso(isomiRex)
 }
 

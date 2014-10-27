@@ -3,8 +3,8 @@
 \alias{makeCounts}
 \title{create count tables from isomirs}
 \usage{
-makeCounts(x, ref = F, iso5 = F, iso3 = F, add = F, mism = F,
-  seed = F)
+makeCounts(x, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
+  mism = FALSE, seed = FALSE)
 }
 \arguments{
   \item{x}{IsomirDataSeq class}

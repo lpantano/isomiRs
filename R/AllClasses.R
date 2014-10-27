@@ -22,7 +22,7 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
 #' @return
 #' \code{IsomirDataSeq} object
 #' @export
-loadIso<-function(files,design,cov=1,header=F,skip=1){
+loadIso<-function(files,design,cov=1,header=FALSE,skip=1){
     IsoObj<-IsomirDataSeq()
     listObj<-vector("list")
     listObjVar<-vector("list")

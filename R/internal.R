@@ -16,11 +16,12 @@ put.header<-function(table)
 filter.by.cov<-function(table,limit=10)
 {
     freq=NULL
+    mir=NULL
     tab.fil<-table[table$DB=="miRNA",]
     tab.fil.out<-as.data.frame(tab.fil %>% group_by(mir) %>%
                                    summarise(total=sum(freq)))
     tab.fil<-merge(tab.fil[,c(3,1:2,4:ncol(tab.fil))],tab.fil.out,
-        by=1)
+                   by=1)
     tab.fil$score<-tab.fil$freq/tab.fil$total*100
     tab.fil<-tab.fil[tab.fil$score>=limit,]
     return (tab.fil)
@@ -49,7 +50,8 @@ isomir.general.type<-function(table,colid)
     temp<-temp[order(temp$idfeat),]
     temp<-temp[!duplicated(temp$idfeat),]
     temp<-as.data.frame(summary(temp$mir))
-    feat.dist<-cut(as.numeric(temp[,1]),breaks=c(-1,0.5,1.5,2.5,Inf),labels=c("0","1","2",">3"))
+    feat.dist<-cut(as.numeric(temp[,1]),breaks=c(-1,0.5,1.5,2.5,Inf),
+                   labels=c("0","1","2",">3"))
     return (as.data.frame(summary(feat.dist)))  
 }
 
@@ -62,7 +64,8 @@ isomir.general.type<-function(table,colid)
 #' @param add differenciate additions miRNA from rest
 #' @param mism differenciate nt substitution miRNA from rest
 #' @param seed differenciate changes in 2-7 nt from rest
-do.mir.table<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F)
+do.mir.table<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,add=FALSE,
+                       mism=FALSE,seed=FALSE)
 {
     table.merge<-data.frame()
     des<-x@design
@@ -70,7 +73,7 @@ do.mir.table<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F)
         print (sample)
         d<-x@expList[[sample]]
         d<-collapse.mirs(d,ref=ref,iso5=iso5,iso3=iso3,add=add,
-            mism=mism,seed=seed)
+                         mism=mism,seed=seed)
         names(d)[ncol(d)]<-sample 
         if( nrow(table.merge)==0){
             table.merge<-d
@@ -94,36 +97,38 @@ do.mir.table<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F)
 #' @param add differenciate additions miRNA from rest
 #' @param mism differenciate nt substitution miRNA from rest
 #' @param seed differenciate changes in 2-7 nt from rest
-collapse.mirs<-function(table,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F)
+collapse.mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
+                        add=FALSE,mism=FALSE,seed=FALSE)
 {
     label<-table$mir
     freq=NULL
-    if (ref==T){
+    if (ref==TRUE){
         ref.val<-do.call(paste,table[,4:7])
         ref.val[grep("[ATGC]",ref.val,invert=T)]<-"ref"
         ref.val[grep("[ATGC]",ref.val)]<-"iso"
         label<-paste(label,ref.val,sep=".")
     }
-    if (iso5==T){
+    if (iso5==TRUE){
         label<-paste(label,table[,7],sep=".")
     }
-    if (seed==T){
+    if (seed==TRUE){
         seed.val<-as.character(table[,4])
         seed.val[grep("^[2-8][ATGC]",seed.val,invert=T)]<-"no"
         label<-paste(label,seed.val,sep=".")
     }
-    if (iso3==T){
+    if (iso3==TRUE){
         label<-paste(label,table[,6],sep=".")
     }
-    if (add==T){
+    if (add==TRUE){
         label<-paste(label,table[,5],sep=".")
     }
-    if (mism==T){
+    if (mism==TRUE){
         label<-paste(label,table[,4],sep=".")
     }
     
     table$id<-label
-    table.out<-as.data.frame(table %>% group_by(id) %>% summarise(total=sum(freq)))
+    table.out<-as.data.frame(table %>% group_by(id) %>%
+                                 summarise(total=sum(freq)))
     table.out[is.na(table.out)]<-0
     return(table.out)
 }

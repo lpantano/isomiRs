@@ -4,7 +4,7 @@
 \title{load data into IsomirDataSeq object
 See Vignete to learn how to use this function}
 \usage{
-loadIso(files, design, cov = 1, header = F, skip = 1)
+loadIso(files, design, cov = 1, header = FALSE, skip = 1)
 }
 \arguments{
   \item{files}{all samples}

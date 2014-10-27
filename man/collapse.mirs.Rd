@@ -3,8 +3,8 @@
 \alias{collapse.mirs}
 \title{Collapse isomiRs in miRNAs}
 \usage{
-collapse.mirs(table, ref = F, iso5 = F, iso3 = F, add = F, mism = F,
-  seed = F)
+collapse.mirs(table, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
+  add = FALSE, mism = FALSE, seed = FALSE)
 }
 \arguments{
   \item{table}{object miraligner table}

@@ -21,7 +21,6 @@ Imports:
     dplyr,
     DESeq2,
     RColorBrewer,
-    data.table,
     gplots,
     methods
 Author: Lorena Pantano, Georgia Escaramis

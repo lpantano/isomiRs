@@ -25,7 +25,7 @@ isoPLSDA(obj, var, validation = NULL, learn = NULL, test = NULL,
   component. Default tol=0.001}
 
   \item{nperm}{number of permutations to compute the PLD-DA
-  p-value based on R2 magnitude. Default nperm=400}
+  p-value b ased on R2 magnitude. Default nperm=400}
 
   \item{refinment}{logical indicating whether a refined
   model, based on filtering out variables with low VIP

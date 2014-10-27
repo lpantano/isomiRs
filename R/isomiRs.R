@@ -25,15 +25,16 @@
 #' dds<-deIso(isomiRex,formula=~condition)
 #' @export
 #' @import DESeq2
-deIso<-function(x,formula,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F)
+deIso<-function(x,formula,ref=FALSE,iso5=FALSE,iso3=FALSE,
+                add=FALSE,mism=FALSE,seed=FALSE)
 {
     if (ref | iso5 | iso3 | add | mism | seed){
         x<-do.mir.table(x,ref,iso5,iso3,add,mism,seed)
     }
     countData<-x@counts
     dds<-DESeqDataSetFromMatrix(countData = countData,
-        colData = x@design,
-        design = formula)
+                                colData = x@design,
+                                design = formula)
     dds <- DESeq(dds,quiet=T)
     dds
 }
@@ -63,12 +64,7 @@ plotTop<-function(x,top=20)
 #' @param x object isomirDataSeq
 #' @param type string (t5,t3,add,sub) to indicate what isomiR 
 #' change to use for the plot
-#' 
 #' @return ggplot2 figure showing the selected isomiR changes among samples 
-#' @examples
-#' library(isomiRs)
-#' data(isomiRex)
-#' isomiRex<-plotIso(isomiRex,"t5")
 #' @export
 #' @import ggplot2
 #' @examples
@@ -96,18 +92,18 @@ plotIso<-function(x,type="t5")
         temp$abundance<-temp$freq/total
         temp$unique<-temp$Freq/Total
         table<-rbind(table,data.frame(size=temp$size,abundance=temp$abundance,
-            unique=temp$unique,sample=rep(sample,nrow(temp)),
-            group=rep(des[sample,"condition"],nrow(temp))))
+                                      unique=temp$unique,sample=rep(sample,nrow(temp)),
+                                      group=rep(des[sample,"condition"],nrow(temp))))
     }
     x@sumList[[type]]<-table
     p <- ggplot(table)+
         geom_jitter(aes(x=factor(size),y=unique,colour=factor(group),
-            size=abundance))+
+                        size=abundance))+
         scale_colour_brewer("Groups",palette="Set1")+
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3"))+
         labs(list(title=paste(type,"distribution"),y="# of unique sequences",
-            x="position respect to the reference"))
+                  x="position respect to the reference"))
     print(p)  
     x
 }
@@ -123,7 +119,8 @@ plotIso<-function(x,type="t5")
 #' @return count table
 #' 
 #' @export
-makeCounts<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F)
+makeCounts<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,
+                     add=FALSE,mism=FALSE,seed=FALSE)
 {
     x<-do.mir.table(x,ref,iso5,iso3,add,mism,seed)
     x
@@ -136,10 +133,10 @@ makeCounts<-function(x,ref=F,iso5=F,iso3=F,add=F,mism=F,seed=F)
 #' @param x IsomirDataSeq object
 #' @param formula formula that will be used for DE
 #' @export
+#' @import DESeq2
 normIso<-function(x,formula=~condition)
 {
-    countData<-x@counts
-    dds<-DESeqDataSetFromMatrix(countData = countData,
+    dds<-DESeqDataSetFromMatrix(countData = x@counts,
                                 colData = x@design,
                                 design = formula)
     rld<-rlogTransformation(dds,blind=FALSE)
