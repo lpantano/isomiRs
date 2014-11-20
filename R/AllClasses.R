@@ -2,13 +2,13 @@
 #' @rdname IsomirDataSeq
 #' @export
 IsomirDataSeq<-setClass("IsomirDataSeq",
-         slots=c(counts="matrix",
-                 normcounts="matrix",
-                 design="data.frame",
-                 varList="list",
-                 expList="list",
-                 sumList="list"
-           ))
+                        slots=c(counts="matrix",
+                                normcounts="matrix",
+                                design="data.frame",
+                                varList="list",
+                                expList="list",
+                                sumList="list"
+                        ))
 #' load data into IsomirDataSeq object
 #' See Vignete to learn how to use this function
 #' @name loadIso
@@ -33,7 +33,8 @@ loadIso<-function(files,design,cov=1,header=FALSE,skip=1){
         d<-read.table(f,header=header,skip=skip)
         
         d<-filter.table(d,cov)
-        out<-list(summary=0,t5sum=isomir.position(d,6),t3sum=isomir.position(d,7),
+        out<-list(summary=0,t5sum=isomir.position(d,6),
+                  t3sum=isomir.position(d,7),
                   subsum=subs.position(d,4),addsum=isomir.position(d,5))
         listObj[[row.names(design)[idx]]]<-d
         listObjVar[[row.names(design)[idx]]]<-out

@@ -52,7 +52,8 @@ plotTop<-function(x,top=20)
     dds<-x[["dds"]]
     rld <- rlogTransformation(dds)
     #vsd <- varianceStabilizingTransformation(dds)
-    select <- order(rowMeans(counts(dds,normalized=TRUE)),decreasing=TRUE)[1:top]
+    select <- order(rowMeans(counts(dds,normalized=TRUE)),
+                    decreasing=TRUE)[1:top]
     hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
     heatmap.2(counts(dds,normalized=TRUE), col = hmcol,
               scale="none",
@@ -91,9 +92,11 @@ plotIso<-function(x,type="t5")
         Total<-sum(temp$Freq)
         temp$abundance<-temp$freq/total
         temp$unique<-temp$Freq/Total
-        table<-rbind(table,data.frame(size=temp$size,abundance=temp$abundance,
-                                      unique=temp$unique,sample=rep(sample,nrow(temp)),
-                                      group=rep(des[sample,"condition"],nrow(temp))))
+        table<-rbind( table,data.frame( size=temp$size,abundance=temp$abundance,
+                                        unique=temp$unique,
+                                        sample=rep(sample,nrow(temp)),
+                                        group=rep(des[sample,"condition"],
+                                                  nrow(temp)) ) )
     }
     x@sumList[[type]]<-table
     p <- ggplot(table)+
@@ -122,8 +125,7 @@ plotIso<-function(x,type="t5")
 makeCounts<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,
                      add=FALSE,mism=FALSE,seed=FALSE)
 {
-    x<-do.mir.table(x,ref,iso5,iso3,add,mism,seed)
-    x
+    do.mir.table(x,ref,iso5,iso3,add,mism,seed)
 }
 
 

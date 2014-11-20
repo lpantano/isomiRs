@@ -3,7 +3,8 @@
 #' @param table table from IsomirDataSeq
 put.header<-function(table)
 {
-    names(table)[c(1,3,4,7,8,9,10,13,14)]<-c("seq","freq","mir","mism","add","t5","t3","DB","ambiguity")
+    names(table)[c(1,3,4,7,8,9,10,13,14)]<-c("seq","freq","mir","mism","add",
+                                             "t5","t3","DB","ambiguity")
     table<-table[,c(1,3,4,7,8,9,10,13,14)]
     table[,2]<-as.numeric(table[,2])
     return(table)
@@ -30,7 +31,8 @@ filter.by.cov<-function(table,limit=10)
 #' Filter tablo reference
 #'
 #' @param table object miraligner table
-#' @param cov remove sequences that have relative abundance lower than this number
+#' @param cov remove sequences that have relative 
+#' abundance lower than this number
 filter.table<-function(table,cov=10)
 {
     table<-put.header(table)

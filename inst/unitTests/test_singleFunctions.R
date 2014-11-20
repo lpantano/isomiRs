@@ -11,13 +11,16 @@ test_dseFunctions <-
     function()
     {
         data(isomiRex)
-        checkTrue(class(deIso(isomiRex,formula=~condition,ref=TRUE,iso5=TRUE))[1]=="DESeqDataSet")
+        checkTrue(class(deIso(isomiRex,formula=~condition,ref=TRUE,
+                              iso5=TRUE))[1]=="DESeqDataSet")
     }
 
 test_countsFunctions <-
     function()
     {
         data(isomiRex)
-        checkTrue(class(makeCounts(isomiRex,ref=TRUE)@counts)[1]=="matrix")
-        checkTrue(class(normIso(isomiRex)@normcounts)[1]=="matrix")
+        obj<-makeCounts(isomiRex,ref=TRUE)
+        checkTrue(class(obj@counts)[1]=="matrix")
+        obj<-normIso(obj)
+        checkTrue(class(obj@normcounts)[1]=="matrix")
     }
