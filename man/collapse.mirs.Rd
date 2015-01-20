@@ -3,7 +3,7 @@
 \alias{collapse.mirs}
 \title{Collapse isomiRs in miRNAs}
 \usage{
-collapse.mirs(table, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
+\method{collapse}{mirs}(table, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
   add = FALSE, mism = FALSE, seed = FALSE)
 }
 \arguments{

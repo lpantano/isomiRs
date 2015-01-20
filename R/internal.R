@@ -111,7 +111,7 @@ collapse.mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
         label<-paste(label,ref.val,sep=".")
     }
     if (iso5==TRUE){
-        label<-paste(label,table[,7],sep=".")
+        label<-paste(label,table[,6],sep=".")
     }
     if (seed==TRUE){
         seed.val<-as.character(table[,4])
@@ -119,7 +119,7 @@ collapse.mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
         label<-paste(label,seed.val,sep=".")
     }
     if (iso3==TRUE){
-        label<-paste(label,table[,6],sep=".")
+        label<-paste(label,table[,7],sep=".")
     }
     if (add==TRUE){
         label<-paste(label,table[,5],sep=".")
