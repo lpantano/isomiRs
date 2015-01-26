@@ -15,9 +15,33 @@ BiocStyle::latex()
 
 \maketitle
 
+\section*{Introduction}
+
+miRNA are small RNA fragments (18-23 nt long) that influence gene expression during development and cell stability. Morin et al (REF), discovered isomiRs first time after sequencing human stem cells. 
+IsomiRs are miRNAs that vary slightly in sequence, which result from variations in the cleavage site during miRNA biogenesis (5’-trimming and 3’-trimming variants), nucleotide additions to the 3’-end of the mature miRNA (3’-addition variants) and nucleotide modifications (substitution variants)(Marti, et al., 2010; Pantano, et al., 2010).
+
+There are many tools designed for isomiR detections, although the majority are web application where user can not control the analysis. The two main command tools for isomiRs mapping are SeqBuster and sRNAbench. \Biocpkg{isomiRs} package is designed to analyze the output of SeqBuster tool or any other tool after converting to the desire format.
+
+\section*{Citing isomiRs}
+
+If you use the package, please cite the associated paper \cite{isomiRs}.
+
+
+\section*{Input format}
+
+The input should be a file for each sample in the following format:
+
+sequence name counts mirna start end mismatches additions 5trimming 3 trimming NA NA DB multimapping
+
+This is the standard output of SeqBuster tool, but can be converted from any other tool having the mapping information on the precursors.
+
+
+\section*{Quick start}
+
 We are going to use a small RNAseq data coming from human 
 frontal cortex samples to give some basic examples of isomiRs analyses. 
-There are two groups: 
+
+In this data set we will find two groups: 
 * b: individuals with less than a year
 * o: individuals in the eldery.
 
@@ -25,15 +49,22 @@ There are two groups:
 <<package-load,message=FALSE>>=
 library(isomiRs)
 data(isomiRex)
-
 @
 
-You can plot isomiRs tendencies with `plotIso`
+\subsection{Reading input}
+
+The funciont \Rfunction{loadIso} needs a vector with the paths for each file and a data.frame with the design experiment similar to the ones used for differential expression.
+
+\subsection{Descriptive analysis}
+
+You can plot isomiRs tendencies with \Rfunction{plotIso}. In this figure you will have how abundant is each type of isomiRs at different positions considering the total abundance and the total number of sequences. With the \Rfunction{type}, controls what type of isomiRs to show: trimming, addition or substitution.
 
 <<package-plot-iso,message=FALSE>>=
 #check plot iso
 obj<-plotIso(isomiRex,type="t5")
 @
+
+\subsection{Differential expression analysis}
 
 Do differential expression analysis using DESeq2
 
@@ -42,6 +73,8 @@ dds<-deIso(obj,formula=~condition,ref=TRUE,iso5=TRUE)
 library(DESeq2)
 plotMA(dds)
 @
+
+\subsection{Supervised classification}
 
 Let's do a PLS model having in the count matrix the reference miRNA, 
 and all isomiRs for each miRNA.
@@ -53,10 +86,23 @@ pls.obj<-isoPLSDA(obj,"condition")
 isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
 @
 
-You can do the analysis just with features that are important for the model
+You can do the analysis just with features that are important for the model.
 
 <<package-plsplot,message=FALSE,eval=FALSE>>=
 pls.obj<-isoPLSDA(obj,"condition",refinment=TRUE)
 @
+
+\pagebreak
+
+%---------------------------------------------------------
+\section*{Session info}
+%---------------------------------------------------------
+Here is the output of \Rfunction{sessionInfo} on the system on which
+this document was compiled:
+<<sessionInfo, results=tex, print=TRUE, echo=FALSE>>=
+toLatex(sessionInfo())
+@
+
+\bibliography{isomirs}
 
 \end{document}
