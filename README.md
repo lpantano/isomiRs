@@ -5,10 +5,16 @@ analyze isomiRs from seqbuster tool
 
 ###Installation
 
+In the terminal:
+
+`git clone https://github.com/lpantano/isomiRs`
+
+Inside R:
+
 ```
 library(devtools)
 library(roxygen2)
-devtools::install_local("$PATH2SEQBUSTER/R/isomiR_package/isomiRs")
+devtools::install_local("$PATH2REPOSITORY/isomiRs")
 library(isomiRs)
 ```
 
