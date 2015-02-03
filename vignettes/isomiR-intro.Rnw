@@ -9,7 +9,7 @@ BiocStyle::latex()
 
 \title{isomiRs }
 \author{Lorena Pantano}
-\date{Modified: 23 May, 2014. Compiled: \today}
+\date{Modified: 3 Feb, 2015. Compiled: \today}
 
 \begin{document}
 
@@ -17,23 +17,25 @@ BiocStyle::latex()
 
 \section*{Introduction}
 
-miRNA are small RNA fragments (18-23 nt long) that influence gene expression during development and cell stability. Morin et al (REF), discovered isomiRs first time after sequencing human stem cells. 
-IsomiRs are miRNAs that vary slightly in sequence, which result from variations in the cleavage site during miRNA biogenesis (5’-trimming and 3’-trimming variants), nucleotide additions to the 3’-end of the mature miRNA (3’-addition variants) and nucleotide modifications (substitution variants)(Marti, et al., 2010; Pantano, et al., 2010).
+miRNA are small RNA fragments (18-23 nt long) that influence gene expression during development and cell stability. Morin et al \cite{morin}, discovered isomiRs first time after sequencing human stem cells. 
+IsomiRs are miRNAs that vary slightly in sequence, which result from variations in the cleavage site during miRNA biogenesis (5’-trimming and 3’-trimming variants), nucleotide additions to the 3’-end of the mature miRNA (3’-addition variants) and nucleotide modifications (substitution variants)\cite{emarti}.
 
 There are many tools designed for isomiR detections, although the majority are web application where user can not control the analysis. The two main command tools for isomiRs mapping are SeqBuster and sRNAbench. \Biocpkg{isomiRs} package is designed to analyze the output of SeqBuster tool or any other tool after converting to the desire format.
 
 \section*{Citing isomiRs}
 
-If you use the package, please cite the associated paper \cite{isomiRs}.
+If you use the package, please cite the associated paper \cite{isomirs}.
 
 
 \section*{Input format}
 
 The input should be a file for each sample in the following format:
 
-sequence name counts mirna start end mismatches additions 5trimming 3 trimming NA NA DB multimapping
+<<format-line,eval=FALSE,echo=TRUE>>==
+sequence name counts mirna start end mismatches additions 5trimming 3trimming NA NA DB multimapping
+@
 
-This is the standard output of SeqBuster tool, but can be converted from any other tool having the mapping information on the precursors.
+This is the standard output of SeqBuster tool, but can be converted from any other tool having the mapping information on the precursors. Read more on \href{https://github.com/lpantano/seqbuster/wiki/miraligner}{miraligner manual}
 
 
 \section*{Quick start}
@@ -60,18 +62,44 @@ The funciont \Rfunction{loadIso} needs a vector with the paths for each file and
 You can plot isomiRs tendencies with \Rfunction{plotIso}. In this figure you will have how abundant is each type of isomiRs at different positions considering the total abundance and the total number of sequences. With the \Rfunction{type}, controls what type of isomiRs to show: trimming, addition or substitution.
 
 <<package-plot-iso,message=FALSE>>=
-#check plot iso
 obj<-plotIso(isomiRex,type="t5")
 @
 
 \subsection{Differential expression analysis}
 
-Do differential expression analysis using DESeq2
+The \Rfunction{deIso} has implemented \Biocpkg{DESeq2} package. You can using directly from this function. This function has parameters to create the input for DESeq2 only with reference miRNA, or all isomiRs, or collapsing all isomiRs together. 
 
 <<package-de,message=FALSE>>=
-dds<-deIso(obj,formula=~condition,ref=TRUE,iso5=TRUE)
+dds<-deIso(obj,formula=~condition)
 library(DESeq2)
 plotMA(dds)
+head(results(dds))
+@
+
+
+You can differenciate between reference sequences, and isomirs at 5' end doing this:
+
+<<package-de-iso5,message=FALSE>>=
+dds = deIso(obj,formula=~condition,ref=TRUE,iso5=TRUE)
+library(DESeq2)
+head(results(dds))
+@
+
+\subsection{Count data}
+
+the \Rfunction{makeCount} can get the matrix counts that can be use for many different downstream analyses configuring the way isomiRs are collapsed. Similar to the previous point.
+
+<<package-count,message=FALSE>>=
+obj = makeCounts(obj)
+head(obj@counts)
+@
+
+After that normalization using \Rfunction{rlog} from \Biocpkg{DESeq2} package allow quick integration to another analyses.
+
+
+<<package-norm,message=FALSE>>=
+obj = normIso(obj)
+head(obj@normcounts)
 @
 
 \subsection{Supervised classification}
@@ -80,16 +108,16 @@ Let's do a PLS model having in the count matrix the reference miRNA,
 and all isomiRs for each miRNA.
 
 <<package-pls,eval=FALSE>>=
-obj<-makeCounts(obj,ref=TRUE)
-obj<-normIso(obj)
-pls.obj<-isoPLSDA(obj,"condition")
+obj = makeCounts(obj,ref=TRUE)
+obj = normIso(obj)
+pls.obj = isoPLSDA(obj,"condition",nperm = 50)
 isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
 @
 
 You can do the analysis just with features that are important for the model.
 
 <<package-plsplot,message=FALSE,eval=FALSE>>=
-pls.obj<-isoPLSDA(obj,"condition",refinment=TRUE)
+pls.obj = isoPLSDA(obj,"condition",refinment=TRUE)
 @
 
 \pagebreak
@@ -99,7 +127,8 @@ pls.obj<-isoPLSDA(obj,"condition",refinment=TRUE)
 %---------------------------------------------------------
 Here is the output of \Rfunction{sessionInfo} on the system on which
 this document was compiled:
-<<sessionInfo, results=tex, print=TRUE, echo=FALSE>>=
+
+<<sessionInfo, print=TRUE, echo=FALSE>>=
 toLatex(sessionInfo())
 @
 

@@ -3,8 +3,8 @@
 \alias{do.mir.table}
 \title{do counts table considering what isomiRs take into account}
 \usage{
-\method{do}{mir.table}(x, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
-  add = FALSE, mism = FALSE, seed = FALSE)
+do.mir.table(x, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
+  mism = FALSE, seed = FALSE)
 }
 \arguments{
   \item{x}{object isomiDataSeq}
