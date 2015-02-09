@@ -122,7 +122,7 @@ plotIso<-function(x,type="t5")
 #' @return count table
 #' 
 #' @export
-makeCounts<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,
+countsIso<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,
                      add=FALSE,mism=FALSE,seed=FALSE)
 {
     do.mir.table(x,ref,iso5,iso3,add,mism,seed)
