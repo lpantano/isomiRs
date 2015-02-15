@@ -5,7 +5,7 @@ Type: Package
 Title: Analize isomiRs coming from seqbuster tool
 Description: Characterization of miRNAs and isomiRs, clustering and
     differential expression.
-biocViews: miRNA,
+biocViews: miRNA, RNASeq,
     DifferentialExpression, Clustering
 Suggests:
     knitr,
