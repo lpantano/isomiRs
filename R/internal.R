@@ -1,6 +1,4 @@
-#' put header to input files
-#'
-#' @param table table from IsomirDataSeq
+# put header to input files
 put.header<-function(table)
 {
     names(table)[c(1,3,4,7,8,9,10,13,14)]<-c("seq","freq","mir","mism","add",
@@ -10,10 +8,7 @@ put.header<-function(table)
     return(table)
 }
 
-#' filter by relative abundance to reference
-#' @import dplyr
-#' @param table object miraligner table
-#' @param limit remove sequences lower than this number
+# filter by relative abundance to reference
 filter.by.cov<-function(table,limit=10)
 {
     freq=NULL
@@ -28,11 +23,7 @@ filter.by.cov<-function(table,limit=10)
     return (tab.fil)
 }
 
-#' Filter tablo reference
-#'
-#' @param table object miraligner table
-#' @param cov remove sequences that have relative 
-#' abundance lower than this number
+# Filter tablo reference
 filter.table<-function(table,cov=10)
 {
     table<-put.header(table)
@@ -41,10 +32,7 @@ filter.table<-function(table,cov=10)
 }
 
 
-#' plot general information
-#'
-#' @param table object miraligner table
-#' @param colid column to be analize
+# plot general information
 isomir.general.type<-function(table,colid)
 {
     temp<-table
@@ -57,23 +45,20 @@ isomir.general.type<-function(table,colid)
     return (as.data.frame(summary(feat.dist)))  
 }
 
-#' do counts table considering what isomiRs take into account
-#'
-#' @param x object isomiDataSeq
-#' @param ref differenciate reference miRNA from rest
-#' @param iso5 differenciate trimming at 5 miRNA from rest
-#' @param iso3 differenciate trimming at 3 miRNA from rest
-#' @param add differenciate additions miRNA from rest
-#' @param mism differenciate nt substitution miRNA from rest
-#' @param seed differenciate changes in 2-7 nt from rest
-do.mir.table<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,add=FALSE,
-                       mism=FALSE,seed=FALSE)
+# do counts table considering what isomiRs take into account
+IsoCounts <- function(x, ...)
 {
+    des <- pData(x)
+    counts(x) <- tableFromMatrix(rawIso, des, ...)
+    return(x)
+}
+
+IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
+                            add=FALSE, mism=FALSE,seed=FALSE){
     table.merge<-data.frame()
-    des<-x@design
     for (sample in row.names(des)){
         print (sample)
-        d<-x@expList[[sample]]
+        d<-listTable[[sample]]
         d<-collapse.mirs(d,ref=ref,iso5=iso5,iso3=iso3,add=add,
                          mism=mism,seed=seed)
         names(d)[ncol(d)]<-sample 
@@ -86,19 +71,10 @@ do.mir.table<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,add=FALSE,
     row.names(table.merge)<-table.merge[,1]
     table.merge<-as.matrix(table.merge[,2:ncol(table.merge)])
     table.merge[is.na(table.merge)]<-0
-    x@counts<-as.matrix(table.merge)
-    return(x)
+    as.matrix(table.merge)
 }
 
-#' Collapse isomiRs in miRNAs 
-#' @import dplyr
-#' @param table object miraligner table
-#' @param ref differenciate reference miRNA from rest
-#' @param iso5 differenciate trimming at 5 miRNA from rest
-#' @param iso3 differenciate trimming at 3 miRNA from rest
-#' @param add differenciate additions miRNA from rest
-#' @param mism differenciate nt substitution miRNA from rest
-#' @param seed differenciate changes in 2-7 nt from rest
+# Collapse isomiRs in miRNAs 
 collapse.mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
                         add=FALSE,mism=FALSE,seed=FALSE)
 {
@@ -135,10 +111,7 @@ collapse.mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
     return(table.out)
 }
 
-#' Do summary of different isomiRs events
-#'
-#' @param table object miraligner table
-#' @param colid column to be considered
+# Do summary of different isomiRs events
 isomir.position<-function(table,colid)
 {
     temp<-table
@@ -160,10 +133,7 @@ isomir.position<-function(table,colid)
     return (pos[,c(3,4,5)])  
 }
 
-#' Do summary of nt substitution events
-#'
-#' @param table object miraligner table
-#' @param colid column to be considered
+# Do summary of nt substitution events
 subs.position<-function(table,colid)
 {
     temp<-table

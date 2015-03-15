@@ -2,17 +2,27 @@
 #' @rdname IsomirDataSeq
 #' @export
 IsomirDataSeq<-setClass("IsomirDataSeq",
-                        slots=c(counts="matrix",
-                                normcounts="matrix",
-                                design="data.frame",
+                            contains = "SummarizedExperiment",
+                            slots = list( 
+#                                counts="matrix",
+#                                normcounts="matrix",
                                 varList="list",
                                 expList="list",
                                 sumList="list"
                         ))
-#' load data into IsomirDataSeq object
-#' See Vignete to learn how to use this function
-#' @name loadIso
-#' @rdname loadIso
+
+# setValidity( "DESeqDataSet", function( object ) {
+
+#' The \code{IsomirDataSeq} is a subclass of \code{SummarizedExperiment},
+#' used to store the input values, intermediate calculations and results of an
+#' isomiR analysis.  The \code{IsomirDataSeq} class stores all raw isomiRs
+#' data for each sample, processed information, 
+#' summary for each isomiR type,
+#' raw counts, normalized counts, and data.frame with
+#' columns information for each sample.
+#' 
+#' @name IsomirDataSeq
+#' @rdname IsomirDataSeq
 #' @param files all samples
 #' @param cov remove sequences that have relative abundance lower 
 #' than this number
@@ -20,30 +30,60 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
 #' @param header files contain headers
 #' @param skip skip first line when reading files
 #' @return
-#' \code{IsomirDataSeq} object
+#' \code{IsomirDataSeq} class
 #' @export
-loadIso<-function(files,design,cov=1,header=FALSE,skip=1){
-    IsoObj<-IsomirDataSeq()
-    listObj<-vector("list")
-    listObjVar<-vector("list")
-    idx<-0
+IsomirDataSeq <- function(files, design, cov=1, header=FALSE, skip=1, ...){
+    
+    listObj <- vector("list")
+    listObjVar <- vector("list")
+    idx <- 0
     for (f in files){
-        idx<-idx+1
-        print(idx)
-        d<-read.table(f,header=header,skip=skip)
+        idx <- idx + 1
+        # print(idx)
+        d <- read.table(f, header=header, skip=skip)
         
-        d<-filter.table(d,cov)
-        out<-list(summary=0,t5sum=isomir.position(d,6),
-                  t3sum=isomir.position(d,7),
-                  subsum=subs.position(d,4),addsum=isomir.position(d,5))
-        listObj[[row.names(design)[idx]]]<-d
-        listObjVar[[row.names(design)[idx]]]<-out
+        d <- filter.table(d,cov)
+        out <- list(summary=0, t5sum=isomir.position(d, 6),
+                    t3sum=isomir.position(d, 7),
+                    subsum=subs.position(d, 4),
+                    addsum=isomir.position(d, 5))
+        listObj[[row.names(design)[idx]]] <- d
+        listObjVar[[row.names(design)[idx]]] <- out
     }
-    IsoObj@design<-design
-    IsoObj@expList<-listObj
-    IsoObj@varList<-listObjVar
-    IsoObj<-do.mir.table(IsoObj)
+    countData <- IsoCountsFromMatrix(listObj, design)
+    se <- SummarizedExperiment(assays = SimpleList(counts=countData), colData = design, ...)
+    IsoObj <- new("IsomirDataSeq", expList=listObj, varList=listObjVar)
+    # IsoObj@design <- design
+    # IsoObj@expList <- listObj
+    # IsoObj@varList <- listObjVar
+    # IsoObj <- do.mir.table(IsoObj)
     return(IsoObj)
 }
+
+
+setMethod(
+    f = "rawIso",
+    signature = signature(x="IsomirDataSeq"),
+    definition = function(x){
+        x@expList
+    }
+)
+
+setMethod(
+    f = "processIso",
+    signature = signature(x="IsomirDataSeq"),
+    definition = function(x){
+        x@varList
+    }
+)
+
+
+setMethod(
+    f = "summary",
+    signature = signature(x="IsomirDataSeq"),
+    definition = function(x){
+        x@sumList
+    }
+)
 
 
