@@ -2,13 +2,14 @@
 %\VignetteKeywords{smallRNA, miRNAs,isomiRs, DifferentailExpression}
 %\VignetteEngine{knitr::knitr}
 \documentclass{article}
+\usepackage[utf8]{inputenc}
 
 <<knitr, echo=FALSE, results="hide">>=
 library("knitr")
 opts_chunk$set(tidy=FALSE,dev="png",
-               fig.width=7,fig.height=6,
-               message=FALSE)
-@ 
+            fig.width=7,fig.height=6,
+            message=FALSE)
+@
 
 
 <<style, eval=TRUE, echo=FALSE, results="asis">>=
@@ -16,7 +17,10 @@ BiocStyle::latex()
 @
 
 \title{isomiRs }
-\author{Lorena Pantano$^{1*}$, Georgia Escaramis$^{2*}$, Eulalia Martin$^{2*}$ \\ \small{Harvard H Chan School of Public Health, Boston, US;} \\ \small{$^{2}$ Center of Genomic Regulation, Barcelona, Spain;} \\ \small{\texttt{$^*$lpantano (at) iscb.org}}}
+\author{Lorena Pantano$^{1*}$, Georgia Escaramis$^{2*}$,
+Eulalia Martin$^{2*}$ \\ \small{Harvard H Chan School of Public Health,
+Boston, US;} \\ \small{$^{2}$ Center of Genomic Regulation, Barcelona,
+Spain;} \\ \small{\texttt{$^*$lpantano (at) iscb.org}}}
 \date{Modified: 3 Feb, 2015. Compiled: \today}
 
 \begin{document}
@@ -25,10 +29,20 @@ BiocStyle::latex()
 
 \section*{Introduction}
 
-miRNA are small RNA fragments (18-23 nt long) that influence gene expression during development and cell stability. Morin et al \cite{morin}, discovered isomiRs first time after sequencing human stem cells. 
-IsomiRs are miRNAs that vary slightly in sequence, which result from variations in the cleavage site during miRNA biogenesis (5’-trimming and 3’-trimming variants), nucleotide additions to the 3’-end of the mature miRNA (3’-addition variants) and nucleotide modifications (substitution variants)\cite{emarti}.
+miRNA are small RNA fragments (18-23 nt long) that influence gene expression
+during development and cell stability. Morin et al \cite{morin}, discovered
+isomiRs first time after sequencing human stem cells.
 
-There are many tools designed for isomiR detections, although the majority are web application where user can not control the analysis. The two main command tools for isomiRs mapping are SeqBuster and sRNAbench. \Biocpkg{isomiRs} package is designed to analyze the output of SeqBuster tool or any other tool after converting to the desire format.
+IsomiRs are miRNAs that vary slightly in sequence, which result from variations
+in the cleavage site during miRNA biogenesis (5’-trimming and 3’-trimming
+variants), nucleotide additions to the 3’-end of the mature miRNA
+(3’-addition variants) and nucleotide modifications (substitution variants)\cite{emarti}.
+
+There are many tools designed for isomiR detections, although the majority are
+web application where user can not control the analysis. The two main command
+tools for isomiRs mapping are SeqBuster and sRNAbench. \Biocpkg{isomiRs}
+package is designed to analyze the output of SeqBuster tool or any other
+tool after converting to the desire format.
 
 \section*{Citing isomiRs}
 
@@ -40,18 +54,21 @@ If you use the package, please cite the associated paper \cite{isomirs}.
 The input should be a file for each sample in the following format:
 
 <<format-line,eval=FALSE,echo=TRUE>>==
-sequence name counts mirna start end mismatches additions 5trimming 3trimming NA NA DB multimapping
+sequence name counts mirna start end mismatches additions 5trimming
+3trimming NA NA DB multimapping
 @
 
-This is the standard output of SeqBuster tool, but can be converted from any other tool having the mapping information on the precursors. Read more on \href{https://github.com/lpantano/seqbuster/wiki/miraligner}{miraligner manual}
+This is the standard output of SeqBuster tool, but can be converted from
+any other tool having the mapping information on the precursors. Read more on
+\href{https://github.com/lpantano/seqbuster/wiki/miraligner}{miraligner manual}
 
 
 \section*{Quick start}
 
-We are going to use a small RNAseq data coming from human 
-frontal cortex samples to give some basic examples of isomiRs analyses. 
+We are going to use a small RNAseq data coming from human
+frontal cortex samples to give some basic examples of isomiRs analyses.
 
-In this data set we will find two groups: 
+In this data set we will find two groups:
 * b: individuals with less than a year
 * o: individuals in the eldery.
 
@@ -64,11 +81,17 @@ data(isomiRex)
 
 \subsection{Reading input}
 
-The funciont \Rfunction{loadIso} needs a vector with the paths for each file and a data.frame with the design experiment similar to the ones used for differential expression.
+The funciont \Rfunction{loadIso} needs a vector with the paths for each file
+and a data.frame with the design experiment similar to the ones used for
+differential expression.
 
 \subsection{Descriptive analysis}
 
-You can plot isomiRs tendencies with \Rfunction{plotIso}. In this figure you will have how abundant is each type of isomiRs at different positions considering the total abundance and the total number of sequences. With the \Rfunction{type}, controls what type of isomiRs to show: trimming, addition or substitution.
+You can plot isomiRs tendencies with \Rfunction{plotIso}. In this figure you
+will have how abundant is each type of isomiRs at different positions
+considering the total abundance and the total number of sequences.
+With the \Rfunction{type}, controls what type of isomiRs to show:
+trimming, addition or substitution.
 
 <<package-plot-iso,message=FALSE>>=
 obj<-plotIso(isomiRex,type="t5")
@@ -76,7 +99,10 @@ obj<-plotIso(isomiRex,type="t5")
 
 \subsection{Differential expression analysis}
 
-The \Rfunction{deIso} has implemented \Biocpkg{DESeq2} package. You can using directly from this function. This function has parameters to create the input for DESeq2 only with reference miRNA, or all isomiRs, or collapsing all isomiRs together. 
+The \Rfunction{deIso} has implemented \Biocpkg{DESeq2} package.
+You can using directly from this function. This function has parameters
+to create the input for DESeq2 only with reference miRNA, or all isomiRs, or
+collapsing all isomiRs together.
 
 <<package-de,message=FALSE>>=
 dds<-deIso(obj,formula=~condition)
@@ -86,7 +112,8 @@ head(results(dds))
 @
 
 
-You can differenciate between reference sequences, and isomirs at 5' end doing this:
+You can differenciate between reference sequences, and isomirs at 5' end
+doing this:
 
 <<package-de-iso5,message=FALSE>>=
 dds = deIso(obj,formula=~condition,ref=TRUE,iso5=TRUE)
@@ -96,14 +123,17 @@ head(results(dds))
 
 \subsection{Count data}
 
-the \Rfunction{countsIso} can get the matrix counts that can be use for many different downstream analyses configuring the way isomiRs are collapsed. Similar to the previous point.
+the \Rfunction{countsIso} can get the matrix counts that can be use for many
+different downstream analyses configuring the way isomiRs are collapsed.
+Similar to the previous point.
 
 <<package-count,message=FALSE>>=
 obj = countsIso(obj)
 head(obj@counts)
 @
 
-The normalization using the \Rfunction{rlog} from \Biocpkg{DESeq2} package allows quick integration to another analyses like clustering.
+The normalization using the \Rfunction{rlog} from \Biocpkg{DESeq2} package
+allows quick integration to another analyses like clustering.
 
 
 <<package-norm,message=FALSE>>=
@@ -113,18 +143,35 @@ heatmap(obj@normcounts)
 
 \subsection{Supervised classification}
 
-Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically appropriate for analysis of high dimensionality data sets and multicollineality \cite{perezenciso}. PLS-DA is a supervised method (i.e. makes use of class labels) with the aim to provide a dimension reduction strategy in a situation where we want to relate a binary response variable (in our case young or old status) to a set of predictor variables. Dimensionality reduction procedure is based on orthogonal transformations of the original variables (isomiRs) into a set of linearly uncorrelated latent variables (usually termed as components) such that maximizes the separation between the different classes in the first few components \cite{xia}. We used sum of squares captured by the model (R2) as a goodness of fit measure. We implemented this method using the \Rpackage{DiscriMiner}. Moreover, the function \Rfunction{isoPLSDAplot} summarizes the result of this analysis.
+Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
+appropriate for analysis of high dimensionality data sets and multicollineality
+\cite{perezenciso}. PLS-DA is a supervised method (i.e. makes use of class
+labels) with the aim to provide a dimension reduction strategy in a situation
+where we want to relate a binary response variable (in our case young or old
+status) to a set of predictor variables. Dimensionality reduction procedure is
+based on orthogonal transformations of the original variables (isomiRs) into a
+set of linearly uncorrelated latent variables (usually termed as components)
+such that maximizes the separation between the different classes in the first
+few components \cite{xia}. We used sum of squares captured by the model (R2) as
+a goodness of fit measure. We implemented this method using the
+\Rpackage{DiscriMiner}. Moreover, the function \Rfunction{isoPLSDAplot}
+summarizes the result of this analysis.
 
 
 <<package-pls,eval=TRUE>>=
 obj = countsIso(obj,,iso5=TRUE,iso3=TRUE,add=TRUE,ref=TRUE)
 obj = normIso(obj)
-pls.obj = isoPLSDA(obj,"condition",nperm = 50)
+pls.obj = isoPLSDA(obj,"condition",nperm = 10)
 isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
 @
 
 
-The analysis can be done again, using only the most important discriminant isomiRS from the PLS-DA models based on the analysis. We used Variable Importance for the Projection (VIP) criterion to select the most important features, since takes into account the contribution of a specific predictor for both the explained variability on the response and the explained variability on the predictors.
+The analysis can be done again, using only the most important discriminant
+isomiRS from the PLS-DA models based on the analysis. We used Variable
+Importance for the Projection (VIP) criterion to select the most important
+features, since takes into account the contribution of a specific predictor
+for both the explained variability on the response and the explained
+variability on the predictors.
 
 
 <<package-plsplot,message=FALSE,eval=FALSE>>=

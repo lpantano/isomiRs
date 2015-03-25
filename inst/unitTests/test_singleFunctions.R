@@ -12,14 +12,14 @@ test_dseFunctions <-
     {
         data(isomiRex)
         checkTrue(class(deIso(isomiRex,formula=~condition,ref=TRUE,
-                              iso5=TRUE))[1]=="DESeqDataSet")
+                            iso5=TRUE))[1]=="DESeqDataSet")
     }
 
 test_countsFunctions <-
     function()
     {
         data(isomiRex)
-        obj<-makeCounts(isomiRex,ref=TRUE)
+        obj<-countsIso(isomiRex,ref=TRUE)
         checkTrue(class(obj@counts)[1]=="matrix")
         obj<-normIso(obj)
         checkTrue(class(obj@normcounts)[1]=="matrix")

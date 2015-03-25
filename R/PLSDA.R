@@ -221,8 +221,12 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
                                     validation, learn, test)
             if(model.perm.ref$R2[dim(model.perm.ref$R2)[1],3] <= tol){
                 a.perm.ref <- which(model.perm.ref$R2[,3] < tol)
-                if(a.perm.ref[1] > 1){ R2Refined.perm[p] <- model.perm.ref$R2[a.perm.ref[1]-1,4] }
-                if(a.perm.ref[1] == 1){ R2Refined.perm[p] <- model.perm.ref$R2[1,4] }
+                if(a.perm.ref[1] > 1){ 
+                    R2Refined.perm[p] <- model.perm.ref$R2[a.perm.ref[1]-1,4] 
+                }
+                if(a.perm.ref[1] == 1){ 
+                    R2Refined.perm[p] <- model.perm.ref$R2[1,4] 
+                }
             }
             if(model.perm.ref$R2[dim(model.perm.ref$R2)[1],3] > tol){
                 R2Refined.perm[p] <- model.perm.ref$R2[dim(model.perm.ref$R2)[1],4]

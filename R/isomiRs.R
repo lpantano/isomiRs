@@ -1,15 +1,15 @@
 #' Do DE analysis with DESeq
-#' 
+#'
 #' This function does differential expression analysis with DESeq2.
 #' It will return a DESeq2 object.
-#' You can merge all isomiRs into miRNA by calling the function only 
-#' with the frist two parameters. You can get a table with isomiRs and 
-#' the reference miRBase sequence by calling the function with ref=T. 
-#' You can get a table with 5' trimming isomiRS, miRBase reference and 
-#' the rest by calling with ref=T,iso5=T. 
-#' If you set up all parameters to TRUE, you will get a table for 
+#' You can merge all isomiRs into miRNA by calling the function only
+#' with the frist two parameters. You can get a table with isomiRs and
+#' the reference miRBase sequence by calling the function with ref=T.
+#' You can get a table with 5' trimming isomiRS, miRBase reference and
+#' the rest by calling with ref=T,iso5=T.
+#' If you set up all parameters to TRUE, you will get a table for
 #' each differnt sequence mapping to a miRNA
-#' 
+#'
 #' @param x object isomiDataSeq
 #' @param formula used for DE analysis
 #' @param ref differenciate reference miRNA from rest
@@ -35,7 +35,7 @@ deIso<-function(x,formula,ref=FALSE,iso5=FALSE,iso3=FALSE,
     dds<-DESeqDataSetFromMatrix(countData = countData,
                                 colData = x@design,
                                 design = formula)
-    dds <- DESeq(dds,quiet=T)
+    dds <- DESeq(dds,quiet=TRUE)
     dds
 }
 
@@ -56,16 +56,16 @@ plotTop<-function(x,top=20)
                     decreasing=TRUE)[1:top]
     hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
     heatmap.2(counts(dds,normalized=TRUE), col = hmcol,
-              scale="none",
-              dendrogram="none", trace="none")
+            scale="none",
+            dendrogram="none", trace="none")
 }
 
 #' Plot the amount of isomiRs in different samples divided by group
 #'
 #' @param x object isomirDataSeq
-#' @param type string (t5,t3,add,sub) to indicate what isomiR 
+#' @param type string (t5,t3,add,sub) to indicate what isomiR
 #' change to use for the plot
-#' @return ggplot2 figure showing the selected isomiR changes among samples 
+#' @return ggplot2 figure showing the selected isomiR changes among samples
 #' @export
 #' @import ggplot2
 #' @examples
@@ -83,10 +83,10 @@ plotIso<-function(x,type="t5")
     des<-x@design
     table<-data.frame()
     for (sample in row.names(des)){
-        uniq.dat<-as.data.frame(table(x@varList[[sample]][[coden]]$size))
+        uniq.dat<-as.data.frame( table(x@varList[[sample]][[coden]]$size) )
         temp<-as.data.frame( x@varList[[sample]][[coden]] %>%
-                                 group_by(size) %>%
-                                 summarise(freq=sum(freq)))
+                                group_by(size) %>%
+                                summarise(freq=sum(freq)) )
         total<-sum(temp$freq)
         temp<-merge(temp,uniq.dat,by=1)
         Total<-sum(temp$Freq)
@@ -96,7 +96,7 @@ plotIso<-function(x,type="t5")
                                         unique=temp$unique,
                                         sample=rep(sample,nrow(temp)),
                                         group=rep(des[sample,"condition"],
-                                                  nrow(temp)) ) )
+                                                nrow(temp)) ) )
     }
     x@sumList[[type]]<-table
     p <- ggplot(table)+
@@ -106,8 +106,8 @@ plotIso<-function(x,type="t5")
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3"))+
         labs(list(title=paste(type,"distribution"),y="# of unique sequences",
-                  x="position respect to the reference"))
-    print(p)  
+                x="position respect to the reference"))
+    print(p)
     x
 }
 
@@ -120,10 +120,13 @@ plotIso<-function(x,type="t5")
 #' @param mism differenciate nt substitution miRNA from rest
 #' @param seed differenciate changes in 2-7 nt from rest
 #' @return count table
-#' 
+#' @examples
+#' library(DESeq2)
+#' data(isomiRex)
+#' ma<-countsIso(isomiRex)
 #' @export
 countsIso<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,
-                     add=FALSE,mism=FALSE,seed=FALSE)
+                    add=FALSE,mism=FALSE,seed=FALSE)
 {
     do.mir.table(x,ref,iso5,iso3,add,mism,seed)
 }
@@ -134,6 +137,9 @@ countsIso<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,
 #'
 #' @param x IsomirDataSeq object
 #' @param formula formula that will be used for DE
+#' library(DESeq2)
+#' data(isomiRex)
+#' ma<-normIso(isomiRex,formula=~condition)
 #' @export
 #' @import DESeq2
 normIso<-function(x,formula=~condition)

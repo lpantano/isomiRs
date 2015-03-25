@@ -42,14 +42,14 @@ isomir.general.type<-function(table,colid)
     temp<-as.data.frame(summary(temp$mir))
     feat.dist<-cut(as.numeric(temp[,1]),breaks=c(-1,0.5,1.5,2.5,Inf),
                    labels=c("0","1","2",">3"))
-    return (as.data.frame(summary(feat.dist)))  
+    return (as.data.frame(summary(feat.dist)))
 }
 
 # do counts table considering what isomiRs take into account
 IsoCounts <- function(x, ...)
 {
     des <- pData(x)
-    counts(x) <- tableFromMatrix(rawIso, des, ...)
+    counts(x) <- IsoCountsFromMatrix(rawIso(x), des, ...)
     return(x)
 }
 
@@ -61,12 +61,12 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
         d<-listTable[[sample]]
         d<-collapse.mirs(d,ref=ref,iso5=iso5,iso3=iso3,add=add,
                          mism=mism,seed=seed)
-        names(d)[ncol(d)]<-sample 
+        names(d)[ncol(d)]<-sample
         if( nrow(table.merge)==0){
             table.merge<-d
         }else{
             table.merge<-merge(table.merge,d,by=1,all=T)
-        }        
+        }
     }
     row.names(table.merge)<-table.merge[,1]
     table.merge<-as.matrix(table.merge[,2:ncol(table.merge)])
@@ -74,7 +74,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
     as.matrix(table.merge)
 }
 
-# Collapse isomiRs in miRNAs 
+# Collapse isomiRs in miRNAs
 collapse.mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
                         add=FALSE,mism=FALSE,seed=FALSE)
 {
@@ -103,7 +103,7 @@ collapse.mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
     if (mism==TRUE){
         label<-paste(label,table[,4],sep=".")
     }
-    
+
     table$id<-label
     table.out<-as.data.frame(table %>% group_by(id) %>%
                                  summarise(total=sum(freq)))
@@ -130,7 +130,7 @@ isomir.position<-function(table,colid)
     })
     pos$idfeat<-paste(pos$size,pos$mir)
     pos<-pos[order(pos$idfeat,abs(pos$size)),]
-    return (pos[,c(3,4,5)])  
+    return (pos[,c(3,4,5)])
 }
 
 # Do summary of nt substitution events
@@ -138,7 +138,7 @@ subs.position<-function(table,colid)
 {
     temp<-table
     temp[,colid]<-as.character(temp[,colid])
-    nt<-sub("[0-9]+","",temp[,colid])  
+    nt<-sub("[0-9]+","",temp[,colid])
     pos<-sub("[ATGC]{2}","",temp[,colid])
     pos<-data.frame(nt=as.character(nt),size=pos,mir=temp$mir,freq=temp$freq)
     pos$nt<-as.character(pos$nt)
@@ -149,5 +149,5 @@ subs.position<-function(table,colid)
     names(nt.2$reference)<-""
     pos<-cbind(pos,nt.2)
     pos$size<-factor(pos$size,levels=1:25)
-    return (pos[,c(3,4,2,5,6)]) 
+    return (pos[,c(3,4,2,5,6)])
 }
