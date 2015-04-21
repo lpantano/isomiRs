@@ -31,9 +31,9 @@ deIso<-function(x,formula,ref=FALSE,iso5=FALSE,iso3=FALSE,
     if (ref | iso5 | iso3 | add | mism | seed){
         x<-do.mir.table(x,ref,iso5,iso3,add,mism,seed)
     }
-    countData<-x@counts
+    countData<-counts(x)
     dds<-DESeqDataSetFromMatrix(countData = countData,
-                                colData = x@design,
+                                colData = colData(x),
                                 design = formula)
     dds <- DESeq(dds,quiet=TRUE)
     dds
@@ -49,10 +49,9 @@ deIso<-function(x,formula,ref=FALSE,iso5=FALSE,iso3=FALSE,
 #' @import RColorBrewer
 plotTop<-function(x,top=20)
 {
-    dds<-x[["dds"]]
-    rld <- rlogTransformation(dds)
-    #vsd <- varianceStabilizingTransformation(dds)
-    select <- order(rowMeans(counts(dds,normalized=TRUE)),
+    # dds<-counts(x)
+    # rld <- rlogTransformation(dds)
+    select <- order(rowMeans(counts(x)),
                     decreasing=TRUE)[1:top]
     hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
     heatmap.2(counts(dds,normalized=TRUE), col = hmcol,
@@ -71,7 +70,7 @@ plotTop<-function(x,top=20)
 #' @examples
 #' data(isomiRex)
 #' plotIso(isomiRex)
-plotIso<-function(x,type="t5")
+plotIso<-function(x, type="t5")
 {
     freq=size=group=abundance=NULL
     codevn<-c(2,3,4,5)
@@ -80,25 +79,27 @@ plotIso<-function(x,type="t5")
     names(ratiov)<-names(codevn)
     coden<-codevn[type]
     ratio<-ratiov[type]
-    des<-x@design
+    des<-colData(x)
     table<-data.frame()
+    isoList <- isoinfo(x)
     for (sample in row.names(des)){
-        uniq.dat<-as.data.frame( table(x@varList[[sample]][[coden]]$size) )
-        temp<-as.data.frame( x@varList[[sample]][[coden]] %>%
+        
+        uniq.dat <- as.data.frame( table(isoList[[sample]][[coden]]$size) )
+        temp <- as.data.frame( isoList[[sample]][[coden]] %>%
                                 group_by(size) %>%
                                 summarise(freq=sum(freq)) )
-        total<-sum(temp$freq)
-        temp<-merge(temp,uniq.dat,by=1)
-        Total<-sum(temp$Freq)
-        temp$abundance<-temp$freq/total
-        temp$unique<-temp$Freq/Total
-        table<-rbind( table,data.frame( size=temp$size,abundance=temp$abundance,
+        total <- sum(temp$freq)
+        temp <- merge(temp,uniq.dat,by=1)
+        Total <- sum(temp$Freq)
+        temp$abundance <- temp$freq/total
+        temp$unique <- temp$Freq/Total
+        table <- rbind( table,data.frame( size=temp$size,abundance=temp$abundance,
                                         unique=temp$unique,
                                         sample=rep(sample,nrow(temp)),
                                         group=rep(des[sample,"condition"],
                                                 nrow(temp)) ) )
     }
-    x@sumList[[type]]<-table
+    isostats(x)[[type]]<-table
     p <- ggplot(table)+
         geom_jitter(aes(x=factor(size),y=unique,colour=factor(group),
                         size=abundance))+
@@ -128,7 +129,7 @@ plotIso<-function(x,type="t5")
 countsIso<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,
                     add=FALSE,mism=FALSE,seed=FALSE)
 {
-    do.mir.table(x,ref,iso5,iso3,add,mism,seed)
+    IsoCounts(x,ref,iso5,iso3,add,mism,seed)
 }
 
 
@@ -144,11 +145,11 @@ countsIso<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,
 #' @import DESeq2
 normIso<-function(x,formula=~condition)
 {
-    dds<-DESeqDataSetFromMatrix(countData = x@counts,
-                                colData = x@design,
+    dds<-DESeqDataSetFromMatrix(countData = counts(x),
+                                colData = pData(x),
                                 design = formula)
     rld<-rlogTransformation(dds,blind=FALSE)
-    x@normcounts <- assay(rld)
+    norm(x) <- assay(rld)
     x
 }
 

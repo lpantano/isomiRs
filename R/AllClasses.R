@@ -6,9 +6,9 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
                             slots = list(
 #                                counts="matrix",
 #                                normcounts="matrix",
-                                varList="list",
-                                expList="list",
-                                sumList="list"
+                                isoList="list",
+                                rawList="list",
+                                statsList="list"
                         ))
 
 # setValidity( "DESeqDataSet", function( object ) {
@@ -25,7 +25,7 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
 #' @rdname IsomirDataSeq
 
 IsomirDataSeq <- function(se, expList, varList, sumList){
-    new("IsomirDataSeq", se, expList=expList, varList=varList, sumList=sumList)
+    new("IsomirDataSeq", se, rawList=expList, isoList=varList, statsList=sumList)
 }
 
 
@@ -33,11 +33,11 @@ IsomirDataSeq <- function(se, expList, varList, sumList){
 #'
 #' @name IsomirDataSeq
 #' @rdname IsomirDataSeq
-#' @param files all samples
+#' @param files files with the output of miraligner tool
 #' @param cov remove sequences that have relative abundance lower
 #' than this number
 #' @param design data frame containing groups for each sample
-#' @param header files contain headers
+#' @param header boolean to indicate files contain headers
 #' @param skip skip first line when reading files
 #' @return
 #' \code{IsomirDataSeq} class
@@ -60,7 +60,7 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1, header=FALSE, skip=1, .
         listIsomirs[[row.names(design)[idx]]] <- out
     }
     countData <- IsoCountsFromMatrix(listSamples, design)
-    se <- SummarizedExperiment(assays = SimpleList(counts=countData), colData = design, ...)
+    se <- SummarizedExperiment(assays = SimpleList(counts=countData), colData = DataFrame(design), ...)
     IsoObj <- IsomirDataSeq(se, listSamples, listIsomirs, list())
     # IsoObj@design <- design
     # IsoObj@expList <- listObj
@@ -70,42 +70,96 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1, header=FALSE, skip=1, .
 }
 
 
-setGeneric("rawIso", function(x, ...) standardGeneric("rawIso"))
+setGeneric("isoraw", function(x, ...) standardGeneric("isoraw"))
 
-setGeneric("rawIso<-",
-           function(x, ...) standardGeneric("rawIso<-"))
+setGeneric("isoraw<-",
+           function(x, ...) standardGeneric("isoraw<-"))
 
 setMethod(
-    f = rawIso,
+    f = isoraw,
     signature = signature(x="IsomirDataSeq"),
     definition = function(x){
-        slot(x, "expList")
+        slot(x, "rawList")
     }
 )
 
-setReplaceMethod("rawIso", "IsomirDataSeq",
+setReplaceMethod("isoraw", "IsomirDataSeq",
 function(x, value)
     {
-        slot(x, "expList") <- value
+        slot(x, "rawList") <- value
         x
 
     }
 )
-# setMethod(
-#     f = "processIso",
-#     signature = signature(x="IsomirDataSeq"),
-#     definition = function(x){
-#         x@varList
-#     }
-# )
+
+setGeneric("isoinfo", function(x, ...) standardGeneric("isoinfo"))
+
+setGeneric("isoinfo<-",
+           function(x, ...) standardGeneric("isoinfo<-"))
+
+setMethod(
+    f = "isoinfo",
+    signature = signature(x="IsomirDataSeq"),
+    definition = function(x){
+        slot(x, "isoList")
+    }
+)
+
+setReplaceMethod("isoinfo", "IsomirDataSeq",
+function(x, value)
+    {
+        slot(x, "isoList") <- value
+        x
+                     
+    }
+)
+
+setGeneric("isostats", function(x, ...) standardGeneric("isostats"))
+
+setGeneric("isostats<-",
+           function(x, ...) standardGeneric("isostats<-"))
+
+setMethod(
+    f = "isostats",
+    signature = signature(x="IsomirDataSeq"),
+    definition = function(x){
+        slot(x, "statsList")
+    }
+)
+
+setReplaceMethod("isostats", "IsomirDataSeq",
+                 function(x, value)
+                 {
+                     slot(x, "statsList") <- value
+                     x
+                     
+                 }
+)
+
+setMethod(
+    f = "print",
+    signature = signature(x="IsomirDataSeq"),
+    definition = function(x){
+        head(colData(x))
+    }
+)
 
 
-# setMethod(
-#     f = "summary",
-#     signature = signature(x="IsomirDataSeq"),
-#     definition = function(x){
-#         x@sumList
-#     }
-# )
+#' @rdname counts                                                                                                                  
+#' @export
+setMethod(
+    f = "counts",
+    signature = signature(object="IsomirDataSeq"),
+    definition = function(object){
+        assays(object)[['counts']]
+    }
+)
 
-
+#' @name counts                                                                                                                    
+#' @rdname counts                                                                                                                  
+#' @exportMethod "counts<-"                                                                                                        
+setReplaceMethod("counts", signature(object="IsomirDataSeq", value="matrix"),
+    function(object, value){
+    assays(object)[["counts"]] <- value
+    object
+})                     

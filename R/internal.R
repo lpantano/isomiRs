@@ -48,16 +48,15 @@ isomir.general.type<-function(table,colid)
 # do counts table considering what isomiRs take into account
 IsoCounts <- function(x, ...)
 {
-    des <- pData(x)
-    counts(x) <- IsoCountsFromMatrix(rawIso(x), des, ...)
+    counts(x) <- IsoCountsFromMatrix(isoraw(x), colData(x), ...)
     return(x)
 }
 
 IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
-                            add=FALSE, mism=FALSE,seed=FALSE){
+                                add=FALSE, mism=FALSE,seed=FALSE){
     table.merge<-data.frame()
     for (sample in row.names(des)){
-        print (sample)
+        # print (sample)
         d<-listTable[[sample]]
         d<-collapse.mirs(d,ref=ref,iso5=iso5,iso3=iso3,add=add,
                          mism=mism,seed=seed)
