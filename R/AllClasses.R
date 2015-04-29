@@ -23,7 +23,6 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
 #'
 #' @name IsomirDataSeq
 #' @rdname IsomirDataSeq
-
 IsomirDataSeq <- function(se, expList, varList, sumList){
     new("IsomirDataSeq", se, rawList=expList, isoList=varList, statsList=sumList)
 }
@@ -62,10 +61,6 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1, header=FALSE, skip=1, .
     countData <- IsoCountsFromMatrix(listSamples, design)
     se <- SummarizedExperiment(assays = SimpleList(counts=countData), colData = DataFrame(design), ...)
     IsoObj <- IsomirDataSeq(se, listSamples, listIsomirs, list())
-    # IsoObj@design <- design
-    # IsoObj@expList <- listObj
-    # IsoObj@varList <- listObjVar
-    # IsoObj <- do.mir.table(IsoObj)
     return(IsoObj)
 }
 

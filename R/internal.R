@@ -46,11 +46,6 @@ isomir.general.type<-function(table,colid)
 }
 
 # do counts table considering what isomiRs take into account
-IsoCounts <- function(x, ...)
-{
-    counts(x) <- IsoCountsFromMatrix(isoraw(x), colData(x), ...)
-    return(x)
-}
 
 IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
                                 add=FALSE, mism=FALSE,seed=FALSE){

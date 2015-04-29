@@ -29,7 +29,7 @@ deIso<-function(x,formula,ref=FALSE,iso5=FALSE,iso3=FALSE,
                 add=FALSE,mism=FALSE,seed=FALSE)
 {
     if (ref | iso5 | iso3 | add | mism | seed){
-        x<-do.mir.table(x,ref,iso5,iso3,add,mism,seed)
+        x<-IsoCounts(x,ref,iso5,iso3,add,mism,seed)
     }
     countData<-counts(x)
     dds<-DESeqDataSetFromMatrix(countData = countData,
@@ -55,7 +55,7 @@ plotTop<-function(x,top=20)
                     decreasing=TRUE)[1:top]
     hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
     heatmap.2(counts(dds,normalized=TRUE), col = hmcol,
-            scale="none",
+            scale="none", 
             dendrogram="none", trace="none")
 }
 
@@ -124,14 +124,19 @@ plotIso<-function(x, type="t5")
 #' @examples
 #' library(DESeq2)
 #' data(isomiRex)
-#' ma<-countsIso(isomiRex)
+#' ma<-IsoCounts(isomiRex)
 #' @export
-countsIso<-function(x,ref=FALSE,iso5=FALSE,iso3=FALSE,
-                    add=FALSE,mism=FALSE,seed=FALSE)
-{
-    IsoCounts(x,ref,iso5,iso3,add,mism,seed)
-}
-
+IsoCounts <- function(x, ref=FALSE,iso5=FALSE,iso3=FALSE,
+                      add=FALSE,mism=FALSE,seed=FALSE)
+    {
+        counts <- IsoCountsFromMatrix(isoraw(x), colData(x), ref,
+                                      iso5, iso3,
+                                      add, mism, seed)
+        se <- SummarizedExperiment(assays = SimpleList(counts=counts), 
+                                   colData = colData(x))
+        x <- IsomirDataSeq(se, isoraw(x), isoinfo(x), isostats(x))
+        return(x)
+    }
 
 
 #' normalize count data
