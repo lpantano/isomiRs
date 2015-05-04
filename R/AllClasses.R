@@ -70,6 +70,31 @@ setGeneric("isoraw", function(x, ...) standardGeneric("isoraw"))
 setGeneric("isoraw<-",
            function(x, ...) standardGeneric("isoraw<-"))
 
+#' Accessors for the 'isoraw' slot of a IsomirDataSeq object.
+#'
+#' The isoraw slot holds the raw data as a List of matrix
+#' values from miraligner tool generates.
+#'
+#' @usage
+#' \S4method{isoraw}{IsomirDataSeq}(object)
+#'
+#' \S4method{isoraw}{IsomirDataSeq,matrix}(object)<-value
+#'
+#' @docType methods
+#' @name isoraw
+#' @rdname isoraw
+#' @aliases isoraw isoraw,IsomirDataSeq-method isoraw<-,IsomirDataSeq,matrix-method
+#'
+#' @param object a \code{IsomirDataSeq} object.
+#' @param value a list of matrix
+#' @author Lorena Pantano
+#'
+isomir.isoraw <- function(object){
+    object@rawList
+}
+
+#' @rdname isoraw
+#' @export
 setMethod(
     f = isoraw,
     signature = signature(x="IsomirDataSeq"),
@@ -78,12 +103,13 @@ setMethod(
     }
 )
 
+#' @name isoraw
+#' @rdname isoraw
 setReplaceMethod("isoraw", "IsomirDataSeq",
 function(x, value)
     {
         slot(x, "rawList") <- value
         x
-
     }
 )
 
@@ -105,7 +131,6 @@ function(x, value)
     {
         slot(x, "isoList") <- value
         x
-                     
     }
 )
 
@@ -127,20 +152,40 @@ setReplaceMethod("isostats", "IsomirDataSeq",
                  {
                      slot(x, "statsList") <- value
                      x
-                     
                  }
 )
 
-setMethod(
-    f = "print",
-    signature = signature(x="IsomirDataSeq"),
-    definition = function(x){
-        head(colData(x))
+#' @export
+setMethod("show", "IsomirDataSeq", function(x){
+        show(colData(x))
     }
 )
 
+#' Accessors for the 'counts' slot of a IsomirDataSeq object.
+#'
+#' The counts slot holds the count data as a matrix of non-negative integer
+#' count values, one row for each observational unit (gene or the like), and one
+#' column for each sample. Similar to DESeq2 object.
+#'
+#' @usage
+#' \S4method{counts}{IsomirDataSeq}(object)
+#'
+#' \S4method{counts}{IsomirDataSeq,matrix}(object)<-value
+#'
+#' @docType methods
+#' @name counts
+#' @rdname counts
+#' @aliases counts counts,IsomirDataSeq-method counts<-,IsomirDataSeq,matrix-method
+#'
+#' @param object a \code{IsomirDataSeq} object.
+#' @param value an integer matrix
+#' @author Lorena Pantano
+#'
+isomir.counts <- function(object){
+    object
+}
 
-#' @rdname counts                                                                                                                  
+#' @rdname counts
 #' @export
 setMethod(
     f = "counts",
@@ -150,11 +195,11 @@ setMethod(
     }
 )
 
-#' @name counts                                                                                                                    
-#' @rdname counts                                                                                                                  
-#' @exportMethod "counts<-"                                                                                                        
+#' @name counts
+#' @rdname counts
+#' @exportMethod "counts<-"
 setReplaceMethod("counts", signature(object="IsomirDataSeq", value="matrix"),
     function(object, value){
     assays(object)[["counts"]] <- value
     object
-})                     
+})
