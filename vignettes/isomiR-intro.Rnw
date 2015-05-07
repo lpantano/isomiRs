@@ -75,7 +75,7 @@ In this data set we will find two groups:
 
 <<package-load,message=FALSE>>=
 library(isomiRs)
-data(isomiRex)
+data(isomiRexp)
 @
 
 
@@ -94,7 +94,7 @@ With the \Rfunction{type}, controls what type of isomiRs to show:
 trimming, addition or substitution.
 
 <<package-plot-iso,message=FALSE>>=
-obj<-plotIso(isomiRex,type="t5")
+obj<-plotIso(isomiRexp,type="t5")
 @
 
 \subsection{Differential expression analysis}
@@ -111,13 +111,11 @@ plotMA(dds)
 head(results(dds))
 @
 
-
 You can differenciate between reference sequences, and isomirs at 5' end
 doing this:
 
 <<package-de-iso5,message=FALSE>>=
 dds = deIso(obj,formula=~condition,ref=TRUE,iso5=TRUE)
-library(DESeq2)
 head(results(dds))
 @
 
@@ -129,7 +127,7 @@ Similar to the previous point.
 
 <<package-count,message=FALSE>>=
 obj = countsIso(obj)
-head(obj@counts)
+head(counts(obj))
 @
 
 The normalization using the \Rfunction{rlog} from \Biocpkg{DESeq2} package
@@ -138,7 +136,7 @@ allows quick integration to another analyses like clustering.
 
 <<package-norm,message=FALSE>>=
 obj = normIso(obj)
-heatmap(obj@normcounts)
+heatmap(normcounts(obj), labRow = "")
 @
 
 \subsection{Supervised classification}
@@ -161,8 +159,8 @@ summarizes the result of this analysis.
 <<package-pls,eval=TRUE>>=
 obj = countsIso(obj,,iso5=TRUE,iso3=TRUE,add=TRUE,ref=TRUE)
 obj = normIso(obj)
-pls.obj = isoPLSDA(obj,"condition",nperm = 10)
-isoPLSDAplot(pls.obj$component,obj@design[,"condition"])
+pls.obj = isoPLSDA(obj, "condition", nperm = 10)
+isoPLSDAplot(pls.obj$component,colData(obj)[,"condition"])
 @
 
 

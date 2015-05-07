@@ -156,8 +156,8 @@ setReplaceMethod("isostats", "IsomirDataSeq",
 )
 
 #' @export
-setMethod("show", "IsomirDataSeq", function(x){
-        show(colData(x))
+setMethod("show", "IsomirDataSeq", function(object){
+        show(colData(object))
     }
 )
 
@@ -203,3 +203,27 @@ setReplaceMethod("counts", signature(object="IsomirDataSeq", value="matrix"),
     assays(object)[["counts"]] <- value
     object
 })
+
+
+setGeneric("normcounts", function(object, ...) standardGeneric("normcounts"))
+setGeneric("normcounts<-",
+           function(object, ...) standardGeneric("normcounts<-"))
+
+#' @rdname normcounts
+#' @export
+setMethod(
+    f = "normcounts",
+    signature = signature(object="IsomirDataSeq"),
+    definition = function(object){
+        assays(object)[['norm']]
+    }
+)
+
+#' @name normcounts
+#' @rdname normcounts
+#' @exportMethod "normcounts<-"
+setReplaceMethod("normcounts", "IsomirDataSeq",
+                 function(object, value){
+                     assays(object)[["norm"]] <- value
+                     object
+                 })

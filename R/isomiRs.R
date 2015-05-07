@@ -126,7 +126,7 @@ plotIso<-function(x, type="t5")
 #' data(isomiRex)
 #' ma<-IsoCounts(isomiRex)
 #' @export
-IsoCounts <- function(x, ref=FALSE,iso5=FALSE,iso3=FALSE,
+countsIso <- function(x, ref=FALSE,iso5=FALSE,iso3=FALSE,
                       add=FALSE,mism=FALSE,seed=FALSE)
     {
         counts <- IsoCountsFromMatrix(isoraw(x), colData(x), ref,
@@ -151,10 +151,10 @@ IsoCounts <- function(x, ref=FALSE,iso5=FALSE,iso3=FALSE,
 normIso<-function(x,formula=~condition)
 {
     dds<-DESeqDataSetFromMatrix(countData = counts(x),
-                                colData = pData(x),
+                                colData = colData(x),
                                 design = formula)
     rld<-rlogTransformation(dds,blind=FALSE)
-    norm(x) <- assay(rld)
+    normcounts(x) <- assay(rld)
     x
 }
 
