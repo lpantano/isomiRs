@@ -29,7 +29,7 @@ deIso<-function(x,formula,ref=FALSE,iso5=FALSE,iso3=FALSE,
                 add=FALSE,mism=FALSE,seed=FALSE)
 {
     if (ref | iso5 | iso3 | add | mism | seed){
-        x<-IsoCounts(x,ref,iso5,iso3,add,mism,seed)
+        x<-countsIso(x,ref,iso5,iso3,add,mism,seed)
     }
     countData<-counts(x)
     dds<-DESeqDataSetFromMatrix(countData = countData,

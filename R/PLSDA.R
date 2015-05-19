@@ -25,12 +25,12 @@ isoPLSDA <- function(obj,var ,validation = NULL, learn = NULL, test = NULL,
                      tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
 {
     tryCatch ({
-        class(obj@normcounts)
+        class(normcounts(obj))
     },error = function(e){
         return("please, run first normIso.")
     })
-    variables <- t(obj@normcounts)
-    group <- obj@design[,var]
+    variables <- t(normcounts(obj))
+    group <- colData(obj)[,var]
     if (length(group)<6){
         return("this analysis only runs with group larger than 6.")
     }

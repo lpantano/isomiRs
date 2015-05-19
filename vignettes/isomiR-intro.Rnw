@@ -48,7 +48,6 @@ tool after converting to the desire format.
 
 If you use the package, please cite the associated paper \cite{isomirs}.
 
-
 \section*{Input format}
 
 The input should be a file for each sample in the following format:
@@ -62,6 +61,9 @@ This is the standard output of SeqBuster tool, but can be converted from
 any other tool having the mapping information on the precursors. Read more on
 \href{https://github.com/lpantano/seqbuster/wiki/miraligner}{miraligner manual}
 
+\section*{IsomirDataSeq class}
+
+This object will store all raw data from the input files and all processed object used for visualization and statistical analysis. It is a is a subclass of \Rfunction{SummarizedExperiment} with the \Rfunction{colData) and \Rfunction{counts) methods. Beside that, the user can access the normalized count matrix with \Rfunction{normcounts), and the raw data with \Rfunction{isoraw) method. This list contains the input matrix for each sample. 
 
 \section*{Quick start}
 
@@ -70,7 +72,7 @@ frontal cortex samples to give some basic examples of isomiRs analyses.
 
 In this data set we will find two groups:
 * b: individuals with less than a year
-* o: individuals in the eldery.
+* o: individuals in the elderly.
 
 
 <<package-load,message=FALSE>>=
@@ -81,7 +83,7 @@ data(isomiRexp)
 
 \subsection{Reading input}
 
-The funciont \Rfunction{loadIso} needs a vector with the paths for each file
+The function \Rfunction{loadIso} needs a vector with the paths for each file
 and a data.frame with the design experiment similar to the ones used for
 differential expression.
 
@@ -111,7 +113,7 @@ plotMA(dds)
 head(results(dds))
 @
 
-You can differenciate between reference sequences, and isomirs at 5' end
+You can differentiate between reference sequences, and isomirs at 5' end
 doing this:
 
 <<package-de-iso5,message=FALSE>>=
@@ -122,7 +124,7 @@ head(results(dds))
 \subsection{Count data}
 
 the \Rfunction{countsIso} can get the matrix counts that can be use for many
-different downstream analyses configuring the way isomiRs are collapsed.
+different downstream analyses changing the way isomiRs are collapsed.
 Similar to the previous point.
 
 <<package-count,message=FALSE>>=
@@ -157,10 +159,10 @@ summarizes the result of this analysis.
 
 
 <<package-pls,eval=TRUE>>=
-obj = countsIso(obj,,iso5=TRUE,iso3=TRUE,add=TRUE,ref=TRUE)
+obj = countsIso(obj,iso5=TRUE,iso3=TRUE,add=TRUE,ref=TRUE)
 obj = normIso(obj)
 pls.obj = isoPLSDA(obj, "condition", nperm = 10)
-isoPLSDAplot(pls.obj$component,colData(obj)[,"condition"])
+isoPLSDAplot(pls.obj$component, colData(obj)[,"condition"])
 @
 
 
