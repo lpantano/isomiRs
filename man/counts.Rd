@@ -2,26 +2,24 @@
 % Please edit documentation in R/AllClasses.R
 \docType{methods}
 \name{counts}
-\alias{IsomirDataSeq,matrix-method}
 \alias{counts}
-\alias{counts,normcounts,IsomirDataSeq-method}
-\alias{counts<-,}
-\alias{normcounts}
+\alias{counts,IsomirDataSeq-method}
+\alias{counts.IsomirDataSeq}
+\alias{counts<-,IsomirDataSeq,matrix-method}
 \title{Accessors for the 'counts' slot of a IsomirDataSeq object.}
 \usage{
-\S4method{counts}{IsomirDataSeq}(object)
-\S4method{normcounts}{IsomirDataSeq}(object)
+\S4method{counts}{IsomirDataSeq}(object, norm=FALSE)
 
 \S4method{counts}{IsomirDataSeq,matrix}(object)<-value
 
+\S4method{counts}{IsomirDataSeq}(object, norm = FALSE)
+
 \S4method{counts}{IsomirDataSeq,matrix}(object) <- value
-
-\S4method{normcounts}{IsomirDataSeq}(object)
-
-\S4method{normcounts}{IsomirDataSeq}(object) <- value
 }
 \arguments{
   \item{object}{a \code{IsomirDataSeq} object.}
+
+  \item{norm}{TRUE return log2-normalized counts}
 
   \item{value}{an integer matrix}
 }

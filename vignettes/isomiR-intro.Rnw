@@ -144,7 +144,7 @@ allows quick integration to another analyses like clustering.
 
 <<package-norm,message=FALSE>>=
 obj = normIso(obj)
-heatmap(normcounts(obj)[1:100,], labRow = "")
+heatmap(counts(obj, norm=TRUE)[1:100,], labRow = "")
 @
 
 \subsection{Supervised classification}

@@ -1,4 +1,3 @@
-#' IsomirDataSeq object and constructors
 #' @rdname IsomirDataSeq
 #' @export
 IsomirDataSeq<-setClass("IsomirDataSeq",
@@ -25,8 +24,12 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
 #' information for each type
 #' @param sumList list of samples with general isomiR information 
 #' 
+#' @aliases IsomirDataSeq IsomirDataSeq-class IsomirDataSeqFromFiles
+#' 
+#' @docType class
 #' @name IsomirDataSeq
 #' @rdname IsomirDataSeq
+#' @export
 IsomirDataSeq <- function(se, expList, varList, sumList){
     new("IsomirDataSeq", se, rawList=expList, isoList=varList, statsList=sumList)
 }
@@ -42,6 +45,7 @@ IsomirDataSeq <- function(se, expList, varList, sumList){
 #' @param design data frame containing groups for each sample
 #' @param header boolean to indicate files contain headers
 #' @param skip skip first line when reading files
+#' @param ... arguments provided to \code{SummarizedExperiment} including rowData and exptData
 #' @return
 #' \code{IsomirDataSeq} class
 #' @export
@@ -72,22 +76,21 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1, header=FALSE, skip=1, .
 setGeneric("isoraw", function(x, ...) standardGeneric("isoraw"))
 
 setGeneric("isoraw<-",
-           function(x, ...) standardGeneric("isoraw<-"))
+           function(x, ..., value) standardGeneric("isoraw<-"))
 
 #' Accessors for the 'isoraw' slot of a IsomirDataSeq object.
 #'
 #' The isoraw slot holds the raw data as a list of matrix
 #' values from miraligner tool.
-#'
 #' @usage
 #' \S4method{isoraw}{IsomirDataSeq}(x)
 #'
-#' \S4method{isoraw}{IsomirDataSeq,matrix}(x)<-value
+#' \S4method{isoraw}{IsomirDataSeq}(x)<-value
 #'
 #' @docType methods
 #' @name isoraw
 #' @rdname isoraw
-#' @aliases isoraw isoraw,IsomirDataSeq-method isoraw<-,IsomirDataSeq,matrix-method
+#' @aliases isoraw isoraw,IsomirDataSeq-method isoraw<-,IsomirDataSeq-method
 #'
 #' @param x a \code{IsomirDataSeq} object.
 #' @param value a list of matrix
@@ -115,7 +118,7 @@ function(x, value)
 setGeneric("isoinfo", function(x, ...) standardGeneric("isoinfo"))
 
 setGeneric("isoinfo<-",
-           function(x, ...) standardGeneric("isoinfo<-"))
+           function(x, ..., value) standardGeneric("isoinfo<-"))
 
 setMethod(
     f = "isoinfo",
@@ -136,7 +139,7 @@ function(x, value)
 setGeneric("isostats", function(x, ...) standardGeneric("isostats"))
 
 setGeneric("isostats<-",
-           function(x, ...) standardGeneric("isostats<-"))
+           function(x, ..., value) standardGeneric("isostats<-"))
 
 setMethod(
     f = "isostats",
@@ -160,6 +163,7 @@ setMethod("show", "IsomirDataSeq", function(object){
     }
 )
 
+
 #' Accessors for the 'counts' slot of a IsomirDataSeq object.
 #'
 #' The counts slot holds the count data as a matrix of non-negative integer
@@ -168,60 +172,60 @@ setMethod("show", "IsomirDataSeq", function(object){
 #' can be obtained by \code{normcounts} method.
 #'
 #' @usage
-#' \S4method{counts}{IsomirDataSeq}(object)
-#' \S4method{normcounts}{IsomirDataSeq}(object)
+#' \S4method{counts}{IsomirDataSeq}(object, norm=FALSE)
 #'
 #' \S4method{counts}{IsomirDataSeq,matrix}(object)<-value
 #'
 #' @docType methods
 #' @name counts
 #' @rdname counts
-#' @aliases counts counts,normcounts,IsomirDataSeq-method counts<-,
-#' IsomirDataSeq,matrix-method
+#' @aliases counts counts,IsomirDataSeq-method counts<-,IsomirDataSeq,matrix-method
 #'
 #' @param object a \code{IsomirDataSeq} object.
 #' @param value an integer matrix
+#' @param norm TRUE return log2-normalized counts
 #' @author Lorena Pantano
 #'
 #' @export
-setMethod(
-    f = "counts",
-    signature = signature(object="IsomirDataSeq"),
-    definition = function(object){
-        assays(object)[['counts']]
+counts.IsomirDataSeq <- function(object, norm=FALSE) {
+    if (norm){
+        return(assays(object)[['norm']])
     }
-)
+    assays(object)[['counts']]
+}
+
+#' @rdname counts
+#' @export
+setMethod("counts", signature(object="IsomirDataSeq"), counts.IsomirDataSeq)
 
 #' @name counts
 #' @rdname counts
 #' @exportMethod "counts<-"
 setReplaceMethod("counts", signature(object="IsomirDataSeq", value="matrix"),
-    function(object, value){
-    assays(object)[["counts"]] <- value
-    object
-})
+                 function(object, value)
+                 {
+                     assays(object)[["counts"]] <- value
+                     object
+                 }
+)
 
+setGeneric("normcounts", function(x, ...) standardGeneric("normcounts"))
 
-setGeneric("normcounts", function(object, ...) standardGeneric("normcounts"))
 setGeneric("normcounts<-",
-           function(object, ...) standardGeneric("normcounts<-"))
+           function(x, ..., value) standardGeneric("normcounts<-"))
 
-#' @name normcounts
-#' @rdname counts
-#' @export
 setMethod(
     f = "normcounts",
-    signature = signature(object="IsomirDataSeq"),
-    definition = function(object){
-        assays(object)[['norm']]
+    signature = signature(x="IsomirDataSeq"),
+    definition = function(x){
+        assays(x)[["norm"]]
     }
 )
 
-#' @name normcounts
-#' @rdname counts
-#' @exportMethod "normcounts<-"
 setReplaceMethod("normcounts", "IsomirDataSeq",
-                 function(object, value){
-                     assays(object)[["norm"]] <- value
-                     object
-                 })
+                 function(x, value)
+                 {
+                     assays(x)[["norm"]] <- value
+                     x
+                 }
+)

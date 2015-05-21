@@ -54,7 +54,7 @@ plotTop<-function(x,top=20)
     select <- order(rowMeans(counts(x)),
                     decreasing=TRUE)[1:top]
     hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
-    heatmap.2(counts(dds,normalized=TRUE), col = hmcol,
+    heatmap.2(counts(x)[select,], col = hmcol,
             scale="none", 
             dendrogram="none", trace="none")
 }
