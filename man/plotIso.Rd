@@ -21,7 +21,7 @@ Plot the amount of isomiRs in different samples divided by
 group
 }
 \examples{
-data(isomiRex)
-plotIso(isomiRex)
+data(isomiRexp)
+plotIso(isomiRexp)
 }
 

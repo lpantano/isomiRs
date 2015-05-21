@@ -1,8 +1,9 @@
-#' @name isomiRex
+#' @name isomiRexp
 #' @title isomirDataSeq
 #' @description This data set is the object return by \code{loadIso}. It mainly
-#' contains miRNA raw data from 6 samples: 3 new birth and 3 elderly human individuals.
-#' CITE. Use \code{colData} to see the experiment design of the data.
+#' contains miRNA sequencing raw data from 6 samples: 3 newnborns and 3 elderly 
+#' human individuals (Somel et al, 2010). 
+#' Use \code{colData} to see the experiment design of the data.
 #' @docType data
 #' @usage isomiRex
 #' @format a \code{isomirDataSeq} class.

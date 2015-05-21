@@ -10,8 +10,8 @@ normIso(x, formula = ~condition)
   \item{x}{IsomirDataSeq object}
 
   \item{formula}{formula that will be used for DE
-  library(DESeq2) data(isomiRex)
-  ma<-normIso(isomiRex,formula=~condition)}
+  library(DESeq2) data(isomiRexp) ma<-normIso(isomiRex,
+  formula=~condition)}
 }
 \description{
 normalize count data

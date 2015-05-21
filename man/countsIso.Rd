@@ -31,7 +31,7 @@ create count tables from isomirs
 }
 \examples{
 library(DESeq2)
-data(isomiRex)
-ma<-IsoCounts(isomiRex)
+data(isomiRexp)
+ma<-countsIso(isomiRexp)
 }
 

@@ -13,6 +13,16 @@ IsomirDataSeqFromFiles(files, design, cov = 1, header = FALSE, skip = 1,
   ...)
 }
 \arguments{
+  \item{se}{SummarizedExperiment object}
+
+  \item{expList}{list of samples with miraligner output}
+
+  \item{varList}{list of samples with summarized isomiR
+  information for each type}
+
+  \item{sumList}{list of samples with general isomiR
+  information}
+
   \item{files}{files with the output of miraligner tool}
 
   \item{design}{data frame containing groups for each

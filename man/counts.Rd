@@ -2,11 +2,11 @@
 % Please edit documentation in R/AllClasses.R
 \docType{methods}
 \name{counts}
+\alias{IsomirDataSeq,matrix-method}
 \alias{counts}
-\alias{counts,IsomirDataSeq-method}
-\alias{counts<-,IsomirDataSeq,matrix-method}
+\alias{counts,normcounts,IsomirDataSeq-method}
+\alias{counts<-,}
 \alias{normcounts}
-\alias{normcounts,IsomirDataSeq-method}
 \title{Accessors for the 'counts' slot of a IsomirDataSeq object.}
 \usage{
 \S4method{counts}{IsomirDataSeq}(object)
@@ -27,10 +27,9 @@
 }
 \description{
 The counts slot holds the count data as a matrix of
-non-negative integer count values, one row for each
-observational unit (gene or the like), and one column for
-each sample. Similar to DESeq2 object. The normalized
-matrix can be obtained by \code{normcounts} method.
+non-negative integer count values, one row for each isomiR,
+and one column for each sample. The normalized matrix can
+be obtained by \code{normcounts} method.
 }
 \author{
 Lorena Pantano

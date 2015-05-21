@@ -2,7 +2,7 @@
 % Please edit documentation in R/isomiRs.R
 \name{deIso}
 \alias{deIso}
-\title{Do DE analysis with DESeq}
+\title{Do differential expression analysis with DESeq2}
 \usage{
 deIso(x, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
   mism = FALSE, seed = FALSE)
@@ -42,7 +42,7 @@ miRNA
 }
 \examples{
 library(DESeq2)
-data(isomiRex)
-dds<-deIso(isomiRex,formula=~condition)
+data(isomiRexp)
+dds<-deIso(isomiRexp, formula=~condition)
 }
 

@@ -4,8 +4,6 @@
 IsomirDataSeq<-setClass("IsomirDataSeq",
                             contains = "SummarizedExperiment",
                             slots = list(
-#                                counts="matrix",
-#                                normcounts="matrix",
                                 isoList="list",
                                 rawList="list",
                                 statsList="list"
@@ -21,6 +19,12 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
 #' raw counts, normalized counts, and data.frame with
 #' columns information for each sample.
 #'
+#' @param se SummarizedExperiment object
+#' @param expList list of samples with miraligner output
+#' @param varList list of samples with summarized isomiR 
+#' information for each type
+#' @param sumList list of samples with general isomiR information 
+#' 
 #' @name IsomirDataSeq
 #' @rdname IsomirDataSeq
 IsomirDataSeq <- function(se, expList, varList, sumList){
@@ -76,16 +80,16 @@ setGeneric("isoraw<-",
 #' values from miraligner tool.
 #'
 #' @usage
-#' \S4method{isoraw}{IsomirDataSeq}(object)
+#' \S4method{isoraw}{IsomirDataSeq}(x)
 #'
-#' \S4method{isoraw}{IsomirDataSeq,matrix}(object)<-value
+#' \S4method{isoraw}{IsomirDataSeq,matrix}(x)<-value
 #'
 #' @docType methods
 #' @name isoraw
 #' @rdname isoraw
 #' @aliases isoraw isoraw,IsomirDataSeq-method isoraw<-,IsomirDataSeq,matrix-method
 #'
-#' @param object a \code{IsomirDataSeq} object.
+#' @param x a \code{IsomirDataSeq} object.
 #' @param value a list of matrix
 #' @author Lorena Pantano
 #'
@@ -159,8 +163,8 @@ setMethod("show", "IsomirDataSeq", function(object){
 #' Accessors for the 'counts' slot of a IsomirDataSeq object.
 #'
 #' The counts slot holds the count data as a matrix of non-negative integer
-#' count values, one row for each observational unit (gene or the like), and one
-#' column for each sample. Similar to DESeq2 object. The normalized matrix
+#' count values, one row for each isomiR, and one
+#' column for each sample. The normalized matrix
 #' can be obtained by \code{normcounts} method.
 #'
 #' @usage
@@ -172,7 +176,8 @@ setMethod("show", "IsomirDataSeq", function(object){
 #' @docType methods
 #' @name counts
 #' @rdname counts
-#' @aliases counts counts,IsomirDataSeq-method counts<-,IsomirDataSeq,matrix-method
+#' @aliases counts counts,normcounts,IsomirDataSeq-method counts<-,
+#' IsomirDataSeq,matrix-method
 #'
 #' @param object a \code{IsomirDataSeq} object.
 #' @param value an integer matrix
@@ -201,8 +206,9 @@ setGeneric("normcounts", function(object, ...) standardGeneric("normcounts"))
 setGeneric("normcounts<-",
            function(object, ...) standardGeneric("normcounts<-"))
 
+#' @name normcounts
 #' @rdname counts
-#' @export "normcounts"
+#' @export
 setMethod(
     f = "normcounts",
     signature = signature(object="IsomirDataSeq"),

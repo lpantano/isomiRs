@@ -7,16 +7,16 @@
 \alias{isoraw<-,IsomirDataSeq,matrix-method}
 \title{Accessors for the 'isoraw' slot of a IsomirDataSeq object.}
 \usage{
-\S4method{isoraw}{IsomirDataSeq}(object)
+\S4method{isoraw}{IsomirDataSeq}(x)
 
-\S4method{isoraw}{IsomirDataSeq,matrix}(object)<-value
+\S4method{isoraw}{IsomirDataSeq,matrix}(x)<-value
 
 \S4method{isoraw}{IsomirDataSeq}(x) <- value
 }
 \arguments{
-  \item{value}{a list of matrix}
+  \item{x}{a \code{IsomirDataSeq} object.}
 
-  \item{object}{a \code{IsomirDataSeq} object.}
+  \item{value}{a list of matrix}
 }
 \description{
 The isoraw slot holds the raw data as a list of matrix

@@ -1,4 +1,4 @@
-#' Do DE analysis with DESeq
+#' Do differential expression analysis with DESeq2
 #'
 #' This function does differential expression analysis with DESeq2.
 #' It will return a DESeq2 object.
@@ -21,8 +21,8 @@
 #' @return DESeq object
 #' @examples
 #' library(DESeq2)
-#' data(isomiRex)
-#' dds<-deIso(isomiRex,formula=~condition)
+#' data(isomiRexp)
+#' dds<-deIso(isomiRexp, formula=~condition)
 #' @export
 #' @import DESeq2
 deIso<-function(x,formula,ref=FALSE,iso5=FALSE,iso3=FALSE,
@@ -68,8 +68,8 @@ plotTop<-function(x,top=20)
 #' @export
 #' @import ggplot2
 #' @examples
-#' data(isomiRex)
-#' plotIso(isomiRex)
+#' data(isomiRexp)
+#' plotIso(isomiRexp)
 plotIso<-function(x, type="t5")
 {
     freq=size=group=abundance=NULL
@@ -123,8 +123,8 @@ plotIso<-function(x, type="t5")
 #' @return count table
 #' @examples
 #' library(DESeq2)
-#' data(isomiRex)
-#' ma<-IsoCounts(isomiRex)
+#' data(isomiRexp)
+#' ma<-countsIso(isomiRexp)
 #' @export
 countsIso <- function(x, ref=FALSE,iso5=FALSE,iso3=FALSE,
                       add=FALSE,mism=FALSE,seed=FALSE)
@@ -144,8 +144,8 @@ countsIso <- function(x, ref=FALSE,iso5=FALSE,iso3=FALSE,
 #' @param x IsomirDataSeq object
 #' @param formula formula that will be used for DE
 #' library(DESeq2)
-#' data(isomiRex)
-#' ma<-normIso(isomiRex,formula=~condition)
+#' data(isomiRexp)
+#' ma<-normIso(isomiRex, formula=~condition)
 #' @export
 #' @import DESeq2
 normIso<-function(x,formula=~condition)
