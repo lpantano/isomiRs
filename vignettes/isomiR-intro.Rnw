@@ -56,7 +56,7 @@ The input should be a file for each sample in the following format:
 
 <<format-line,eval=FALSE,echo=TRUE>>==
 sequence name counts mirna start end mismatches additions 5trimming
-3trimming NA NA DB multimapping
+3trimming NA NA DB multi-mapping
 @
 
 This is the standard output of SeqBuster tool, but can be converted from
@@ -65,11 +65,17 @@ any other tool having the mapping information on the precursors. Read more on
 
 \section{IsomirDataSeq class}
 
-This object will store all raw data from the input files and all processed object used for visualization and statistical analysis. It is a is a subclass of \Rfunction{SummarizedExperiment} with the \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the user can access the normalized count matrix with \Rfunction{normcounts}, and the raw data with \Rfunction{isoraw} method. This list contains the input matrix for each sample. 
+This object will store all raw data from the input files and all processed object used for visualization and statistical analysis. It is a is a subclass of \Rfunction{SummarizedExperiment} with the \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the object contains the normalized 
+data and the raw data from miraligner allowing to summarize miRNA counts in
+different ways at any time.
 
 \subsection{Access data}
 
-The main slots are count data and design matrix.
+The user can access the normalized count matrix with \Rfunction{normcounts}, and the raw data with \Rfunction{isoraw} method. The last one is a list having 
+the output of miraligner.
+
+You can browse for the same miRNA or isomiRs in all samples with \Rfunction(isoSelect) method.
+
 
 \section{Quick start}
 
@@ -77,8 +83,8 @@ We are going to use a small RNAseq data coming from human
 frontal cortex samples to give some basic examples of isomiRs analyses.
 
 In this data set we will find two groups:
-* b: individuals with less than a year
-* o: individuals in the elderly.
+* b: 3 individuals with less than a year
+* o: 3 individuals in the elderly.
 
 
 <<package-load,message=FALSE>>=
@@ -90,15 +96,15 @@ data(isomiRexp)
 \subsection{Reading input}
 
 The function \Rfunction{loadIso} needs a vector with the paths for each file
-and a data.frame with the design experiment similar to the ones used for
-differential expression.
+and a data.frame with the design experiment similar to the one used for
+a mRNA differential expression analysis.
 
 \subsection{Descriptive analysis}
 
-You can plot isomiRs tendencies with \Rfunction{plotIso}. In this figure you
-will have how abundant is each type of isomiRs at different positions
+You can plot isomiRs expression with \Rfunction{plotIso}. In this figure you
+will see how abundant is each type of isomiRs at different positions
 considering the total abundance and the total number of sequences.
-With the \Rfunction{type}, controls what type of isomiRs to show:
+The \Rfunction{type} parameter controls what type of isomiRs to show. It can be xs
 trimming, addition or substitution.
 
 <<package-plot-iso,message=FALSE>>=
@@ -119,8 +125,8 @@ plotMA(dds)
 head(results(dds))
 @
 
-You can differentiate between reference sequences, and isomirs at 5' end
-doing this:
+You can differentiate between reference sequences, and isomiRs at 5' end
+with this command:
 
 <<package-de-iso5,message=FALSE>>=
 dds = deIso(obj,formula=~condition,ref=TRUE,iso5=TRUE)
@@ -129,17 +135,16 @@ head(results(dds))
 
 \subsection{Count data}
 
-the \Rfunction{countsIso} can get the matrix counts that can be use for many
+\Rfunction{countsIso} can get the counts matrix that can be use for many
 different downstream analyses changing the way isomiRs are collapsed.
-Similar to the previous point.
 
 <<package-count,message=FALSE>>=
 obj = countsIso(obj)
 head(counts(obj))
 @
 
-The normalization using the \Rfunction{rlog} from \Biocpkg{DESeq2} package
-allows quick integration to another analyses like clustering.
+The normalization uses \Rfunction{rlog} from \Biocpkg{DESeq2} package and
+allows quick integration to another analyses like clustering, PCA ...
 
 
 <<package-norm,message=FALSE>>=
