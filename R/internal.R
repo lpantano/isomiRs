@@ -1,5 +1,5 @@
 # put header to input files
-put.header<-function(table)
+.put_header<-function(table)
 {
     names(table)[c(1,3,4,7,8,9,10,13,14)]<-c("seq","freq","mir","mism","add",
                                              "t5","t3","DB","ambiguity")
@@ -9,104 +9,104 @@ put.header<-function(table)
 }
 
 # filter by relative abundance to reference
-filter.by.cov<-function(table,limit=10)
+.filter_by_cov<-function(table,limit=10)
 {
     freq=NULL
     mir=NULL
-    tab.fil<-table[table$DB=="miRNA",]
-    tab.fil.out<-as.data.frame(tab.fil %>% group_by(mir) %>%
+    tab.fil <- table[table$DB=="miRNA",]
+    tab.fil.out <- as.data.frame(tab.fil %>% group_by(mir) %>%
                                    summarise(total=sum(freq)))
-    tab.fil<-merge(tab.fil[,c(3,1:2,4:ncol(tab.fil))],tab.fil.out,
-                   by=1)
-    tab.fil$score<-tab.fil$freq/tab.fil$total*100
-    tab.fil<-tab.fil[tab.fil$score>=limit,]
-    return (tab.fil)
+    tab.fil <- merge(tab.fil[ ,c(3,1:2,4:ncol(tab.fil)) ],
+                     tab.fil.out,
+                     by=1)
+    tab.fil$score <- tab.fil$freq / tab.fil$total * 100
+    tab.fil[tab.fil$score>=limit,]
 }
 
 # Filter tablo reference
-filter.table<-function(table,cov=10)
+.filter_table<-function(table,cov=10)
 {
-    table<-put.header(table)
-    table<-filter.by.cov(table,cov)
-    return(table)
+    table <- .put_header(table)
+    .filter_by_cov(table,cov)
 }
 
 
 # plot general information
-isomir.general.type<-function(table,colid)
+.isomir_general_type<-function(table,colid)
 {
-    temp<-table
-    temp$idfeat<-paste(table[,colid],table$mir)
-    temp<-temp[order(temp$idfeat),]
-    temp<-temp[!duplicated(temp$idfeat),]
-    temp<-as.data.frame(summary(temp$mir))
-    feat.dist<-cut(as.numeric(temp[,1]),breaks=c(-1,0.5,1.5,2.5,Inf),
+    temp <- table
+    temp$idfeat <- paste(table[,colid],table$mir)
+    temp <- temp[order(temp$idfeat),]
+    temp <- temp[!duplicated(temp$idfeat),]
+    temp <- as.data.frame(summary(temp$mir))
+    feat.dist <- cut(as.numeric(temp[,1]),breaks=c(-1,0.5,1.5,2.5,Inf),
                    labels=c("0","1","2",">3"))
-    return (as.data.frame(summary(feat.dist)))
+    return ( as.data.frame( summary(feat.dist) ) )
 }
 
 # do counts table considering what isomiRs take into account
 
 IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
-                                add=FALSE, mism=FALSE,seed=FALSE){
+                                add=FALSE, mism=FALSE, seed=FALSE, minc=10){
     table.merge<-data.frame()
     for (sample in row.names(des)){
         # print (sample)
-        d<-listTable[[sample]]
-        d<-collapse.mirs(d,ref=ref,iso5=iso5,iso3=iso3,add=add,
-                         mism=mism,seed=seed)
-        names(d)[ncol(d)]<-sample
+        d <- listTable[[sample]]
+        d <- .collapse_mirs(d, ref=ref, iso5=iso5, iso3=iso3, add=add,
+                         mism=mism, seed=seed)
+        names(d)[ncol(d)] <- sample
+        d <- d[ d[,2] > minc, ] 
         if( nrow(table.merge)==0){
-            table.merge<-d
+            table.merge <- d
         }else{
-            table.merge<-merge(table.merge,d,by=1,all=T)
+            table.merge <- merge( table.merge, d, by=1, all=TRUE )
         }
     }
-    row.names(table.merge)<-table.merge[,1]
-    table.merge<-as.matrix(table.merge[,2:ncol(table.merge)])
-    table.merge[is.na(table.merge)]<-0
+    row.names(table.merge) <- table.merge[,1]
+    table.merge <- as.matrix(table.merge[,2:ncol(table.merge)])
+    table.merge[is.na(table.merge)] <- 0
     as.matrix(table.merge)
 }
 
 # Collapse isomiRs in miRNAs
-collapse.mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
-                        add=FALSE,mism=FALSE,seed=FALSE)
+.collapse_mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
+                        add=FALSE, mism=FALSE, seed=FALSE)
 {
-    label<-table$mir
-    freq=NULL
+    label <- table$mir
+    freq <- NULL
     if (ref==TRUE){
-        ref.val<-do.call(paste,table[,4:7])
-        ref.val[grep("[ATGC]",ref.val,invert=TRUE)]<-"ref"
-        ref.val[grep("[ATGC]",ref.val)]<-"iso"
-        label<-paste(label,ref.val,sep=".")
+        ref.val <- do.call(paste,table[,4:7])
+        ref.val[grep("[ATGC]", ref.val, invert=TRUE)] <- "ref"
+        ref.val[grep("[ATGC]", ref.val)] <- "iso"
+        label <- paste(label, ref.val, sep=".")
     }
     if (iso5==TRUE){
-        label<-paste(label,table[,6],sep=".")
+        label<-paste(label, table[,6], sep=".t5")
     }
     if (seed==TRUE){
-        seed.val<-as.character(table[,4])
-        seed.val[grep("^[2-8][ATGC]",seed.val,invert=T)]<-"no"
-        label<-paste(label,seed.val,sep=".")
+        seed.val <- as.character(table[,4])
+        seed.val[grep("^[2-8][ATGC]", seed.val, invert=T)] <- "0"
+        label <- paste(label, seed.val, sep=".seed:")
     }
     if (iso3==TRUE){
-        label<-paste(label,table[,7],sep=".")
+        label<-paste(label, table[,7], sep=".t3:")
     }
     if (add==TRUE){
-        label<-paste(label,table[,5],sep=".")
+        label<-paste(label, table[,5], sep=".ad:")
     }
     if (mism==TRUE){
-        label<-paste(label,table[,4],sep=".")
+        label<-paste(label, table[,4], sep=".mm:")
     }
 
-    table$id<-label
-    table.out<-as.data.frame(table %>% group_by(id) %>%
+    table$id <- label
+    table.out <- as.data.frame(table %>% group_by(id) %>%
                                  summarise(total=sum(freq)))
     table.out[is.na(table.out)]<-0
-    return(table.out)
+    table.out
 }
 
 # Do summary of different isomiRs events
-isomir.position<-function(table,colid)
+.isomir_position<-function(table, colid)
 {
     temp<-table
     temp[,colid]<-as.character(temp[,colid])
@@ -128,7 +128,7 @@ isomir.position<-function(table,colid)
 }
 
 # Do summary of nt substitution events
-subs.position<-function(table,colid)
+.subs_position<-function(table, colid)
 {
     temp<-table
     temp[,colid]<-as.character(temp[,colid])

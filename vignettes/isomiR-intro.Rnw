@@ -74,8 +74,13 @@ different ways at any time.
 The user can access the normalized count matrix with \Rfunction{normcounts}, and the raw data with \Rfunction{isoraw} method. The last one is a list having 
 the output of miraligner.
 
-You can browse for the same miRNA or isomiRs in all samples with \Rfunction(isoSelect) method.
+You can browse for the same miRNA or isomiRs in all samples with \Rfunction{isoSelect} method.
 
+<<package-select,message=FALSE>>=
+library(isomiRs)
+data(isomiRexp)
+isoSelect(isomiRexp, mirna="hsa-let-7a-5p")
+@
 
 \section{Quick start}
 
@@ -108,7 +113,7 @@ The \Rfunction{type} parameter controls what type of isomiRs to show. It can be 
 trimming, addition or substitution.
 
 <<package-plot-iso,message=FALSE>>=
-obj<-plotIso(isomiRexp,type="t5")
+obj <- isoPlot(isomiRexp,type="t5")
 @
 
 \subsection{Differential expression analysis}
@@ -119,18 +124,18 @@ to create the input for DESeq2 only with reference miRNA, or all isomiRs, or
 collapsing all isomiRs together.
 
 <<package-de,message=FALSE>>=
-dds<-deIso(obj,formula=~condition)
+dds <- isoDE(obj,formula=~condition)
 library(DESeq2)
 plotMA(dds)
-head(results(dds))
+head(results(dds, tidy=TRUE))
 @
 
 You can differentiate between reference sequences, and isomiRs at 5' end
 with this command:
 
 <<package-de-iso5,message=FALSE>>=
-dds = deIso(obj,formula=~condition,ref=TRUE,iso5=TRUE)
-head(results(dds))
+dds = isoDE(obj, formula=~condition, ref=TRUE, iso5=TRUE)
+head(results(dds, tidy=TRUE))
 @
 
 \subsection{Count data}
@@ -139,7 +144,7 @@ head(results(dds))
 different downstream analyses changing the way isomiRs are collapsed.
 
 <<package-count,message=FALSE>>=
-obj = countsIso(obj)
+obj = isoCounts(obj)
 head(counts(obj))
 @
 
@@ -148,7 +153,7 @@ allows quick integration to another analyses like clustering, PCA ...
 
 
 <<package-norm,message=FALSE>>=
-obj = normIso(obj)
+obj = isoNorm(obj)
 heatmap(counts(obj, norm=TRUE)[1:100,], labRow = "")
 @
 
@@ -170,8 +175,8 @@ summarizes the result of this analysis.
 
 
 <<package-pls,eval=TRUE>>=
-obj = countsIso(obj,iso5=TRUE,iso3=TRUE,add=TRUE,ref=TRUE)
-obj = normIso(obj)
+obj = isoCounts(obj,iso5=TRUE,iso3=TRUE,add=TRUE,ref=TRUE)
+obj = isoNorm(obj)
 pls.obj = isoPLSDA(obj, "condition", nperm = 10)
 isoPLSDAplot(pls.obj$component, colData(obj)[,"condition"])
 @
