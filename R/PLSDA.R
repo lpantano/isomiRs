@@ -19,7 +19,11 @@
 #' @param vip	Variance Importance in Projection threshole value when 
 #' a refinement precess is considered. Default vip=1.2
 #' @return PLS model
-#' 
+#' @examples
+#' data(isomiRexp)
+#' obj = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+#' obj = isoNorm(obj)
+#' pls.obj = isoPLSDA(obj, "condition", nperm = 10)
 #' @export
 isoPLSDA <- function(obj,var ,validation = NULL, learn = NULL, test = NULL, 
                      tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
@@ -243,7 +247,12 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' @param components PLS-DA components as it comes from isoPLSDA main function
 #' @param groups	vector or factor with group memberships
 #' @return plot
-#' 
+#' @examples
+#' data(isomiRexp)
+#' obj = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+#' obj = isoNorm(obj)
+#' pls.obj = isoPLSDA(obj, "condition", nperm = 10)
+#' isoPLSDAplot(pls.obj$component, colData(obj)[,"condition"])
 #' @export
 isoPLSDAplot <- function(components, groups)
 {  

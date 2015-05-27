@@ -22,6 +22,8 @@ isoCounts(x, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
   rest}
 
   \item{seed}{differenciate changes in 2-7 nt from rest}
+
+  \item{minc}{int minimum number of isomiR sequences}
 }
 \value{
 count table

@@ -18,4 +18,11 @@ plot
 \description{
 Components plot (pairs plot)
 }
+\examples{
+data(isomiRexp)
+obj = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+obj = isoNorm(obj)
+pls.obj = isoPLSDA(obj, "condition", nperm = 10)
+isoPLSDAplot(pls.obj$component, colData(obj)[,"condition"])
+}
 

@@ -85,7 +85,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
     }
     if (seed==TRUE){
         seed.val <- as.character(table[,4])
-        seed.val[grep("^[2-8][ATGC]", seed.val, invert=T)] <- "0"
+        seed.val[grep("^[2-8][ATGC]", seed.val, invert=TRUE)] <- "0"
         label <- paste(label, seed.val, sep=".seed:")
     }
     if (iso3==TRUE){

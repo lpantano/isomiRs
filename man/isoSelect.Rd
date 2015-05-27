@@ -25,6 +25,10 @@
 This method allows to select a miRNA and all its isomiRs
 along all samples.
 }
+\examples{
+data(isomiRexp)
+isoSelect(isomiRexp, mirna="hsa-let-7a-5p")
+}
 \author{
 Lorena Pantano
 }

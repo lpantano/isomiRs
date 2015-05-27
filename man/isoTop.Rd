@@ -15,4 +15,9 @@ isoTop(x, top = 20)
 Plot the amount of isomiRs in different samples divided by
 group
 }
+\examples{
+library(DESeq2)
+data(isomiRexp)
+isoTop(isomiRexp)
+}
 

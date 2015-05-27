@@ -43,6 +43,10 @@ isoDE<-function(x, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #'
 #' @param x object isomiDataSeq
 #' @param top number of isomiRs used
+#' @examples
+#' library(DESeq2)
+#' data(isomiRexp)
+#' isoTop(isomiRexp)
 #' @export
 #' @import ggplot2
 #' @import gplots
@@ -122,6 +126,7 @@ isoPlot<-function(x, type="t5")
 #' @param add differenciate additions miRNA from rest
 #' @param mism differenciate nt substitution miRNA from rest
 #' @param seed differenciate changes in 2-7 nt from rest
+#' @param minc int minimum number of isomiR sequences
 #' @return count table
 #' @examples
 #' library(DESeq2)
@@ -145,9 +150,10 @@ isoCounts <- function(x, ref=FALSE,iso5=FALSE,iso3=FALSE,
 #'
 #' @param x IsomirDataSeq object
 #' @param formula formula that will be used for DE
+#' @examples
 #' library(DESeq2)
 #' data(isomiRexp)
-#' ma<-normIso(isomiRex, formula=~condition)
+#' ma<-isoNorm(isomiRexp, formula=~condition)
 #' @export
 #' @import DESeq2
 isoNorm <- function(x, formula=~condition)

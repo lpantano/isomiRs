@@ -58,7 +58,7 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1, header=FALSE, skip=1, .
         # print(idx)
         d <- read.table(f, header=header, skip=skip)
 
-        d <- filter.table(d, cov)
+        d <- .filter_table(d, cov)
         out <- list(summary=0, 
                     t5sum = .isomir_position(d, 6),
                     t3sum = .isomir_position(d, 7),

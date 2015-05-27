@@ -1,7 +1,3 @@
-setGeneric("isoraw", function(x, ...) standardGeneric("isoraw"))
-
-setGeneric("isoraw<-",
-           function(x, ..., value) standardGeneric("isoraw<-"))
 
 #' Accessors for the 'isoraw' slot of a IsomirDataSeq object.
 #'
@@ -21,7 +17,6 @@ setGeneric("isoraw<-",
 #' @param value a list of matrix
 #' @author Lorena Pantano
 #'
-#' @export
 setMethod(
     f = isoraw,
     signature = signature(x="IsomirDataSeq"),
@@ -40,11 +35,6 @@ setReplaceMethod("isoraw", "IsomirDataSeq",
                  }
 )
 
-setGeneric("isoinfo", function(x, ...) standardGeneric("isoinfo"))
-
-setGeneric("isoinfo<-",
-           function(x, ..., value) standardGeneric("isoinfo<-"))
-
 setMethod(
     f = "isoinfo",
     signature = signature(x="IsomirDataSeq"),
@@ -60,11 +50,6 @@ setReplaceMethod("isoinfo", "IsomirDataSeq",
                      x
                  }
 )
-
-setGeneric("isostats", function(x, ...) standardGeneric("isostats"))
-
-setGeneric("isostats<-",
-           function(x, ..., value) standardGeneric("isostats<-"))
 
 setMethod(
     f = "isostats",
@@ -110,7 +95,9 @@ setMethod("show", "IsomirDataSeq", function(object){
 #' @param value an integer matrix
 #' @param norm TRUE return log2-normalized counts
 #' @author Lorena Pantano
-#'
+#' @examples
+#' data(isomiRexp)
+#' head(counts(isomiRexp))
 #' @export
 counts.IsomirDataSeq <- function(object, norm=FALSE) {
     if (norm){
@@ -134,10 +121,6 @@ setReplaceMethod("counts", signature(object="IsomirDataSeq", value="matrix"),
                  }
 )
 
-setGeneric("normcounts", function(x, ...) standardGeneric("normcounts"))
-
-setGeneric("normcounts<-",
-           function(x, ..., value) standardGeneric("normcounts<-"))
 
 setMethod(
     f = "normcounts",
@@ -175,7 +158,10 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' @param mirna string of the miRNA to show
 #' @param minc int minimum number of isomiR reads
 #' @author Lorena Pantano
-#'
+#' 
+#' @examples
+#' data(isomiRexp)
+#' isoSelect(isomiRexp, mirna="hsa-let-7a-5p")
 #' @export
 isoSelect.IsomirDataSeq <- function(object, norm=FALSE, minc=10, mirna="") {
     x <- isoraw(object)
@@ -188,8 +174,6 @@ isoSelect.IsomirDataSeq <- function(object, norm=FALSE, minc=10, mirna="") {
               add=TRUE, mism=TRUE, seed=TRUE, minc=minc)
 }
 
-
-setGeneric("isoSelect", function(object, ...) standardGeneric("isoSelect"))
 
 #' @rdname isoSelect
 #' @export

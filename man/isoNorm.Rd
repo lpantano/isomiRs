@@ -9,11 +9,14 @@ isoNorm(x, formula = ~condition)
 \arguments{
   \item{x}{IsomirDataSeq object}
 
-  \item{formula}{formula that will be used for DE
-  library(DESeq2) data(isomiRexp) ma<-normIso(isomiRex,
-  formula=~condition)}
+  \item{formula}{formula that will be used for DE}
 }
 \description{
 normalize count data
+}
+\examples{
+library(DESeq2)
+data(isomiRexp)
+ma<-isoNorm(isomiRexp, formula=~condition)
 }
 

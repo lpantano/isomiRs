@@ -29,6 +29,10 @@ non-negative integer count values, one row for each isomiR,
 and one column for each sample. The normalized matrix can
 be obtained by \code{normcounts} method.
 }
+\examples{
+data(isomiRexp)
+head(counts(isomiRexp))
+}
 \author{
 Lorena Pantano
 }
