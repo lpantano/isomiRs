@@ -40,7 +40,7 @@ in the cleavage site during miRNA biogenesis (5’-trimming and 3’-trimming
 variants), nucleotide additions to the 3’-end of the mature miRNA
 (3’-addition variants) and nucleotide modifications (substitution variants)\cite{emarti}.
 
-There are many tools designed for isomiR detections, although the majority are
+There are many tools designed for isomiR detection, however the majority are
 web application where user can not control the analysis. The two main command
 tools for isomiRs mapping are SeqBuster and sRNAbench. \Biocpkg{isomiRs}
 package is designed to analyze the output of SeqBuster tool or any other
@@ -48,7 +48,7 @@ tool after converting to the desire format.
 
 \section{Citing isomiRs}
 
-If you use the package, please cite the associated paper \cite{isomirs}.
+If you use the package, please cite this paper \cite{isomirs}.
 
 \section{Input format}
 
@@ -65,14 +65,15 @@ any other tool having the mapping information on the precursors. Read more on
 
 \section{IsomirDataSeq class}
 
-This object will store all raw data from the input files and all processed object used for visualization and statistical analysis. It is a is a subclass of \Rfunction{SummarizedExperiment} with the \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the object contains the normalized 
-data and the raw data from miraligner allowing to summarize miRNA counts in
+This object will store all raw data from the input files and some processed
+information used for visualization and statistical analysis. It is a subclass of \Rfunction{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the object contains the normalized 
+data and raw data from miraligner allowing to summarize miRNA counts in
 different ways at any time.
 
 \subsection{Access data}
 
-The user can access the normalized count matrix with \Rfunction{normcounts}, and the raw data with \Rfunction{isoraw} method. The last one is a list having 
-the output of miraligner.
+The user can access the normalized count matrix with \Rfunction{counts(object, norm=TRUE)}, and the raw data with \Rfunction{isoraw} method. 
+The last one is a list having the output of miraligner.
 
 You can browse for the same miRNA or isomiRs in all samples with \Rfunction{isoSelect} method.
 
@@ -100,13 +101,18 @@ data(isomiRexp)
 
 \subsection{Reading input}
 
-The function \Rfunction{loadIso} needs a vector with the paths for each file
+The function \Rfunction{loadFromFiles} needs a vector with the paths for each file
 and a data.frame with the design experiment similar to the one used for
 a mRNA differential expression analysis.
 
+<<package-plot-iso,message=FALSE,eval=FALSE>>=
+obj <- loadFromFiles(fn_list, design=de)
+@
+
+
 \subsection{Descriptive analysis}
 
-You can plot isomiRs expression with \Rfunction{plotIso}. In this figure you
+You can plot isomiRs expression with \Rfunction{isoPlot}. In this figure you
 will see how abundant is each type of isomiRs at different positions
 considering the total abundance and the total number of sequences.
 The \Rfunction{type} parameter controls what type of isomiRs to show. It can be xs
@@ -118,10 +124,12 @@ obj <- isoPlot(isomiRexp,type="t5")
 
 \subsection{Differential expression analysis}
 
-The \Rfunction{deIso} has implemented \Biocpkg{DESeq2} package.
-You can using directly from this function. This function has parameters
-to create the input for DESeq2 only with reference miRNA, or all isomiRs, or
-collapsing all isomiRs together.
+The \Rfunction{isoDe} uses functions from \Biocpkg{DESeq2} package.
+This function has parameters to create a matrix using only the references
+miRNAs, all isomiRs, or some of them. 
+This matrix and the design matrix are the inputs for DESeq2. The output
+will be a DESeqDataSet object, allowing to generate any plot or table
+explained in DESeq2 package vignette.
 
 <<package-de,message=FALSE>>=
 dds <- isoDE(obj,formula=~condition)
