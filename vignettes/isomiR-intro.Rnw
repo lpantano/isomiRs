@@ -85,7 +85,7 @@ isoSelect(isomiRexp, mirna="hsa-let-7a-5p")
 \section{Quick start}
 
 We are going to use a small RNAseq data coming from human
-frontal cortex samples to give some basic examples of isomiRs analyses.
+frontal cortex samples (Somel et al, 2010) to give some basic examples of isomiRs analyses.
 
 In this data set we will find two groups:
 * b: 3 individuals with less than a year
@@ -140,7 +140,7 @@ head(results(dds, tidy=TRUE))
 
 \subsection{Count data}
 
-\Rfunction{countsIso} can get the counts matrix that can be use for many
+\Rfunction{isoCounts} can get the counts matrix that can be use for many
 different downstream analyses changing the way isomiRs are collapsed.
 
 <<package-count,message=FALSE>>=

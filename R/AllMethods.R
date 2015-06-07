@@ -47,6 +47,7 @@ setReplaceMethod("isoinfo", "IsomirDataSeq",
                  function(x, value)
                  {
                      slot(x, "isoList") <- value
+                     validObject(x)
                      x
                  }
 )
@@ -63,6 +64,7 @@ setReplaceMethod("isostats", "IsomirDataSeq",
                  function(x, value)
                  {
                      slot(x, "statsList") <- value
+                     validObject(x)
                      x
                  }
 )
@@ -117,6 +119,7 @@ setReplaceMethod("counts", signature(object="IsomirDataSeq", value="matrix"),
                  function(object, value)
                  {
                      assays(object)[["counts"]] <- value
+                     validObject(object)
                      object
                  }
 )
@@ -134,6 +137,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
                  function(x, value)
                  {
                      assays(x)[["norm"]] <- value
+                     validObject(x)
                      x
                  }
 )

@@ -76,7 +76,7 @@ isoTop<-function(x, top=20)
 #' isoPlot(isomiRexp)
 isoPlot<-function(x, type="t5")
 {
-    freq=size=group=abundance=NULL
+    freq = size = group = abundance = NULL
     codevn <- c(2,3,4,5)
     names(codevn) <- c("t5","t3","sub","add")
     ratiov <- c(1/6,1/6,1/23,1/3)

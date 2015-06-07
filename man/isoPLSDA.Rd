@@ -44,6 +44,7 @@ Arguments (included in plsDA function within DiscriMiner
 package)
 }
 \examples{
+library(DESeq2)
 data(isomiRexp)
 obj = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 obj = isoNorm(obj)

@@ -20,6 +20,7 @@
 #' a refinement precess is considered. Default vip=1.2
 #' @return PLS model
 #' @examples
+#' library(DESeq2)
 #' data(isomiRexp)
 #' obj = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 #' obj = isoNorm(obj)
