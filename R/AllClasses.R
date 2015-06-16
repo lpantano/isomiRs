@@ -8,7 +8,18 @@ IsomirDataSeq<-setClass("IsomirDataSeq",
                                 statsList="list"
                         ))
 
-# setValidity( "DESeqDataSet", function( object ) {
+setValidity( "IsomirDataSeq", function( object ) {
+    if (! ("counts" %in% names(assays(object))))
+        return( "the assays slot must contain a matrix named 'counts'" )
+    if ( !is.numeric( counts(object) ) )
+        return( "the count data is not numeric" )
+    if ( any( is.na( counts(object) ) ) )
+        return( "NA values are not allowed in the count matrix" )
+    if ( any( counts(object) < 0 ) )
+        return( "the count data contains negative values" )
+    
+    TRUE
+} )
 
 #' The \code{IsomirDataSeq} is a subclass of \code{SummarizedExperiment},
 #' used to store the input values, intermediate calculations and results of an

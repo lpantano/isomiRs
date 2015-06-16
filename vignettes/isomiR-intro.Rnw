@@ -85,7 +85,7 @@ isoSelect(isomiRexp, mirna="hsa-let-7a-5p")
 \section{Quick start}
 
 We are going to use a small RNAseq data coming from human
-frontal cortex samples to give some basic examples of an standard isomiRs analysis.
+frontal cortex samples (Somel et al, 2010) to give some basic examples of isomiRs analyses.
 
 In this data set we will find two groups:
 
@@ -112,7 +112,7 @@ obj <- IsomirDataSeqFromFiles(fn_list, design=de)
 
 \subsection{Descriptive analysis}
 
-You can plot isomiRs expression with \Rfunction{plotIso}. In this figure you
+You can plot isomiRs expression with \Rfunction{isoPlot}. In this figure you
 will see how abundant is each type of isomiRs at different positions
 considering the total abundance and the total number of sequences.
 The \Rfunction{type} parameter controls what type of isomiRs to show. It can be
@@ -124,8 +124,8 @@ obj <- isoPlot(isomiRexp,type="t5")
 
 \subsection{Differential expression analysis}
 
-The \Rfunction{deIso} uses functions from \Biocpkg{DESeq2} package.
-This function has parameters to create a matrix using only the references
+The \Rfunction{isoDe} uses functions from \Biocpkg{DESeq2} package.
+This function has parameters to create a matrix using only the referenceces
 miRNAs, all isomiRs, or some of them. 
 This matrix and the design matrix are the inputs for DESeq2. The output
 will be a DESeqDataSet object, allowing to generate any plot or table
@@ -148,7 +148,7 @@ head(results(dds, tidy=TRUE))
 
 \subsection{Count data}
 
-\Rfunction{countsIso} can get the counts matrix that can be use for many
+\Rfunction{isoCounts} can get the counts matrix that can be use for many
 different downstream analyses changing the way isomiRs are collapsed. The
 following command will merge all isomiRs into one feature: the reference
 miRNA. 
