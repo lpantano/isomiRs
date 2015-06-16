@@ -118,7 +118,7 @@ considering the total abundance and the total number of sequences.
 The \Rfunction{type} parameter controls what type of isomiRs to show. It can be
 trimming, addition or substitution changes.
 
-<<package-plot-iso,message=FALSE>>=
+<<package-plot-iso-t5,message=FALSE>>=
 obj <- isoPlot(isomiRexp,type="t5")
 @
 
