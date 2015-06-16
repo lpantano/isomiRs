@@ -72,8 +72,7 @@ different ways at any time.
 
 \subsection{Access data}
 
-The user can access the normalized count matrix with \Rfunction{counts(object, norm=TRUE)}, and the raw data with \Rfunction{isoraw} method. 
-The last one is a list having the output of miraligner.
+The user can access the normalized count matrix with \Rfunction{counts(object, norm=TRUE)}.
 
 You can browse for the same miRNA or isomiRs in all samples with \Rfunction{isoSelect} method.
 
@@ -89,6 +88,7 @@ We are going to use a small RNAseq data coming from human
 frontal cortex samples to give some basic examples of an standard isomiRs analysis.
 
 In this data set we will find two groups:
+
 * b: 3 individuals with less than a year
 * o: 3 individuals in the elderly.
 
@@ -102,11 +102,11 @@ data(isomiRexp)
 \subsection{Reading input}
 
 The function \Rfunction{loadIso} needs a vector with the paths for each file
-and a data.frame with the design experiment similar to the one used for
+and a data frame with the design experiment similar to the one used for
 a mRNA differential expression analysis.
 
 <<package-plot-iso,message=FALSE,eval=FALSE>>=
-obj <- loadFromFiles(fn_list, design=de)
+obj <- IsomirDataSeqFromFiles(fn_list, design=de)
 @
 
 
@@ -115,8 +115,8 @@ obj <- loadFromFiles(fn_list, design=de)
 You can plot isomiRs expression with \Rfunction{plotIso}. In this figure you
 will see how abundant is each type of isomiRs at different positions
 considering the total abundance and the total number of sequences.
-The \Rfunction{type} parameter controls what type of isomiRs to show. It can be xs
-trimming, addition or substitution.
+The \Rfunction{type} parameter controls what type of isomiRs to show. It can be
+trimming, addition or substitution changes.
 
 <<package-plot-iso,message=FALSE>>=
 obj <- isoPlot(isomiRexp,type="t5")
@@ -138,7 +138,7 @@ plotMA(dds)
 head(results(dds, tidy=TRUE))
 @
 
-You can differentiate between reference sequences, and isomiRs at 5' end
+You can differentiate between reference sequences and isomiRs at 5' end
 with this command:
 
 <<package-de-iso5,message=FALSE>>=
@@ -149,7 +149,9 @@ head(results(dds, tidy=TRUE))
 \subsection{Count data}
 
 \Rfunction{countsIso} can get the counts matrix that can be use for many
-different downstream analyses changing the way isomiRs are collapsed.
+different downstream analyses changing the way isomiRs are collapsed. The
+following command will merge all isomiRs into one feature: the reference
+miRNA. 
 
 <<package-count,message=FALSE>>=
 obj = isoCounts(obj)
@@ -157,7 +159,7 @@ head(counts(obj))
 @
 
 The normalization uses \Rfunction{rlog} from \Biocpkg{DESeq2} package and
-allows quick integration to another analyses like clustering, PCA ...
+allows quick integration to another analyses like clustering or PCA.
 
 
 <<package-norm,message=FALSE>>=
@@ -183,14 +185,14 @@ summarizes the result of this analysis.
 
 
 <<package-pls,eval=TRUE>>=
-obj = isoCounts(obj,iso5=TRUE,iso3=TRUE,add=TRUE,ref=TRUE)
+obj = isoCounts(obj, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 obj = isoNorm(obj)
 pls.obj = isoPLSDA(obj, "condition", nperm = 10)
 isoPLSDAplot(pls.obj$component, colData(obj)[,"condition"])
 @
 
 
-The analysis can be done again, using only the most important discriminant
+The analysis can be done again using only the most important discriminant
 isomiRS from the PLS-DA models based on the analysis. We used Variable
 Importance for the Projection (VIP) criterion to select the most important
 features, since takes into account the contribution of a specific predictor
