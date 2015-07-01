@@ -42,7 +42,7 @@ variants), nucleotide additions to the 3’-end of the mature miRNA
 
 There are many tools designed for isomiR detection, however the majority are
 web application where user can not control the analysis. The two main command
-tools for isomiRs mapping are SeqBuster and sRNAbench. \Biocpkg{isomiRs}
+tools for isomiRs mapping are SeqBuster and sRNAbench\cite{barturen2014}. \Biocpkg{isomiRs}
 package is designed to analyze the output of SeqBuster tool or any other
 tool after converting to the desire format.
 
@@ -52,23 +52,27 @@ If you use the package, please cite this paper \cite{isomirs}.
 
 \section{Input format}
 
-The input should be a file for each sample in the following format:
+The input should be the output of SeqBuster-miraligner file (.mirna) 
+for each sample in the following format:
 
 <<format-line,eval=FALSE,echo=TRUE>>==
-sequence name counts mirna start end mismatches additions 5trimming
-3trimming NA NA DB multi-mapping
+seq     name    freq    mir     start   end     mism    add     t5      t3      s5      s3      DB      ambiguity
+TGTAAACATCCTACACTCAGCTGT        seq_100014_x23  23      hsa-miR-30b-5p  17      40      0       0       0       d-GT    TTCATGTA        AGCTGTAA        miRNA   1
+TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30d-5p  6       26      13TC    0       0       u-G     TTGTTGTA        GAAGCTGT        miRNA   2
+TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30e-5p  17      37      12CT    0       0       u-G     CTACTGTA        GAAGCTGT        miRNA   2
+CAAATTCGTATCTAGGGGATT   seq_100049_x1   1       hsa-miR-10a-3p  63      81      0       u-TT    0       u-ATA   GTCACAAA        AATATGTA        miRNA   1
+TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1       hsa-miR-192-5p  25      47      8GT     0       d-C     d-AGT   GGCTCTGA        AGCCAGTG        miRNA   1
 @
 
-This is the standard output of SeqBuster tool, but can be converted from
+This is the standard output of SeqBuster-miraligner tool, but can be converted from
 any other tool having the mapping information on the precursors. Read more on
 \href{https://github.com/lpantano/seqbuster/wiki/miraligner}{miraligner manual}
 
 \section{IsomirDataSeq class}
 
 This object will store all raw data from the input files and some processed
-information used for visualization and statistical analysis. It is a subclass of \Rfunction{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the object contains the normalized 
-data and raw data from miraligner allowing to summarize miRNA counts in
-different ways at any time.
+information used for visualization and statistical analysis. It is a subclass of \Rfunction{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the object contains 
+raw and normalized counts from miraligner allowing to update the summarization of miRNAs.
 
 \subsection{Access data}
 
@@ -79,13 +83,13 @@ You can browse for the same miRNA or isomiRs in all samples with \Rfunction{isoS
 <<package-select,message=FALSE>>=
 library(isomiRs)
 data(isomiRexp)
-isoSelect(isomiRexp, mirna="hsa-let-7a-5p")
+head(isoSelect(isomiRexp, mirna="hsa-let-7a-5p"))
 @
 
 \section{Quick start}
 
 We are going to use a small RNAseq data coming from human
-frontal cortex samples (Somel et al, 2010) to give some basic examples of isomiRs analyses.
+frontal cortex samples \cite{somel2010} to give some basic examples of isomiRs analyses.
 
 In this data set we will find two groups:
 
@@ -116,10 +120,10 @@ You can plot isomiRs expression with \Rfunction{isoPlot}. In this figure you
 will see how abundant is each type of isomiRs at different positions
 considering the total abundance and the total number of sequences.
 The \Rfunction{type} parameter controls what type of isomiRs to show. It can be
-trimming, addition or substitution changes.
+trimming (iso5 and iso3), addition (add) or substitution (subs) changes.
 
 <<package-plot-iso-t5,message=FALSE>>=
-obj <- isoPlot(isomiRexp,type="t5")
+obj <- isoPlot(isomiRexp, type="iso5")
 @
 
 \subsection{Differential expression analysis}
@@ -132,7 +136,7 @@ will be a DESeqDataSet object, allowing to generate any plot or table
 explained in DESeq2 package vignette.
 
 <<package-de,message=FALSE>>=
-dds <- isoDE(obj,formula=~condition)
+dds <- isoDE(obj, formula=~condition)
 library(DESeq2)
 plotMA(dds)
 head(results(dds, tidy=TRUE))
@@ -180,8 +184,12 @@ set of linearly uncorrelated latent variables (usually termed as components)
 such that maximizes the separation between the different classes in the first
 few components \cite{xia}. We used sum of squares captured by the model (R2) as
 a goodness of fit measure. We implemented this method using the
-\Rpackage{DiscriMiner}. Moreover, the function \Rfunction{isoPLSDAplot}
-summarizes the result of this analysis.
+\Rpackage{DiscriMiner} into \Rpackage{isoPLSDA} function. The output
+p-value of this function will tell about the statistical
+significant of the group separation using miRNA expression data.
+Moreover, the function \Rfunction{isoPLSDAplot}
+helps to visualize the results. It will plot the samples using the 
+components from the PLS-DA analysis.
 
 
 <<package-pls,eval=TRUE>>=

@@ -175,7 +175,7 @@ isoSelect.IsomirDataSeq <- function(object, norm=FALSE, minc=10, mirna="") {
     }
     
     IsoCountsFromMatrix(l, colData(object), ref=TRUE,iso5=TRUE,iso3=TRUE,
-              add=TRUE, mism=TRUE, seed=TRUE, minc=minc)
+              add=TRUE, subs=TRUE, seed=TRUE, minc=minc)
 }
 
 

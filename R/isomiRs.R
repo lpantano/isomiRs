@@ -16,7 +16,7 @@
 #' @param iso5 differenciate trimming at 5 miRNA from rest
 #' @param iso3 differenciate trimming at 3 miRNA from rest
 #' @param add differenciate additions miRNA from rest
-#' @param mism differenciate nt substitution miRNA from rest
+#' @param subs differenciate nt substitution miRNA from rest
 #' @param seed differenciate changes in 2-7 nt from rest
 #' @return DESeq object
 #' @examples
@@ -26,10 +26,10 @@
 #' @export
 #' @import DESeq2
 isoDE<-function(x, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
-                add=FALSE, mism=FALSE, seed=FALSE)
+                add=FALSE, subs=FALSE, seed=FALSE)
 {
-    if (ref | iso5 | iso3 | add | mism | seed){
-        x <- isoCounts(x,ref,iso5,iso3,add,mism,seed)
+    if (ref | iso5 | iso3 | add | subs | seed){
+        x <- isoCounts(x, ref, iso5, iso3, add, subs, seed)
     }
     countData <- counts(x)
     dds <- DESeqDataSetFromMatrix(countData = countData,
@@ -66,7 +66,7 @@ isoTop<-function(x, top=20)
 #' Plot the amount of isomiRs in different samples divided by group
 #'
 #' @param x object isomirDataSeq
-#' @param type string (t5,t3,add,sub) to indicate what isomiR
+#' @param type string (iso5,iso3,add,subs) to indicate what isomiR
 #' change to use for the plot
 #' @return ggplot2 figure showing the selected isomiR changes among samples
 #' @export
@@ -74,11 +74,11 @@ isoTop<-function(x, top=20)
 #' @examples
 #' data(isomiRexp)
 #' isoPlot(isomiRexp)
-isoPlot<-function(x, type="t5")
+isoPlot<-function(x, type="iso5")
 {
     freq = size = group = abundance = NULL
     codevn <- c(2,3,4,5)
-    names(codevn) <- c("t5","t3","sub","add")
+    names(codevn) <- c("iso5", "iso3", "subs", "add")
     ratiov <- c(1/6,1/6,1/23,1/3)
     names(ratiov) <- names(codevn)
     coden <- codevn[type]
@@ -124,7 +124,7 @@ isoPlot<-function(x, type="t5")
 #' @param iso5 differenciate trimming at 5 miRNA from rest
 #' @param iso3 differenciate trimming at 3 miRNA from rest
 #' @param add differenciate additions miRNA from rest
-#' @param mism differenciate nt substitution miRNA from rest
+#' @param subs differenciate nt substitution miRNA from rest
 #' @param seed differenciate changes in 2-7 nt from rest
 #' @param minc int minimum number of isomiR sequences
 #' @return count table
@@ -134,11 +134,11 @@ isoPlot<-function(x, type="t5")
 #' ma<-isoCounts(isomiRexp)
 #' @export
 isoCounts <- function(x, ref=FALSE,iso5=FALSE,iso3=FALSE,
-                      add=FALSE, mism=FALSE, seed=FALSE, minc=10)
+                      add=FALSE, subs=FALSE, seed=FALSE, minc=10)
     {
         counts <- IsoCountsFromMatrix(isoraw(x), colData(x), ref,
                                       iso5, iso3,
-                                      add, mism, seed, minc)
+                                      add, subs, seed, minc)
         se <- SummarizedExperiment(assays = SimpleList(counts=counts), 
                                    colData = colData(x))
         x <- IsomirDataSeq(se, isoraw(x), isoinfo(x), isostats(x))

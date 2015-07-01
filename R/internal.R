@@ -1,7 +1,7 @@
 # put header to input files
 .put_header<-function(table)
 {
-    names(table)[c(1,3,4,7,8,9,10,13,14)]<-c("seq","freq","mir","mism","add",
+    names(table)[c(1,3,4,7,8,9,10,13,14)]<-c("seq","freq","mir","subs","add",
                                              "t5","t3","DB","ambiguity")
     table<-table[,c(1,3,4,7,8,9,10,13,14)]
     table[,2]<-as.numeric(table[,2])
@@ -23,7 +23,7 @@
     tab.fil[tab.fil$score>=limit,]
 }
 
-# Filter tablo reference
+# Filter table reference
 .filter_table<-function(table,cov=10)
 {
     table <- .put_header(table)
@@ -47,13 +47,13 @@
 # do counts table considering what isomiRs take into account
 
 IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
-                                add=FALSE, mism=FALSE, seed=FALSE, minc=10){
+                                add=FALSE, subs=FALSE, seed=FALSE, minc=10){
     table.merge<-data.frame()
     for (sample in row.names(des)){
         # print (sample)
         d <- listTable[[sample]]
         d <- .collapse_mirs(d, ref=ref, iso5=iso5, iso3=iso3, add=add,
-                         mism=mism, seed=seed)
+                         subs=subs, seed=seed)
         names(d)[ncol(d)] <- sample
         d <- d[ d[,2] > minc, ] 
         if( nrow(table.merge)==0){
@@ -70,7 +70,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
 
 # Collapse isomiRs in miRNAs
 .collapse_mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
-                        add=FALSE, mism=FALSE, seed=FALSE)
+                        add=FALSE, subs=FALSE, seed=FALSE)
 {
     label <- table$mir
     freq <- NULL
@@ -94,7 +94,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
     if (add==TRUE){
         label<-paste(label, table[,5], sep=".ad:")
     }
-    if (mism==TRUE){
+    if (subs==TRUE){
         label<-paste(label, table[,4], sep=".mm:")
     }
 
