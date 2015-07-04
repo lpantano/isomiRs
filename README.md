@@ -14,9 +14,19 @@ devtools::install_github("lpantano/isomiRs", ref="master")
 library(isomiRs)
 ```
 
-If there is any problem in installation use: `devtools::load_all("$PATH2SEQBUSTER/R/isomiR_package/isomiRs")`
-
 There is a R scripts and set of example data at folder `$PATH2SEQBUSTER/R/isomiR_package/test`
+
+Use last version with:
+
+```
+devtools::install_github("lpantano/isomiRs", ref="develop")
+library(isomiRs)
+openVignette(isomiRs)
+```
+
+You can go through the vignette to know how to use the main functions.
+
+The rest of the manual is for `master` branch.
 
 ###Load project
 ```
