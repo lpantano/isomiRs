@@ -17,17 +17,17 @@
 \S4method{counts}{IsomirDataSeq,matrix}(object) <- value
 }
 \arguments{
-  \item{object}{a \code{IsomirDataSeq} object.}
+\item{object}{a \code{IsomirDataSeq} object.}
 
-  \item{norm}{TRUE return log2-normalized counts}
+\item{norm}{TRUE return log2-normalized counts}
 
-  \item{value}{an integer matrix}
+\item{value}{an integer matrix}
 }
 \description{
-The counts slot holds the count data as a matrix of
-non-negative integer count values, one row for each isomiR,
-and one column for each sample. The normalized matrix can
-be obtained by \code{normcounts} method.
+The counts slot holds the count data as a matrix of non-negative integer
+count values, one row for each isomiR, and one
+column for each sample. The normalized matrix
+can be obtained by \code{normcounts} method.
 }
 \examples{
 data(isomiRexp)

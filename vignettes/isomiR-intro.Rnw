@@ -86,6 +86,21 @@ data(isomiRexp)
 head(isoSelect(isomiRexp, mirna="hsa-let-7a-5p"))
 @
 
+\subsection{isomiRs annotation}
+
+IsomiRs names follows this structure: 
+
+\begin{itemize}
+    \item miRNA name
+    \item type: ref if the sequence is the same than the miRNA reference. `iso` if the sequence has variations.
+    \item t5 tag: indicates variations at 5' position. The naming contains two words: `direction - nucleotides`, where direction can be `u` (upstream of the 5' position reference) or `d` (downstream of the 5' position reference). `0` indicates no variation, then the 5' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (in the case of the upstream type) or deleted (in the case of the downstream type).
+    \item t3 tag: indicates variations at 3' position. The naming contains two words: `direction - nucleotides`, where direction can be `u` (upstream of the 3' position reference) or `d` (downstream of the 3' position reference). `0` indicates no variation, then the 3' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (in the case of the downstream type) or deleted (in the case of the upstream type).
+    \item ad tag: indicates nucleotides additions at 3' position. The naming contains two words: `direction - nucleotides`, where direction is `u` (upstream of the 5' position reference). `0` indicates no variation, then the 3' position has no additions. After `direction`, it follows the nucleotide/s that are added.
+    \item mm tag: indicates nucleotides substitutions along the sequences. The naming contains three words: `position-nucleotideATsequence-nucleotideATreference`. 
+    \item seed tag: same than `mm` tag, but only if the change happens from nucleotide 2 to 8.
+\end{itemize}
+
+
 \section{Quick start}
 
 We are going to use a small RNAseq data coming from human
@@ -93,8 +108,10 @@ frontal cortex samples \cite{somel2010} to give some basic examples of isomiRs a
 
 In this data set we will find two groups:
 
-* b: 3 individuals with less than a year
-* o: 3 individuals in the elderly.
+\begin{itemize}
+    \item b: 3 individuals with less than a year
+    \item o: 3 individuals in the elderly.
+\end{itemize}
 
 
 <<package-load,message=FALSE>>=
@@ -189,7 +206,8 @@ p-value of this function will tell about the statistical
 significant of the group separation using miRNA expression data.
 Moreover, the function \Rfunction{isoPLSDAplot}
 helps to visualize the results. It will plot the samples using the 
-components from the PLS-DA analysis.
+components (t1, t2, t3 ...) from the PLS-DA analysis and the 
+samples distribution along the components.
 
 
 <<package-pls,eval=TRUE>>=
@@ -198,7 +216,6 @@ obj = isoNorm(obj)
 pls.obj = isoPLSDA(obj, "condition", nperm = 10)
 isoPLSDAplot(pls.obj$component, colData(obj)[,"condition"])
 @
-
 
 The analysis can be done again using only the most important discriminant
 isomiRS from the PLS-DA models based on the analysis. We used Variable

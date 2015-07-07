@@ -13,13 +13,13 @@
   mirna = "")
 }
 \arguments{
-  \item{object}{a \code{IsomirDataSeq} object.}
+\item{object}{a \code{IsomirDataSeq} object.}
 
-  \item{norm}{TRUE return log2-normalized counts}
+\item{norm}{TRUE return log2-normalized counts}
 
-  \item{minc}{int minimum number of isomiR reads}
+\item{minc}{int minimum number of isomiR reads}
 
-  \item{mirna}{string of the miRNA to show}
+\item{mirna}{string of the miRNA to show}
 }
 \description{
 This method allows to select a miRNA and all its isomiRs

@@ -81,7 +81,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
         label <- paste(label, ref.val, sep=".")
     }
     if (iso5==TRUE){
-        label<-paste(label, table[,6], sep=".t5")
+        label<-paste(label, table[,6], sep=".t5:")
     }
     if (seed==TRUE){
         seed.val <- as.character(table[,4])

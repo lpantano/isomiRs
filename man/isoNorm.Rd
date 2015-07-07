@@ -7,9 +7,9 @@
 isoNorm(x, formula = ~condition)
 }
 \arguments{
-  \item{x}{IsomirDataSeq object}
+\item{x}{IsomirDataSeq object}
 
-  \item{formula}{formula that will be used for DE}
+\item{formula}{formula that will be used for DE}
 }
 \description{
 normalize count data

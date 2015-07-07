@@ -5,25 +5,24 @@
 \title{create count tables from isomirs}
 \usage{
 isoCounts(x, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
-  mism = FALSE, seed = FALSE, minc = 10)
+  subs = FALSE, seed = FALSE, minc = 10)
 }
 \arguments{
-  \item{x}{IsomirDataSeq class}
+\item{x}{IsomirDataSeq class}
 
-  \item{ref}{differenciate reference miRNA from rest}
+\item{ref}{differenciate reference miRNA from rest}
 
-  \item{iso5}{differenciate trimming at 5 miRNA from rest}
+\item{iso5}{differenciate trimming at 5 miRNA from rest}
 
-  \item{iso3}{differenciate trimming at 3 miRNA from rest}
+\item{iso3}{differenciate trimming at 3 miRNA from rest}
 
-  \item{add}{differenciate additions miRNA from rest}
+\item{add}{differenciate additions miRNA from rest}
 
-  \item{mism}{differenciate nt substitution miRNA from
-  rest}
+\item{subs}{differenciate nt substitution miRNA from rest}
 
-  \item{seed}{differenciate changes in 2-7 nt from rest}
+\item{seed}{differenciate changes in 2-7 nt from rest}
 
-  \item{minc}{int minimum number of isomiR sequences}
+\item{minc}{int minimum number of isomiR sequences}
 }
 \value{
 count table

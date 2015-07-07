@@ -4,21 +4,19 @@
 \alias{isoPlot}
 \title{Plot the amount of isomiRs in different samples divided by group}
 \usage{
-isoPlot(x, type = "t5")
+isoPlot(x, type = "iso5")
 }
 \arguments{
-  \item{x}{object isomirDataSeq}
+\item{x}{object isomirDataSeq}
 
-  \item{type}{string (t5,t3,add,sub) to indicate what
-  isomiR change to use for the plot}
+\item{type}{string (iso5,iso3,add,subs) to indicate what isomiR
+change to use for the plot}
 }
 \value{
-ggplot2 figure showing the selected isomiR changes among
-samples
+ggplot2 figure showing the selected isomiR changes among samples
 }
 \description{
-Plot the amount of isomiRs in different samples divided by
-group
+Plot the amount of isomiRs in different samples divided by group
 }
 \examples{
 data(isomiRexp)

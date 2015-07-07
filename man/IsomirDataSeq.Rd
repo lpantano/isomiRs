@@ -21,44 +21,39 @@ IsomirDataSeqFromFiles(files, design, cov = 1, header = FALSE, skip = 1,
   ...)
 }
 \arguments{
-  \item{se}{SummarizedExperiment object}
+\item{se}{SummarizedExperiment object}
 
-  \item{expList}{list of samples with miraligner output}
+\item{expList}{list of samples with miraligner output}
 
-  \item{varList}{list of samples with summarized isomiR
-  information for each type}
+\item{varList}{list of samples with summarized isomiR
+information for each type}
 
-  \item{sumList}{list of samples with general isomiR
-  information}
+\item{sumList}{list of samples with general isomiR information}
 
-  \item{files}{files with the output of miraligner tool}
+\item{files}{files with the output of miraligner tool}
 
-  \item{design}{data frame containing groups for each
-  sample}
+\item{design}{data frame containing groups for each sample}
 
-  \item{cov}{remove sequences that have relative abundance
-  lower than this number}
+\item{cov}{remove sequences that have relative abundance lower
+than this number}
 
-  \item{header}{boolean to indicate files contain headers}
+\item{header}{boolean to indicate files contain headers}
 
-  \item{skip}{skip first line when reading files}
+\item{skip}{skip first line when reading files}
 
-  \item{...}{arguments provided to
-  \code{SummarizedExperiment} including rowData and
-  exptData}
+\item{...}{arguments provided to \code{SummarizedExperiment} including rowData and exptData}
 }
 \value{
 \code{IsomirDataSeq} class
 }
 \description{
-The \code{IsomirDataSeq} is a subclass of
-\code{SummarizedExperiment}, used to store the input
-values, intermediate calculations and results of an isomiR
-analysis.  The \code{IsomirDataSeq} class stores all raw
-isomiRs data for each sample, processed information,
-summary for each isomiR type, raw counts, normalized
-counts, and data.frame with columns information for each
-sample.
+The \code{IsomirDataSeq} is a subclass of \code{SummarizedExperiment},
+used to store the input values, intermediate calculations and results of an
+isomiR analysis.  The \code{IsomirDataSeq} class stores all raw isomiRs
+data for each sample, processed information,
+summary for each isomiR type,
+raw counts, normalized counts, and data.frame with
+columns information for each sample.
 
 The \code{IsomirDataSeqFromFiles}
 }

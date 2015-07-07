@@ -2,8 +2,8 @@ test_plotFunctions <-
     function()
     {
         data(isomiRexp)
-        checkTrue(class(isoPlot(isomiRexp,type="t5"))[1]=="IsomirDataSeq")
-        checkTrue(class(isoPlot(isomiRexp,type="t3"))[1]=="IsomirDataSeq")
+        checkTrue(class(isoPlot(isomiRexp,type="iso5"))[1]=="IsomirDataSeq")
+        checkTrue(class(isoPlot(isomiRexp,type="iso3"))[1]=="IsomirDataSeq")
         checkTrue(class(isoPlot(isomiRexp,type="add"))[1]=="IsomirDataSeq")
     }
 

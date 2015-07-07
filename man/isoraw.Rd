@@ -14,9 +14,9 @@
 \S4method{isoraw}{IsomirDataSeq}(x) <- value
 }
 \arguments{
-  \item{x}{a \code{IsomirDataSeq} object.}
+\item{x}{a \code{IsomirDataSeq} object.}
 
-  \item{value}{a list of matrix}
+\item{value}{a list of matrix}
 }
 \description{
 The isoraw slot holds the raw data as a list of matrix

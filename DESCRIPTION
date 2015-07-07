@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 0.99.2
-Date: 2015-05-26
+Version: 0.99.3
+Date: 2015-07-01
 Type: Package
 Title: Analize isomiRs coming from seqbuster tool
 Description: Characterization of miRNAs and isomiRs, clustering and
@@ -29,4 +29,3 @@ Author: Lorena Pantano, Georgia Escaramis
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: GPL (>=2)
 VignetteBuilder: knitr
-Roxygen: list(wrap = TRUE)
