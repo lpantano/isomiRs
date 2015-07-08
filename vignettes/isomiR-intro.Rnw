@@ -52,7 +52,7 @@ If you use the package, please cite this paper \cite{isomirs}.
 
 \section{Input format}
 
-The input should be the output of SeqBuster-miraligner file (.mirna) 
+The input should be the output of SeqBuster-miraligner tool (*.mirna files) 
 for each sample in the following format:
 
 <<format-line,eval=FALSE,echo=TRUE>>==
@@ -66,13 +66,13 @@ TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1       hsa-miR-192-5p  25      47      
 
 This is the standard output of SeqBuster-miraligner tool, but can be converted from
 any other tool having the mapping information on the precursors. Read more on
-\href{https://github.com/lpantano/seqbuster/wiki/miraligner}{miraligner manual}
+\href{http://seqcluster.readthedocs.org/mirna_annotation.html}{miraligner manual}
 
 \section{IsomirDataSeq class}
 
 This object will store all raw data from the input files and some processed
 information used for visualization and statistical analysis. It is a subclass of \Rfunction{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the object contains 
-raw and normalized counts from miraligner allowing to update the summarization of miRNAs.
+raw and normalized counts from miraligner allowing to update the summarization of miRNA expression.
 
 \subsection{Access data}
 
@@ -88,22 +88,22 @@ head(isoSelect(isomiRexp, mirna="hsa-let-7a-5p"))
 
 \subsection{isomiRs annotation}
 
-IsomiRs names follows this structure: 
+IsomiR names follows this structure: 
 
 \begin{itemize}
     \item miRNA name
     \item type: ref if the sequence is the same than the miRNA reference. `iso` if the sequence has variations.
-    \item t5 tag: indicates variations at 5' position. The naming contains two words: `direction - nucleotides`, where direction can be `u` (upstream of the 5' position reference) or `d` (downstream of the 5' position reference). `0` indicates no variation, then the 5' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (in the case of the upstream type) or deleted (in the case of the downstream type).
-    \item t3 tag: indicates variations at 3' position. The naming contains two words: `direction - nucleotides`, where direction can be `u` (upstream of the 3' position reference) or `d` (downstream of the 3' position reference). `0` indicates no variation, then the 3' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (in the case of the downstream type) or deleted (in the case of the upstream type).
-    \item ad tag: indicates nucleotides additions at 3' position. The naming contains two words: `direction - nucleotides`, where direction is `u` (upstream of the 5' position reference). `0` indicates no variation, then the 3' position has no additions. After `direction`, it follows the nucleotide/s that are added.
+    \item t5 tag: indicates variations at 5' position. The naming contains two words: `direction - nucleotides`, where direction can be `u` (changes upstream of the 5' reference position) or `d` (changes downstream of the 5' reference position). `0` indicates no variation, meaning the 5' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (for upstream changes) or deleted (for downstream changes).
+    \item t3 tag: indicates variations at 3' position. The naming contains two words: `direction - nucleotides`, where direction can be `u` (upstream of the 3' reference position) or `d` (downstream of the 3' reference position). `0` indicates no variation, meaning the 3' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (for downstream changes) or deleted (for upstream chanes).
+    \item ad tag: indicates nucleotides additions at 3' position. The naming contains two words: `direction - nucleotides`, where direction is `u` (upstream of the 5' reference position). `0` indicates no variation, meaning the 3' position has no additions. After `direction`, it follows the nucleotide/s that are added.
     \item mm tag: indicates nucleotides substitutions along the sequences. The naming contains three words: `position-nucleotideATsequence-nucleotideATreference`. 
-    \item seed tag: same than `mm` tag, but only if the change happens from nucleotide 2 to 8.
+    \item seed tag: same than `mm` tag, but only if the change happens between nucleotide 2 and 8.
 \end{itemize}
 
 
 \section{Quick start}
 
-We are going to use a small RNAseq data coming from human
+We are going to use a small RNAseq data from human
 frontal cortex samples \cite{somel2010} to give some basic examples of isomiRs analyses.
 
 In this data set we will find two groups:
@@ -146,7 +146,7 @@ obj <- isoPlot(isomiRexp, type="iso5")
 \subsection{Differential expression analysis}
 
 The \Rfunction{isoDe} uses functions from \Biocpkg{DESeq2} package.
-This function has parameters to create a matrix using only the referenceces
+This function has parameters to create a matrix using only the reference
 miRNAs, all isomiRs, or some of them. 
 This matrix and the design matrix are the inputs for DESeq2. The output
 will be a DESeqDataSet object, allowing to generate any plot or table
@@ -169,7 +169,7 @@ head(results(dds, tidy=TRUE))
 
 \subsection{Count data}
 
-\Rfunction{isoCounts} can get the counts matrix that can be use for many
+\Rfunction{isoCounts} gets the count matrix that can be used for many
 different downstream analyses changing the way isomiRs are collapsed. The
 following command will merge all isomiRs into one feature: the reference
 miRNA. 
@@ -180,7 +180,7 @@ head(counts(obj))
 @
 
 The normalization uses \Rfunction{rlog} from \Biocpkg{DESeq2} package and
-allows quick integration to another analyses like clustering or PCA.
+allows quick integration to another analyses like heatmap, clustering or PCA.
 
 
 <<package-norm,message=FALSE>>=
@@ -206,7 +206,7 @@ p-value of this function will tell about the statistical
 significant of the group separation using miRNA expression data.
 Moreover, the function \Rfunction{isoPLSDAplot}
 helps to visualize the results. It will plot the samples using the 
-components (t1, t2, t3 ...) from the PLS-DA analysis and the 
+significant components (t1, t2, t3 ...) from the PLS-DA analysis and the 
 samples distribution along the components.
 
 

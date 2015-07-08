@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 0.99.3
-Date: 2015-07-01
+Version: 0.99.5
+Date: 2015-07-08
 Type: Package
 Title: Analize isomiRs coming from seqbuster tool
 Description: Characterization of miRNAs and isomiRs, clustering and
