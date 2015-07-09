@@ -2,7 +2,7 @@
 #' @export
 IsomirDataSeq<-setClass("IsomirDataSeq",
                             contains = "RangedSummarizedExperiment",
-                            slots = list(
+                            representation = representation(
                                 isoList="list",
                                 rawList="list",
                                 statsList="list"
@@ -42,6 +42,18 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @rdname IsomirDataSeq
 #' @export
 IsomirDataSeq <- function(se, expList, varList, sumList){
+    if (!is(se, "RangedSummarizedExperiment")) {
+        if (is(se, "SummarizedExperiment0")) {
+                  se <- as(se, "RangedSummarizedExperiment")
+        } else if (is(se, "SummarizedExperiment")) {
+                  # only to help transition from SummarizedExperiment to new
+                  # RangedSummarizedExperiment objects, remove once transition is complete
+                  se <- as(se, "RangedSummarizedExperiment")
+        } else {
+                  stop("'se' must be a RangedSummarizedExperiment object")
+        }
+          
+    }
     new("IsomirDataSeq", se, rawList=expList, isoList=varList, statsList=sumList)
 }
 
