@@ -69,7 +69,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
 }
 
 # Collapse isomiRs in miRNAs
-.collapse_mirs<-function(table,ref=FALSE,iso5=FALSE,iso3=FALSE,
+.collapse_mirs<-function(table, ref=FALSE, iso5=FALSE, iso3=FALSE,
                         add=FALSE, subs=FALSE, seed=FALSE)
 {
     label <- table$mir
