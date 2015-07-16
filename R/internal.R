@@ -9,7 +9,7 @@
 }
 
 # filter by relative abundance to reference
-.filter_by_cov<-function(table,limit=10)
+.filter_by_cov<-function(table, limit=2)
 {
     freq=NULL
     mir=NULL
@@ -24,7 +24,7 @@
 }
 
 # Filter table reference
-.filter_table<-function(table,cov=10)
+.filter_table<-function(table, cov=10)
 {
     table <- .put_header(table)
     .filter_by_cov(table,cov)
@@ -32,7 +32,7 @@
 
 
 # plot general information
-.isomir_general_type<-function(table,colid)
+.isomir_general_type<-function(table, colid)
 {
     temp <- table
     temp$idfeat <- paste(table[,colid],table$mir)
@@ -47,7 +47,7 @@
 # do counts table considering what isomiRs take into account
 
 IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
-                                add=FALSE, subs=FALSE, seed=FALSE, minc=10){
+                                add=FALSE, subs=FALSE, seed=FALSE, minc=2){
     table.merge<-data.frame()
     for (sample in row.names(des)){
         # print (sample)
