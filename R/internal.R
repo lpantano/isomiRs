@@ -65,7 +65,11 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
     row.names(table.merge) <- table.merge[,1]
     table.merge <- as.matrix(table.merge[,2:ncol(table.merge)])
     table.merge[is.na(table.merge)] <- 0
-    as.matrix(table.merge)
+    dt <- as.matrix(table.merge)
+    if ( dim(dt)[1] == 0 )
+        warning("No miRNA found.")
+    dt
+    
 }
 
 # Collapse isomiRs in miRNAs

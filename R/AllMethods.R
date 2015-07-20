@@ -149,7 +149,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' along all samples.
 #'
 #' @usage
-#' \S4method{isoSelect}{IsomirDataSeq}(object, norm=FALSE, minc=10, mirna="")
+#' \S4method{isoSelect}{IsomirDataSeq}(object, mirna="", norm=FALSE, minc=10)
 #'
 #'
 #' @docType methods
@@ -158,8 +158,8 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' @aliases isoSelect isoSelect,IsomirDataSeq-method
 #'
 #' @param object a \code{IsomirDataSeq} object.
-#' @param norm TRUE return log2-normalized counts
 #' @param mirna string of the miRNA to show
+#' @param norm TRUE return log2-normalized counts
 #' @param minc int minimum number of isomiR reads
 #' @author Lorena Pantano
 #' 
@@ -167,13 +167,14 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' data(isomiRexp)
 #' isoSelect(isomiRexp, mirna="hsa-let-7a-5p")
 #' @export
-isoSelect.IsomirDataSeq <- function(object, norm=FALSE, minc=10, mirna="") {
+isoSelect.IsomirDataSeq <- function(object, mirna="", norm=FALSE, minc=10) {
     x <- isoraw(object)
-    l <- list()
-    for ( sample in names(x) ){
-        l[[sample]] <- x[[sample]] %>% filter( mir==mirna )
-    }
     
+    if ( mirna == "" )
+        stop("mirna parameter needs to have a value")
+    l <- lapply( x, function(sample){
+        sample %>% filter( mir==mirna )
+    })
     IsoCountsFromMatrix(l, colData(object), ref=TRUE,iso5=TRUE,iso3=TRUE,
               add=TRUE, subs=TRUE, seed=TRUE, minc=minc)
 }

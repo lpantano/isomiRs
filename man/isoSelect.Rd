@@ -7,19 +7,19 @@
 \alias{isoSelect.IsomirDataSeq}
 \title{Method for browse an IsomirDataSeq object.}
 \usage{
-\S4method{isoSelect}{IsomirDataSeq}(object, norm=FALSE, minc=10, mirna="")
+\S4method{isoSelect}{IsomirDataSeq}(object, mirna="", norm=FALSE, minc=10)
 
-\S4method{isoSelect}{IsomirDataSeq}(object, norm = FALSE, minc = 10,
-  mirna = "")
+\S4method{isoSelect}{IsomirDataSeq}(object, mirna = "", norm = FALSE,
+  minc = 10)
 }
 \arguments{
 \item{object}{a \code{IsomirDataSeq} object.}
 
+\item{mirna}{string of the miRNA to show}
+
 \item{norm}{TRUE return log2-normalized counts}
 
 \item{minc}{int minimum number of isomiR reads}
-
-\item{mirna}{string of the miRNA to show}
 }
 \description{
 This method allows to select a miRNA and all its isomiRs
