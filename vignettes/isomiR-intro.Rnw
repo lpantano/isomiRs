@@ -1,0 +1,247 @@
+%\VignetteIndexEntry{isomiRs}
+%\VignetteKeywords{smallRNA, miRNAs,isomiRs, DifferentailExpression}
+%\VignetteEngine{knitr::knitr}
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+<<knitr, echo=FALSE, results="hide">>=
+library("knitr")
+opts_chunk$set(tidy=FALSE,
+            fig.width=5,fig.height=5,
+            message=FALSE)
+@
+
+
+<<style, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex()
+@
+
+\title{isomiRs}
+\author{Lorena Pantano$^{1*}$, Georgia Escaramis$^{2*}$,
+Eulalia Martin$^{2*}$ \\ \small{Harvard H Chan School of Public Health,
+Boston, US;} \\ \small{$^{2}$ Center of Genomic Regulation, Barcelona,
+Spain;} \\ \small{\texttt{$^*$lpantano (at) iscb.org}}}
+\date{Modified: 3 Feb, 2015. Compiled: \today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section*{Introduction}
+
+miRNA are small RNA fragments (18-23 nt long) that influence gene expression
+during development and cell stability. Morin et al \cite{morin}, discovered
+isomiRs first time after sequencing human stem cells.
+
+IsomiRs are miRNAs that vary slightly in sequence, which result from variations
+in the cleavage site during miRNA biogenesis (5’-trimming and 3’-trimming
+variants), nucleotide additions to the 3’-end of the mature miRNA
+(3’-addition variants) and nucleotide modifications (substitution variants)\cite{emarti}.
+
+There are many tools designed for isomiR detection, however the majority are
+web application where user can not control the analysis. The two main command
+tools for isomiRs mapping are SeqBuster and sRNAbench\cite{barturen2014}. \Biocpkg{isomiRs}
+package is designed to analyze the output of SeqBuster tool or any other
+tool after converting to the desire format.
+
+\section{Citing isomiRs}
+
+If you use the package, please cite this paper \cite{isomirs}.
+
+\section{Input format}
+
+The input should be the output of SeqBuster-miraligner tool (*.mirna files) 
+for each sample in the following format:
+
+<<format-line,eval=FALSE,echo=TRUE>>==
+seq     name    freq    mir     start   end     mism    add     t5      t3      s5      s3      DB      ambiguity
+TGTAAACATCCTACACTCAGCTGT        seq_100014_x23  23      hsa-miR-30b-5p  17      40      0       0       0       d-GT    TTCATGTA        AGCTGTAA        miRNA   1
+TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30d-5p  6       26      13TC    0       0       u-G     TTGTTGTA        GAAGCTGT        miRNA   2
+TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30e-5p  17      37      12CT    0       0       u-G     CTACTGTA        GAAGCTGT        miRNA   2
+CAAATTCGTATCTAGGGGATT   seq_100049_x1   1       hsa-miR-10a-3p  63      81      0       u-TT    0       u-ATA   GTCACAAA        AATATGTA        miRNA   1
+TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1       hsa-miR-192-5p  25      47      8GT     0       d-C     d-AGT   GGCTCTGA        AGCCAGTG        miRNA   1
+@
+
+This is the standard output of SeqBuster-miraligner tool, but can be converted from
+any other tool having the mapping information on the precursors. Read more on
+\href{http://seqcluster.readthedocs.org/mirna_annotation.html}{miraligner manual}
+
+\section{IsomirDataSeq class}
+
+This object will store all raw data from the input files and some processed
+information used for visualization and statistical analysis. It is a subclass of \Rfunction{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the object contains 
+raw and normalized counts from miraligner allowing to update the summarization of miRNA expression.
+
+\subsection{Access data}
+
+The user can access the normalized count matrix with \Rfunction{counts(object, norm=TRUE)}.
+
+You can browse for the same miRNA or isomiRs in all samples with \Rfunction{isoSelect} method.
+
+<<package-select,message=FALSE>>=
+library(isomiRs)
+data(isomiRexp)
+head(isoSelect(isomiRexp, mirna="hsa-let-7a-5p"))
+@
+
+\subsection{isomiRs annotation}
+
+IsomiR names follows this structure: 
+
+\begin{itemize}
+    \item miRNA name
+    \item type: ref if the sequence is the same than the miRNA reference. `iso` if the sequence has variations.
+    \item t5 tag: indicates variations at 5' position. The naming contains two words: `direction - nucleotides`, where direction can be `u` (changes upstream of the 5' reference position) or `d` (changes downstream of the 5' reference position). `0` indicates no variation, meaning the 5' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (for upstream changes) or deleted (for downstream changes).
+    \item t3 tag: indicates variations at 3' position. The naming contains two words: `direction - nucleotides`, where direction can be `u` (upstream of the 3' reference position) or `d` (downstream of the 3' reference position). `0` indicates no variation, meaning the 3' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (for downstream changes) or deleted (for upstream chanes).
+    \item ad tag: indicates nucleotides additions at 3' position. The naming contains two words: `direction - nucleotides`, where direction is `u` (upstream of the 5' reference position). `0` indicates no variation, meaning the 3' position has no additions. After `direction`, it follows the nucleotide/s that are added.
+    \item mm tag: indicates nucleotides substitutions along the sequences. The naming contains three words: `position-nucleotideATsequence-nucleotideATreference`. 
+    \item seed tag: same than `mm` tag, but only if the change happens between nucleotide 2 and 8.
+\end{itemize}
+
+
+\section{Quick start}
+
+We are going to use a small RNAseq data from human
+frontal cortex samples \cite{somel2010} to give some basic examples of isomiRs analyses.
+
+In this data set we will find two groups:
+
+\begin{itemize}
+    \item b: 3 individuals with less than a year
+    \item o: 3 individuals in the elderly.
+\end{itemize}
+
+
+<<package-load,message=FALSE>>=
+library(isomiRs)
+data(isomiRexp)
+@
+
+
+\subsection{Reading input}
+
+The function \Rfunction{loadIso} needs a vector with the paths for each file
+and a data frame with the design experiment similar to the one used for
+a mRNA differential expression analysis.
+
+<<package-plot-iso,message=FALSE,eval=FALSE>>=
+obj <- IsomirDataSeqFromFiles(fn_list, design=de)
+@
+
+
+\subsection{Descriptive analysis}
+
+You can plot isomiRs expression with \Rfunction{isoPlot}. In this figure you
+will see how abundant is each type of isomiRs at different positions
+considering the total abundance and the total number of sequences.
+The \Rfunction{type} parameter controls what type of isomiRs to show. It can be
+trimming (iso5 and iso3), addition (add) or substitution (subs) changes.
+
+<<package-plot-iso-t5,message=FALSE>>=
+obj <- isoPlot(isomiRexp, type="iso5")
+@
+
+\subsection{Differential expression analysis}
+
+The \Rfunction{isoDe} uses functions from \Biocpkg{DESeq2} package.
+This function has parameters to create a matrix using only the reference
+miRNAs, all isomiRs, or some of them. 
+This matrix and the design matrix are the inputs for DESeq2. The output
+will be a DESeqDataSet object, allowing to generate any plot or table
+explained in DESeq2 package vignette.
+
+<<package-de,message=FALSE>>=
+dds <- isoDE(obj, formula=~condition)
+library(DESeq2)
+plotMA(dds)
+head(results(dds, tidy=TRUE))
+@
+
+You can differentiate between reference sequences and isomiRs at 5' end
+with this command:
+
+<<package-de-iso5,message=FALSE>>=
+dds = isoDE(obj, formula=~condition, ref=TRUE, iso5=TRUE)
+head(results(dds, tidy=TRUE))
+@
+
+\subsection{Count data}
+
+\Rfunction{isoCounts} gets the count matrix that can be used for many
+different downstream analyses changing the way isomiRs are collapsed. The
+following command will merge all isomiRs into one feature: the reference
+miRNA. 
+
+<<package-count,message=FALSE>>=
+obj = isoCounts(obj)
+head(counts(obj))
+@
+
+The normalization uses \Rfunction{rlog} from \Biocpkg{DESeq2} package and
+allows quick integration to another analyses like heatmap, clustering or PCA.
+
+
+<<package-norm,message=FALSE>>=
+obj = isoNorm(obj)
+heatmap(counts(obj, norm=TRUE)[1:100,], labRow = "")
+@
+
+\subsection{Supervised classification}
+
+Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
+appropriate for analysis of high dimensionality data sets and multicollineality
+\cite{perezenciso}. PLS-DA is a supervised method (i.e. makes use of class
+labels) with the aim to provide a dimension reduction strategy in a situation
+where we want to relate a binary response variable (in our case young or old
+status) to a set of predictor variables. Dimensionality reduction procedure is
+based on orthogonal transformations of the original variables (isomiRs) into a
+set of linearly uncorrelated latent variables (usually termed as components)
+such that maximizes the separation between the different classes in the first
+few components \cite{xia}. We used sum of squares captured by the model (R2) as
+a goodness of fit measure. We implemented this method using the
+\Rpackage{DiscriMiner} into \Rpackage{isoPLSDA} function. The output
+p-value of this function will tell about the statistical
+significant of the group separation using miRNA expression data.
+Moreover, the function \Rfunction{isoPLSDAplot}
+helps to visualize the results. It will plot the samples using the 
+significant components (t1, t2, t3 ...) from the PLS-DA analysis and the 
+samples distribution along the components.
+
+
+<<package-pls,eval=TRUE>>=
+obj = isoCounts(obj, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+obj = isoNorm(obj)
+pls.obj = isoPLSDA(obj, "condition", nperm = 10)
+isoPLSDAplot(pls.obj$component, colData(obj)[,"condition"])
+@
+
+The analysis can be done again using only the most important discriminant
+isomiRS from the PLS-DA models based on the analysis. We used Variable
+Importance for the Projection (VIP) criterion to select the most important
+features, since takes into account the contribution of a specific predictor
+for both the explained variability on the response and the explained
+variability on the predictors.
+
+
+<<package-plsplot,message=FALSE,eval=FALSE>>=
+pls.obj = isoPLSDA(obj,"condition", refinment = FALSE, vip = 0.8)
+@
+
+
+\pagebreak
+
+%---------------------------------------------------------
+\section*{Session info}
+%---------------------------------------------------------
+Here is the output of \Rfunction{sessionInfo} on the system on which
+this document was compiled:
+
+<<sessionInfo,results='asis',echo=FALSE>>=
+toLatex(sessionInfo())
+@
+
+\bibliography{isomirs}
+
+\end{document}
