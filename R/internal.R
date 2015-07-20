@@ -50,7 +50,6 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE,iso5=FALSE,iso3=FALSE,
                                 add=FALSE, subs=FALSE, seed=FALSE, minc=2){
     table.merge<-data.frame()
     for (sample in row.names(des)){
-        # print (sample)
         d <- listTable[[sample]]
         d <- .collapse_mirs(d, ref=ref, iso5=iso5, iso3=iso3, add=add,
                          subs=subs, seed=seed)

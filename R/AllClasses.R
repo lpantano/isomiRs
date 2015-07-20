@@ -80,16 +80,19 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1, header=FALSE, skip=1, .
         idx <- idx + 1
         # print(idx)
         d <- read.table(f, header=header, skip=skip)
-
-        d <- .filter_table(d, cov)
-        out <- list(summary=0, 
-                    t5sum = .isomir_position(d, 6),
-                    t3sum = .isomir_position(d, 7),
-                    subsum = .subs_position(d, 4),
-                    addsum = .isomir_position(d, 5)
-                    )
-        listSamples[[row.names(design)[idx]]] <- d
-        listIsomirs[[row.names(design)[idx]]] <- out
+        if (ncol(d) < 2){
+            warning(paste0("This sample has not lines: ", f))
+        }else{
+            d <- .filter_table(d, cov)
+            out <- list(summary=0, 
+                        t5sum = .isomir_position(d, 6),
+                        t3sum = .isomir_position(d, 7),
+                        subsum = .subs_position(d, 4),
+                        addsum = .isomir_position(d, 5)
+            )
+            listSamples[[row.names(design)[idx]]] <- d
+            listIsomirs[[row.names(design)[idx]]] <- out
+        }
     }
     countData <- IsoCountsFromMatrix(listSamples, design)
     se <- SummarizedExperiment(assays = SimpleList(counts=countData), colData = DataFrame(design), ...)
