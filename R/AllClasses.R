@@ -21,6 +21,8 @@ setValidity( "IsomirDataSeq", function( object ) {
     TRUE
 } )
 
+#' Class that contain all isomiRs annotation for all samples
+#' 
 #' The \code{IsomirDataSeq} is a subclass of \code{SummarizedExperiment},
 #' used to store the input values, intermediate calculations and results of an
 #' isomiR analysis.  The \code{IsomirDataSeq} class stores all raw isomiRs

@@ -69,12 +69,6 @@ setReplaceMethod("isostats", "IsomirDataSeq",
                  }
 )
 
-#' @export
-setMethod("show", "IsomirDataSeq", function(object){
-    show(colData(object))
-}
-)
-
 
 #' Accessors for the 'counts' slot of a IsomirDataSeq object.
 #'

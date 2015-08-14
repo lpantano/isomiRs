@@ -10,11 +10,13 @@ biocViews: miRNA, RNASeq,
 Suggests:
     knitr,
     RUnit, 
-    BiocStyle, 
-    BiocGenerics
+    BiocStyle
 Depends:
     R (>= 3.2.0),
+    BiocGenerics,
     DiscriMiner,
+    IRanges,
+    GenomicRanges,
     SummarizedExperiment (>= 0.2.0)
 Imports:
     S4Vectors,

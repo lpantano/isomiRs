@@ -3,13 +3,13 @@
 \docType{data}
 \name{isomiRexp}
 \alias{isomiRexp}
-\title{isomirDataSeq}
-\format{a \code{isomirDataSeq} class.}
+\title{IsomirDataSeq}
+\format{a \code{IsomirDataSeq} class.}
 \usage{
-isomiRex
+load(isomiRex)
 }
 \description{
-This data set is the object return by \code{loadIso}. It mainly
+This data set is the object return by \code{IsomirDataSeqFromFiles}. It mainly
 contains miRNA sequencing raw data from 6 samples: 3 newnborns and 3 elderly
 human individuals (Somel et al, 2010).
 Use \code{colData} to see the experiment design of the data.

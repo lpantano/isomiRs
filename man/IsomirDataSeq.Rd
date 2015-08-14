@@ -5,13 +5,7 @@
 \alias{IsomirDataSeq}
 \alias{IsomirDataSeq-class}
 \alias{IsomirDataSeqFromFiles}
-\title{The \code{IsomirDataSeq} is a subclass of \code{SummarizedExperiment},
-used to store the input values, intermediate calculations and results of an
-isomiR analysis.  The \code{IsomirDataSeq} class stores all raw isomiRs
-data for each sample, processed information,
-summary for each isomiR type,
-raw counts, normalized counts, and data.frame with
-columns information for each sample.}
+\title{Class that contain all isomiRs annotatino for all samples}
 \usage{
 IsomirDataSeq(se, expList, varList, sumList)
 
