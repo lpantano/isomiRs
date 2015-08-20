@@ -33,6 +33,7 @@ create count tables from isomirs
 \examples{
 library(DESeq2)
 data(isomiRexp)
-ma<-isoCounts(isomiRexp)
+obj <- isoCounts(isomiRexp, ref=TRUE)
+head(counts(obj))
 }
 

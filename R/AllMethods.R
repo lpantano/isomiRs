@@ -1,22 +1,5 @@
 
-#' Accessors for the 'isoraw' slot of a IsomirDataSeq object.
-#'
-#' The isoraw slot holds the raw data as a list of matrix
-#' values from miraligner tool.
-#' @usage
-#' \S4method{isoraw}{IsomirDataSeq}(x)
-#'
-#' \S4method{isoraw}{IsomirDataSeq}(x)<-value
-#'
-#' @docType methods
-#' @name isoraw
-#' @rdname isoraw
-#' @aliases isoraw isoraw,IsomirDataSeq-method isoraw<-,IsomirDataSeq-method
-#'
-#' @param x a \code{IsomirDataSeq} object.
-#' @param value a list of matrix
-#' @author Lorena Pantano
-#'
+# Accessors for the 'isoraw' slot of a IsomirDataSeq object.
 setMethod(
     f = isoraw,
     signature = signature(x="IsomirDataSeq"),
@@ -25,11 +8,8 @@ setMethod(
     }
 )
 
-#' @name isoraw
-#' @rdname isoraw
 setReplaceMethod("isoraw", "IsomirDataSeq",
-                 function(x, value)
-                 {
+                 function(x, value){
                      slot(x, "rawList") <- value
                      x
                  }
@@ -44,8 +24,7 @@ setMethod(
 )
 
 setReplaceMethod("isoinfo", "IsomirDataSeq",
-                 function(x, value)
-                 {
+                 function(x, value){
                      slot(x, "isoList") <- value
                      validObject(x)
                      x
@@ -61,8 +40,7 @@ setMethod(
 )
 
 setReplaceMethod("isostats", "IsomirDataSeq",
-                 function(x, value)
-                 {
+                 function(x, value){
                      slot(x, "statsList") <- value
                      validObject(x)
                      x
@@ -97,9 +75,9 @@ setReplaceMethod("isostats", "IsomirDataSeq",
 #' @export
 counts.IsomirDataSeq <- function(object, norm=FALSE) {
     if (norm){
-        return(assays(object)[['norm']])
+        return(assays(object)[["norm"]])
     }
-    assays(object)[['counts']]
+    assays(object)[["counts"]]
 }
 
 #' @rdname counts
@@ -110,8 +88,7 @@ setMethod("counts", signature(object="IsomirDataSeq"), counts.IsomirDataSeq)
 #' @rdname counts
 #' @exportMethod "counts<-"
 setReplaceMethod("counts", signature(object="IsomirDataSeq", value="matrix"),
-                 function(object, value)
-                 {
+                 function(object, value){
                      assays(object)[["counts"]] <- value
                      validObject(object)
                      object
@@ -128,8 +105,7 @@ setMethod(
 )
 
 setReplaceMethod("normcounts", "IsomirDataSeq",
-                 function(x, value)
-                 {
+                 function(x, value){
                      assays(x)[["norm"]] <- value
                      validObject(x)
                      x
@@ -137,7 +113,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 )
 
 
-#' Method for browse an IsomirDataSeq object.
+#' Method to browse an IsomirDataSeq object.
 #'
 #' This method allows to select a miRNA and all its isomiRs
 #' along all samples.
@@ -167,7 +143,7 @@ isoSelect.IsomirDataSeq <- function(object, mirna="", norm=FALSE, minc=10) {
     if ( mirna == "" )
         stop("mirna parameter needs to have a value")
     l <- lapply( x, function(sample){
-        sample %>% filter( mir==mirna )
+        sample %>% filter( mir == mirna )
     })
     IsoCountsFromMatrix(l, colData(object), ref=TRUE,iso5=TRUE,iso3=TRUE,
               add=TRUE, subs=TRUE, seed=TRUE, minc=minc)

@@ -5,7 +5,7 @@
 \alias{isoSelect}
 \alias{isoSelect,IsomirDataSeq-method}
 \alias{isoSelect.IsomirDataSeq}
-\title{Method for browse an IsomirDataSeq object.}
+\title{Method to browse an IsomirDataSeq object.}
 \usage{
 \S4method{isoSelect}{IsomirDataSeq}(object, mirna="", norm=FALSE, minc=10)
 

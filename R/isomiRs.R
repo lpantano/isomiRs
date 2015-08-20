@@ -25,9 +25,8 @@
 #' dds<-isoDE(isomiRexp, formula=~condition)
 #' @export
 #' @import DESeq2
-isoDE<-function(x, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
-                add=FALSE, subs=FALSE, seed=FALSE)
-{
+isoDE <- function(x, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
+                add=FALSE, subs=FALSE, seed=FALSE){
     if (ref | iso5 | iso3 | add | subs | seed){
         x <- isoCounts(x, ref, iso5, iso3, add, subs, seed)
     }
@@ -35,7 +34,7 @@ isoDE<-function(x, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
     dds <- DESeqDataSetFromMatrix(countData = countData,
                                 colData = colData(x),
                                 design = formula)
-    dds <- DESeq(dds,quiet=TRUE)
+    dds <- DESeq(dds, quiet=TRUE)
     dds
 }
 
@@ -51,10 +50,7 @@ isoDE<-function(x, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' @import ggplot2
 #' @import gplots
 #' @import RColorBrewer
-isoTop<-function(x, top=20)
-{
-    # dds<-counts(x)
-    # rld <- rlogTransformation(dds)
+isoTop <- function(x, top=20){
     select <- order(rowMeans(counts(x)),
                     decreasing=TRUE)[1:top]
     hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
@@ -74,12 +70,11 @@ isoTop<-function(x, top=20)
 #' @examples
 #' data(isomiRexp)
 #' isoPlot(isomiRexp)
-isoPlot<-function(x, type="iso5")
-{
-    freq = size = group = abundance = NULL
-    codevn <- c(2,3,4,5)
+isoPlot <- function(x, type="iso5"){
+    freq <- size <- group <- abundance <- NULL
+    codevn <- 2:5
     names(codevn) <- c("iso5", "iso3", "subs", "add")
-    ratiov <- c(1/6,1/6,1/23,1/3)
+    ratiov <- c(1/6, 1/6, 1/23, 1/3)
     names(ratiov) <- names(codevn)
     coden <- codevn[type]
     ratio <- ratiov[type]
@@ -94,10 +89,10 @@ isoPlot<-function(x, type="iso5")
                                 summarise( freq=sum(freq) ) 
                               )
         total <- sum(temp$freq)
-        temp <- merge(temp,uniq.dat,by=1)
+        temp <- merge(temp, uniq.dat, by=1)
         Total <- sum(temp$Freq)
-        temp$abundance <- temp$freq/total
-        temp$unique <- temp$Freq/Total
+        temp$abundance <- temp$freq / total
+        temp$unique <- temp$Freq / Total
         table <- rbind( table, 
                         data.frame( size=temp$size, abundance=temp$abundance,
                                         unique=temp$unique,
@@ -106,12 +101,12 @@ isoPlot<-function(x, type="iso5")
                                                 nrow(temp)) ) )
     }
     isostats(x)[[type]] <- table
-    p <- ggplot(table)+
+    p <- ggplot(table) +
         geom_jitter(aes(x=factor(size),y=unique,colour=factor(group),
-                        size=abundance))+
-        scale_colour_brewer("Groups",palette="Set1")+
+                        size=abundance)) +
+        scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 14, base_family = "") +
-        theme(strip.background=element_rect(fill="slategray3"))+
+        theme(strip.background=element_rect(fill="slategray3")) +
         labs(list(title=paste(type,"distribution"),y="# of unique sequences",
                 x="position respect to the reference"))
     print(p)
@@ -131,11 +126,11 @@ isoPlot<-function(x, type="iso5")
 #' @examples
 #' library(DESeq2)
 #' data(isomiRexp)
-#' ma<-isoCounts(isomiRexp)
+#' obj <- isoCounts(isomiRexp, ref=TRUE)
+#' head(counts(obj))
 #' @export
-isoCounts <- function(x, ref=FALSE,iso5=FALSE,iso3=FALSE,
-                      add=FALSE, subs=FALSE, seed=FALSE, minc=10)
-    {
+isoCounts <- function(x, ref=FALSE, iso5=FALSE, iso3=FALSE,
+                      add=FALSE, subs=FALSE, seed=FALSE, minc=10){
         counts <- IsoCountsFromMatrix(isoraw(x), colData(x), ref,
                                       iso5, iso3,
                                       add, subs, seed, minc)
@@ -143,26 +138,33 @@ isoCounts <- function(x, ref=FALSE,iso5=FALSE,iso3=FALSE,
                                    colData = colData(x))
         x <- IsomirDataSeq(se, isoraw(x), isoinfo(x), isostats(x))
         return(x)
-    }
+}
 
 
-#' normalize count data
+#' Normalize count data
+#'
+#' This function normalizes raw count data using
+#' rlog function from DESeq2.
 #'
 #' @param x IsomirDataSeq object
 #' @param formula formula that will be used for DE
+#' 
+#' @return IsomirSeqData object with the normalized
+#' count matrix in a slot. The normalized matrix
+#' can be access with counts(x, norm=TRUE).
+#' 
 #' @examples
 #' library(DESeq2)
 #' data(isomiRexp)
-#' ma<-isoNorm(isomiRexp, formula=~condition)
+#' obj <- isoNorm(isomiRexp, formula=~condition)
+#' head(counts(obj, norm=TRUE))
 #' @export
 #' @import DESeq2
-isoNorm <- function(x, formula=~condition)
-{
+isoNorm <- function(x, formula=~condition){
     dds <- DESeqDataSetFromMatrix(countData = counts(x),
                                 colData = colData(x),
                                 design = formula)
-    rld <- rlogTransformation(dds,blind=FALSE)
+    rld <- rlog(dds, blind=FALSE)
     normcounts(x) <- assay(rld)
     x
 }
-

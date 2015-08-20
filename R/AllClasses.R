@@ -1,6 +1,6 @@
 #' @rdname IsomirDataSeq
 #' @export
-IsomirDataSeq<-setClass("IsomirDataSeq",
+IsomirDataSeq <- setClass("IsomirDataSeq",
                             contains = "RangedSummarizedExperiment",
                             representation = representation(
                                 isoList="list",
@@ -74,7 +74,8 @@ IsomirDataSeq <- function(se, expList, varList, sumList){
 #' @return
 #' \code{IsomirDataSeq} class
 #' @export
-IsomirDataSeqFromFiles <- function(files, design, cov=1, header=FALSE, skip=1, ...){
+IsomirDataSeqFromFiles <- function(files, design, cov=1, 
+                                   header=FALSE, skip=1, ...){
     listSamples <- vector("list")
     listIsomirs <- vector("list")
     idx <- 0
@@ -97,7 +98,8 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1, header=FALSE, skip=1, .
         }
     }
     countData <- IsoCountsFromMatrix(listSamples, design)
-    se <- SummarizedExperiment(assays = SimpleList(counts=countData), colData = DataFrame(design), ...)
+    se <- SummarizedExperiment(assays = SimpleList(counts=countData), 
+                               colData = DataFrame(design), ...)
     IsoObj <- IsomirDataSeq(se, listSamples, listIsomirs, list())
     return(IsoObj)
 }

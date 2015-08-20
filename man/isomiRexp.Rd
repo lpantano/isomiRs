@@ -6,7 +6,7 @@
 \title{IsomirDataSeq}
 \format{a \code{IsomirDataSeq} class.}
 \usage{
-load(isomiRex)
+load(isomiRexp)
 }
 \description{
 This data set is the object return by \code{IsomirDataSeqFromFiles}. It mainly

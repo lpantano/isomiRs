@@ -5,7 +5,9 @@
 #' human individuals (Somel et al, 2010). 
 #' Use \code{colData} to see the experiment design of the data.
 #' @docType data
-#' @usage load(isomiRex)
+#' @aliases isomiRexp
+#' @usage 
+#' load(isomiRexp)
 #' @format a \code{IsomirDataSeq} class.
 #' @author Lorena Pantano, 2015-05-19
 NULL

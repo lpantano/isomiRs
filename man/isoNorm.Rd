@@ -2,7 +2,7 @@
 % Please edit documentation in R/isomiRs.R
 \name{isoNorm}
 \alias{isoNorm}
-\title{normalize count data}
+\title{Normalize count data}
 \usage{
 isoNorm(x, formula = ~condition)
 }
@@ -11,12 +11,19 @@ isoNorm(x, formula = ~condition)
 
 \item{formula}{formula that will be used for DE}
 }
+\value{
+IsomirSeqData object with the normalized
+count matrix in a slot. The normalized matrix
+can be access with counts(x, norm=TRUE).
+}
 \description{
-normalize count data
+This function normalizes raw count data using
+rlog function from DESeq2.
 }
 \examples{
 library(DESeq2)
 data(isomiRexp)
-ma<-isoNorm(isomiRexp, formula=~condition)
+obj <- isoNorm(isomiRexp, formula=~condition)
+head(counts(obj, norm=TRUE))
 }
 

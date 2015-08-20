@@ -5,7 +5,7 @@
 \alias{IsomirDataSeq}
 \alias{IsomirDataSeq-class}
 \alias{IsomirDataSeqFromFiles}
-\title{Class that contain all isomiRs annotatino for all samples}
+\title{Class that contain all isomiRs annotation for all samples}
 \usage{
 IsomirDataSeq(se, expList, varList, sumList)
 
