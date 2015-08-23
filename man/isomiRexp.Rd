@@ -5,8 +5,11 @@
 \alias{isomiRexp}
 \title{IsomirDataSeq}
 \format{a \code{IsomirDataSeq} class.}
+\source{
+bla bla
+}
 \usage{
-load(isomiRexp)
+data("isomiRexp")
 }
 \description{
 This data set is the object return by \code{IsomirDataSeqFromFiles}. It mainly
@@ -16,5 +19,8 @@ Use \code{colData} to see the experiment design of the data.
 }
 \author{
 Lorena Pantano, 2015-05-19
+}
+\references{
+bla bla
 }
 

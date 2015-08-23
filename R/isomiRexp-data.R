@@ -7,7 +7,11 @@
 #' @docType data
 #' @aliases isomiRexp
 #' @usage 
-#' load(isomiRexp)
+#' data("isomiRexp")
+#' @source
+#' bla bla
+#' @references 
+#' bla bla
 #' @format a \code{IsomirDataSeq} class.
 #' @author Lorena Pantano, 2015-05-19
 NULL
