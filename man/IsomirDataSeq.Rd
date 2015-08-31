@@ -51,4 +51,21 @@ columns information for each sample.
 
 The \code{IsomirDataSeqFromFiles}
 }
+\details{
+\code{IsomirDataSeqFromFiles} creates this object from seqbuster output files.
+
+Methods for this objects are \code{\link[isomiRs]{counts}} and \code{\link[isomiRs]{isoSelect}}, and functions
+available for this object are \code{isoCount}, \code{isoNorm}, \code{isoDE} and
+\code{isoPlot}.
+}
+\examples{
+\\donotrun{
+fn_list = c("url1", "url2")
+de = data.frame(row.names=c("f1" , "f2"), condition = c("n1", "o1"))
+ids <- IsomirDataSeqFromFiles(fn_list, design=de)
+
+select(ids, "hsa-let-7a-5p")
+counts(ids)[1:5, ]
+}
+}
 

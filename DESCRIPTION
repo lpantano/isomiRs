@@ -30,5 +30,5 @@ Imports:
     methods
 Author: Lorena Pantano, Georgia Escaramis
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
-License: GPL (>=2)
+License: MIT
 VignetteBuilder: knitr

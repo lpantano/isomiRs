@@ -18,7 +18,7 @@
 #' @param add differenciate additions miRNA from rest
 #' @param subs differenciate nt substitution miRNA from rest
 #' @param seed differenciate changes in 2-7 nt from rest
-#' @return DESeq object
+#' @return DESeqDataSet object
 #' @examples
 #' library(DESeq2)
 #' data(isomiRexp)

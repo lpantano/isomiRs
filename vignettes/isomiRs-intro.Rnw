@@ -127,7 +127,7 @@ and a data frame with the design experiment similar to the one used for
 a mRNA differential expression analysis.
 
 <<package-plot-iso,message=FALSE,eval=FALSE>>=
-obj <- IsomirDataSeqFromFiles(fn_list, design=de)
+ids <- IsomirDataSeqFromFiles(fn_list, design=de)
 @
 
 
@@ -140,7 +140,7 @@ The \Rfunction{type} parameter controls what type of isomiRs to show. It can be
 trimming (iso5 and iso3), addition (add) or substitution (subs) changes.
 
 <<package-plot-iso-t5,message=FALSE>>=
-obj <- isoPlot(isomiRexp, type="iso5")
+ids <- isoPlot(isomiRexp, type="iso5")
 @
 
 \subsection{Differential expression analysis}
@@ -153,7 +153,7 @@ will be a DESeqDataSet object, allowing to generate any plot or table
 explained in DESeq2 package vignette.
 
 <<package-de,message=FALSE>>=
-dds <- isoDE(obj, formula=~condition)
+dds <- isoDE(ids, formula=~condition)
 library(DESeq2)
 plotMA(dds)
 head(results(dds, tidy=TRUE))
@@ -163,7 +163,7 @@ You can differentiate between reference sequences and isomiRs at 5' end
 with this command:
 
 <<package-de-iso5,message=FALSE>>=
-dds = isoDE(obj, formula=~condition, ref=TRUE, iso5=TRUE)
+dds = isoDE(ids, formula=~condition, ref=TRUE, iso5=TRUE)
 head(results(dds, tidy=TRUE))
 @
 
@@ -175,8 +175,8 @@ following command will merge all isomiRs into one feature: the reference
 miRNA. 
 
 <<package-count,message=FALSE>>=
-obj = isoCounts(obj)
-head(counts(obj))
+ids = isoCounts(ids)
+head(counts(ids))
 @
 
 The normalization uses \Rfunction{rlog} from \Biocpkg{DESeq2} package and
@@ -184,8 +184,8 @@ allows quick integration to another analyses like heatmap, clustering or PCA.
 
 
 <<package-norm,message=FALSE>>=
-obj = isoNorm(obj)
-heatmap(counts(obj, norm=TRUE)[1:100,], labRow = "")
+ids = isoNorm(ids)
+heatmap(counts(ids, norm=TRUE)[1:100,], labRow = "")
 @
 
 \subsection{Supervised classification}
@@ -211,10 +211,10 @@ samples distribution along the components.
 
 
 <<package-pls,eval=TRUE>>=
-obj = isoCounts(obj, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
-obj = isoNorm(obj)
-pls.obj = isoPLSDA(obj, "condition", nperm = 10)
-isoPLSDAplot(pls.obj$component, colData(obj)[,"condition"])
+ids = isoCounts(ids, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+ids = isoNorm(ids)
+pls.ids = isoPLSDA(ids, "condition", nperm = 10)
+isoPLSDAplot(pls.ids$component, colData(ids)[,"condition"])
 @
 
 The analysis can be done again using only the most important discriminant
@@ -226,7 +226,7 @@ variability on the predictors.
 
 
 <<package-plsplot,message=FALSE,eval=FALSE>>=
-pls.obj = isoPLSDA(obj,"condition", refinment = FALSE, vip = 0.8)
+pls.ids = isoPLSDA(ids,"condition", refinment = FALSE, vip = 0.8)
 @
 
 

@@ -25,7 +25,7 @@ isoDE(x, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
 \item{seed}{differenciate changes in 2-7 nt from rest}
 }
 \value{
-DESeq object
+DESeqDataSet object
 }
 \description{
 This function does differential expression analysis with DESeq2.

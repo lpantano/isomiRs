@@ -6,7 +6,9 @@
 \title{IsomirDataSeq}
 \format{a \code{IsomirDataSeq} class.}
 \source{
-bla bla
+Data was download from GEO dataset and analyzed with seqbuster tool.
+adrec file adapter 8 1 34
+miraligner file databse hsa 1 3 3 prefix
 }
 \usage{
 data("isomiRexp")
@@ -21,6 +23,8 @@ Use \code{colData} to see the experiment design of the data.
 Lorena Pantano, 2015-05-19
 }
 \references{
-bla bla
+Mehmet Somel et al. MicroRNA, mRNA, and protein expression link
+development and aging in human and macaque brain.
+Genome Research, 20(9):1207–1218, 2010.doi:10.1101/gr.106849.110.
 }
 

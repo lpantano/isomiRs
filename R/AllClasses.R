@@ -31,6 +31,12 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' raw counts, normalized counts, and data.frame with
 #' columns information for each sample.
 #'
+#' \code{IsomirDataSeqFromFiles} creates this object from seqbuster output files.
+#' 
+#' Methods for this objects are \code{\link[isomiRs]{counts}} and \code{\link[isomiRs]{isoSelect}}, and functions
+#' available for this object are \code{\link[isomiRs]{isoCount}}, \code{\link[isomiRs]{isoNorm}}, \code{\link[isomiRs]{isoDE}} and
+#' \code{\link[isomiRs]{isoPlot}}. 
+#' 
 #' @param se SummarizedExperiment object
 #' @param expList list of samples with miraligner output
 #' @param varList list of samples with summarized isomiR 
@@ -38,7 +44,15 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @param sumList list of samples with general isomiR information 
 #' 
 #' @aliases IsomirDataSeq IsomirDataSeq-class IsomirDataSeqFromFiles
+#' @examples 
+#' \donotrun{
+#' fn_list = c("url1", "url2")
+#' de = data.frame(row.names=c("f1" , "f2"), condition = c("n1", "o1")) 
+#' ids <- IsomirDataSeqFromFiles(fn_list, design=de)
 #' 
+#' select(ids, "hsa-let-7a-5p")
+#' counts(ids)[1:5, ]
+#' }
 #' @docType class
 #' @name IsomirDataSeq
 #' @rdname IsomirDataSeq
@@ -72,7 +86,7 @@ IsomirDataSeq <- function(se, expList, varList, sumList){
 #' @param skip skip first line when reading files
 #' @param ... arguments provided to \code{SummarizedExperiment} including rowData and exptData
 #' @return
-#' \code{IsomirDataSeq} class
+#' \code{\link[isomiRs]{IsomirDataSeq}} class
 #' @export
 IsomirDataSeqFromFiles <- function(files, design, cov=1, 
                                    header=FALSE, skip=1, ...){
