@@ -9,9 +9,19 @@
 #' @usage 
 #' data("isomiRexp")
 #' @source
-#' Data was download from GEO dataset and analyzed with seqbuster tool.
-#' adrec file adapter 8 1 34
-#' miraligner file databse hsa 1 3 3 prefix
+#' Data is available from GEO dataset under accesion number GSE18069. 
+#' Samples used are: GSM450597, GSM450598, GSM450609 and GSM450608.
+#' 
+#' Sequence data was analyzed with seqbuster tool, see 
+#' \url{http://seqcluster.readthedocs.org/mirna_annotation.html} for
+#' more details.
+#' 
+#' Adapter removal with the following parameters:
+#' \code{adrec fastq_file TCGTATGCCGTCTT 8 1 0.34}
+#' 
+#' miRNAs annotation with the following parameters:
+#' \code{miraligner adrec_output mirbase_files hsa 1 3 3 out_prefix}
+#' 
 #' @references 
 #' Mehmet Somel et al. MicroRNA, mRNA, and protein expression link 
 #' development and aging in human and macaque brain. 
