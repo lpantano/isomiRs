@@ -57,7 +57,7 @@ isoTop <- function(ids, top=20){
                     decreasing=TRUE)[1:top]
     hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
     heatmap.2(counts(ids)[select,], col = hmcol,
-            scale="none", 
+            scale="none",
             dendrogram="none", trace="none")
 }
 
@@ -76,7 +76,7 @@ isoPlot <- function(ids, type="iso5"){
     freq <- size <- group <- abundance <- NULL
     codevn <- 2:5
     names(codevn) <- c("iso5", "iso3", "subs", "add")
-    ratiov <- c(1/6, 1/6, 1/23, 1/3)
+    ratiov <- c(1 / 6, 1 / 6, 1 / 23, 1 / 3)
     names(ratiov) <- names(codevn)
     coden <- codevn[type]
     ratio <- ratiov[type]
@@ -84,18 +84,17 @@ isoPlot <- function(ids, type="iso5"){
     table <- data.frame()
     isoList <- isoinfo(ids)
     for (sample in row.names(des)){
-        
         uniq.dat <- as.data.frame( table(isoList[[sample]][[coden]]$size) )
         temp <- as.data.frame( isoList[[sample]][[coden]] %>%
                                 group_by(size) %>%
-                                summarise( freq=sum(freq) ) 
+                                summarise( freq=sum(freq) )
                               )
         total <- sum(temp$freq)
         temp <- merge(temp, uniq.dat, by=1)
         Total <- sum(temp$Freq)
         temp$abundance <- temp$freq / total
         temp$unique <- temp$Freq / Total
-        table <- rbind( table, 
+        table <- rbind( table,
                         data.frame( size=temp$size, abundance=temp$abundance,
                                         unique=temp$unique,
                                         sample=rep(sample, nrow(temp)),
@@ -149,7 +148,7 @@ isoCounts <- function(x, ref=FALSE, iso5=FALSE, iso3=FALSE,
         counts <- IsoCountsFromMatrix(isoraw(x), colData(x), ref,
                                       iso5, iso3,
                                       add, subs, seed, minc)
-        se <- SummarizedExperiment(assays = SimpleList(counts=counts), 
+        se <- SummarizedExperiment(assays = SimpleList(counts=counts),
                                    colData = colData(x))
         x <- IsomirDataSeq(se, isoraw(x), isoinfo(x), isostats(x))
         return(x)

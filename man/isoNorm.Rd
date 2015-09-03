@@ -2,28 +2,28 @@
 % Please edit documentation in R/isomiRs.R
 \name{isoNorm}
 \alias{isoNorm}
-\title{Normalize count data}
+\title{Normalize count matrix}
 \usage{
-isoNorm(x, formula = ~condition)
+isoNorm(ids, formula = ~condition)
 }
 \arguments{
-\item{x}{IsomirDataSeq object}
+\item{ids}{IsomirDataSeq object}
 
 \item{formula}{formula that will be used for DE}
 }
 \value{
-IsomirSeqData object with the normalized
+\code{\link{IsomirSeqData}} object with the normalized
 count matrix in a slot. The normalized matrix
-can be access with counts(x, norm=TRUE).
+can be access with \code{counts(ids, norm=TRUE)}.
 }
 \description{
-This function normalizes raw count data using
-rlog function from DESeq2.
+This function normalizes raw count matrix using
+\code{\link{rlog}} function from \code{\link{DESeq2}}.
 }
 \examples{
 library(DESeq2)
 data(isomiRexp)
-obj <- isoNorm(isomiRexp, formula=~condition)
-head(counts(obj, norm=TRUE))
+ids <- isoNorm(isomiRexp, formula=~condition)
+head(counts(ids, norm=TRUE))
 }
 

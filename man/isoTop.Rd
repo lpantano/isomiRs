@@ -2,17 +2,17 @@
 % Please edit documentation in R/isomiRs.R
 \name{isoTop}
 \alias{isoTop}
-\title{Plot the amount of isomiRs in different samples divided by group}
+\title{Plot the top expressed isomiRs}
 \usage{
-isoTop(x, top = 20)
+isoTop(ids, top = 20)
 }
 \arguments{
-\item{x}{object isomiDataSeq}
+\item{ids}{object isomiDataSeq}
 
 \item{top}{number of isomiRs used}
 }
 \description{
-Plot the amount of isomiRs in different samples divided by group
+Plot the top expressed isomiRs
 }
 \examples{
 library(DESeq2)

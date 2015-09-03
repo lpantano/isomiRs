@@ -1,9 +1,9 @@
 # put header to input files
 .put_header <- function(table){
-    names(table)[c(1,3,4,7,8,9,10,13,14)] < -c("seq", "freq", "mir", "subs", 
-                                               "add", "t5", "t3", "DB", 
-                                               "ambiguity")
-    table <- table[,c(1,3,4,7,8,9,10,13,14)]
+    names(table)[c(1, 3, 4, 7, 8, 9, 10, 13, 14)] <- c("seq", "freq", "mir",
+                                               "subs", "add", "t5", "t3",
+                                               "DB", "ambiguity")
+    table <- table[,c(1, 3, 4, 7, 8, 9, 10, 13, 14)]
     table[,2] <- as.numeric(table[,2])
     return(table)
 }
@@ -14,7 +14,7 @@
     tab.fil <- table[table$DB == "miRNA",]
     tab.fil.out <- as.data.frame(tab.fil %>% group_by(mir) %>%
                                    summarise(total=sum(freq)))
-    tab.fil <- merge(tab.fil[ ,c(3,1:2,4:ncol(tab.fil)) ],
+    tab.fil <- merge(tab.fil[ ,c(3, 1:2, 4:ncol(tab.fil)) ],
                      tab.fil.out,
                      by=1)
     tab.fil$score <- tab.fil$freq / tab.fil$total * 100
@@ -35,30 +35,31 @@
     temp <- temp[order(temp$idfeat), ]
     temp <- temp[!duplicated(temp$idfeat), ]
     temp <- as.data.frame(summary(temp$mir))
-    feat.dist <- cut(as.numeric(temp[ ,1]), breaks=c(-1,0.5,1.5,2.5,Inf),
-                   labels=c("0","1","2",">3"))
+    feat.dist <- cut(as.numeric(temp[ ,1]), breaks=c(-1, 0.5, 1.5, 2.5, Inf),
+                   labels=c("0", "1", "2", ">3"))
     return ( as.data.frame( summary(feat.dist) ) )
 }
 
 # do counts table considering what isomiRs take into account
 
-IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE, iso3=FALSE,
-                                add=FALSE, subs=FALSE, seed=FALSE, minc=2){
+IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
+                                iso3=FALSE, add=FALSE,
+                                subs=FALSE, seed=FALSE, minc=2){
     table.merge <- data.frame()
     for (sample in row.names(des)){
         d <- listTable[[sample]]
         d <- .collapse_mirs(d, ref=ref, iso5=iso5, iso3=iso3, add=add,
                          subs=subs, seed=seed)
         names(d)[ncol(d)] <- sample
-        d <- d[d[,2] > minc, ] 
+        d <- d[d[,2] > minc, ]
         if( nrow(table.merge) == 0){
             table.merge <- d
         }else{
             table.merge <- merge( table.merge, d, by=1, all=TRUE )
         }
     }
-    row.names(table.merge) <- table.merge[,1]
-    table.merge <- as.matrix(table.merge[,2:ncol(table.merge)])
+    row.names(table.merge) <- table.merge[ ,1]
+    table.merge <- as.matrix(table.merge[ ,2:ncol(table.merge)])
     table.merge[is.na(table.merge)] <- 0
     dt <- as.matrix(table.merge)
     if ( dim(dt)[1] == 0 )
@@ -67,11 +68,11 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE, iso3=FALS
 }
 
 # Collapse isomiRs in miRNAs
-.collapse_mirs<-function(table, ref=FALSE, iso5=FALSE, iso3=FALSE,
+.collapse_mirs <- function(table, ref=FALSE, iso5=FALSE, iso3=FALSE,
                         add=FALSE, subs=FALSE, seed=FALSE){
     label <- table$mir
     freq <- NULL
-    if (ref==TRUE){
+    if (ref == TRUE){
         ref.val <- do.call(paste,table[,4:7])
         ref.val[grep("[ATGC]", ref.val, invert=TRUE)] <- "ref"
         ref.val[grep("[ATGC]", ref.val)] <- "iso"
@@ -86,7 +87,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE, iso3=FALS
         label <- paste(label, seed.val, sep=".seed:")
     }
     if (iso3 == TRUE){
-        label<-paste(label, table[,7], sep=".t3:")
+        label <- paste(label, table[,7], sep=".t3:")
     }
     if (add == TRUE){
         label <- paste(label, table[,5], sep=".ad:")
@@ -106,14 +107,15 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE, iso3=FALS
 .isomir_position <- function(table, colid){
     temp <- table
     temp[ ,colid] <- as.character(temp[ ,colid])
-    pos <- as.data.frame(t(as.data.frame((strsplit(temp[ ,colid], "-", fixed=2)))))
+    pos <- as.data.frame(t(as.data.frame((
+        strsplit(temp[ ,colid], "-", fixed=2)))))
     row.names(pos) <- 1:nrow(pos)
     pos$mir <- temp$mir
     pos$freq <- temp$freq
     pos <- pos[pos[ ,1] != 0, ]
     pos$size <- apply(pos, 1, function(x){
-        p<-length(unlist(strsplit(x[2], "")))
-        if(x[1] == "d"){
+        p <- length(unlist(strsplit(x[2], "")))
+        if (x[1] == "d"){
             p <- p * -1
         }
         return(p)
@@ -129,7 +131,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE, iso3=FALS
     temp[ ,colid] <- as.character(temp[ ,colid])
     nt <- sub("[0-9]+", "", temp[ ,colid])
     pos <- sub("[ATGC]{2}", "", temp[,colid])
-    pos <- data.frame(nt=as.character(nt), size=pos, 
+    pos <- data.frame(nt=as.character(nt), size=pos,
                       mir=temp$mir, freq=temp$freq)
     pos$nt <- as.character(pos$nt)
     pos <- pos[pos[,1] != "", ]

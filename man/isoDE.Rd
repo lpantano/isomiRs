@@ -4,11 +4,11 @@
 \alias{isoDE}
 \title{Do differential expression analysis with DESeq2}
 \usage{
-isoDE(x, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
-  subs = FALSE, seed = FALSE)
+isoDE(ids, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
+  add = FALSE, subs = FALSE, seed = FALSE)
 }
 \arguments{
-\item{x}{object isomiDataSeq}
+\item{ids}{object isomiDataSeq}
 
 \item{formula}{used for DE analysis}
 
@@ -25,22 +25,23 @@ isoDE(x, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
 \item{seed}{differenciate changes in 2-7 nt from rest}
 }
 \value{
-DESeqDataSet object
+\code{\link{DESeqDataSet}} object
 }
 \description{
-This function does differential expression analysis with DESeq2.
-It will return a DESeq2 object.
-You can merge all isomiRs into miRNA by calling the function only
-with the frist two parameters. You can get a table with isomiRs and
-the reference miRBase sequence by calling the function with ref=T.
-You can get a table with 5' trimming isomiRS, miRBase reference and
-the rest by calling with ref=T,iso5=T.
-If you set up all parameters to TRUE, you will get a table for
-each differnt sequence mapping to a miRNA
+This function does differential expression analysis with \code{\link{DESeq2}}.
+It will return a \code{\link{DESeqResults}} object.
+}
+\details{
+This function allows to collpase all isomiRs in different types.
+Read more at \code{\link{isoCounts}}.
+
+After collpasing isomiRs, \code{\link{DESeq2}} is used to do the differential
+expression analysis. It uses the design matrix given by the user as the colData
+slot to construct \code{\link{DESeqData}} object.
 }
 \examples{
 library(DESeq2)
 data(isomiRexp)
-dds<-isoDE(isomiRexp, formula=~condition)
+dds <- isoDE(isomiRexp, formula=~condition)
 }
 

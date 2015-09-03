@@ -2,12 +2,12 @@
 % Please edit documentation in R/isomiRs.R
 \name{isoPlot}
 \alias{isoPlot}
-\title{Plot the amount of isomiRs in different samples divided by group}
+\title{Plot the amount of isomiRs in different samples}
 \usage{
-isoPlot(x, type = "iso5")
+isoPlot(ids, type = "iso5")
 }
 \arguments{
-\item{x}{object isomirDataSeq}
+\item{ids}{object isomirDataSeq}
 
 \item{type}{string (iso5,iso3,add,subs) to indicate what isomiR
 change to use for the plot}
@@ -16,7 +16,7 @@ change to use for the plot}
 ggplot2 figure showing the selected isomiR changes among samples
 }
 \description{
-Plot the amount of isomiRs in different samples divided by group
+Plot the amount of isomiRs in different samples
 }
 \examples{
 data(isomiRexp)

@@ -17,7 +17,6 @@ setValidity( "IsomirDataSeq", function( object ) {
         return( "NA values are not allowed in the count matrix" )
     if ( any( counts(object) < 0 ) )
         return( "the count data contains negative values" )
-    
     TRUE
 } )
 
@@ -63,14 +62,15 @@ IsomirDataSeq <- function(se, expList, varList, sumList){
                   se <- as(se, "RangedSummarizedExperiment")
         } else if (is(se, "SummarizedExperiment")) {
                   # only to help transition from SummarizedExperiment to new
-                  # RangedSummarizedExperiment objects, remove once transition is complete
+                  # RangedSummarizedExperiment objects,
+                  # remove once transition is complete
                   se <- as(se, "RangedSummarizedExperiment")
         } else {
                   stop("'se' must be a RangedSummarizedExperiment object")
         }
-          
     }
-    new("IsomirDataSeq", se, rawList=expList, isoList=varList, statsList=sumList)
+    new("IsomirDataSeq", se, rawList=expList,
+        isoList=varList, statsList=sumList)
 }
 
 
@@ -88,7 +88,7 @@ IsomirDataSeq <- function(se, expList, varList, sumList){
 #' @return
 #' \code{\link[isomiRs]{IsomirDataSeq}} class
 #' @export
-IsomirDataSeqFromFiles <- function(files, design, cov=1, 
+IsomirDataSeqFromFiles <- function(files, design, cov=1,
                                    header=FALSE, skip=1, ...){
     listSamples <- vector("list")
     listIsomirs <- vector("list")
@@ -101,7 +101,7 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1,
             warning(paste0("This sample has not lines: ", f))
         }else{
             d <- .filter_table(d, cov)
-            out <- list(summary=0, 
+            out <- list(summary=0,
                         t5sum = .isomir_position(d, 6),
                         t3sum = .isomir_position(d, 7),
                         subsum = .subs_position(d, 4),
@@ -112,10 +112,8 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1,
         }
     }
     countData <- IsoCountsFromMatrix(listSamples, design)
-    se <- SummarizedExperiment(assays = SimpleList(counts=countData), 
+    se <- SummarizedExperiment(assays = SimpleList(counts=countData),
                                colData = DataFrame(design), ...)
     IsoObj <- IsomirDataSeq(se, listSamples, listIsomirs, list())
     return(IsoObj)
 }
-
-

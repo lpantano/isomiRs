@@ -38,7 +38,7 @@ than this number}
 \item{...}{arguments provided to \code{SummarizedExperiment} including rowData and exptData}
 }
 \value{
-\code{IsomirDataSeq} class
+\code{\link[isomiRs]{IsomirDataSeq}} class
 }
 \description{
 The \code{IsomirDataSeq} is a subclass of \code{SummarizedExperiment},
@@ -55,8 +55,8 @@ The \code{IsomirDataSeqFromFiles}
 \code{IsomirDataSeqFromFiles} creates this object from seqbuster output files.
 
 Methods for this objects are \code{\link[isomiRs]{counts}} and \code{\link[isomiRs]{isoSelect}}, and functions
-available for this object are \code{isoCount}, \code{isoNorm}, \code{isoDE} and
-\code{isoPlot}.
+available for this object are \code{\link[isomiRs]{isoCount}}, \code{\link[isomiRs]{isoNorm}}, \code{\link[isomiRs]{isoDE}} and
+\code{\link[isomiRs]{isoPlot}}.
 }
 \examples{
 \\donotrun{

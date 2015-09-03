@@ -139,7 +139,6 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' @export
 isoSelect.IsomirDataSeq <- function(object, mirna="", norm=FALSE, minc=10) {
     x <- isoraw(object)
-    
     if ( mirna == "" )
         stop("mirna parameter needs to have a value")
     l <- lapply( x, function(sample){
