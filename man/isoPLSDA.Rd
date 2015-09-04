@@ -2,13 +2,13 @@
 % Please edit documentation in R/PLSDA.R
 \name{isoPLSDA}
 \alias{isoPLSDA}
-\title{Arguments (included in plsDA function within DiscriMiner package)}
+\title{Partial Least Squares Discriminant Analysis for isomirSeqData}
 \usage{
-isoPLSDA(obj, var, validation = NULL, learn = NULL, test = NULL,
+isoPLSDA(ids, var, validation = NULL, learn = NULL, test = NULL,
  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
 }
 \arguments{
-\item{obj}{IsomirDataSeq}
+\item{ids}{IsomirDataSeq}
 
 \item{var}{column name in design data.frame}
 
@@ -35,15 +35,45 @@ a refinement precess is considered. Default vip=1.2}
 }
 \value{
 PLS model
+
+\code{\link[list]} with the followig elements: R2Matrix (R-squared coefficents of the PLS model),
+components (of the PLS),
+p.value obtained by the permutations and R2PermutationVector with all R2 from
+the permutations.
+
+If the option \code{refinment} is set to \code{TRUE}, then the following
+elements will appear:
+R2RefinedMatrix and componentsRefinedModel (R-squared coefficients and components
+ (components of the PLS model only using the most important miRNAs). As well,
+p.valRefined and R2RefinedPermutationVector with the p-value and the R2 of the
+permutations shuffling individuals. And finally,
+p.valRefinedFixed and R2RefinedFixedPermutationVector with p-values and R2 of the
+permutations shuffling the most important miRNAs.
 }
 \description{
 Arguments (included in plsDA function within DiscriMiner package)
 }
+\details{
+Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
+appropriate for analysis of high dimensionality data sets and multicollineality
+\cite{perezenciso}. PLS-DA is a supervised method (i.e. makes use of class
+labels) with the aim to provide a dimension reduction strategy in a situation
+where we want to relate a binary response variable (in our case young or old
+status) to a set of predictor variables. Dimensionality reduction procedure is
+based on orthogonal transformations of the original variables (isomiRs) into a
+set of linearly uncorrelated latent variables (usually termed as components)
+such that maximizes the separation between the different classes in the first
+few components \cite{xia}. We used sum of squares captured by the model (R2) as
+a goodness of fit measure. We implemented this method using the
+\code{\link[DiscriMiner]} into \code{\link{isoPLSDA}} function. The output
+p-value of this function will tell about the statistical
+significant of the group separation using miRNA/isomiR expression data.
+}
 \examples{
 library(DESeq2)
 data(isomiRexp)
-obj = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
-obj = isoNorm(obj)
-pls.obj = isoPLSDA(obj, "condition", nperm = 10)
+ids = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+ids = isoNorm(ids)
+pls.ids = isoPLSDA(ids, "condition", nperm = 10)
 }
 

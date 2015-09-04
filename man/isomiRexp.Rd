@@ -9,7 +9,7 @@
 Data is available from GEO dataset under accesion number GSE18069.
 Samples used are: GSM450597, GSM450598, GSM450609 and GSM450608.
 
-Sequence data was analyzed with seqbuster tool, see
+Every sample was analyzed with seqbuster tool, see
 \url{http://seqcluster.readthedocs.org/mirna_annotation.html} for
 more details.
 
@@ -24,7 +24,7 @@ The data was created with \code{\link{isomiRs}} package:
 \code{library(isomiRs)}
 
 \code{fns <- c("GSM450597.mirna", "GSM450598.mirna",
-"GSM450609.mirna", "GSM450608..mirna")}
+"GSM450609.mirna", "GSM450608.mirna")}
 
 \code{design <- data.frame(condition=c('new', 'new', 'new',
 'old', 'old', 'old'))}
