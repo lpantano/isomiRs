@@ -21,9 +21,12 @@
 
 \item{minc}{int minimum number of isomiR reads}
 }
+\value{
+\code{\link[S4Vectors]{DataFrame-class}}
+}
 \description{
 This method allows to select a miRNA and all its isomiRs
-along all samples.
+from all samples.
 }
 \examples{
 data(isomiRexp)

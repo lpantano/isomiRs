@@ -1,6 +1,5 @@
 #' Partial Least Squares Discriminant Analysis for isomirSeqData
 #' 
-#' Arguments (included in plsDA function within DiscriMiner package)
 #' @aliases isoPLSDA
 #' @usage isoPLSDA(ids, var, validation = NULL, learn = NULL, test = NULL,
 #'  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
@@ -33,11 +32,12 @@
 #' such that maximizes the separation between the different classes in the first
 #' few components \cite{xia}. We used sum of squares captured by the model (R2) as
 #' a goodness of fit measure. We implemented this method using the
-#' \code{\link[DiscriMiner]} into \code{\link{isoPLSDA}} function. The output
+#' \code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function. The output
 #' p-value of this function will tell about the statistical
 #' significant of the group separation using miRNA/isomiR expression data.
 #' @return 
-#' \code{\link[list]} with the followig elements: R2Matrix (R-squared coefficents of the PLS model),
+#' \code{\link[base]{list}} with the followig elements: R2Matrix 
+#' (R-squared coefficents of the PLS model),
 #' components (of the PLS),
 #' p.value obtained by the permutations and R2PermutationVector with all R2 from
 #' the permutations.
@@ -229,11 +229,11 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' @param groups	vector or factor with group memberships
 #' @return plot
 #' @details 
-#' The function \Rfunction{isoPLSDAplot}
+#' The function \code{isoPLSDAplot}
 #' helps to visualize the results. It will plot the samples using the 
 #' significant components (t1, t2, t3 ...) from the PLS-DA analysis and the 
 #' samples distribution along the components.
-#' @return \code{\link[ggplot2]} object
+#' @return \code{\link[ggplot2]{ggplot2-package}} object
 #' @examples
 #' data(isomiRexp)
 #' ids = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)

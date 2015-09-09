@@ -36,7 +36,8 @@ a refinement precess is considered. Default vip=1.2}
 \value{
 PLS model
 
-\code{\link[list]} with the followig elements: R2Matrix (R-squared coefficents of the PLS model),
+\code{\link[base]{list}} with the followig elements: R2Matrix
+(R-squared coefficents of the PLS model),
 components (of the PLS),
 p.value obtained by the permutations and R2PermutationVector with all R2 from
 the permutations.
@@ -51,7 +52,7 @@ p.valRefinedFixed and R2RefinedFixedPermutationVector with p-values and R2 of th
 permutations shuffling the most important miRNAs.
 }
 \description{
-Arguments (included in plsDA function within DiscriMiner package)
+Partial Least Squares Discriminant Analysis for isomirSeqData
 }
 \details{
 Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
@@ -65,7 +66,7 @@ set of linearly uncorrelated latent variables (usually termed as components)
 such that maximizes the separation between the different classes in the first
 few components \cite{xia}. We used sum of squares captured by the model (R2) as
 a goodness of fit measure. We implemented this method using the
-\code{\link[DiscriMiner]} into \code{\link{isoPLSDA}} function. The output
+\code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function. The output
 p-value of this function will tell about the statistical
 significant of the group separation using miRNA/isomiR expression data.
 }

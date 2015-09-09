@@ -12,13 +12,13 @@ isoNorm(ids, formula = ~condition)
 \item{formula}{formula that will be used for DE}
 }
 \value{
-\code{\link{IsomirSeqData}} object with the normalized
+\code{\link{IsomirDataSeq}} object with the normalized
 count matrix in a slot. The normalized matrix
 can be access with \code{counts(ids, norm=TRUE)}.
 }
 \description{
 This function normalizes raw count matrix using
-\code{\link{rlog}} function from \code{\link{DESeq2}}.
+\code{\link[DESeq2]{rlog}} function from \code{\link[DESeq2]{DESeq2-package}}.
 }
 \examples{
 library(DESeq2)

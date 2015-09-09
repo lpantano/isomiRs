@@ -14,13 +14,13 @@ isoPLSDAplot(components, groups)
 \value{
 plot
 
-\code{\link[ggplot2]} object
+\code{\link[ggplot2]{ggplot2-package}} object
 }
 \description{
 Plot components from isoPLSDA(pairs plot)
 }
 \details{
-The function \Rfunction{isoPLSDAplot}
+The function \code{isoPLSDAplot}
 helps to visualize the results. It will plot the samples using the
 significant components (t1, t2, t3 ...) from the PLS-DA analysis and the
 samples distribution along the components.

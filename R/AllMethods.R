@@ -65,9 +65,10 @@ setReplaceMethod("isostats", "IsomirDataSeq",
 #' @rdname counts
 #' @aliases counts counts,IsomirDataSeq-method counts<-,IsomirDataSeq,matrix-method
 #'
-#' @param object a \code{IsomirDataSeq} object.
+#' @param object a \code{IsomirDataSeq} object
 #' @param value an integer matrix
 #' @param norm TRUE return log2-normalized counts
+#' @return \code{\link[base]{matrix}} with raw or normalized count data.
 #' @author Lorena Pantano
 #' @examples
 #' data(isomiRexp)
@@ -116,7 +117,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' Method to browse an IsomirDataSeq object.
 #'
 #' This method allows to select a miRNA and all its isomiRs
-#' along all samples.
+#' from all samples.
 #'
 #' @usage
 #' \S4method{isoSelect}{IsomirDataSeq}(object, mirna="", norm=FALSE, minc=10)
@@ -131,6 +132,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' @param mirna string of the miRNA to show
 #' @param norm TRUE return log2-normalized counts
 #' @param minc int minimum number of isomiR reads
+#' @return \code{\link[S4Vectors]{DataFrame-class}}
 #' @author Lorena Pantano
 #' 
 #' @examples
@@ -144,8 +146,8 @@ isoSelect.IsomirDataSeq <- function(object, mirna="", norm=FALSE, minc=10) {
     l <- lapply( x, function(sample){
         sample %>% filter( mir == mirna )
     })
-    IsoCountsFromMatrix(l, colData(object), ref=TRUE,iso5=TRUE,iso3=TRUE,
-              add=TRUE, subs=TRUE, seed=TRUE, minc=minc)
+    DataFrame(IsoCountsFromMatrix(l, colData(object), ref=TRUE,iso5=TRUE,iso3=TRUE,
+              add=TRUE, subs=TRUE, seed=TRUE, minc=minc))
 }
 
 

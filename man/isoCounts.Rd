@@ -4,11 +4,11 @@
 \alias{isoCounts}
 \title{Create count matrix}
 \usage{
-isoCounts(x, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
+isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
   subs = FALSE, seed = FALSE, minc = 10)
 }
 \arguments{
-\item{x}{IsomirDataSeq class}
+\item{ids}{IsomirDataSeq class}
 
 \item{ref}{differenciate reference miRNA from rest}
 
@@ -31,16 +31,15 @@ count table
 This function collapses isomiRs into different groups.
 }
 \details{
-You can merge all isomiRs into miRNA by calling the function only
-with the frist two parameters. You can get a table with isomiRs and
+You can merge all isomiRs into miRNAs by calling the function only
+with the first parameter \code{ids}. You can get a table with isomiRs and
 the reference miRBase sequence by calling the function with \code{ref=TRUE}.
 You can get a table with 5' trimming isomiRS, miRBase reference and
-the rest by calling with \code{ref=TRUE,iso5=TRUE}.
+the rest by calling with \code{idx, ref=TRUE,iso5=TRUE}.
 If you set up all parameters to TRUE, you will get a table for
-each differnt sequence mapping to a miRNA.
+each differnt sequence mapping to a miRNA (all isomiRs).
 }
 \examples{
-library(DESeq2)
 data(isomiRexp)
 ids <- isoCounts(isomiRexp, ref=TRUE)
 head(counts(ids))

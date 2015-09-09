@@ -2,20 +2,21 @@
 % Please edit documentation in R/isomiRs.R
 \name{isoTop}
 \alias{isoTop}
-\title{Plot the top expressed isomiRs}
+\title{Heatmap of the top expressed isomiRs}
 \usage{
 isoTop(ids, top = 20)
 }
 \arguments{
 \item{ids}{object isomiDataSeq}
 
-\item{top}{number of isomiRs used}
+\item{top}{number of isomiRs/miRNAs used}
 }
 \description{
-Plot the top expressed isomiRs
+This function creates a heatmap with the top N
+isomiRs/miRNAs. It uses the matrix under \code{counts(ids)}
+and represent in a heatmap the raw counts for each sample.
 }
 \examples{
-library(DESeq2)
 data(isomiRexp)
 isoTop(isomiRexp)
 }

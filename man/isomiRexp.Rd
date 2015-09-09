@@ -19,7 +19,7 @@ Adapter removal with the following parameters:
 miRNAs annotation with the following parameters:
 \code{miraligner adrec_output mirbase_files hsa 1 3 3 out_prefix}
 
-The data was created with \code{\link{isomiRs}} package:
+The data was created with \code{isomiRs-package} package:
 
 \code{library(isomiRs)}
 
@@ -46,6 +46,6 @@ Lorena Pantano, 2015-05-19
 \references{
 Mehmet Somel et al. MicroRNA, mRNA, and protein expression link
 development and aging in human and macaque brain.
-Genome Research, 20(9):1207–1218, 2010.doi:10.1101/gr.106849.110.
+\code{Genome Research,20(9):1207-1218,2010.doi:10.1101/gr.106849.110}
 }
 

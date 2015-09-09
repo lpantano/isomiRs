@@ -25,19 +25,20 @@ isoDE(ids, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
 \item{seed}{differenciate changes in 2-7 nt from rest}
 }
 \value{
-\code{\link{DESeqDataSet}} object
+\code{\link[DESeq2]{DESeqDataSet}} object
 }
 \description{
-This function does differential expression analysis with \code{\link{DESeq2}}.
+This function does differential expression analysis with \code{\link[DESeq2]{DESeq2-package}}.
 It will return a \code{\link{DESeqResults}} object.
 }
 \details{
-This function allows to collpase all isomiRs in different types.
+This function collapses all isomiRs in different types.
 Read more at \code{\link{isoCounts}}.
 
-After collpasing isomiRs, \code{\link{DESeq2}} is used to do the differential
-expression analysis. It uses the design matrix given by the user as the colData
-slot to construct \code{\link{DESeqData}} object.
+After that isomiRs, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
+expression analysis. It uses the design matrix given when the
+\code{\link{IsomirDataSeq}} is created
+to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 }
 \examples{
 library(DESeq2)

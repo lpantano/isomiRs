@@ -55,11 +55,11 @@ The \code{IsomirDataSeqFromFiles}
 \code{IsomirDataSeqFromFiles} creates this object from seqbuster output files.
 
 Methods for this objects are \code{\link[isomiRs]{counts}} and \code{\link[isomiRs]{isoSelect}}, and functions
-available for this object are \code{\link[isomiRs]{isoCount}}, \code{\link[isomiRs]{isoNorm}}, \code{\link[isomiRs]{isoDE}} and
+available for this object are \code{\link[isomiRs]{isoCounts}}, \code{\link[isomiRs]{isoNorm}}, \code{\link[isomiRs]{isoDE}} and
 \code{\link[isomiRs]{isoPlot}}.
 }
 \examples{
-\\donotrun{
+\dontrun{
 fn_list = c("url1", "url2")
 de = data.frame(row.names=c("f1" , "f2"), condition = c("n1", "o1"))
 ids <- IsomirDataSeqFromFiles(fn_list, design=de)

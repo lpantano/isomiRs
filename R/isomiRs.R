@@ -1,16 +1,17 @@
 #' Do differential expression analysis with DESeq2
 #'
-#' This function does differential expression analysis with \code{\link{DESeq2}}.
+#' This function does differential expression analysis with \code{\link[DESeq2]{DESeq2-package}}.
 #' It will return a \code{\link{DESeqResults}} object.
 #' 
 #' @details 
 #' 
-#' This function allows to collpase all isomiRs in different types.
+#' This function collapses all isomiRs in different types.
 #' Read more at \code{\link{isoCounts}}.
 #' 
-#' After collpasing isomiRs, \code{\link{DESeq2}} is used to do the differential
-#' expression analysis. It uses the design matrix given by the user as the colData 
-#' slot to construct \code{\link{DESeqData}} object.
+#' After that isomiRs, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
+#' expression analysis. It uses the design matrix given when the 
+#' \code{\link{IsomirDataSeq}} is created
+#' to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 #'
 #' @param ids object isomiDataSeq
 #' @param formula used for DE analysis
@@ -20,7 +21,7 @@
 #' @param add differenciate additions miRNA from rest
 #' @param subs differenciate nt substitution miRNA from rest
 #' @param seed differenciate changes in 2-7 nt from rest
-#' @return \code{\link{DESeqDataSet}} object
+#' @return \code{\link[DESeq2]{DESeqDataSet}} object
 #' @examples
 #' library(DESeq2)
 #' data(isomiRexp)
@@ -40,33 +41,58 @@ isoDE <- function(ids, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
     dds
 }
 
-#' Plot the top expressed isomiRs
+#' Heatmap of the top expressed isomiRs
+#'
+#' This function creates a heatmap with the top N
+#' isomiRs/miRNAs. It uses the matrix under \code{counts(ids)}
+#' and represent in a heatmap the raw counts for each sample.
 #'
 #' @param ids object isomiDataSeq
-#' @param top number of isomiRs used
+#' @param top number of isomiRs/miRNAs used
 #' @examples
-#' library(DESeq2)
 #' data(isomiRexp)
 #' isoTop(isomiRexp)
 #' @export
-#' @import ggplot2
 #' @import gplots
 #' @import RColorBrewer
 isoTop <- function(ids, top=20){
     select <- order(rowMeans(counts(ids)),
                     decreasing=TRUE)[1:top]
-    hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
+    hmcol <- colorRampPalette(brewer.pal(9, "RdYlBu"))(100)
     heatmap.2(counts(ids)[select,], col = hmcol,
-            scale="none",
+            scale="none", 
             dendrogram="none", trace="none")
 }
 
 #' Plot the amount of isomiRs in different samples
 #'
+#' This function plot different isomiRs proportion for each sample.
+#' It can show trimming events at both side, additions and nucleotides
+#' changes.
+#'
 #' @param ids object isomirDataSeq
-#' @param type string (iso5,iso3,add,subs) to indicate what isomiR
-#' change to use for the plot
-#' @return ggplot2 figure showing the selected isomiR changes among samples
+#' @param type string (iso5, iso3, add, subs) to indicate what isomiRs
+#' to use for the plot. See details for explanation.
+#' @return \code{\link{IsomirDataSeq}} with new stored data to avoid
+#' same calculation in the future.
+#' @details 
+#' There are four different values for \code{type} parameter. To plot 
+#' trimming at 5' or 3' end, use \code{type="iso5"} or \code{type="iso3"}. 
+#' In this case, it will plot 3 positions at both side of the reference
+#' position described at miRBase. Each position refers to the number of 
+#' sequences that start/end before or after the miRBase reference. The
+#' color indicates the sample group. The size of the point is proportional
+#' to the number of total counts. The position in \code{y} is the number of
+#' different sequences. 
+#' 
+#' Same logic applies to \code{type="add"} and \code{type="subs"}. However,
+#' when \code{type="add"}, the plot will refer to addition events from the
+#' 3' end of the reference miRBase. Note that this additions doesn't match 
+#' the precursor sequence. In this case, only 3 position after the 3' end
+#' will appear in the plot. When \code{type="subs"}, it will appear one
+#' position for each nucleotide in the reference miRNA. And the points
+#' will indicate isomiRs with nucleotide changes at the given position.
+#' 
 #' @export
 #' @import ggplot2
 #' @examples
@@ -118,7 +144,7 @@ isoPlot <- function(ids, type="iso5"){
 #' 
 #' This function collapses isomiRs into different groups.
 #' 
-#' @param x IsomirDataSeq class
+#' @param ids IsomirDataSeq class
 #' @param ref differenciate reference miRNA from rest
 #' @param iso5 differenciate trimming at 5 miRNA from rest
 #' @param iso3 differenciate trimming at 3 miRNA from rest
@@ -128,42 +154,41 @@ isoPlot <- function(ids, type="iso5"){
 #' @param minc int minimum number of isomiR sequences
 #' @details 
 #' 
-#' You can merge all isomiRs into miRNA by calling the function only
-#' with the frist two parameters. You can get a table with isomiRs and
+#' You can merge all isomiRs into miRNAs by calling the function only
+#' with the first parameter \code{ids}. You can get a table with isomiRs and
 #' the reference miRBase sequence by calling the function with \code{ref=TRUE}.
 #' You can get a table with 5' trimming isomiRS, miRBase reference and
-#' the rest by calling with \code{ref=TRUE,iso5=TRUE}.
+#' the rest by calling with \code{idx, ref=TRUE,iso5=TRUE}.
 #' If you set up all parameters to TRUE, you will get a table for
-#' each differnt sequence mapping to a miRNA.
+#' each differnt sequence mapping to a miRNA (all isomiRs).
 #' 
 #' @return count table
 #' @examples
-#' library(DESeq2)
 #' data(isomiRexp)
 #' ids <- isoCounts(isomiRexp, ref=TRUE)
 #' head(counts(ids))
 #' @export
-isoCounts <- function(x, ref=FALSE, iso5=FALSE, iso3=FALSE,
+isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
                       add=FALSE, subs=FALSE, seed=FALSE, minc=10){
-        counts <- IsoCountsFromMatrix(isoraw(x), colData(x), ref,
+        counts <- IsoCountsFromMatrix(isoraw(ids), colData(ids), ref,
                                       iso5, iso3,
                                       add, subs, seed, minc)
         se <- SummarizedExperiment(assays = SimpleList(counts=counts),
-                                   colData = colData(x))
-        x <- IsomirDataSeq(se, isoraw(x), isoinfo(x), isostats(x))
-        return(x)
+                                   colData = colData(ids))
+        ids <- IsomirDataSeq(se, isoraw(ids), isoinfo(ids), isostats(ids))
+        ids
 }
 
 
 #' Normalize count matrix
 #'
 #' This function normalizes raw count matrix using
-#' \code{\link{rlog}} function from \code{\link{DESeq2}}.
+#' \code{\link[DESeq2]{rlog}} function from \code{\link[DESeq2]{DESeq2-package}}.
 #'
 #' @param ids IsomirDataSeq object
 #' @param formula formula that will be used for DE
 #' 
-#' @return \code{\link{IsomirSeqData}} object with the normalized
+#' @return \code{\link{IsomirDataSeq}} object with the normalized
 #' count matrix in a slot. The normalized matrix
 #' can be access with \code{counts(ids, norm=TRUE)}.
 #' 
