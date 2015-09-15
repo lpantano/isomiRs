@@ -23,12 +23,12 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' Class that contain all isomiRs annotation for all samples
 #' 
 #' The \code{IsomirDataSeq} is a subclass of \code{SummarizedExperiment},
-#' used to store the input values, intermediate calculations and results of an
+#' used to store the raw data, intermediate calculations and results of an
 #' isomiR analysis.  The \code{IsomirDataSeq} class stores all raw isomiRs
 #' data for each sample, processed information,
 #' summary for each isomiR type,
 #' raw counts, normalized counts, and data.frame with
-#' columns information for each sample.
+#' information for each sample.
 #'
 #' \code{IsomirDataSeqFromFiles} creates this object from seqbuster output files.
 #' 
@@ -36,11 +36,12 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' available for this object are \code{\link[isomiRs]{isoCounts}}, \code{\link[isomiRs]{isoNorm}}, \code{\link[isomiRs]{isoDE}} and
 #' \code{\link[isomiRs]{isoPlot}}. 
 #' 
-#' @param se SummarizedExperiment object
-#' @param expList list of samples with miraligner output
-#' @param varList list of samples with summarized isomiR 
-#' information for each type
-#' @param sumList list of samples with general isomiR information 
+#' @param se SummarizedExperiment object.
+#' @param expList list of samples with seqbuster output.
+#' @param isoList list of samples with summarized isomiR 
+#' information for each type.
+#' @param statsList list of samples with general isomiR information.
+#' Could be empty list.
 #' 
 #' @aliases IsomirDataSeq IsomirDataSeq-class IsomirDataSeqFromFiles
 #' @examples 
@@ -56,7 +57,7 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @name IsomirDataSeq
 #' @rdname IsomirDataSeq
 #' @export
-IsomirDataSeq <- function(se, expList, varList, sumList){
+IsomirDataSeq <- function(se, expList, isoList, statsList){
     if (!is(se, "RangedSummarizedExperiment")) {
         if (is(se, "SummarizedExperiment0")) {
                   se <- as(se, "RangedSummarizedExperiment")
@@ -70,7 +71,7 @@ IsomirDataSeq <- function(se, expList, varList, sumList){
         }
     }
     new("IsomirDataSeq", se, rawList=expList,
-        isoList=varList, statsList=sumList)
+        isoList=isoList, statsList=statsList)
 }
 
 
