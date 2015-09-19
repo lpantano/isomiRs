@@ -22,15 +22,16 @@ setValidity( "IsomirDataSeq", function( object ) {
 
 #' Class that contain all isomiRs annotation for all samples
 #' 
-#' The \code{IsomirDataSeq} is a subclass of \code{SummarizedExperiment},
+#' The \code{\link{IsomirDataSeq}} is a subclass of 
+#' \code{\link[SummarizedExperiment]{SummarizedExperiment}}
 #' used to store the raw data, intermediate calculations and results of an
-#' isomiR analysis.  The \code{IsomirDataSeq} class stores all raw isomiRs
+#' isomiR analysis.  The \code{\link{IsomirDataSeq}} class stores all raw isomiRs
 #' data for each sample, processed information,
 #' summary for each isomiR type,
 #' raw counts, normalized counts, and data.frame with
 #' information for each sample.
 #'
-#' \code{IsomirDataSeqFromFiles} creates this object from seqbuster output files.
+#' \code{\link{IsomirDataSeqFromFiles}} creates this object from seqbuster output files.
 #' 
 #' Methods for this objects are \code{\link[isomiRs]{counts}} and \code{\link[isomiRs]{isoSelect}}, and functions
 #' available for this object are \code{\link[isomiRs]{isoCounts}}, \code{\link[isomiRs]{isoNorm}}, \code{\link[isomiRs]{isoDE}} and
@@ -75,7 +76,11 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 }
 
 
-#' The \code{IsomirDataSeqFromFiles}
+#' \code{IsomirDataSeqFromFiles} creates \code{\link[isomiRs]{IsomirDataSeq}} object
+#'
+#' This function parses  \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
+#' output to allow isomiRs/miRNAs analysis of samples in different groups such as
+#' characterization, differential expression and clustering.
 #'
 #' @name IsomirDataSeq
 #' @rdname IsomirDataSeq
@@ -85,7 +90,18 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 #' @param design data frame containing groups for each sample
 #' @param header boolean to indicate files contain headers
 #' @param skip skip first line when reading files
-#' @param ... arguments provided to \code{SummarizedExperiment} including rowData and exptData
+#' @param ... arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}} including rowData and exptData
+#' @details
+#' This function parse the output of \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
+#' for each sample to create count matrix for isomiRs, miRNAs or isomiRs grouped in
+#' types (i.e all sequences with variations at 5' ignoring other type). It creates
+#' \code{\link[isomiRs]{IsomirDataSeq}} object to allow visualization, queries, differential
+#' expression analysis and sample clustering.
+#' To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs file, and generates
+#' an initial matrix having all miRNAs detected among samples. As well, it creates
+#' a summary for each isomiR type (trimming, additian and substitution.) to
+#' visualize general isomiRs distribution of samples.
+#'
 #' @return
 #' \code{\link[isomiRs]{IsomirDataSeq}} class
 #' @export
