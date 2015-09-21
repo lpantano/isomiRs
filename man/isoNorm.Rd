@@ -9,7 +9,7 @@ isoNorm(ids, formula = ~condition)
 \arguments{
 \item{ids}{IsomirDataSeq object}
 
-\item{formula}{formula that will be used for DE}
+\item{formula}{formula that will be used for normalization}
 }
 \value{
 \code{\link{IsomirDataSeq}} object with the normalized

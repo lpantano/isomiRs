@@ -186,7 +186,7 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' \code{\link[DESeq2]{rlog}} function from \code{\link[DESeq2]{DESeq2-package}}.
 #'
 #' @param ids IsomirDataSeq object
-#' @param formula formula that will be used for DE
+#' @param formula formula that will be used for normalization
 #' 
 #' @return \code{\link{IsomirDataSeq}} object with the normalized
 #' count matrix in a slot. The normalized matrix

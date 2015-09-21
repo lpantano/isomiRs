@@ -78,7 +78,7 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 
 #' \code{IsomirDataSeqFromFiles} creates \code{\link[isomiRs]{IsomirDataSeq}} object
 #'
-#' This function parses  \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
+#' This function parses \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
 #' output to allow isomiRs/miRNAs analysis of samples in different groups such as
 #' characterization, differential expression and clustering.
 #'
@@ -131,6 +131,6 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1,
     countData <- IsoCountsFromMatrix(listSamples, design)
     se <- SummarizedExperiment(assays = SimpleList(counts=countData),
                                colData = DataFrame(design), ...)
-    IsoObj <- IsomirDataSeq(se, listSamples, listIsomirs, list())
-    return(IsoObj)
+    ids <- IsomirDataSeq(se, listSamples, listIsomirs, list())
+    return(ids)
 }
