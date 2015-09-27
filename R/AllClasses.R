@@ -28,15 +28,18 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' isomiR analysis.  The \code{\link{IsomirDataSeq}} class stores all raw isomiRs
 #' data for each sample, processed information,
 #' summary for each isomiR type,
-#' raw counts, normalized counts, and data.frame with
+#' raw counts, normalized counts, and table with
 #' information for each sample.
 #'
-#' \code{\link{IsomirDataSeqFromFiles}} creates this object from seqbuster output files.
+#' \code{\link{IsomirDataSeqFromFiles}} creates this object using seqbuster output files.
 #' 
 #' Methods for this objects are \code{\link[isomiRs]{counts}} and \code{\link[isomiRs]{isoSelect}}, and functions
 #' available for this object are \code{\link[isomiRs]{isoCounts}}, \code{\link[isomiRs]{isoNorm}}, \code{\link[isomiRs]{isoDE}} and
 #' \code{\link[isomiRs]{isoPlot}}. 
 #' 
+#' Some descriptive plots can be done with \code{\link{isoPlot}}, differential
+#' expression with \code{\link{isoDE}} and clustering with \code{\link{isoPLSDA}}.
+#'
 #' @param se SummarizedExperiment object.
 #' @param expList list of samples with seqbuster output.
 #' @param isoList list of samples with summarized isomiR 
@@ -96,7 +99,7 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 #' for each sample to create count matrix for isomiRs, miRNAs or isomiRs grouped in
 #' types (i.e all sequences with variations at 5' ignoring other type). It creates
 #' \code{\link[isomiRs]{IsomirDataSeq}} object to allow visualization, queries, differential
-#' expression analysis and sample clustering.
+#' expression analysis and clustering.
 #' To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs file, and generates
 #' an initial matrix having all miRNAs detected among samples. As well, it creates
 #' a summary for each isomiR type (trimming, additian and substitution.) to
