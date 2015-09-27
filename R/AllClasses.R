@@ -29,17 +29,18 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' data for each sample, processed information,
 #' summary for each isomiR type,
 #' raw counts, normalized counts, and table with
-#' information for each sample.
+#' experimental information for each sample.
 #'
 #' \code{\link{IsomirDataSeqFromFiles}} creates this object using seqbuster output files.
 #' 
-#' Methods for this objects are \code{\link[isomiRs]{counts}} and \code{\link[isomiRs]{isoSelect}}, and functions
-#' available for this object are \code{\link[isomiRs]{isoCounts}}, \code{\link[isomiRs]{isoNorm}}, \code{\link[isomiRs]{isoDE}} and
-#' \code{\link[isomiRs]{isoPlot}}. 
+#' Methods for this objects are \code{\link[isomiRs]{counts}} to get count matrix
+#' and \code{\link[isomiRs]{isoSelect}} 
+#' for miRNA/isomiR selection. Functions
+#' available for this object are \code{\link[isomiRs]{isoCounts}} for count matrix creation,
+#' \code{\link[isomiRs]{isoNorm}} for normalization, \code{\link[isomiRs]{isoDE}} for
+#' differential expression and \code{\link{isoPLSDA}} for clustering.
+#' \code{\link[isomiRs]{isoPlot}} helps with basic expression plot.
 #' 
-#' Some descriptive plots can be done with \code{\link{isoPlot}}, differential
-#' expression with \code{\link{isoDE}} and clustering with \code{\link{isoPLSDA}}.
-#'
 #' @param se SummarizedExperiment object.
 #' @param expList list of samples with seqbuster output.
 #' @param isoList list of samples with summarized isomiR 
@@ -79,11 +80,12 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 }
 
 
-#' \code{IsomirDataSeqFromFiles} creates \code{\link[isomiRs]{IsomirDataSeq}} object
+#' \code{IsomirDataSeqFromFiles} loads miRNA annoation from seqbuster tool
 #'
 #' This function parses \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
 #' output to allow isomiRs/miRNAs analysis of samples in different groups such as
-#' characterization, differential expression and clustering.
+#' characterization, differential expression and clustering. It creates
+#' \code{\link[isomiRs]{IsomirDataSeq}} object.
 #'
 #' @name IsomirDataSeq
 #' @rdname IsomirDataSeq
@@ -115,7 +117,6 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1,
     idx <- 0
     for (f in files){
         idx <- idx + 1
-        # print(idx)
         d <- read.table(f, header=header, skip=skip)
         if (ncol(d) < 2){
             warning(paste0("This sample has not lines: ", f))
