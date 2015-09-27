@@ -1,4 +1,4 @@
-#' Do differential expression analysis with DESeq2
+#' Differential expression analysis with DESeq2
 #'
 #' This function does differential expression analysis with \code{\link[DESeq2]{DESeq2-package}}.
 #' It will return a \code{\link{DESeqResults}} object.
@@ -13,7 +13,7 @@
 #' \code{\link{IsomirDataSeq}} is created
 #' to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 #'
-#' @param ids object isomiDataSeq
+#' @param ids object of class \code{\link{isomiDataSeq}}
 #' @param formula used for DE analysis
 #' @param ref differenciate reference miRNA from rest
 #' @param iso5 differenciate trimming at 5 miRNA from rest
@@ -47,7 +47,7 @@ isoDE <- function(ids, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' isomiRs/miRNAs. It uses the matrix under \code{counts(ids)}
 #' and represent in a heatmap the raw counts for each sample.
 #'
-#' @param ids object isomiDataSeq
+#' @param ids object of class \code{\link{isomiDataSeq}}
 #' @param top number of isomiRs/miRNAs used
 #' @examples
 #' data(isomiRexp)
@@ -70,7 +70,7 @@ isoTop <- function(ids, top=20){
 #' It can show trimming events at both side, additions and nucleotides
 #' changes.
 #'
-#' @param ids object isomirDataSeq
+#' @param ids object of class \code{\link{isomiDataSeq}}
 #' @param type string (iso5, iso3, add, subs) to indicate what isomiRs
 #' to use for the plot. See details for explanation.
 #' @return \code{\link{IsomirDataSeq}} with new stored data to avoid
@@ -140,11 +140,11 @@ isoPlot <- function(ids, type="iso5"){
     ids
 }
 
-#' Create count matrix
+#' Create count matrix with different summaizing options
 #' 
 #' This function collapses isomiRs into different groups.
 #' 
-#' @param ids IsomirDataSeq class
+#' @param ids object of class \code{\link{isomiDataSeq}}
 #' @param ref differenciate reference miRNA from rest
 #' @param iso5 differenciate trimming at 5 miRNA from rest
 #' @param iso3 differenciate trimming at 3 miRNA from rest
@@ -158,9 +158,9 @@ isoPlot <- function(ids, type="iso5"){
 #' with the first parameter \code{ids}. You can get a table with isomiRs and
 #' the reference miRBase sequence by calling the function with \code{ref=TRUE}.
 #' You can get a table with 5' trimming isomiRS, miRBase reference and
-#' the rest by calling with \code{idx, ref=TRUE,iso5=TRUE}.
+#' the rest by calling with \code{idx, ref=TRUE, iso5=TRUE}.
 #' If you set up all parameters to TRUE, you will get a table for
-#' each differnt sequence mapping to a miRNA (all isomiRs).
+#' each differnt sequence mapping to a miRNA (i.e. all isomiRs).
 #' 
 #' @return count table
 #' @examples
@@ -185,7 +185,7 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' This function normalizes raw count matrix using
 #' \code{\link[DESeq2]{rlog}} function from \code{\link[DESeq2]{DESeq2-package}}.
 #'
-#' @param ids IsomirDataSeq object
+#' @param ids object of class \code{\link{isomiDataSeq}}
 #' @param formula formula that will be used for normalization
 #' 
 #' @return \code{\link{IsomirDataSeq}} object with the normalized
