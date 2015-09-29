@@ -7,7 +7,7 @@
 isoTop(ids, top = 20)
 }
 \arguments{
-\item{ids}{object isomiDataSeq}
+\item{ids}{object of class \code{\link{IsomirDataSeq}}}
 
 \item{top}{number of isomiRs/miRNAs used}
 }

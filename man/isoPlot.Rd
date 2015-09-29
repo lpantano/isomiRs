@@ -7,7 +7,7 @@
 isoPlot(ids, type = "iso5")
 }
 \arguments{
-\item{ids}{object isomirDataSeq}
+\item{ids}{object of class \code{\link{IsomirDataSeq}}}
 
 \item{type}{string (iso5, iso3, add, subs) to indicate what isomiRs
 to use for the plot. See details for explanation.}

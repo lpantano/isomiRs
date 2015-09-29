@@ -48,7 +48,7 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @param statsList list of samples with general isomiR information.
 #' Could be empty list.
 #' 
-#' @aliases IsomirDataSeq IsomirDataSeq-class IsomirDataSeqFromFiles
+#' @aliases IsomirDataSeq IsomirDataSeq-class
 #' @examples 
 #' \dontrun{
 #' fn_list = c("url1", "url2")
@@ -87,8 +87,6 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 #' characterization, differential expression and clustering. It creates
 #' \code{\link[isomiRs]{IsomirDataSeq}} object.
 #'
-#' @name IsomirDataSeq
-#' @rdname IsomirDataSeq
 #' @param files files with the output of miraligner tool
 #' @param cov remove sequences that have relative abundance lower
 #' than this number
@@ -107,6 +105,8 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 #' a summary for each isomiR type (trimming, additian and substitution.) to
 #' visualize general isomiRs distribution of samples.
 #'
+#' @rdname IsomirDataSeqFromFiles
+#' @name IsomirDataSeqFromFiles
 #' @return
 #' \code{\link[isomiRs]{IsomirDataSeq}} class
 #' @export

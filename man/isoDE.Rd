@@ -2,13 +2,13 @@
 % Please edit documentation in R/isomiRs.R
 \name{isoDE}
 \alias{isoDE}
-\title{Do differential expression analysis with DESeq2}
+\title{Differential expression analysis with DESeq2}
 \usage{
 isoDE(ids, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
   add = FALSE, subs = FALSE, seed = FALSE)
 }
 \arguments{
-\item{ids}{object isomiDataSeq}
+\item{ids}{object of class \code{\link{IsomirDataSeq}}}
 
 \item{formula}{used for DE analysis}
 

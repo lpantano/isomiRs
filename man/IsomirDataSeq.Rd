@@ -4,15 +4,11 @@
 \name{IsomirDataSeq}
 \alias{IsomirDataSeq}
 \alias{IsomirDataSeq-class}
-\alias{IsomirDataSeqFromFiles}
 \title{Class that contain all isomiRs annotation for all samples}
 \usage{
 IsomirDataSeq(se, expList, isoList, statsList)
 
 IsomirDataSeq(se, expList, isoList, statsList)
-
-IsomirDataSeqFromFiles(files, design, cov = 1, header = FALSE, skip = 1,
-  ...)
 }
 \arguments{
 \item{se}{SummarizedExperiment object.}
@@ -24,22 +20,6 @@ information for each type.}
 
 \item{statsList}{list of samples with general isomiR information.
 Could be empty list.}
-
-\item{files}{files with the output of miraligner tool}
-
-\item{design}{data frame containing groups for each sample}
-
-\item{cov}{remove sequences that have relative abundance lower
-than this number}
-
-\item{header}{boolean to indicate files contain headers}
-
-\item{skip}{skip first line when reading files}
-
-\item{...}{arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}} including rowData and exptData}
-}
-\value{
-\code{\link[isomiRs]{IsomirDataSeq}} class
 }
 \description{
 The \code{\link{IsomirDataSeq}} is a subclass of
@@ -48,29 +28,19 @@ used to store the raw data, intermediate calculations and results of an
 isomiR analysis.  The \code{\link{IsomirDataSeq}} class stores all raw isomiRs
 data for each sample, processed information,
 summary for each isomiR type,
-raw counts, normalized counts, and data.frame with
-information for each sample.
-
-This function parses \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
-output to allow isomiRs/miRNAs analysis of samples in different groups such as
-characterization, differential expression and clustering.
+raw counts, normalized counts, and table with
+experimental information for each sample.
 }
 \details{
-\code{\link{IsomirDataSeqFromFiles}} creates this object from seqbuster output files.
+\code{\link{IsomirDataSeqFromFiles}} creates this object using seqbuster output files.
 
-Methods for this objects are \code{\link[isomiRs]{counts}} and \code{\link[isomiRs]{isoSelect}}, and functions
-available for this object are \code{\link[isomiRs]{isoCounts}}, \code{\link[isomiRs]{isoNorm}}, \code{\link[isomiRs]{isoDE}} and
-\code{\link[isomiRs]{isoPlot}}.
-
-This function parse the output of \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
-for each sample to create count matrix for isomiRs, miRNAs or isomiRs grouped in
-types (i.e all sequences with variations at 5' ignoring other type). It creates
-\code{\link[isomiRs]{IsomirDataSeq}} object to allow visualization, queries, differential
-expression analysis and sample clustering.
-To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs file, and generates
-an initial matrix having all miRNAs detected among samples. As well, it creates
-a summary for each isomiR type (trimming, additian and substitution.) to
-visualize general isomiRs distribution of samples.
+Methods for this objects are \code{\link[isomiRs]{counts}} to get count matrix
+and \code{\link[isomiRs]{isoSelect}}
+for miRNA/isomiR selection. Functions
+available for this object are \code{\link[isomiRs]{isoCounts}} for count matrix creation,
+\code{\link[isomiRs]{isoNorm}} for normalization, \code{\link[isomiRs]{isoDE}} for
+differential expression and \code{\link{isoPLSDA}} for clustering.
+\code{\link[isomiRs]{isoPlot}} helps with basic expression plot.
 }
 \examples{
 \dontrun{
