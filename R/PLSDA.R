@@ -3,11 +3,11 @@
 #' @aliases isoPLSDA
 #' @usage isoPLSDA(ids, var, validation = NULL, learn = NULL, test = NULL,
 #'  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
-#' @param ids IsomirDataSeq
+#' @param ids object of class \code{\link{IsomirDataSeq}}
 #' @param var column name in design data.frame
 #' @param validation type of validation, either NULL or "learntest". 
 #' Default NULL
-#' @param learn	optional vector of indices for a learn-set. 
+#' @param learn	optional vector of indexes for a learn-set. 
 #' Only used when validation="learntest". Default NULL
 #' @param test	optional vector of indices for a test-set. 
 #' Only used when validation="learntest". Default NULL
@@ -17,12 +17,12 @@
 #' ased on R2 magnitude. Default nperm=400
 #' @param refinment logical indicating whether a refined model, based on 
 #' filtering out variables with low VIP values
-#' @param vip Variance Importance in Projection threshole value when 
+#' @param vip Variance Importance in Projection threshold value when 
 #' a refinement precess is considered. Default vip=1.2
 #' @return PLS model
 #' @details 
 #' Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
-#' appropriate for analysis of high dimensionality data sets and multicollineality
+#' appropriate for analysis of high dimensionality data sets and multicollinearity
 #' \cite{perezenciso}. PLS-DA is a supervised method (i.e. makes use of class
 #' labels) with the aim to provide a dimension reduction strategy in a situation
 #' where we want to relate a binary response variable (in our case young or old
@@ -36,8 +36,8 @@
 #' p-value of this function will tell about the statistical
 #' significant of the group separation using miRNA/isomiR expression data.
 #' @return 
-#' \code{\link[base]{list}} with the followig elements: R2Matrix 
-#' (R-squared coefficents of the PLS model),
+#' \code{\link[base]{list}} with the following elements: R2Matrix 
+#' (R-squared coefficients of the PLS model),
 #' components (of the PLS),
 #' p.value obtained by the permutations and R2PermutationVector with all R2 from
 #' the permutations.
@@ -57,8 +57,10 @@
 #' ids = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 #' ids = isoNorm(ids)
 #' pls.ids = isoPLSDA(ids, "condition", nperm = 10)
+#' cat(paste0("pval:",pls.ids$p.val))
+#' cat(paste0("components:",pls.ids$components))
 #' @export
-isoPLSDA <- function(ids, var ,validation = NULL, learn = NULL, test = NULL,
+isoPLSDA <- function(ids, group ,validation = NULL, learn = NULL, test = NULL,
                      tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2){
     tryCatch ({
         class(normcounts(ids))
@@ -66,16 +68,16 @@ isoPLSDA <- function(ids, var ,validation = NULL, learn = NULL, test = NULL,
         return("please, run first normIso.")
     })
     variables <- t(normcounts(ids))
-    group <- colData(ids)[,var]
+    group <- colData(ids)[,group]
     if (length(group) < 6){
         return("this analysis only runs with group larger than 6.")
     }
-    # Auxiliar data containing variable names and numeric ID per variable
+    # Auxiliary data containing variable names and numeric ID per variable
     dataVariables <- data.frame( variable = colnames(variables),
                                  id = c(1:dim(variables)[2]))
     # PLS-DA model
     model.plsDA <- plsDA(variables, group, validation, learn, test)
-    # R-squared coefficents (number of components are selected based on
+    # R-squared coefficients (number of components are selected based on
     # cumulative R-squared coefficient changes)
     if (model.plsDA$R2[dim(model.plsDA$R2)[1],3] < tol){
         a <- which(model.plsDA$R2[,3] < tol)
@@ -132,7 +134,7 @@ isoPLSDA <- function(ids, var ,validation = NULL, learn = NULL, test = NULL,
                         "componentsRefinedModel",
                         "p.valRefined", "R2RefinedPermutationVector",
                         "p.valRefinedFixed", "R2RefinedFixedPermutationVector")
-        print(paste0("pval:",res$p.val))
+        res[["group"]] = group
         return(res)
     }
     if (refinment == FALSE){
@@ -140,7 +142,7 @@ isoPLSDA <- function(ids, var ,validation = NULL, learn = NULL, test = NULL,
                     p.val, R2.perm)
         names(res) <- c("R2Matrix", "components", "p.val",
                         "R2PermutationVector")
-        # cat(paste0("pval:",res$p.val))
+        res[["group"]] = group
         return(res)
     }
 }
@@ -175,7 +177,7 @@ R2PermutationVector <- function(variables, group, validation,
 }
 
 
-# Function that computes p-values when a refinment process is considered 
+# Function that computes p-values when a refinement process is considered 
 # per each permutation iteration
 R2RefinedPermutationVector <- function(variables, group, validation, learn,
                                        test, tol, nperm, vip){
@@ -225,8 +227,7 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' 
 #' @aliases isoPLSDAplot
 #' @usage isoPLSDAplot(components, groups)
-#' @param components PLS-DA components as it comes from isoPLSDA main function
-#' @param groups	vector or factor with group memberships
+#' @param pls output from \code{\link{isoPLSDA}} function.
 #' @return plot
 #' @details 
 #' The function \code{isoPLSDAplot}
@@ -239,9 +240,11 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' ids = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 #' ids = isoNorm(ids)
 #' pls.ids = isoPLSDA(ids, "condition", nperm = 10)
-#' isoPLSDAplot(pls.ids$component, colData(ids)[,"condition"])
+#' isoPLSDAplot(pls.ids)
 #' @export
-isoPLSDAplot <- function (components, groups){
+isoPLSDAplot <- function (pls){
+    components = pls.ids$component
+    groups = components$group
     datacomponents <- data.frame(condition = groups, components)
     t <- dim(datacomponents)[2] - 1
     n <- length(levels(factor(groups)))

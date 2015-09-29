@@ -1,7 +1,7 @@
 #' @name isomiRexp
 #' @title IsomirDataSeq
 #' @description This data set is the object return by \code{\link{IsomirDataSeqFromFiles}}. It mainly
-#' contains miRNA sequencing raw data from 6 samples: 3 newnborns and 3 elderly 
+#' contains miRNA sequencing raw data from 6 samples: 3 newborns and 3 elderly individuals.
 #' human individuals (Somel et al, 2010). 
 #' Use \code{colData} to see the experiment design of the data.
 #' @docType data
@@ -9,7 +9,7 @@
 #' @usage 
 #' data("isomiRexp")
 #' @source
-#' Data is available from GEO dataset under accesion number GSE18069. 
+#' Data is available from GEO dataset under accession number GSE18069. 
 #' Samples used are: GSM450597, GSM450598, GSM450609 and GSM450608.
 #' 
 #' Every sample was analyzed with seqbuster tool, see 

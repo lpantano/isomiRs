@@ -9,7 +9,7 @@ IsomirDataSeq <- setClass("IsomirDataSeq",
                         ))
 
 setValidity( "IsomirDataSeq", function( object ) {
-    if (! ("counts" %in% names(assays(object))))
+    if (!("counts" %in% names(assays(object))))
         return( "the assays slot must contain a matrix named 'counts'" )
     if ( !is.numeric( counts(object) ) )
         return( "the count data is not numeric" )
@@ -80,14 +80,14 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 }
 
 
-#' \code{IsomirDataSeqFromFiles} loads miRNA annoation from seqbuster tool
+#' \code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool
 #'
 #' This function parses \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
 #' output to allow isomiRs/miRNAs analysis of samples in different groups such as
 #' characterization, differential expression and clustering. It creates
 #' \code{\link[isomiRs]{IsomirDataSeq}} object.
 #'
-#' @param files files with the output of miraligner tool
+#' @param files files with the output of seqbuster tool
 #' @param cov remove sequences that have relative abundance lower
 #' than this number
 #' @param design data frame containing groups for each sample
@@ -102,7 +102,7 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 #' expression analysis and clustering.
 #' To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs file, and generates
 #' an initial matrix having all miRNAs detected among samples. As well, it creates
-#' a summary for each isomiR type (trimming, additian and substitution.) to
+#' a summary for each isomiR type (trimming, addition and substitution.) to
 #' visualize general isomiRs distribution of samples.
 #'
 #' @rdname IsomirDataSeqFromFiles

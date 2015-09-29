@@ -15,12 +15,12 @@
 #'
 #' @param ids object of class \code{\link{IsomirDataSeq}}
 #' @param formula used for DE analysis
-#' @param ref differenciate reference miRNA from rest
-#' @param iso5 differenciate trimming at 5 miRNA from rest
-#' @param iso3 differenciate trimming at 3 miRNA from rest
-#' @param add differenciate additions miRNA from rest
-#' @param subs differenciate nt substitution miRNA from rest
-#' @param seed differenciate changes in 2-7 nt from rest
+#' @param ref differentiate reference miRNA from rest
+#' @param iso5 differentiate trimming at 5 miRNA from rest
+#' @param iso3 differentiate trimming at 3 miRNA from rest
+#' @param add differentiate additions miRNA from rest
+#' @param subs differentiate nt substitution miRNA from rest
+#' @param seed differentiate changes in 2-7 nt from rest
 #' @return \code{\link[DESeq2]{DESeqDataSet}} object
 #' @examples
 #' library(DESeq2)
@@ -140,18 +140,19 @@ isoPlot <- function(ids, type="iso5"){
     ids
 }
 
-#' Create count matrix with different summaizing options
+#' Create count matrix with different summarizing options
 #' 
 #' This function collapses isomiRs into different groups.
 #' 
 #' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param ref differenciate reference miRNA from rest
-#' @param iso5 differenciate trimming at 5 miRNA from rest
-#' @param iso3 differenciate trimming at 3 miRNA from rest
-#' @param add differenciate additions miRNA from rest
-#' @param subs differenciate nt substitution miRNA from rest
-#' @param seed differenciate changes in 2-7 nt from rest
+#' @param ref differentiate reference miRNA from rest
+#' @param iso5 differentiate trimming at 5 miRNA from rest
+#' @param iso3 differentiate trimming at 3 miRNA from rest
+#' @param add differentiate additions miRNA from rest
+#' @param subs differentiate nt substitution miRNA from rest
+#' @param seed differentiate changes in 2-7 nt from rest
 #' @param minc int minimum number of isomiR sequences
+#'
 #' @details 
 #' 
 #' You can merge all isomiRs into miRNAs by calling the function only
@@ -160,7 +161,7 @@ isoPlot <- function(ids, type="iso5"){
 #' You can get a table with 5' trimming isomiRS, miRBase reference and
 #' the rest by calling with \code{idx, ref=TRUE, iso5=TRUE}.
 #' If you set up all parameters to TRUE, you will get a table for
-#' each differnt sequence mapping to a miRNA (i.e. all isomiRs).
+#' each different sequence mapping to a miRNA (i.e. all isomiRs).
 #' 
 #' @return count table
 #' @examples

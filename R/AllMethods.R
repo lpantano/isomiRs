@@ -120,7 +120,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' from all samples.
 #'
 #' @usage
-#' \S4method{isoSelect}{IsomirDataSeq}(object, mirna="", norm=FALSE, minc=10)
+#' \S4method{isoSelect}{IsomirDataSeq}(object, mirna, norm=FALSE, minc=10)
 #'
 #'
 #' @docType methods
