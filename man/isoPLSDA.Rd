@@ -4,18 +4,18 @@
 \alias{isoPLSDA}
 \title{Partial Least Squares Discriminant Analysis for isomirSeqData}
 \usage{
-isoPLSDA(ids, var, validation = NULL, learn = NULL, test = NULL,
+isoPLSDA(ids, group, validation = NULL, learn = NULL, test = NULL,
  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
 }
 \arguments{
-\item{ids}{IsomirDataSeq}
+\item{ids}{object of class \code{\link{IsomirDataSeq}}}
 
-\item{var}{column name in design data.frame}
+\item{group}{column name in design data.frame}
 
 \item{validation}{type of validation, either NULL or "learntest".
 Default NULL}
 
-\item{learn}{optional vector of indices for a learn-set.
+\item{learn}{optional vector of indexes for a learn-set.
 Only used when validation="learntest". Default NULL}
 
 \item{test}{optional vector of indices for a test-set.
@@ -30,14 +30,14 @@ ased on R2 magnitude. Default nperm=400}
 \item{refinment}{logical indicating whether a refined model, based on
 filtering out variables with low VIP values}
 
-\item{vip}{Variance Importance in Projection threshole value when
+\item{vip}{Variance Importance in Projection threshold value when
 a refinement precess is considered. Default vip=1.2}
 }
 \value{
 PLS model
 
-\code{\link[base]{list}} with the followig elements: R2Matrix
-(R-squared coefficents of the PLS model),
+\code{\link[base]{list}} with the following elements: R2Matrix
+(R-squared coefficients of the PLS model),
 components (of the PLS),
 p.value obtained by the permutations and R2PermutationVector with all R2 from
 the permutations.
@@ -56,7 +56,7 @@ Partial Least Squares Discriminant Analysis for isomirSeqData
 }
 \details{
 Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
-appropriate for analysis of high dimensionality data sets and multicollineality
+appropriate for analysis of high dimensionality data sets and multicollinearity
 \cite{perezenciso}. PLS-DA is a supervised method (i.e. makes use of class
 labels) with the aim to provide a dimension reduction strategy in a situation
 where we want to relate a binary response variable (in our case young or old
@@ -76,5 +76,7 @@ data(isomiRexp)
 ids = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 ids = isoNorm(ids)
 pls.ids = isoPLSDA(ids, "condition", nperm = 10)
+cat(paste0("pval:",pls.ids$p.val))
+cat(paste0("components:",pls.ids$components))
 }
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/isomiRs.R
 \name{isoCounts}
 \alias{isoCounts}
-\title{Create count matrix with different summaizing options}
+\title{Create count matrix with different summarizing options}
 \usage{
 isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
   subs = FALSE, seed = FALSE, minc = 10)
@@ -10,17 +10,17 @@ isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
 \arguments{
 \item{ids}{object of class \code{\link{IsomirDataSeq}}}
 
-\item{ref}{differenciate reference miRNA from rest}
+\item{ref}{differentiate reference miRNA from rest}
 
-\item{iso5}{differenciate trimming at 5 miRNA from rest}
+\item{iso5}{differentiate trimming at 5 miRNA from rest}
 
-\item{iso3}{differenciate trimming at 3 miRNA from rest}
+\item{iso3}{differentiate trimming at 3 miRNA from rest}
 
-\item{add}{differenciate additions miRNA from rest}
+\item{add}{differentiate additions miRNA from rest}
 
-\item{subs}{differenciate nt substitution miRNA from rest}
+\item{subs}{differentiate nt substitution miRNA from rest}
 
-\item{seed}{differenciate changes in 2-7 nt from rest}
+\item{seed}{differentiate changes in 2-7 nt from rest}
 
 \item{minc}{int minimum number of isomiR sequences}
 }
@@ -37,11 +37,11 @@ the reference miRBase sequence by calling the function with \code{ref=TRUE}.
 You can get a table with 5' trimming isomiRS, miRBase reference and
 the rest by calling with \code{idx, ref=TRUE, iso5=TRUE}.
 If you set up all parameters to TRUE, you will get a table for
-each differnt sequence mapping to a miRNA (i.e. all isomiRs).
+each different sequence mapping to a miRNA (i.e. all isomiRs).
 }
 \examples{
-data(isomiRexp)
-ids <- isoCounts(isomiRexp, ref=TRUE)
+data(mirData)
+ids <- isoCounts(mirData, ref=TRUE)
 head(counts(ids))
 }
 

@@ -24,8 +24,8 @@
 #' @return \code{\link[DESeq2]{DESeqDataSet}} object
 #' @examples
 #' library(DESeq2)
-#' data(isomiRexp)
-#' dds <- isoDE(isomiRexp, formula=~condition)
+#' data(mirData)
+#' dds <- isoDE(mirData, formula=~condition)
 #' @export
 #' @import DESeq2
 isoDE <- function(ids, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
@@ -50,8 +50,8 @@ isoDE <- function(ids, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' @param ids object of class \code{\link{IsomirDataSeq}}
 #' @param top number of isomiRs/miRNAs used
 #' @examples
-#' data(isomiRexp)
-#' isoTop(isomiRexp)
+#' data(mirData)
+#' isoTop(mirData)
 #' @export
 #' @import gplots
 #' @import RColorBrewer
@@ -96,8 +96,8 @@ isoTop <- function(ids, top=20){
 #' @export
 #' @import ggplot2
 #' @examples
-#' data(isomiRexp)
-#' isoPlot(isomiRexp)
+#' data(mirData)
+#' isoPlot(mirData)
 isoPlot <- function(ids, type="iso5"){
     freq <- size <- group <- abundance <- NULL
     codevn <- 2:5
@@ -165,8 +165,8 @@ isoPlot <- function(ids, type="iso5"){
 #' 
 #' @return count table
 #' @examples
-#' data(isomiRexp)
-#' ids <- isoCounts(isomiRexp, ref=TRUE)
+#' data(mirData)
+#' ids <- isoCounts(mirData, ref=TRUE)
 #' head(counts(ids))
 #' @export
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
@@ -195,8 +195,8 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' 
 #' @examples
 #' library(DESeq2)
-#' data(isomiRexp)
-#' ids <- isoNorm(isomiRexp, formula=~condition)
+#' data(mirData)
+#' ids <- isoNorm(mirData, formula=~condition)
 #' head(counts(ids, norm=TRUE))
 #' @export
 #' @import DESeq2

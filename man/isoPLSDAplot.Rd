@@ -4,12 +4,10 @@
 \alias{isoPLSDAplot}
 \title{Plot components from isoPLSDA(pairs plot)}
 \usage{
-isoPLSDAplot(components, groups)
+isoPLSDAplot(pls)
 }
 \arguments{
-\item{components}{PLS-DA components as it comes from isoPLSDA main function}
-
-\item{groups}{vector or factor with group memberships}
+\item{pls}{output from \code{\link{isoPLSDA}} function.}
 }
 \value{
 plot
@@ -30,6 +28,6 @@ data(isomiRexp)
 ids = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 ids = isoNorm(ids)
 pls.ids = isoPLSDA(ids, "condition", nperm = 10)
-isoPLSDAplot(pls.ids$component, colData(ids)[,"condition"])
+isoPLSDAplot(pls.ids)
 }
 

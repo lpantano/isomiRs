@@ -33,8 +33,8 @@ column for each sample. The normalized matrix
 can be obtained by \code{normcounts} method.
 }
 \examples{
-data(isomiRexp)
-head(counts(isomiRexp))
+data(mirData)
+head(counts(mirData))
 }
 \author{
 Lorena Pantano

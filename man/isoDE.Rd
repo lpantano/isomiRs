@@ -12,17 +12,17 @@ isoDE(ids, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
 
 \item{formula}{used for DE analysis}
 
-\item{ref}{differenciate reference miRNA from rest}
+\item{ref}{differentiate reference miRNA from rest}
 
-\item{iso5}{differenciate trimming at 5 miRNA from rest}
+\item{iso5}{differentiate trimming at 5 miRNA from rest}
 
-\item{iso3}{differenciate trimming at 3 miRNA from rest}
+\item{iso3}{differentiate trimming at 3 miRNA from rest}
 
-\item{add}{differenciate additions miRNA from rest}
+\item{add}{differentiate additions miRNA from rest}
 
-\item{subs}{differenciate nt substitution miRNA from rest}
+\item{subs}{differentiate nt substitution miRNA from rest}
 
-\item{seed}{differenciate changes in 2-7 nt from rest}
+\item{seed}{differentiate changes in 2-7 nt from rest}
 }
 \value{
 \code{\link[DESeq2]{DESeqDataSet}} object
@@ -42,7 +42,7 @@ to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 }
 \examples{
 library(DESeq2)
-data(isomiRexp)
-dds <- isoDE(isomiRexp, formula=~condition)
+data(mirData)
+dds <- isoDE(mirData, formula=~condition)
 }
 

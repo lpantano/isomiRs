@@ -40,7 +40,7 @@ position for each nucleotide in the reference miRNA. And the points
 will indicate isomiRs with nucleotide changes at the given position.
 }
 \examples{
-data(isomiRexp)
-isoPlot(isomiRexp)
+data(mirData)
+isoPlot(mirData)
 }
 

@@ -1,10 +1,10 @@
 #' Partial Least Squares Discriminant Analysis for isomirSeqData
 #' 
 #' @aliases isoPLSDA
-#' @usage isoPLSDA(ids, var, validation = NULL, learn = NULL, test = NULL,
+#' @usage isoPLSDA(ids, group, validation = NULL, learn = NULL, test = NULL,
 #'  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
 #' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param var column name in design data.frame
+#' @param group column name in design data.frame
 #' @param validation type of validation, either NULL or "learntest". 
 #' Default NULL
 #' @param learn	optional vector of indexes for a learn-set. 
@@ -226,7 +226,7 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' Plot components from isoPLSDA(pairs plot)
 #' 
 #' @aliases isoPLSDAplot
-#' @usage isoPLSDAplot(components, groups)
+#' @usage isoPLSDAplot(pls)
 #' @param pls output from \code{\link{isoPLSDA}} function.
 #' @return plot
 #' @details 
@@ -244,7 +244,7 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' @export
 isoPLSDAplot <- function (pls){
     components = pls.ids$component
-    groups = components$group
+    groups = pls.ids$group
     datacomponents <- data.frame(condition = groups, components)
     t <- dim(datacomponents)[2] - 1
     n <- length(levels(factor(groups)))

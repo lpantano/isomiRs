@@ -17,7 +17,7 @@ isomiRs/miRNAs. It uses the matrix under \code{counts(ids)}
 and represent in a heatmap the raw counts for each sample.
 }
 \examples{
-data(isomiRexp)
-isoTop(isomiRexp)
+data(mirData)
+isoTop(mirData)
 }
 

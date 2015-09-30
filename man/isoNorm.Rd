@@ -22,8 +22,8 @@ This function normalizes raw count matrix using
 }
 \examples{
 library(DESeq2)
-data(isomiRexp)
-ids <- isoNorm(isomiRexp, formula=~condition)
+data(mirData)
+ids <- isoNorm(mirData, formula=~condition)
 head(counts(ids, norm=TRUE))
 }
 

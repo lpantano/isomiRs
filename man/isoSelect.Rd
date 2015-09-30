@@ -7,7 +7,7 @@
 \alias{isoSelect.IsomirDataSeq}
 \title{Method to browse an IsomirDataSeq object.}
 \usage{
-\S4method{isoSelect}{IsomirDataSeq}(object, mirna="", norm=FALSE, minc=10)
+\S4method{isoSelect}{IsomirDataSeq}(object, mirna, norm=FALSE, minc=10)
 
 \S4method{isoSelect}{IsomirDataSeq}(object, mirna = "", norm = FALSE,
   minc = 10)
@@ -29,8 +29,8 @@ This method allows to select a miRNA and all its isomiRs
 from all samples.
 }
 \examples{
-data(isomiRexp)
-isoSelect(isomiRexp, mirna="hsa-let-7a-5p")
+data(mirData)
+isoSelect(mirData, mirna="hsa-let-7a-5p")
 }
 \author{
 Lorena Pantano

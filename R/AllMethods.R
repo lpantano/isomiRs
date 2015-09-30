@@ -71,8 +71,8 @@ setReplaceMethod("isostats", "IsomirDataSeq",
 #' @return \code{\link[base]{matrix}} with raw or normalized count data.
 #' @author Lorena Pantano
 #' @examples
-#' data(isomiRexp)
-#' head(counts(isomiRexp))
+#' data(mirData)
+#' head(counts(mirData))
 #' @export
 counts.IsomirDataSeq <- function(object, norm=FALSE) {
     if (norm){
@@ -136,8 +136,8 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' @author Lorena Pantano
 #' 
 #' @examples
-#' data(isomiRexp)
-#' isoSelect(isomiRexp, mirna="hsa-let-7a-5p")
+#' data(mirData)
+#' isoSelect(mirData, mirna="hsa-let-7a-5p")
 #' @export
 isoSelect.IsomirDataSeq <- function(object, mirna="", norm=FALSE, minc=10) {
     x <- isoraw(object)

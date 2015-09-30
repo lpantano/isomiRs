@@ -82,8 +82,8 @@ You can browse for the same miRNA or isomiRs in all samples with \Rfunction{isoS
 
 <<package-select,message=FALSE>>=
 library(isomiRs)
-data(isomiRexp)
-head(isoSelect(isomiRexp, mirna="hsa-let-7a-5p"))
+data(mirData)
+head(isoSelect(mirData, mirna="hsa-let-7a-5p"))
 @
 
 \subsection{isomiRs annotation}
@@ -116,7 +116,7 @@ In this data set we will find two groups:
 
 <<package-load,message=FALSE>>=
 library(isomiRs)
-data(isomiRexp)
+data(mirData)
 @
 
 
@@ -140,7 +140,7 @@ The \Rfunction{type} parameter controls what type of isomiRs to show. It can be
 trimming (iso5 and iso3), addition (add) or substitution (subs) changes.
 
 <<package-plot-iso-t5,message=FALSE>>=
-ids <- isoPlot(isomiRexp, type="iso5")
+ids <- isoPlot(mirData, type="iso5")
 @
 
 \subsection{Differential expression analysis}
@@ -214,7 +214,7 @@ samples distribution along the components.
 ids = isoCounts(ids, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 ids = isoNorm(ids)
 pls.ids = isoPLSDA(ids, "condition", nperm = 10)
-isoPLSDAplot(pls.ids$component, colData(ids)[,"condition"])
+isoPLSDAplot(pls.ids)
 @
 
 The analysis can be done again using only the most important discriminant

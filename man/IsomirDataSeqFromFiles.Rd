@@ -2,13 +2,13 @@
 % Please edit documentation in R/AllClasses.R
 \name{IsomirDataSeqFromFiles}
 \alias{IsomirDataSeqFromFiles}
-\title{\code{IsomirDataSeqFromFiles} loads miRNA annoation from seqbuster tool}
+\title{\code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool}
 \usage{
 IsomirDataSeqFromFiles(files, design, cov = 1, header = FALSE, skip = 1,
   ...)
 }
 \arguments{
-\item{files}{files with the output of miraligner tool}
+\item{files}{files with the output of seqbuster tool}
 
 \item{design}{data frame containing groups for each sample}
 
@@ -38,7 +38,7 @@ types (i.e all sequences with variations at 5' ignoring other type). It creates
 expression analysis and clustering.
 To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs file, and generates
 an initial matrix having all miRNAs detected among samples. As well, it creates
-a summary for each isomiR type (trimming, additian and substitution.) to
+a summary for each isomiR type (trimming, addition and substitution.) to
 visualize general isomiRs distribution of samples.
 }
 
