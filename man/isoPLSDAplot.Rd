@@ -24,8 +24,8 @@ significant components (t1, t2, t3 ...) from the PLS-DA analysis and the
 samples distribution along the components.
 }
 \examples{
-data(isomiRexp)
-ids = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+data(mirData)
+ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 ids = isoNorm(ids)
 pls.ids = isoPLSDA(ids, "condition", nperm = 10)
 isoPLSDAplot(pls.ids)

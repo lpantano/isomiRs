@@ -11,7 +11,7 @@ IsomirDataSeq(se, expList, isoList, statsList)
 IsomirDataSeq(se, expList, isoList, statsList)
 }
 \arguments{
-\item{se}{SummarizedExperiment object.}
+\item{se}{\code{\link[SummarizedExperiment]{SummarizedExperiment}} object.}
 
 \item{expList}{list of samples with seqbuster output.}
 

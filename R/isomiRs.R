@@ -1,6 +1,7 @@
 #' Differential expression analysis with DESeq2
 #'
-#' This function does differential expression analysis with \code{\link[DESeq2]{DESeq2-package}}.
+#' This function does differential expression analysis with
+#' \code{\link[DESeq2]{DESeq2-package}} using the specific formula.
 #' It will return a \code{\link{DESeqResults}} object.
 #' 
 #' @details 
@@ -8,9 +9,9 @@
 #' This function collapses all isomiRs in different types.
 #' Read more at \code{\link{isoCounts}}.
 #' 
-#' After that isomiRs, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
-#' expression analysis. It uses the design matrix given when the 
-#' \code{\link{IsomirDataSeq}} is created
+#' After that, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
+#' expression analysis. It uses the design matrix stored at
+#' \code{\link{IsomirDataSeq}} object
 #' to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 #'
 #' @param ids object of class \code{\link{IsomirDataSeq}}
@@ -45,7 +46,7 @@ isoDE <- function(ids, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #'
 #' This function creates a heatmap with the top N
 #' isomiRs/miRNAs. It uses the matrix under \code{counts(ids)}
-#' and represent in a heatmap the raw counts for each sample.
+#' and represent as heatmap the raw counts for each sample.
 #'
 #' @param ids object of class \code{\link{IsomirDataSeq}}
 #' @param top number of isomiRs/miRNAs used
@@ -79,7 +80,7 @@ isoTop <- function(ids, top=20){
 #' There are four different values for \code{type} parameter. To plot 
 #' trimming at 5' or 3' end, use \code{type="iso5"} or \code{type="iso3"}. 
 #' In this case, it will plot 3 positions at both side of the reference
-#' position described at miRBase. Each position refers to the number of 
+#' position described at miRBase site. Each position refers to the number of 
 #' sequences that start/end before or after the miRBase reference. The
 #' color indicates the sample group. The size of the point is proportional
 #' to the number of total counts. The position in \code{y} is the number of
@@ -87,7 +88,7 @@ isoTop <- function(ids, top=20){
 #' 
 #' Same logic applies to \code{type="add"} and \code{type="subs"}. However,
 #' when \code{type="add"}, the plot will refer to addition events from the
-#' 3' end of the reference miRBase. Note that this additions doesn't match 
+#' 3' end of the reference position. Note that this additions doesn't match 
 #' the precursor sequence. In this case, only 3 position after the 3' end
 #' will appear in the plot. When \code{type="subs"}, it will appear one
 #' position for each nucleotide in the reference miRNA. And the points
@@ -156,14 +157,15 @@ isoPlot <- function(ids, type="iso5"){
 #' @details 
 #' 
 #' You can merge all isomiRs into miRNAs by calling the function only
-#' with the first parameter \code{ids}. You can get a table with isomiRs and
+#' with the first parameter \code{isoCounts(ids)}. You can get a table with isomiRs and
 #' the reference miRBase sequence by calling the function with \code{ref=TRUE}.
 #' You can get a table with 5' trimming isomiRS, miRBase reference and
-#' the rest by calling with \code{idx, ref=TRUE, iso5=TRUE}.
+#' the rest by calling with \code{isoCounts(ids, ref=TRUE, iso5=TRUE)}.
 #' If you set up all parameters to TRUE, you will get a table for
 #' each different sequence mapping to a miRNA (i.e. all isomiRs).
 #' 
-#' @return count table
+#' @return \code{\link{IsomirDataSeq}} object with new count table.
+#' The count matrix can be access with \code{counts(ids)}.
 #' @examples
 #' data(mirData)
 #' ids <- isoCounts(mirData, ref=TRUE)

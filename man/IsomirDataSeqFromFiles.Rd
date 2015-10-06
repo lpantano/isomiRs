@@ -22,7 +22,7 @@ than this number}
 \item{...}{arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}} including rowData and exptData}
 }
 \value{
-\code{\link[isomiRs]{IsomirDataSeq}} class
+\code{\link{IsomirDataSeq}} class
 }
 \description{
 This function parses \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
@@ -33,12 +33,12 @@ characterization, differential expression and clustering. It creates
 \details{
 This function parse the output of \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
 for each sample to create count matrix for isomiRs, miRNAs or isomiRs grouped in
-types (i.e all sequences with variations at 5' ignoring other type). It creates
+types (i.e all sequences with variations at 5' but ignoring any other type). It creates
 \code{\link[isomiRs]{IsomirDataSeq}} object to allow visualization, queries, differential
 expression analysis and clustering.
 To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs file, and generates
 an initial matrix having all miRNAs detected among samples. As well, it creates
 a summary for each isomiR type (trimming, addition and substitution.) to
-visualize general isomiRs distribution of samples.
+visualize general isomiRs distribution omong samples.
 }
 

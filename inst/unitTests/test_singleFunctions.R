@@ -1,26 +1,26 @@
 test_plotFunctions <-
     function()
     {
-        data(isomiRexp)
-        checkTrue(class(isoPlot(isomiRexp,type="iso5"))[1]=="IsomirDataSeq")
-        checkTrue(class(isoPlot(isomiRexp,type="iso3"))[1]=="IsomirDataSeq")
-        checkTrue(class(isoPlot(isomiRexp,type="add"))[1]=="IsomirDataSeq")
+        data(mirData)
+        checkTrue(class(isoPlot(mirData,type="iso5"))[1]=="IsomirDataSeq")
+        checkTrue(class(isoPlot(mirData,type="iso3"))[1]=="IsomirDataSeq")
+        checkTrue(class(isoPlot(mirData,type="add"))[1]=="IsomirDataSeq")
     }
 
 test_dseFunctions <-
     function()
     {
-        data(isomiRexp)
-        checkTrue(class(isoDE(isomiRexp, formula=~condition, ref=TRUE,
+        data(mirData)
+        checkTrue(class(isoDE(mirData, formula=~condition, ref=TRUE,
                             iso5=TRUE))[1]=="DESeqDataSet")
     }
 
 test_countsFunctions <-
     function()
     {
-        data(isomiRexp)
+        data(mirData)
         library(GenomicRanges)
-        obj<-isoCounts(isomiRexp, ref=TRUE)
+        obj<-isoCounts(mirData, ref=TRUE)
         checkTrue(class(counts(obj))[1]=="matrix")
         obj<-isoNorm(obj)
         checkTrue(class(counts(obj, norm=TRUE))[1]=="matrix")

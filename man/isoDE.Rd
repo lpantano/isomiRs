@@ -28,16 +28,17 @@ isoDE(ids, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
 \code{\link[DESeq2]{DESeqDataSet}} object
 }
 \description{
-This function does differential expression analysis with \code{\link[DESeq2]{DESeq2-package}}.
+This function does differential expression analysis with
+\code{\link[DESeq2]{DESeq2-package}} using the specific formula.
 It will return a \code{\link{DESeqResults}} object.
 }
 \details{
 This function collapses all isomiRs in different types.
 Read more at \code{\link{isoCounts}}.
 
-After that isomiRs, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
-expression analysis. It uses the design matrix given when the
-\code{\link{IsomirDataSeq}} is created
+After that, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
+expression analysis. It uses the design matrix stored at
+\code{\link{IsomirDataSeq}} object
 to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 }
 \examples{

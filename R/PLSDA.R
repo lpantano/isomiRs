@@ -53,8 +53,8 @@
 #' 
 #' @examples
 #' library(DESeq2)
-#' data(isomiRexp)
-#' ids = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+#' data(mirData)
+#' ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 #' ids = isoNorm(ids)
 #' pls.ids = isoPLSDA(ids, "condition", nperm = 10)
 #' cat(paste0("pval:",pls.ids$p.val))
@@ -236,8 +236,8 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' samples distribution along the components.
 #' @return \code{\link[ggplot2]{ggplot2-package}} object
 #' @examples
-#' data(isomiRexp)
-#' ids = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+#' data(mirData)
+#' ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 #' ids = isoNorm(ids)
 #' pls.ids = isoPLSDA(ids, "condition", nperm = 10)
 #' isoPLSDAplot(pls.ids)

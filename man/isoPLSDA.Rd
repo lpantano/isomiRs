@@ -72,8 +72,8 @@ significant of the group separation using miRNA/isomiR expression data.
 }
 \examples{
 library(DESeq2)
-data(isomiRexp)
-ids = isoCounts(isomiRexp, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+data(mirData)
+ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 ids = isoNorm(ids)
 pls.ids = isoPLSDA(ids, "condition", nperm = 10)
 cat(paste0("pval:",pls.ids$p.val))

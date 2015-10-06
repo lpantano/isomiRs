@@ -25,7 +25,7 @@ changes.
 There are four different values for \code{type} parameter. To plot
 trimming at 5' or 3' end, use \code{type="iso5"} or \code{type="iso3"}.
 In this case, it will plot 3 positions at both side of the reference
-position described at miRBase. Each position refers to the number of
+position described at miRBase site. Each position refers to the number of
 sequences that start/end before or after the miRBase reference. The
 color indicates the sample group. The size of the point is proportional
 to the number of total counts. The position in \code{y} is the number of
@@ -33,7 +33,7 @@ different sequences.
 
 Same logic applies to \code{type="add"} and \code{type="subs"}. However,
 when \code{type="add"}, the plot will refer to addition events from the
-3' end of the reference miRBase. Note that this additions doesn't match
+3' end of the reference position. Note that this additions doesn't match
 the precursor sequence. In this case, only 3 position after the 3' end
 will appear in the plot. When \code{type="subs"}, it will appear one
 position for each nucleotide in the reference miRNA. And the points

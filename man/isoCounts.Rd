@@ -25,17 +25,18 @@ isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
 \item{minc}{int minimum number of isomiR sequences}
 }
 \value{
-count table
+\code{\link{IsomirDataSeq}} object with new count table.
+The count matrix can be access with \code{counts(ids)}.
 }
 \description{
 This function collapses isomiRs into different groups.
 }
 \details{
 You can merge all isomiRs into miRNAs by calling the function only
-with the first parameter \code{ids}. You can get a table with isomiRs and
+with the first parameter \code{isoCounts(ids)}. You can get a table with isomiRs and
 the reference miRBase sequence by calling the function with \code{ref=TRUE}.
 You can get a table with 5' trimming isomiRS, miRBase reference and
-the rest by calling with \code{idx, ref=TRUE, iso5=TRUE}.
+the rest by calling with \code{isoCounts(ids, ref=TRUE, iso5=TRUE)}.
 If you set up all parameters to TRUE, you will get a table for
 each different sequence mapping to a miRNA (i.e. all isomiRs).
 }
