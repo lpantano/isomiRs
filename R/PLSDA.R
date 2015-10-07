@@ -1,4 +1,10 @@
-#' Partial Least Squares Discriminant Analysis for isomirSeqData
+#' Partial Least Squares Discriminant Analysis for \code{\link{IsomirDataSeq}}
+#' 
+#' Use PLS-DA method with the normalized count data to detect the most
+#' important features (miRNAs/isomiRs) that explain better
+#' the group of samples given in the experimental design. Is a supervised
+#' clustering method with permutations to calculate the significance
+#' of analysis.
 #' 
 #' @aliases isoPLSDA
 #' @usage isoPLSDA(ids, group, validation = NULL, learn = NULL, test = NULL,
@@ -13,44 +19,48 @@
 #' Only used when validation="learntest". Default NULL
 #' @param tol tolerance value based on maximum change of cumulative R-squared 
 #' coefficient for each additional PLS component. Default tol=0.001
-#' @param nperm	number of permutations to compute the PLD-DA p-value b
-#' ased on R2 magnitude. Default nperm=400
+#' @param nperm	number of permutations to compute the PLD-DA p-value
+#' based on R2 magnitude. Default nperm=400
 #' @param refinment logical indicating whether a refined model, based on 
 #' filtering out variables with low VIP values
 #' @param vip Variance Importance in Projection threshold value when 
 #' a refinement precess is considered. Default vip=1.2
-#' @return PLS model
 #' @details 
 #' Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
 #' appropriate for analysis of high dimensionality data sets and multicollinearity
-#' \cite{perezenciso}. PLS-DA is a supervised method (i.e. makes use of class
+#' (\cite{Perez-Enciso, 2013}). PLS-DA is a supervised method (i.e. makes use of class
 #' labels) with the aim to provide a dimension reduction strategy in a situation
 #' where we want to relate a binary response variable (in our case young or old
 #' status) to a set of predictor variables. Dimensionality reduction procedure is
 #' based on orthogonal transformations of the original variables (isomiRs) into a
 #' set of linearly uncorrelated latent variables (usually termed as components)
 #' such that maximizes the separation between the different classes in the first
-#' few components \cite{xia}. We used sum of squares captured by the model (R2) as
+#' few components (\cite{Xia, 2011}). We used sum of squares captured by the model (R2) as
 #' a goodness of fit measure. We implemented this method using the
 #' \code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function. The output
 #' p-value of this function will tell about the statistical
 #' significant of the group separation using miRNA/isomiR expression data.
 #' @return 
-#' \code{\link[base]{list}} with the following elements: R2Matrix 
+#' \code{\link[base]{list}} with the following elements: \code{R2Matrix}
 #' (R-squared coefficients of the PLS model),
-#' components (of the PLS),
-#' p.value obtained by the permutations and R2PermutationVector with all R2 from
-#' the permutations.
+#' \code{components} (of the PLS), \code{vip} (most important variables),
+#' \code{p.value} and \code{R2PermutationVector} obtained by the permutations.
 #' 
 #' If the option \code{refinment} is set to \code{TRUE}, then the following
 #' elements will appear: 
-#' R2RefinedMatrix and componentsRefinedModel (R-squared coefficients and components 
-#'  (components of the PLS model only using the most important miRNAs). As well,
-#' p.valRefined and R2RefinedPermutationVector with the p-value and the R2 of the
+#' \code{R2RefinedMatrix} and \code{componentsRefinedModel} (R-squared coefficients and
+#' of the PLS model only using the most important miRNAs). As well,
+#' \code{p.valRefined} and \code{R2RefinedPermutationVector} with p-value and R2 of the
 #' permutations shuffling individuals. And finally, 
-#' p.valRefinedFixed and R2RefinedFixedPermutationVector with p-values and R2 of the
-#' permutations shuffling the most important miRNAs.
+#' \code{p.valRefinedFixed} and \code{R2RefinedFixedPermutationVector} with p-value and R2 of the
+#' permutations shuffling the most important miRNAs/isomiRs.
+#' @references 
+#' Perez-Enciso, Miguel and Tenenhaus, Michel. Prediction of clinical outcome with microarray data:
+#' a partial least  squares discriminant analysis (PLS-DA) approach. Human
+#' Genetics. 2003.
 #' 
+#' Xia, Jianguo and Wishart, David S. Web-based inference of biological patterns, functions and
+#' pathways from metabolomic data using MetaboAnalyst. Nature Protocols. 2011.
 #' @examples
 #' library(DESeq2)
 #' data(mirData)
@@ -93,15 +103,15 @@ isoPLSDA <- function(ids, group ,validation = NULL, learn = NULL, test = NULL,
     R2.perm <- R2PermutationVector(variables, group, validation, learn,
                                    test, tol, nperm)
     p.val <- sum(R2.mat[dim(R2.mat)[1],4] <= R2.perm, na.rm=TRUE) / nperm
+    vip.max <- apply(model.plsDA$VIP[,1:dim(R2.mat)[1]], 1, max)
+    dataVIP <- data.frame(variable = row.names(model.plsDA$VIP),
+                          VIP = vip.max)
+    dataVIPref <- dataVIP[dataVIP$VIP >= vip,]
+    sel.vars <- merge(dataVariables , dataVIPref,
+                      by.x="variable", by.y="variable")
+    variables.ref <- variables[,sel.vars[,2]]
     if (refinment == TRUE){
         # refine model based on VIPs
-        vip.max <- apply(model.plsDA$VIP[,1:dim(R2.mat)[1]], 1, max)
-        dataVIP <- data.frame(variable = row.names(model.plsDA$VIP),
-                              VIP = vip.max)
-        dataVIPref <- dataVIP[dataVIP$VIP >= vip,]
-        sel.vars <- merge(dataVariables , dataVIPref,
-                          by.x="variable", by.y="variable")
-        variables.ref <- variables[,sel.vars[,2]]
         # PLS-DA model with contributing variables
         model.plsDA.ref <- plsDA(variables.ref, group, validation, learn, test)
         if (model.plsDA.ref$R2[dim(model.plsDA.ref$R2)[1],3] < tol){
@@ -126,10 +136,10 @@ isoPLSDA <- function(ids, group ,validation = NULL, learn = NULL, test = NULL,
         p.val.ref2 <- sum(R2.mat.ref[dim(R2.mat.ref)[1],4] <= R2.perm.ref2,
                           na.rm=TRUE) / nperm
         res <- list(R2.mat, model.plsDA$components[,1:dim(R2.mat)[1]],
-                    p.val, R2.perm, R2.mat.ref,
+                    dataVIPref, p.val, R2.perm, R2.mat.ref,
                     model.plsDA.ref$components[,1:dim(R2.mat.ref)[2]],
                     p.val.ref2, R2.perm.ref2, p.val.ref1, R2.perm.ref1)
-        names(res) <- c("R2Matrix", "components",
+        names(res) <- c("R2Matrix", "components", "vip",
                         "p.val", "R2PermutationVector", "R2RefinedMatrix",
                         "componentsRefinedModel",
                         "p.valRefined", "R2RefinedPermutationVector",
@@ -139,8 +149,8 @@ isoPLSDA <- function(ids, group ,validation = NULL, learn = NULL, test = NULL,
     }
     if (refinment == FALSE){
         res <- list(R2.mat, model.plsDA$components[,1:dim(R2.mat)[1]],
-                    p.val, R2.perm)
-        names(res) <- c("R2Matrix", "components", "p.val",
+                    dataVIPref, p.val, R2.perm)
+        names(res) <- c("R2Matrix", "components", "vip", "p.val",
                         "R2PermutationVector")
         res[["group"]] = group
         return(res)
@@ -228,10 +238,11 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' @aliases isoPLSDAplot
 #' @usage isoPLSDAplot(pls)
 #' @param pls output from \code{\link{isoPLSDA}} function.
-#' @return plot
+#' @return \code{\link[GGally]{ggpairs}} plot
 #' @details 
 #' The function \code{isoPLSDAplot}
-#' helps to visualize the results. It will plot the samples using the 
+#' helps to visualize the results from \code{\link{isoPLSDA}}.
+#' It will plot the samples using the 
 #' significant components (t1, t2, t3 ...) from the PLS-DA analysis and the 
 #' samples distribution along the components.
 #' @return \code{\link[ggplot2]{ggplot2-package}} object

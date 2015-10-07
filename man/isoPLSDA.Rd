@@ -2,7 +2,7 @@
 % Please edit documentation in R/PLSDA.R
 \name{isoPLSDA}
 \alias{isoPLSDA}
-\title{Partial Least Squares Discriminant Analysis for isomirSeqData}
+\title{Partial Least Squares Discriminant Analysis for \code{\link{IsomirDataSeq}}}
 \usage{
 isoPLSDA(ids, group, validation = NULL, learn = NULL, test = NULL,
  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
@@ -34,37 +34,38 @@ filtering out variables with low VIP values}
 a refinement precess is considered. Default vip=1.2}
 }
 \value{
-PLS model
-
-\code{\link[base]{list}} with the following elements: R2Matrix
+\code{\link[base]{list}} with the following elements: \code{R2Matrix}
 (R-squared coefficients of the PLS model),
-components (of the PLS),
-p.value obtained by the permutations and R2PermutationVector with all R2 from
-the permutations.
+\code{components} (of the PLS), \code{vip} (most important variables),
+\code{p.value} and \code{R2PermutationVector} obtained by the permutations.
 
 If the option \code{refinment} is set to \code{TRUE}, then the following
 elements will appear:
-R2RefinedMatrix and componentsRefinedModel (R-squared coefficients and components
- (components of the PLS model only using the most important miRNAs). As well,
-p.valRefined and R2RefinedPermutationVector with the p-value and the R2 of the
+\code{R2RefinedMatrix} and \code{componentsRefinedModel} (R-squared coefficients and
+of the PLS model only using the most important miRNAs). As well,
+\code{p.valRefined} and \code{R2RefinedPermutationVector} with p-value and R2 of the
 permutations shuffling individuals. And finally,
-p.valRefinedFixed and R2RefinedFixedPermutationVector with p-values and R2 of the
-permutations shuffling the most important miRNAs.
+\code{p.valRefinedFixed} and \code{R2RefinedFixedPermutationVector} with p-value and R2 of the
+permutations shuffling the most important miRNAs/isomiRs.
 }
 \description{
-Partial Least Squares Discriminant Analysis for isomirSeqData
+Use PLS-DA method with the normalized count data to detect the most
+important features (miRNAs/isomiRs) that explain better
+the group of samples given in the experimental design. Is a supervised
+clustering method with permutations to calculate the significance
+of analysis.
 }
 \details{
 Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
 appropriate for analysis of high dimensionality data sets and multicollinearity
-\cite{perezenciso}. PLS-DA is a supervised method (i.e. makes use of class
+(\cite{Perez-Enciso, 2013}). PLS-DA is a supervised method (i.e. makes use of class
 labels) with the aim to provide a dimension reduction strategy in a situation
 where we want to relate a binary response variable (in our case young or old
 status) to a set of predictor variables. Dimensionality reduction procedure is
 based on orthogonal transformations of the original variables (isomiRs) into a
 set of linearly uncorrelated latent variables (usually termed as components)
 such that maximizes the separation between the different classes in the first
-few components \cite{xia}. We used sum of squares captured by the model (R2) as
+few components (\cite{Xia, 2011}). We used sum of squares captured by the model (R2) as
 a goodness of fit measure. We implemented this method using the
 \code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function. The output
 p-value of this function will tell about the statistical
@@ -78,5 +79,13 @@ ids = isoNorm(ids)
 pls.ids = isoPLSDA(ids, "condition", nperm = 10)
 cat(paste0("pval:",pls.ids$p.val))
 cat(paste0("components:",pls.ids$components))
+}
+\references{
+Perez-Enciso, Miguel and Tenenhaus, Michel. Prediction of clinical outcome with microarray data:
+a partial least  squares discriminant analysis (PLS-DA) approach. Human
+Genetics. 2003.
+
+Xia, Jianguo and Wishart, David S. Web-based inference of biological patterns, functions and
+pathways from metabolomic data using MetaboAnalyst. Nature Protocols. 2011.
 }
 

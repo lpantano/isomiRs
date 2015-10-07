@@ -10,7 +10,7 @@ isoPLSDAplot(pls)
 \item{pls}{output from \code{\link{isoPLSDA}} function.}
 }
 \value{
-plot
+\code{\link[GGally]{ggpairs}} plot
 
 \code{\link[ggplot2]{ggplot2-package}} object
 }
@@ -19,7 +19,8 @@ Plot components from isoPLSDA(pairs plot)
 }
 \details{
 The function \code{isoPLSDAplot}
-helps to visualize the results. It will plot the samples using the
+helps to visualize the results from \code{\link{isoPLSDA}}.
+It will plot the samples using the
 significant components (t1, t2, t3 ...) from the PLS-DA analysis and the
 samples distribution along the components.
 }
