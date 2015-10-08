@@ -172,7 +172,7 @@ isoPlot <- function(ids, type="iso5"){
 #' head(counts(ids))
 #' @export
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
-                      add=FALSE, subs=FALSE, seed=FALSE, minc=10){
+                      add=FALSE, subs=FALSE, seed=FALSE, minc=1){
         counts <- IsoCountsFromMatrix(isoraw(ids), colData(ids), ref,
                                       iso5, iso3,
                                       add, subs, seed, minc)

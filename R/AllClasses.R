@@ -121,7 +121,7 @@ IsomirDataSeqFromFiles <- function(files, design, cov=1,
         if (ncol(d) < 2){
             warning(paste0("This sample has not lines: ", f))
         }else{
-            d <- .filter_table(d, cov)
+            # d <- .filter_table(d, cov)
             out <- list(summary=0,
                         t5sum = .isomir_position(d, 6),
                         t3sum = .isomir_position(d, 7),

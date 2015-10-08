@@ -9,7 +9,7 @@
 }
 
 # filter by relative abundance to reference
-.filter_by_cov <- function(table, limit=2){
+.filter_by_cov <- function(table, limit=0){
     freq <- mir <-  NULL
     tab.fil <- table[table$DB == "miRNA",]
     tab.fil.out <- as.data.frame(tab.fil %>% group_by(mir) %>%
@@ -22,7 +22,7 @@
 }
 
 # Filter table reference
-.filter_table <- function(table, cov=10){
+.filter_table <- function(table, cov=1){
     table <- .put_header(table)
     .filter_by_cov(table,cov)
 }
@@ -44,7 +44,7 @@
 
 IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
                                 iso3=FALSE, add=FALSE,
-                                subs=FALSE, seed=FALSE, minc=2){
+                                subs=FALSE, seed=FALSE, minc=1){
     table.merge <- data.frame()
     for (sample in row.names(des)){
         d <- listTable[[sample]]
