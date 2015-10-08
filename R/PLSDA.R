@@ -254,8 +254,8 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' isoPLSDAplot(pls.ids)
 #' @export
 isoPLSDAplot <- function (pls){
-    components = pls.ids$component
-    groups = pls.ids$group
+    components = pls$component
+    groups = pls$group
     datacomponents <- data.frame(condition = groups, components)
     t <- dim(datacomponents)[2] - 1
     n <- length(levels(factor(groups)))
