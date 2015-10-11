@@ -24,8 +24,8 @@ Only used when validation="learntest". Default NULL}
 \item{tol}{tolerance value based on maximum change of cumulative R-squared
 coefficient for each additional PLS component. Default tol=0.001}
 
-\item{nperm}{number of permutations to compute the PLD-DA p-value b
-ased on R2 magnitude. Default nperm=400}
+\item{nperm}{number of permutations to compute the PLD-DA p-value
+based on R2 magnitude. Default nperm=400}
 
 \item{refinment}{logical indicating whether a refined model, based on
 filtering out variables with low VIP values}
@@ -37,12 +37,13 @@ a refinement precess is considered. Default vip=1.2}
 \code{\link[base]{list}} with the following elements: \code{R2Matrix}
 (R-squared coefficients of the PLS model),
 \code{components} (of the PLS), \code{vip} (most important variables),
+\code{group} (classification of the samples),
 \code{p.value} and \code{R2PermutationVector} obtained by the permutations.
 
 If the option \code{refinment} is set to \code{TRUE}, then the following
 elements will appear:
-\code{R2RefinedMatrix} and \code{componentsRefinedModel} (R-squared coefficients and
-of the PLS model only using the most important miRNAs). As well,
+\code{R2RefinedMatrix} and \code{componentsRefinedModel} (R-squared coefficients
+of the PLS model only using the most important miRNAs/isomiRs). As well,
 \code{p.valRefined} and \code{R2RefinedPermutationVector} with p-value and R2 of the
 permutations shuffling individuals. And finally,
 \code{p.valRefinedFixed} and \code{R2RefinedFixedPermutationVector} with p-value and R2 of the

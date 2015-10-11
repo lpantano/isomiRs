@@ -5,7 +5,7 @@
 \title{Create count matrix with different summarizing options}
 \usage{
 isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
-  subs = FALSE, seed = FALSE, minc = 10)
+  subs = FALSE, seed = FALSE, minc = 1)
 }
 \arguments{
 \item{ids}{object of class \code{\link{IsomirDataSeq}}}
