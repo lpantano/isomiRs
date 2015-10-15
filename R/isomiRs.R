@@ -46,7 +46,7 @@ isoDE <- function(ids, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #'
 #' This function creates a heatmap with the top N
 #' isomiRs/miRNAs. It uses the matrix under \code{counts(ids)}
-#' and represent as heatmap the raw counts for each sample.
+#' and plot a heatmap with the raw counts for each sample.
 #'
 #' @param ids object of class \code{\link{IsomirDataSeq}}
 #' @param top number of isomiRs/miRNAs used
@@ -74,6 +74,8 @@ isoTop <- function(ids, top=20){
 #' @param ids object of class \code{\link{IsomirDataSeq}}
 #' @param type string (iso5, iso3, add, subs) to indicate what isomiRs
 #' to use for the plot. See details for explanation.
+#' @param column string indicating the column in 
+#' colData to color samples.
 #' @return \code{\link{IsomirDataSeq}} with new stored data to avoid
 #' same calculation in the future.
 #' @details 
@@ -83,13 +85,13 @@ isoTop <- function(ids, top=20){
 #' position described at miRBase site. Each position refers to the number of 
 #' sequences that start/end before or after the miRBase reference. The
 #' color indicates the sample group. The size of the point is proportional
-#' to the number of total counts. The position in \code{y} is the number of
+#' to the number of total counts. The position at \code{y} is the number of
 #' different sequences. 
 #' 
 #' Same logic applies to \code{type="add"} and \code{type="subs"}. However,
 #' when \code{type="add"}, the plot will refer to addition events from the
 #' 3' end of the reference position. Note that this additions doesn't match 
-#' the precursor sequence. In this case, only 3 position after the 3' end
+#' to the precursor sequence. In this case, only 3 positions after the 3' end
 #' will appear in the plot. When \code{type="subs"}, it will appear one
 #' position for each nucleotide in the reference miRNA. And the points
 #' will indicate isomiRs with nucleotide changes at the given position.
@@ -99,7 +101,7 @@ isoTop <- function(ids, top=20){
 #' @examples
 #' data(mirData)
 #' isoPlot(mirData)
-isoPlot <- function(ids, type="iso5"){
+isoPlot <- function(ids, type="iso5", column="condition"){
     freq <- size <- group <- abundance <- NULL
     codevn <- 2:5
     names(codevn) <- c("iso5", "iso3", "subs", "add")
@@ -125,7 +127,7 @@ isoPlot <- function(ids, type="iso5"){
                         data.frame( size=temp$size, abundance=temp$abundance,
                                         unique=temp$unique,
                                         sample=rep(sample, nrow(temp)),
-                                        group=rep(des[sample,"condition"],
+                                        group=rep(des[sample, column],
                                                 nrow(temp)) ) )
     }
     isostats(ids)[[type]] <- table

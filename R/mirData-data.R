@@ -1,7 +1,7 @@
 #' @name mirData
 #' @title IsomirDataSeq
 #' @description This data set is the object return by \code{\link{IsomirDataSeqFromFiles}}. It mainly
-#' contains miRNA sequencing raw data from 6 samples: 3 newborns and 3 elderly individuals.
+#' contains miRNA sequencing raw data from 6 samples: 3 newborns and 3 elderly
 #' human individuals (Somel et al, 2010). 
 #' Use \code{colData} to see the experiment design of the data.
 #' @docType data

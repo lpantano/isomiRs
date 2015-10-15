@@ -4,16 +4,12 @@
 \alias{IsomirDataSeqFromFiles}
 \title{\code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool}
 \usage{
-IsomirDataSeqFromFiles(files, design, cov = 1, header = FALSE, skip = 1,
-  ...)
+IsomirDataSeqFromFiles(files, design, header = FALSE, skip = 1, ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
 
 \item{design}{data frame containing groups for each sample}
-
-\item{cov}{remove sequences that have relative abundance lower
-than this number}
 
 \item{header}{boolean to indicate files contain headers}
 
@@ -25,20 +21,21 @@ than this number}
 \code{\link{IsomirDataSeq}} class
 }
 \description{
-This function parses \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
+This function parses
 output to allow isomiRs/miRNAs analysis of samples in different groups such as
 characterization, differential expression and clustering. It creates
 \code{\link[isomiRs]{IsomirDataSeq}} object.
 }
 \details{
-This function parse the output of \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
+This function parses the output of \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
 for each sample to create count matrix for isomiRs, miRNAs or isomiRs grouped in
 types (i.e all sequences with variations at 5' but ignoring any other type). It creates
-\code{\link[isomiRs]{IsomirDataSeq}} object to allow visualization, queries, differential
+\code{\link[isomiRs]{IsomirDataSeq}} object (see link to exmaple usage of this command)
+to allow visualization, queries, differential
 expression analysis and clustering.
 To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs file, and generates
 an initial matrix having all miRNAs detected among samples. As well, it creates
 a summary for each isomiR type (trimming, addition and substitution.) to
-visualize general isomiRs distribution omong samples.
+visualize general isomiRs distribution among samples.
 }
 

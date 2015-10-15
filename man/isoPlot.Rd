@@ -4,13 +4,16 @@
 \alias{isoPlot}
 \title{Plot the amount of isomiRs in different samples}
 \usage{
-isoPlot(ids, type = "iso5")
+isoPlot(ids, type = "iso5", column = "condition")
 }
 \arguments{
 \item{ids}{object of class \code{\link{IsomirDataSeq}}}
 
 \item{type}{string (iso5, iso3, add, subs) to indicate what isomiRs
 to use for the plot. See details for explanation.}
+
+\item{column}{string indicating the column in
+colData to color samples.}
 }
 \value{
 \code{\link{IsomirDataSeq}} with new stored data to avoid
@@ -28,13 +31,13 @@ In this case, it will plot 3 positions at both side of the reference
 position described at miRBase site. Each position refers to the number of
 sequences that start/end before or after the miRBase reference. The
 color indicates the sample group. The size of the point is proportional
-to the number of total counts. The position in \code{y} is the number of
+to the number of total counts. The position at \code{y} is the number of
 different sequences.
 
 Same logic applies to \code{type="add"} and \code{type="subs"}. However,
 when \code{type="add"}, the plot will refer to addition events from the
 3' end of the reference position. Note that this additions doesn't match
-the precursor sequence. In this case, only 3 position after the 3' end
+to the precursor sequence. In this case, only 3 positions after the 3' end
 will appear in the plot. When \code{type="subs"}, it will appear one
 position for each nucleotide in the reference miRNA. And the points
 will indicate isomiRs with nucleotide changes at the given position.

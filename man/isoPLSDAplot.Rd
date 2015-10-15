@@ -15,14 +15,16 @@ isoPLSDAplot(pls)
 \code{\link[ggplot2]{ggplot2-package}} object
 }
 \description{
-Plot components from isoPLSDA(pairs plot)
+Plot the most significant components that come from \code{\link{isoPLSDA}}
+together with the density of the samples along those components.
 }
 \details{
 The function \code{isoPLSDAplot}
 helps to visualize the results from \code{\link{isoPLSDA}}.
 It will plot the samples using the
 significant components (t1, t2, t3 ...) from the PLS-DA analysis and the
-samples distribution along the components.
+samples distribution along the components. It uses \code{\link[GGally]{ggpairs}}
+for the plot.
 }
 \examples{
 data(mirData)

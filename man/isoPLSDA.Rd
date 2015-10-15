@@ -52,7 +52,7 @@ permutations shuffling the most important miRNAs/isomiRs.
 \description{
 Use PLS-DA method with the normalized count data to detect the most
 important features (miRNAs/isomiRs) that explain better
-the group of samples given in the experimental design. Is a supervised
+the group of samples given in the experimental design. It is a supervised
 clustering method with permutations to calculate the significance
 of analysis.
 }
@@ -63,7 +63,7 @@ appropriate for analysis of high dimensionality data sets and multicollinearity
 labels) with the aim to provide a dimension reduction strategy in a situation
 where we want to relate a binary response variable (in our case young or old
 status) to a set of predictor variables. Dimensionality reduction procedure is
-based on orthogonal transformations of the original variables (isomiRs) into a
+based on orthogonal transformations of the original variables (miRNAs/isomiRs) into a
 set of linearly uncorrelated latent variables (usually termed as components)
 such that maximizes the separation between the different classes in the first
 few components (\cite{Xia, 2011}). We used sum of squares captured by the model (R2) as

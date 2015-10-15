@@ -120,7 +120,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' from all samples.
 #'
 #' @usage
-#' \S4method{isoSelect}{IsomirDataSeq}(object, mirna, norm=FALSE, minc=10)
+#' \S4method{isoSelect}{IsomirDataSeq}(object, mirna, minc=10)
 #'
 #'
 #' @docType methods
@@ -130,7 +130,6 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #'
 #' @param object a \code{IsomirDataSeq} object.
 #' @param mirna string of the miRNA to show
-#' @param norm TRUE return log2-normalized counts
 #' @param minc int minimum number of isomiR reads
 #' @return \code{\link[S4Vectors]{DataFrame-class}}
 #' @author Lorena Pantano
@@ -139,7 +138,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' data(mirData)
 #' isoSelect(mirData, mirna="hsa-let-7a-5p")
 #' @export
-isoSelect.IsomirDataSeq <- function(object, mirna="", norm=FALSE, minc=10) {
+isoSelect.IsomirDataSeq <- function(object, mirna="",  minc=10) {
     x <- isoraw(object)
     if ( mirna == "" )
         stop("mirna parameter needs to have a value")

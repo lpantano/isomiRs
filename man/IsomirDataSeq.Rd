@@ -25,7 +25,7 @@ Could be empty list.}
 The \code{\link{IsomirDataSeq}} is a subclass of
 \code{\link[SummarizedExperiment]{SummarizedExperiment}}
 used to store the raw data, intermediate calculations and results of an
-isomiR analysis.  The \code{\link{IsomirDataSeq}} class stores all raw isomiRs
+miRNA/isomiR analysis.  The \code{\link{IsomirDataSeq}} class stores all raw isomiRs
 data for each sample, processed information,
 summary for each isomiR type,
 raw counts, normalized counts, and table with

@@ -2,7 +2,7 @@
 #' 
 #' Use PLS-DA method with the normalized count data to detect the most
 #' important features (miRNAs/isomiRs) that explain better
-#' the group of samples given in the experimental design. Is a supervised
+#' the group of samples given in the experimental design. It is a supervised
 #' clustering method with permutations to calculate the significance
 #' of analysis.
 #' 
@@ -32,7 +32,7 @@
 #' labels) with the aim to provide a dimension reduction strategy in a situation
 #' where we want to relate a binary response variable (in our case young or old
 #' status) to a set of predictor variables. Dimensionality reduction procedure is
-#' based on orthogonal transformations of the original variables (isomiRs) into a
+#' based on orthogonal transformations of the original variables (miRNAs/isomiRs) into a
 #' set of linearly uncorrelated latent variables (usually termed as components)
 #' such that maximizes the separation between the different classes in the first
 #' few components (\cite{Xia, 2011}). We used sum of squares captured by the model (R2) as
@@ -236,6 +236,9 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 
 #' Plot components from isoPLSDA(pairs plot)
 #' 
+#' Plot the most significant components that come from \code{\link{isoPLSDA}}
+#' together with the density of the samples along those components.
+#' 
 #' @aliases isoPLSDAplot
 #' @usage isoPLSDAplot(pls)
 #' @param pls output from \code{\link{isoPLSDA}} function.
@@ -245,7 +248,8 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' helps to visualize the results from \code{\link{isoPLSDA}}.
 #' It will plot the samples using the 
 #' significant components (t1, t2, t3 ...) from the PLS-DA analysis and the 
-#' samples distribution along the components.
+#' samples distribution along the components. It uses \code{\link[GGally]{ggpairs}}
+#' for the plot.
 #' @return \code{\link[ggplot2]{ggplot2-package}} object
 #' @examples
 #' data(mirData)
