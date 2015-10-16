@@ -168,6 +168,7 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 isoPlotPosition <- function(ids, position=1, column="condition"){
     freq <- size <- group <- abundance <- NULL
     codevn <- 2:5
+    type <- "subs"
     names(codevn) <- c("iso5", "iso3", "subs", "add")
     ratiov <- c(1 / 6, 1 / 6, 1 / 23, 1 / 3)
     names(ratiov) <- names(codevn)

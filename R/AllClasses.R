@@ -21,8 +21,8 @@ setValidity( "IsomirDataSeq", function( object ) {
 } )
 
 #' Class that contain all isomiRs annotation for all samples
-#' 
-#' The \code{\link{IsomirDataSeq}} is a subclass of 
+#'
+#' The \code{\link{IsomirDataSeq}} is a subclass of
 #' \code{\link[SummarizedExperiment]{SummarizedExperiment}}
 #' used to store the raw data, intermediate calculations and results of an
 #' miRNA/isomiR analysis.  The \code{\link{IsomirDataSeq}} class stores all raw isomiRs
@@ -32,29 +32,29 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' experimental information for each sample.
 #'
 #' \code{\link{IsomirDataSeqFromFiles}} creates this object using seqbuster output files.
-#' 
+#'
 #' Methods for this objects are \code{\link[isomiRs]{counts}} to get count matrix
-#' and \code{\link[isomiRs]{isoSelect}} 
+#' and \code{\link[isomiRs]{isoSelect}}
 #' for miRNA/isomiR selection. Functions
 #' available for this object are \code{\link[isomiRs]{isoCounts}} for count matrix creation,
 #' \code{\link[isomiRs]{isoNorm}} for normalization, \code{\link[isomiRs]{isoDE}} for
 #' differential expression and \code{\link{isoPLSDA}} for clustering.
 #' \code{\link[isomiRs]{isoPlot}} helps with basic expression plot.
-#' 
+#'
 #' @param se \code{\link[SummarizedExperiment]{SummarizedExperiment}} object.
 #' @param expList list of samples with seqbuster output.
-#' @param isoList list of samples with summarized isomiR 
+#' @param isoList list of samples with summarized isomiR
 #' information for each type.
 #' @param statsList list of samples with general isomiR information.
 #' Could be empty list.
-#' 
+#'
 #' @aliases IsomirDataSeq IsomirDataSeq-class
-#' @examples 
+#' @examples
 #' \dontrun{
 #' fn_list = c("url1", "url2")
-#' de = data.frame(row.names=c("f1" , "f2"), condition = c("n1", "o1")) 
+#' de = data.frame(row.names=c("f1" , "f2"), condition = c("n1", "o1"))
 #' ids <- IsomirDataSeqFromFiles(fn_list, design=de)
-#' 
+#'
 #' select(ids, "hsa-let-7a-5p")
 #' counts(ids)[1:5, ]
 #' }
@@ -118,9 +118,9 @@ IsomirDataSeqFromFiles <- function(files, design,
         idx <- idx + 1
         d <- read.table(f, header=header, skip=skip)
         if (ncol(d) < 2){
-            warning(paste0("This sample has not lines: ", f))
+            warning(paste0("This sample hasn't any lines: ", f))
         }else{
-            # d <- .filter_table(d, cov)
+            d <- .filter_table(d)
             out <- list(summary=0,
                         t5sum = .isomir_position(d, 6),
                         t3sum = .isomir_position(d, 7),
