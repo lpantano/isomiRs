@@ -21,10 +21,26 @@
     tab.fil[tab.fil$score >= limit,]
 }
 
+.convert_to_new_version <- function(table){
+    idx <- grepl("u-", table$t5)
+    table$t5[idx] <- toupper(gsub("u-", "", table$t5[idx]))
+    idx <- grepl("d-", table$t5)
+    table$t5[idx] <- tolower(gsub("d-", "", table$t5[idx]))
+    idx <- grepl("u-", table$t3)
+    table$t3[idx] <- toupper(gsub("u-", "", table$t3[idx]))
+    idx <- grepl("d-", table$t3)
+    table$t3[idx] <- tolower(gsub("d-", "", table$t3[idx]))
+    table$add <- toupper(gsub("u-", "", table$add))
+    table
+}
+
 # Filter table reference
 .filter_table <- function(table, cov=1){
     table <- .put_header(table)
-    .filter_by_cov(table,cov)
+    table <- .filter_by_cov(table,cov)
+    if (sum(grepl("u-", table$add))>0)
+        table <- .convert_to_new_version(table)
+    table
 }
 
 
@@ -107,22 +123,20 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
 .isomir_position <- function(table, colid){
     temp <- table
     temp[ ,colid] <- as.character(temp[ ,colid])
-    pos <- as.data.frame(t(as.data.frame((
-        strsplit(temp[ ,colid], "-", fixed=2)))))
+    pos <- temp[, colid, drop=FALSE]
     row.names(pos) <- 1:nrow(pos)
     pos$mir <- temp$mir
     pos$freq <- temp$freq
     pos <- pos[pos[ ,1] != 0, ]
     pos$size <- apply(pos, 1, function(x){
-        p <- length(unlist(strsplit(x[2], "")))
-        if (x[1] == "d"){
+        p <- length(unlist(strsplit(x[1], "")))
+        if (grepl("[atgcn]", x[1]))
             p <- p * -1
-        }
         return(p)
     })
     pos$idfeat <- paste(pos$size, pos$mir)
     pos <- pos[order(pos$idfeat, abs(pos$size)),]
-    return (pos[ ,c(3,4,5)])
+    return (pos[ ,c(2,3,4)])
 }
 
 # Do summary of nt substitution events

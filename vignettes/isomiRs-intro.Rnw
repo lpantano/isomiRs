@@ -58,10 +58,10 @@ for each sample in the following format:
 <<format-line,eval=FALSE,echo=TRUE>>==
 seq     name    freq    mir     start   end     mism    add     t5      t3      s5      s3      DB      ambiguity
 TGTAAACATCCTACACTCAGCTGT        seq_100014_x23  23      hsa-miR-30b-5p  17      40      0       0       0       d-GT    TTCATGTA        AGCTGTAA        miRNA   1
-TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30d-5p  6       26      13TC    0       0       u-G     TTGTTGTA        GAAGCTGT        miRNA   2
-TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30e-5p  17      37      12CT    0       0       u-G     CTACTGTA        GAAGCTGT        miRNA   2
-CAAATTCGTATCTAGGGGATT   seq_100049_x1   1       hsa-miR-10a-3p  63      81      0       u-TT    0       u-ATA   GTCACAAA        AATATGTA        miRNA   1
-TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1       hsa-miR-192-5p  25      47      8GT     0       d-C     d-AGT   GGCTCTGA        AGCCAGTG        miRNA   1
+TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30d-5p  6       26      13TC    0       0       G     TTGTTGTA        GAAGCTGT        miRNA   2
+TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30e-5p  17      37      12CT    0       0       G     CTACTGTA        GAAGCTGT        miRNA   2
+CAAATTCGTATCTAGGGGATT   seq_100049_x1   1       hsa-miR-10a-3p  63      81      0       TT    0       ATA   GTCACAAA        AATATGTA        miRNA   1
+TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1       hsa-miR-192-5p  25      47      8GT     0       c     agt   GGCTCTGA        AGCCAGTG        miRNA   1
 @
 
 This is the standard output of SeqBuster-miraligner tool, but can be converted from
@@ -93,13 +93,14 @@ IsomiR names follows this structure:
 \begin{itemize}
     \item miRNA name
     \item type: ref if the sequence is the same than the miRNA reference. `iso` if the sequence has variations.
-    \item t5 tag: indicates variations at 5' position. The naming contains two words: `direction - nucleotides`, where direction can be `u` (changes upstream of the 5' reference position) or `d` (changes downstream of the 5' reference position). `0` indicates no variation, meaning the 5' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (for upstream changes) or deleted (for downstream changes).
-    \item t3 tag: indicates variations at 3' position. The naming contains two words: `direction - nucleotides`, where direction can be `u` (upstream of the 3' reference position) or `d` (downstream of the 3' reference position). `0` indicates no variation, meaning the 3' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (for downstream changes) or deleted (for upstream chanes).
-    \item ad tag: indicates nucleotides additions at 3' position. The naming contains two words: `direction - nucleotides`, where direction is `u` (upstream of the 5' reference position). `0` indicates no variation, meaning the 3' position has no additions. After `direction`, it follows the nucleotide/s that are added.
+    \item t5 tag: indicates variations at 5' position. The naming contains two words: `direction - nucleotides`, where direction can be UPPER CASE NT (changes upstream of the 5' reference position) or LOWER CASE NT (changes downstream of the 5' reference position). `0` indicates no variation, meaning the 5' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (for upstream changes) or deleted (for downstream changes).
+    \item t3 tag: indicates variations at 3' position. The naming contains two words: `direction - nucleotides`, where direction can be LOWER CASE NT (upstream of the 3' reference position) or UPPER CASE NT (downstream of the 3' reference position). `0` indicates no variation, meaning the 3' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (for downstream changes) or deleted (for upstream chanes).
+    \item ad tag: indicates nucleotides additions at 3' position. The naming contains two words: `direction - nucleotides`, where direction is UPPER CASE NT (upstream of the 5' reference position). `0` indicates no variation, meaning the 3' position has no additions. After `direction`, it follows the nucleotide/s that are added.
     \item mm tag: indicates nucleotides substitutions along the sequences. The naming contains three words: `position-nucleotideATsequence-nucleotideATreference`. 
     \item seed tag: same than `mm` tag, but only if the change happens between nucleotide 2 and 8.
 \end{itemize}
 
+In general nucleotides in UPPER case mean insertions respect to the reference sequence, and nucleotides in LOWER case mean deletions respect to the reference sequence.
 
 \section{Quick start}
 
