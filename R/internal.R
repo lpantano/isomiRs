@@ -1,9 +1,9 @@
 # put header to input files
 .put_header <- function(table){
-    names(table)[c(1, 3, 4, 7, 8, 9, 10, 13, 14)] <- c("seq", "freq", "mir",
+    names(table)[c(1, 3, 4, 7, 8, 9, 10, 13, ncol(table))] <- c("seq", "freq", "mir",
                                                "subs", "add", "t5", "t3",
                                                "DB", "ambiguity")
-    table <- table[,c(1, 3, 4, 7, 8, 9, 10, 13, 14)]
+    table <- table[,c(1, 3, 4, 7, 8, 9, 10, 13, ncol(table))]
     table[,2] <- as.numeric(table[,2])
     return(table)
 }
