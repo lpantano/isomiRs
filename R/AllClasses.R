@@ -116,7 +116,7 @@ IsomirDataSeqFromFiles <- function(files, design,
     idx <- 0
     for (f in files){
         idx <- idx + 1
-        d <- read.table(f, header=header, skip=skip)
+        d <- read.table(f, header=header, skip=skip, stringsAsFactors = FALSE)
         if (ncol(d) < 2){
             warning(paste0("This sample hasn't any lines: ", f))
         }else{
