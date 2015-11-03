@@ -8,17 +8,47 @@
     return(table)
 }
 
+.clean_low_rate_changes <- function(tab){
+  tab.subs <- as.data.frame(tab %>% filter(subs!=0) %>%
+                                 group_by(mir, subs) %>%
+                                 summarise(total_subs=sum(freq)))
+  tab.ref <- as.data.frame(tab %>% filter(subs==0) %>%
+                              group_by(mir) %>%
+                              summarise(total_mir=sum(freq)))
+  tab.fil <- merge(tab.subs, tab.ref, by=1) %>% mutate(ratio = total_subs/total_mir)
+  cols <- apply(tab, 1, function(row){
+    .seq = row[2]
+    if (row[4]=="0")
+      return(c(.seq, row[4]))
+    if (tab.fil$ratio[tab.fil$subs==row[4] & tab.fil$mir==row[1]] > 0.50)
+      return(c(.seq, row[4]))
+    .pos = gsub("[ATGCNU]", "", row[4])
+    .subs = strsplit2(gsub("[0-9]+", "", row[4]), "")
+    .nts = as.vector(strsplit2(.seq, ""))
+    .nts[as.numeric(.pos)] = .subs[2]
+    c(paste0(as.vector(unlist(.nts)), collapse = ""), "0")
+  })
+  tab$seq <- cols[1,]
+  tab$subs <- cols[2,]
+  tab = tab %>% group_by(mir, seq, subs, add, t5, t3, DB, ambiguity, total) %>%
+            summarise(freq=sum(freq)) %>% mutate(score=freq/total) %>%
+            dplyr::select(mir, seq, freq, subs, add, t5, t3, DB, ambiguity, total)
+  as.data.frame(tab)
+}
+
 # filter by relative abundance to reference
 .filter_by_cov <- function(table, limit=0){
     freq <- mir <-  NULL
     tab.fil <- table[table$DB == "miRNA",]
-    tab.fil.out <- as.data.frame(tab.fil %>% group_by(mir) %>%
+    tab.fil.out <- as.data.frame(tab.fil %>% filter(subs==0) %>%
+                                   group_by(mir) %>%
                                    summarise(total=sum(freq)))
     tab.fil <- merge(tab.fil[ ,c(3, 1:2, 4:ncol(tab.fil)) ],
                      tab.fil.out,
                      by=1)
     tab.fil$score <- tab.fil$freq / tab.fil$total * 100
-    tab.fil[tab.fil$score >= limit,]
+    tab.fil <- .clean_low_rate_changes(tab.fil)
+    tab.fil
 }
 
 .convert_to_new_version <- function(table){
@@ -27,17 +57,18 @@
     idx <- grepl("d-", table$t5)
     table$t5[idx] <- tolower(gsub("d-", "", table$t5[idx]))
     idx <- grepl("u-", table$t3)
-    table$t3[idx] <- toupper(gsub("u-", "", table$t3[idx]))
+    table$t3[idx] <- tolower(gsub("u-", "", table$t3[idx]))
     idx <- grepl("d-", table$t3)
-    table$t3[idx] <- tolower(gsub("d-", "", table$t3[idx]))
+    table$t3[idx] <- toupper(gsub("d-", "", table$t3[idx]))
     table$add <- toupper(gsub("u-", "", table$add))
+    print(head(table))
     table
 }
 
 # Filter table reference
 .filter_table <- function(table, cov=1){
     table <- .put_header(table)
-    table <- .filter_by_cov(table,cov)
+    table <- .filter_by_cov(table, cov)
     if (sum(grepl("u-", table$add))>0)
         table <- .convert_to_new_version(table)
     table
