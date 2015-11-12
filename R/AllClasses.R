@@ -114,6 +114,8 @@ IsomirDataSeqFromFiles <- function(files, design,
     listSamples <- vector("list")
     listIsomirs <- vector("list")
     idx <- 0
+    if (header == TRUE)
+      skip = 0
     for (f in files){
         idx <- idx + 1
         d <- read.table(f, header=header, skip=skip, stringsAsFactors = FALSE)

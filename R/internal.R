@@ -70,6 +70,7 @@
     table <- .filter_by_cov(table, cov)
     if (sum(grepl("u-", table$add))>0)
         table <- .convert_to_new_version(table)
+
     table
 }
 
