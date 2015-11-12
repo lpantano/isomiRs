@@ -113,22 +113,24 @@ isoPlot <- function(ids, type="iso5", column="condition"){
     table <- data.frame()
     isoList <- isoinfo(ids)
     for (sample in row.names(des)){
-        uniq.dat <- as.data.frame( table(isoList[[sample]][[coden]]$size) )
-        temp <- as.data.frame( isoList[[sample]][[coden]] %>%
-                                group_by(size) %>%
-                                summarise( freq=sum(freq) )
-                              )
-        total <- sum(temp$freq)
-        temp <- merge(temp, uniq.dat, by=1)
-        Total <- sum(temp$Freq)
-        temp$abundance <- temp$freq / total
-        temp$unique <- temp$Freq / Total
-        table <- rbind( table,
-                        data.frame( size=temp$size, abundance=temp$abundance,
-                                        unique=temp$unique,
-                                        sample=rep(sample, nrow(temp)),
-                                        group=rep(des[sample, column],
+        if (nrow(isoList[[sample]][[coden]]) > 0 ){
+          uniq.dat <- as.data.frame( table(isoList[[sample]][[coden]]$size) )
+          temp <- as.data.frame( isoList[[sample]][[coden]] %>%
+                                   group_by(size) %>%
+                                   summarise( freq=sum(freq) )
+          )
+          total <- sum(temp$freq)
+          temp <- merge(temp, uniq.dat, by=1)
+          Total <- sum(temp$Freq)
+          temp$abundance <- temp$freq / total
+          temp$unique <- temp$Freq / Total
+          table <- rbind( table,
+                          data.frame( size=temp$size, abundance=temp$abundance,
+                                      unique=temp$unique,
+                                      sample=rep(sample, nrow(temp)),
+                                      group=rep(des[sample, column],
                                                 nrow(temp)) ) )
+        }
     }
     isostats(ids)[[type]] <- table
     p <- ggplot(table) +

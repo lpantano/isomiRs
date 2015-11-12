@@ -23,8 +23,8 @@
     if (tab.fil$ratio[tab.fil$subs==row[4] & tab.fil$mir==row[1]] > 0.50)
       return(c(.seq, row[4]))
     .pos = gsub("[ATGCNU]", "", row[4])
-    .subs = strsplit2(gsub("[0-9]+", "", row[4]), "")
-    .nts = as.vector(strsplit2(.seq, ""))
+    .subs = strsplit(gsub("[0-9]+", "", row[4]), "")
+    .nts = as.vector(strsplit(.seq, ""))
     .nts[as.numeric(.pos)] = .subs[2]
     c(paste0(as.vector(unlist(.nts)), collapse = ""), "0")
   })
@@ -61,7 +61,6 @@
     idx <- grepl("d-", table$t3)
     table$t3[idx] <- toupper(gsub("d-", "", table$t3[idx]))
     table$add <- toupper(gsub("u-", "", table$add))
-    print(head(table))
     table
 }
 
@@ -159,6 +158,8 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
     pos$mir <- temp$mir
     pos$freq <- temp$freq
     pos <- pos[pos[ ,1] != 0, ]
+    if (nrow(pos)==0)
+      return(data.frame())
     pos$size <- apply(pos, 1, function(x){
         p <- length(unlist(strsplit(x[1], "")))
         if (grepl("[atgcn]", x[1]))
@@ -179,6 +180,8 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
     pos <- data.frame(nt=as.character(nt), size=pos,
                       mir=temp$mir, freq=temp$freq)
     pos$nt <- as.character(pos$nt)
+    if (length(unique(pos$nt)) == 1)
+      return(data.frame())
     pos <- pos[pos[,1] != "", ]
     nt.2 <- as.data.frame(t(as.data.frame((strsplit(pos$nt, "", fixed=2)))))
     names(nt.2) <- c("current","reference")
