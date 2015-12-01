@@ -57,10 +57,10 @@ for each sample in the following format:
 
 <<format-line,eval=FALSE,echo=TRUE>>==
 seq     name    freq    mir     start   end     mism    add     t5      t3      s5      s3      DB      ambiguity
-TGTAAACATCCTACACTCAGCTGT        seq_100014_x23  23      hsa-miR-30b-5p  17      40      0       0       0       d-GT    TTCATGTA        AGCTGTAA        miRNA   1
-TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30d-5p  6       26      13TC    0       0       G     TTGTTGTA        GAAGCTGT        miRNA   2
-TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30e-5p  17      37      12CT    0       0       G     CTACTGTA        GAAGCTGT        miRNA   2
-CAAATTCGTATCTAGGGGATT   seq_100049_x1   1       hsa-miR-10a-3p  63      81      0       TT    0       ATA   GTCACAAA        AATATGTA        miRNA   1
+TGTAAACATCCTACACTCAGCTGT        seq_100014_x23  23      hsa-miR-30b-5p  17      40      0       0       0       GT    TTCATGTA        AGCTGTAA        miRNA   1
+TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30d-5p  6       26      13TC    0       0       g     TTGTTGTA        GAAGCTGT        miRNA   2
+TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30e-5p  17      37      12CT    0       0       g     CTACTGTA        GAAGCTGT        miRNA   2
+CAAATTCGTATCTAGGGGATT   seq_100049_x1   1       hsa-miR-10a-3p  63      81      0       TT    0       ata   GTCACAAA        AATATGTA        miRNA   1
 TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1       hsa-miR-192-5p  25      47      8GT     0       c     agt   GGCTCTGA        AGCCAGTG        miRNA   1
 @
 
