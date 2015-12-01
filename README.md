@@ -1,7 +1,9 @@
 isomiRs
 =======
 
-analyze isomiRs from seqbuster tool
+analyze isomiRs from seqbuster tool 
+
+It needs R > 3.2
 
 ###Installation
 
