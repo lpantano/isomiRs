@@ -125,7 +125,8 @@ data(mirData)
 
 The function \Rfunction{loadIso} needs a vector with the paths for each file
 and a data frame with the design experiment similar to the one used for
-a mRNA differential expression analysis.
+a mRNA differential expression analysis. Row names of data frame should
+be the names for each sample in the same order than the list of files.
 
 <<package-plot-iso,message=FALSE,eval=FALSE>>=
 ids <- IsomirDataSeqFromFiles(fn_list, design=de)
