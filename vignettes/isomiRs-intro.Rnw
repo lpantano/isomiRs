@@ -216,7 +216,10 @@ samples distribution along the components.
 ids = isoCounts(ids, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 ids = isoNorm(ids)
 pls.ids = isoPLSDA(ids, "condition", nperm = 10)
-isoPLSDAplot(pls.ids)
+df = isoPLSDAplot(pls.ids)
+library(GGally)
+ggpairs(df, columns = 2:3, col="condition",
+        upper="blank",legends=TRUE)
 @
 
 The analysis can be done again using only the most important discriminant

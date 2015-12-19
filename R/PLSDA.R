@@ -63,7 +63,6 @@
 #' Xia, Jianguo and Wishart, David S. Web-based inference of biological patterns, functions and
 #' pathways from metabolomic data using MetaboAnalyst. Nature Protocols. 2011.
 #' @examples
-#' library(DESeq2)
 #' data(mirData)
 #' ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 #' ids = isoNorm(ids)
@@ -250,7 +249,7 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' significant components (t1, t2, t3 ...) from the PLS-DA analysis and the 
 #' samples distribution along the components. It uses \code{\link[GGally]{ggpairs}}
 #' for the plot.
-#' @return \code{\link[ggplot2]{ggplot2-package}} object
+#' @return \code{\link[GGally]{ggpairs}} object
 #' @examples
 #' data(mirData)
 #' ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
@@ -264,10 +263,11 @@ isoPLSDAplot <- function (pls){
     datacomponents <- data.frame(condition = groups, components)
     t <- dim(datacomponents)[2] - 1
     n <- length(levels(factor(groups)))
-    ggplot <- function (...) ggplot2::ggplot(...) +
-        scale_color_brewer(palette="Set1")
-    unlockBinding("ggplot",parent.env(asNamespace("GGally")))
-    assign("ggplot",ggplot,parent.env(asNamespace("GGally")))
-    ggpairs(datacomponents, columns = 2:3, col="condition",
-            upper="blank",legends=TRUE)
+    # ggplot <- function (...) ggplot2::ggplot(...) +
+    #    scale_color_brewer(palette="Set1")
+    #unlockBinding("ggplot",parent.env(asNamespace("GGally")))
+    #assign("ggplot",ggplot,parent.env(asNamespace("GGally")))
+    #ggpairs(datacomponents, columns = 2:3, col="condition",
+    #        upper="blank",legends=TRUE)
+    datacomponents
 }

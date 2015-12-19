@@ -12,7 +12,7 @@ isoPLSDAplot(pls)
 \value{
 \code{\link[GGally]{ggpairs}} plot
 
-\code{\link[ggplot2]{ggplot2-package}} object
+\code{\link[GGally]{ggpairs}} object
 }
 \description{
 Plot the most significant components that come from \code{\link{isoPLSDA}}

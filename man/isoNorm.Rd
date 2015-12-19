@@ -21,7 +21,6 @@ This function normalizes raw count matrix using
 \code{\link[DESeq2]{rlog}} function from \code{\link[DESeq2]{DESeq2-package}}.
 }
 \examples{
-library(DESeq2)
 data(mirData)
 ids <- isoNorm(mirData, formula=~condition)
 head(counts(ids, norm=TRUE))

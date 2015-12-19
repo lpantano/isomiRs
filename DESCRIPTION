@@ -1,8 +1,8 @@
 Package: isomiRs
-Version: 0.99.11
-Date: 2015-11-16
+Version: 0.99.12
+Date: 2015-12-19
 Type: Package
-Title: Analyze isomiRs coming from seqbuster tool
+Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
     differential expression.
 biocViews: miRNA, RNASeq,
@@ -10,26 +10,25 @@ biocViews: miRNA, RNASeq,
 Suggests:
     knitr,
     RUnit,
+    GGally,
     BiocStyle
 Depends:
-    R (>= 3.2.0),
-    BiocGenerics,
     DiscriMiner,
     IRanges,
+    S4Vectors,
     GenomicRanges,
     SummarizedExperiment (>= 0.2.0)
 Imports:
-    S4Vectors,
+    BiocGenerics (>= 0.7.5),
+    DESeq2,
     plyr,
     dplyr,
-    DESeq2,
-    ggplot2,
-    GGally,
     RColorBrewer,
     gplots,
-    methods
+    methods,
+    ggplot2
 Author: Lorena Pantano, Georgia Escaramis
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
-RoxygenNote: 5.0.0
+RoxygenNote: 5.0.1

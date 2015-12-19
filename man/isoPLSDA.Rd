@@ -73,7 +73,6 @@ p-value of this function will tell about the statistical
 significant of the group separation using miRNA/isomiR expression data.
 }
 \examples{
-library(DESeq2)
 data(mirData)
 ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 ids = isoNorm(ids)

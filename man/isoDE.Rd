@@ -42,7 +42,6 @@ expression analysis. It uses the design matrix stored at
 to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 }
 \examples{
-library(DESeq2)
 data(mirData)
 dds <- isoDE(mirData, formula=~condition)
 }

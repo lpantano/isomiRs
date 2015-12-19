@@ -24,11 +24,9 @@
 #' @param seed differentiate changes in 2-7 nt from rest
 #' @return \code{\link[DESeq2]{DESeqDataSet}} object
 #' @examples
-#' library(DESeq2)
 #' data(mirData)
 #' dds <- isoDE(mirData, formula=~condition)
 #' @export
-#' @import DESeq2
 isoDE <- function(ids, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
                 add=FALSE, subs=FALSE, seed=FALSE){
     if (ref | iso5 | iso3 | add | subs | seed){
@@ -54,8 +52,6 @@ isoDE <- function(ids, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' data(mirData)
 #' isoTop(mirData)
 #' @export
-#' @import gplots
-#' @import RColorBrewer
 isoTop <- function(ids, top=20){
     select <- order(rowMeans(counts(ids)),
                     decreasing=TRUE)[1:top]
@@ -97,7 +93,6 @@ isoTop <- function(ids, top=20){
 #' will indicate isomiRs with nucleotide changes at the given position.
 #'
 #' @export
-#' @import ggplot2
 #' @examples
 #' data(mirData)
 #' isoPlot(mirData)
@@ -163,7 +158,6 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 #' The position at \code{y} is the number of different sequences.
 #'
 #' @export
-#' @import ggplot2
 #' @examples
 #' data(mirData)
 #' isoPlotPosition(mirData)
@@ -265,12 +259,10 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' can be access with \code{counts(ids, norm=TRUE)}.
 #'
 #' @examples
-#' library(DESeq2)
 #' data(mirData)
 #' ids <- isoNorm(mirData, formula=~condition)
 #' head(counts(ids, norm=TRUE))
 #' @export
-#' @import DESeq2
 isoNorm <- function(ids, formula=~condition){
     dds <- DESeqDataSetFromMatrix(countData = counts(ids),
                                 colData = colData(ids),
