@@ -1,6 +1,8 @@
 isomiRs
 =======
 
+[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.45382.svg)](http://dx.doi.org/10.5281/zenodo.45382)
+
 analyze isomiRs from seqbuster tool 
 
 It needs R > 3.2
