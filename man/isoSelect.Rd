@@ -7,7 +7,7 @@
 \alias{isoSelect.IsomirDataSeq}
 \title{Method to browse an IsomirDataSeq object.}
 \usage{
-\S4method{isoSelect}{IsomirDataSeq}(object, mirna, minc=10)
+isoSelect.IsomirDataSeq(object, mirna = "", minc = 10)
 
 \S4method{isoSelect}{IsomirDataSeq}(object, mirna = "", minc = 10)
 }
@@ -16,18 +16,26 @@
 
 \item{mirna}{string of the miRNA to show}
 
-\item{minc}{int minimum number of isomiR reads}
+\item{minc}{int minimum number of isomiR reads needed
+to included in the table.}
 }
 \value{
-\code{\link[S4Vectors]{DataFrame-class}}
+\code{\link[S4Vectors]{DataFrame-class}}. Row.names
+show the isomiR name, and each of the columns show the counts
+for this isomiR in that sample. Mainly, it will return the count
+matrix only for isomiRs belonging to the miRNA family given by
+the \code{mirna} parameter and with a minimum counts, given
+by the \code{minc} parameter.
 }
 \description{
 This method allows to select a miRNA and all its isomiRs
-from all samples.
+from the count matrix.
 }
 \examples{
 data(mirData)
-isoSelect(mirData, mirna="hsa-let-7a-5p")
+# To select isomiRs from let-7a-5p miRNA
+# and with 10000 reads or more.
+isoSelect(mirData, mirna="hsa-let-7a-5p", minc=10000)
 }
 \author{
 Lorena Pantano

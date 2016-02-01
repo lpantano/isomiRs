@@ -1,7 +1,7 @@
 #' @rdname IsomirDataSeq
 #' @export
 IsomirDataSeq <- setClass("IsomirDataSeq",
-                            contains = "RangedSummarizedExperiment",
+                            contains = "SummarizedExperiment",
                             representation = representation(
                                 isoList="list",
                                 rawList="list",
@@ -63,16 +63,16 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @rdname IsomirDataSeq
 #' @export
 IsomirDataSeq <- function(se, expList, isoList, statsList){
-    if (!is(se, "RangedSummarizedExperiment")) {
+    if (!is(se, "SummarizedExperiment")) {
         if (is(se, "SummarizedExperiment0")) {
-                  se <- as(se, "RangedSummarizedExperiment")
+                  se <- as(se, "SummarizedExperiment")
         } else if (is(se, "SummarizedExperiment")) {
                   # only to help transition from SummarizedExperiment to new
                   # RangedSummarizedExperiment objects,
                   # remove once transition is complete
-                  se <- as(se, "RangedSummarizedExperiment")
+                  se <- as(se, "SummarizedExperiment")
         } else {
-                  stop("'se' must be a RangedSummarizedExperiment object")
+                  stop("'se' must be a SummarizedExperiment object")
         }
     }
     new("IsomirDataSeq", se, rawList=expList,
@@ -83,7 +83,7 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 #' \code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool
 #'
 #' This function parses
-#' output to allow isomiRs/miRNAs analysis of samples in different groups such as
+#' output of seqbuster tool to allow isomiRs/miRNAs analysis of samples in different groups such as
 #' characterization, differential expression and clustering. It creates
 #' \code{\link[isomiRs]{IsomirDataSeq}} object.
 #'

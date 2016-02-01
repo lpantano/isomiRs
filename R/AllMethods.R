@@ -53,12 +53,7 @@ setReplaceMethod("isostats", "IsomirDataSeq",
 #' The counts slot holds the count data as a matrix of non-negative integer
 #' count values, one row for each isomiR, and one
 #' column for each sample. The normalized matrix
-#' can be obtained by \code{normcounts} method.
-#'
-#' @usage
-#' \S4method{counts}{IsomirDataSeq}(object, norm=FALSE)
-#'
-#' \S4method{counts}{IsomirDataSeq,matrix}(object)<-value
+#' can be obtained by using the parameter \code{norm=TRUE}.
 #'
 #' @docType methods
 #' @name counts
@@ -117,11 +112,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' Method to browse an IsomirDataSeq object.
 #'
 #' This method allows to select a miRNA and all its isomiRs
-#' from all samples.
-#'
-#' @usage
-#' \S4method{isoSelect}{IsomirDataSeq}(object, mirna, minc=10)
-#'
+#' from the count matrix.
 #'
 #' @docType methods
 #' @name isoSelect
@@ -130,13 +121,22 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #'
 #' @param object a \code{IsomirDataSeq} object.
 #' @param mirna string of the miRNA to show
-#' @param minc int minimum number of isomiR reads
-#' @return \code{\link[S4Vectors]{DataFrame-class}}
+#' @param minc int minimum number of isomiR reads needed
+#' to included in the table.
+#' @return \code{\link[S4Vectors]{DataFrame-class}}. Row.names
+#' show the isomiR name, and each of the columns show the counts
+#' for this isomiR in that sample. Mainly, it will return the count
+#' matrix only for isomiRs belonging to the miRNA family given by
+#' the \code{mirna} parameter and with a minimum counts, given
+#' by the \code{minc} parameter.
+#' 
 #' @author Lorena Pantano
 #' 
 #' @examples
 #' data(mirData)
-#' isoSelect(mirData, mirna="hsa-let-7a-5p")
+#' # To select isomiRs from let-7a-5p miRNA
+#' # and with 10000 reads or more.
+#' isoSelect(mirData, mirna="hsa-let-7a-5p", minc=10000)
 #' @export
 isoSelect.IsomirDataSeq <- function(object, mirna="",  minc=10) {
     x <- isoraw(object)

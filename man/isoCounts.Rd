@@ -44,5 +44,8 @@ each different sequence mapping to a miRNA (i.e. all isomiRs).
 data(mirData)
 ids <- isoCounts(mirData, ref=TRUE)
 head(counts(ids))
+# taking into account isomiRs at 5' end.
+ids <- isoCounts(mirData, ref=TRUE, iso5=TRUE)
+head(counts(ids))
 }
 

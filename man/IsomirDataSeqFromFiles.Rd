@@ -22,7 +22,7 @@ IsomirDataSeqFromFiles(files, design, header = FALSE, skip = 1, ...)
 }
 \description{
 This function parses
-output to allow isomiRs/miRNAs analysis of samples in different groups such as
+output of seqbuster tool to allow isomiRs/miRNAs analysis of samples in different groups such as
 characterization, differential expression and clustering. It creates
 \code{\link[isomiRs]{IsomirDataSeq}} object.
 }

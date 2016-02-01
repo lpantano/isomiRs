@@ -26,8 +26,8 @@ The data was created with \code{isomiRs-package} package:
 \code{fns <- c("GSM450597.mirna", "GSM450598.mirna", 
 "GSM450609.mirna", "GSM450608.mirna")}
 
-\code{design <- data.frame(condition=c('new', 'new', 'new', 
-'old', 'old', 'old'))}
+\code{design <- data.frame(condition=c('nb', 'nb', 'nb', 
+'o', 'o', 'o'))}
 
 \code{mirData <- IsomirDataSeqFromFiles(fns, design)}
 }
@@ -36,7 +36,7 @@ data("mirData")
 }
 \description{
 This data set is the object return by \code{\link{IsomirDataSeqFromFiles}}. It mainly
-contains miRNA sequencing raw data from 6 samples: 3 newborns and 3 elderly
+contains miRNA count data from 6 samples: 3 newborns and 3 elderly
 human individuals (Somel et al, 2010). 
 Use \code{colData} to see the experiment design of the data.
 }

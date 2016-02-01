@@ -123,7 +123,7 @@ data(mirData)
 
 \subsection{Reading input}
 
-The function \Rfunction{loadIso} needs a vector with the paths for each file
+The function \Rfunction{IsomirDataSeqFromFiles} needs a vector with the paths for each file
 and a data frame with the design experiment similar to the one used for
 a mRNA differential expression analysis. Row names of data frame should
 be the names for each sample in the same order than the list of files.
@@ -147,7 +147,7 @@ ids <- isoPlot(mirData, type="iso5")
 
 \subsection{Differential expression analysis}
 
-The \Rfunction{isoDe} uses functions from \Biocpkg{DESeq2} package.
+The \Rfunction{isoDE} uses functions from \Biocpkg{DESeq2} package.
 This function has parameters to create a matrix using only the reference
 miRNAs, all isomiRs, or some of them. 
 This matrix and the design matrix are the inputs for DESeq2. The output
@@ -158,7 +158,7 @@ explained in DESeq2 package vignette.
 dds <- isoDE(ids, formula=~condition)
 library(DESeq2)
 plotMA(dds)
-head(results(dds, tidy=TRUE))
+head(results(dds, format="DataFrame"))
 @
 
 You can differentiate between reference sequences and isomiRs at 5' end

@@ -22,15 +22,22 @@ isoDE(ids, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
 
 \item{subs}{differentiate nt substitution miRNA from rest}
 
-\item{seed}{differentiate changes in 2-7 nt from rest}
+\item{seed}{differentiate changes in 2-7 nt from rest
+
+Please, read \link{isoCounts} to understand how to use
+ref, iso5, iso3, add, subs and see parameters.}
 }
 \value{
-\code{\link[DESeq2]{DESeqDataSet}} object
+\code{\link[DESeq2]{DESeqDataSet}} object where
+count matrix will have isomiRs as rows, and columns as samples.
+All the information related to the differential expression analysis
+is stored as metadaa columns. Please, read \link[DESeq2]{results} from
+DESeq2 package to know how to access all the information.
 }
 \description{
 This function does differential expression analysis with
 \code{\link[DESeq2]{DESeq2-package}} using the specific formula.
-It will return a \code{\link{DESeqResults}} object.
+It will return a \code{\link[DESeq2]{DESeqDataSet}} object.
 }
 \details{
 This function collapses all isomiRs in different types.

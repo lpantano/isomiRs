@@ -8,9 +8,7 @@
 \alias{counts<-,IsomirDataSeq,matrix-method}
 \title{Accessors for the 'counts' slot of a IsomirDataSeq object.}
 \usage{
-\S4method{counts}{IsomirDataSeq}(object, norm=FALSE)
-
-\S4method{counts}{IsomirDataSeq,matrix}(object)<-value
+counts.IsomirDataSeq(object, norm = FALSE)
 
 \S4method{counts}{IsomirDataSeq}(object, norm = FALSE)
 
@@ -30,7 +28,7 @@
 The counts slot holds the count data as a matrix of non-negative integer
 count values, one row for each isomiR, and one
 column for each sample. The normalized matrix
-can be obtained by \code{normcounts} method.
+can be obtained by using the parameter \code{norm=TRUE}.
 }
 \examples{
 data(mirData)
