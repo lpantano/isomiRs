@@ -1,53 +1,4 @@
 
-# Accessors for the 'isoraw' slot of a IsomirDataSeq object.
-setMethod(
-    f = isoraw,
-    signature = signature(x="IsomirDataSeq"),
-    definition = function(x){
-        slot(x, "rawList")
-    }
-)
-
-setReplaceMethod("isoraw", "IsomirDataSeq",
-                 function(x, value){
-                     slot(x, "rawList") <- value
-                     x
-                 }
-)
-
-setMethod(
-    f = "isoinfo",
-    signature = signature(x="IsomirDataSeq"),
-    definition = function(x){
-        slot(x, "isoList")
-    }
-)
-
-setReplaceMethod("isoinfo", "IsomirDataSeq",
-                 function(x, value){
-                     slot(x, "isoList") <- value
-                     validObject(x)
-                     x
-                 }
-)
-
-setMethod(
-    f = "isostats",
-    signature = signature(x="IsomirDataSeq"),
-    definition = function(x){
-        slot(x, "statsList")
-    }
-)
-
-setReplaceMethod("isostats", "IsomirDataSeq",
-                 function(x, value){
-                     slot(x, "statsList") <- value
-                     validObject(x)
-                     x
-                 }
-)
-
-
 #' Accessors for the 'counts' slot of a IsomirDataSeq object.
 #'
 #' The counts slot holds the count data as a matrix of non-negative integer
@@ -109,7 +60,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 )
 
 
-#' Method to browse an IsomirDataSeq object.
+#' Method to select specific miRNA from an IsomirDataSeq object.
 #'
 #' This method allows to select a miRNA and all its isomiRs
 #' from the count matrix.
@@ -120,15 +71,16 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' @aliases isoSelect isoSelect,IsomirDataSeq-method
 #'
 #' @param object a \code{IsomirDataSeq} object.
-#' @param mirna string of the miRNA to show
+#' @param mirna string refering to the miRNA to show
 #' @param minc int minimum number of isomiR reads needed
-#' to included in the table.
-#' @return \code{\link[S4Vectors]{DataFrame-class}}. Row.names
-#' show the isomiR name, and each of the columns show the counts
+#' to be included in the table.
+#' @return \code{\link[S4Vectors]{DataFrame-class}} with count
+#' information. The row.names
+#' show the isomiR name, and each of the columns shows the counts
 #' for this isomiR in that sample. Mainly, it will return the count
 #' matrix only for isomiRs belonging to the miRNA family given by
-#' the \code{mirna} parameter and with a minimum counts, given
-#' by the \code{minc} parameter.
+#' the \code{mirna} parameter. IsomiRs will have counts bigger than
+#' \code{minc} parameter.
 #' 
 #' @author Lorena Pantano
 #' 
@@ -139,7 +91,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' isoSelect(mirData, mirna="hsa-let-7a-5p", minc=10000)
 #' @export
 isoSelect.IsomirDataSeq <- function(object, mirna="",  minc=10) {
-    x <- isoraw(object)
+    x <- metadata(object)$rawList
     if ( mirna == "" )
         stop("mirna parameter needs to have a value")
     l <- lapply( x, function(sample){

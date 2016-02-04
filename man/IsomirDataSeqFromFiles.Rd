@@ -18,12 +18,13 @@ IsomirDataSeqFromFiles(files, design, header = FALSE, skip = 1, ...)
 \item{...}{arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}} including rowData and exptData}
 }
 \value{
-\code{\link{IsomirDataSeq}} class
+\code{\link{IsomirDataSeq}} class object.
 }
 \description{
 This function parses
-output of seqbuster tool to allow isomiRs/miRNAs analysis of samples in different groups such as
-characterization, differential expression and clustering. It creates
+output of seqbuster tool to allow isomiRs/miRNAs analysis of samples
+in different groups such as
+characterization, differential expression and clustering. It creates an
 \code{\link[isomiRs]{IsomirDataSeq}} object.
 }
 \details{
@@ -33,9 +34,9 @@ types (i.e all sequences with variations at 5' but ignoring any other type). It 
 \code{\link[isomiRs]{IsomirDataSeq}} object (see link to exmaple usage of this command)
 to allow visualization, queries, differential
 expression analysis and clustering.
-To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs file, and generates
+To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs files, and generates
 an initial matrix having all miRNAs detected among samples. As well, it creates
-a summary for each isomiR type (trimming, addition and substitution.) to
-visualize general isomiRs distribution among samples.
+a summary for each isomiR type (trimming, addition and substitution) to
+visualize general isomiRs distribution.
 }
 

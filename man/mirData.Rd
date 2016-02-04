@@ -3,15 +3,17 @@
 \docType{data}
 \name{mirData}
 \alias{mirData}
-\title{IsomirDataSeq}
+\title{Example of IsomirDataSeq with human brain miRNA counts data}
 \format{a \code{\link{IsomirDataSeq}} class.}
 \source{
 Data is available from GEO dataset under accession number GSE18069. 
-Samples used are: GSM450597, GSM450598, GSM450609 and GSM450608.
+Samples used are: GSM450597, GSM450598, GSM450600,
+GSM450604, GSM450610 and GSM450609 .
 
 Every sample was analyzed with seqbuster tool, see 
 \url{http://seqcluster.readthedocs.org/mirna_annotation.html} for
-more details.
+more details. You can get same files running the small RNA-seq
+pipeline from \url{https://github.com/chapmanb/bcbio-nextgen}.
 
 Adapter removal with the following parameters:
 \code{adrec fastq_file TCGTATGCCGTCTT 8 1 0.34}
@@ -23,8 +25,8 @@ The data was created with \code{isomiRs-package} package:
 
 \code{library(isomiRs)}
 
-\code{fns <- c("GSM450597.mirna", "GSM450598.mirna", 
-"GSM450609.mirna", "GSM450608.mirna")}
+\code{fns <- c("GSM450597.mirna", "GSM450598.mirna", "GSM450600.mirna",
+"GSM450604.mirna", "GSM450610.mirna", "GSM450609.mirna")}
 
 \code{design <- data.frame(condition=c('nb', 'nb', 'nb', 
 'o', 'o', 'o'))}
@@ -35,10 +37,10 @@ The data was created with \code{isomiRs-package} package:
 data("mirData")
 }
 \description{
-This data set is the object return by \code{\link{IsomirDataSeqFromFiles}}. It mainly
-contains miRNA count data from 6 samples: 3 newborns and 3 elderly
+This data set is the object return by \code{\link{IsomirDataSeqFromFiles}}.
+It contains miRNA count data from 6 samples: 3 newborns and 3 elderly
 human individuals (Somel et al, 2010). 
-Use \code{colData} to see the experiment design of the data.
+Use \code{colData} to see the experiment design.
 }
 \author{
 Lorena Pantano, 2015-05-19

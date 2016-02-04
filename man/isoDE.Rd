@@ -25,13 +25,13 @@ isoDE(ids, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
 \item{seed}{differentiate changes in 2-7 nt from rest
 
 Please, read \link{isoCounts} to understand how to use
-ref, iso5, iso3, add, subs and see parameters.}
+ref, iso5, iso3, add, subs and seed parameters.}
 }
 \value{
 \code{\link[DESeq2]{DESeqDataSet}} object where
 count matrix will have isomiRs as rows, and columns as samples.
 All the information related to the differential expression analysis
-is stored as metadaa columns. Please, read \link[DESeq2]{results} from
+is stored as metadata columns. Please, read \link[DESeq2]{results} from
 DESeq2 package to know how to access all the information.
 }
 \description{
@@ -40,8 +40,9 @@ This function does differential expression analysis with
 It will return a \code{\link[DESeq2]{DESeqDataSet}} object.
 }
 \details{
-This function collapses all isomiRs in different types.
-Read more at \code{\link{isoCounts}}.
+First, this function collapses all isomiRs in different types.
+Read more at \code{\link{isoCounts}} to know the different options
+available to collapse isomiRs into miRNAs.
 
 After that, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
 expression analysis. It uses the design matrix stored at

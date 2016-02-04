@@ -142,8 +142,30 @@ The \Rfunction{type} parameter controls what type of isomiRs to show. It can be
 trimming (iso5 and iso3), addition (add) or substitution (subs) changes.
 
 <<package-plot-iso-t5,message=FALSE>>=
-ids <- isoPlot(mirData, type="iso5")
+ids <- isoCounts(mirData)
+isoPlot(ids, type="iso5")
 @
+
+\subsection{Count data}
+
+\Rfunction{isoCounts} gets the count matrix that can be used for many
+different downstream analyses changing the way isomiRs are collapsed. The
+following command will merge all isomiRs into one feature: the reference
+miRNA. 
+
+<<package-count,message=FALSE>>=
+head(counts(ids))
+@
+
+The normalization uses \Rfunction{rlog} from \Biocpkg{DESeq2} package and
+allows quick integration to another analyses like heatmap, clustering or PCA.
+
+
+<<package-norm,message=FALSE>>=
+ids = isoNorm(ids)
+heatmap(counts(ids, norm=TRUE)[1:100,], labRow = "")
+@
+
 
 \subsection{Differential expression analysis}
 
@@ -169,26 +191,6 @@ dds = isoDE(ids, formula=~condition, ref=TRUE, iso5=TRUE)
 head(results(dds, tidy=TRUE))
 @
 
-\subsection{Count data}
-
-\Rfunction{isoCounts} gets the count matrix that can be used for many
-different downstream analyses changing the way isomiRs are collapsed. The
-following command will merge all isomiRs into one feature: the reference
-miRNA. 
-
-<<package-count,message=FALSE>>=
-ids = isoCounts(ids)
-head(counts(ids))
-@
-
-The normalization uses \Rfunction{rlog} from \Biocpkg{DESeq2} package and
-allows quick integration to another analyses like heatmap, clustering or PCA.
-
-
-<<package-norm,message=FALSE>>=
-ids = isoNorm(ids)
-heatmap(counts(ids, norm=TRUE)[1:100,], labRow = "")
-@
 
 \subsection{Supervised classification}
 
@@ -215,11 +217,8 @@ samples distribution along the components.
 <<package-pls,eval=TRUE>>=
 ids = isoCounts(ids, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 ids = isoNorm(ids)
-pls.ids = isoPLSDA(ids, "condition", nperm = 10)
+pls.ids = isoPLSDA(ids, "condition", nperm = 5)
 df = isoPLSDAplot(pls.ids)
-library(GGally)
-ggpairs(df, columns = 2:3, col="condition",
-        upper="blank",legends=TRUE)
 @
 
 The analysis can be done again using only the most important discriminant

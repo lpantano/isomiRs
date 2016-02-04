@@ -4,13 +4,13 @@
 #' important features (miRNAs/isomiRs) that explain better
 #' the group of samples given in the experimental design. It is a supervised
 #' clustering method with permutations to calculate the significance
-#' of analysis.
+#' of the analysis.
 #' 
 #' @aliases isoPLSDA
 #' @usage isoPLSDA(ids, group, validation = NULL, learn = NULL, test = NULL,
 #'  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
 #' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param group column name in design data.frame
+#' @param group column name in \code{colData(ids)} to use as variable to explain.
 #' @param validation type of validation, either NULL or "learntest". 
 #' Default NULL
 #' @param learn	optional vector of indexes for a learn-set. 
@@ -24,7 +24,7 @@
 #' @param refinment logical indicating whether a refined model, based on 
 #' filtering out variables with low VIP values
 #' @param vip Variance Importance in Projection threshold value when 
-#' a refinement precess is considered. Default vip=1.2
+#' a refinement process is considered. Default vip=1.2
 #' @details 
 #' Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
 #' appropriate for analysis of high dimensionality data sets and multicollinearity
@@ -36,14 +36,22 @@
 #' set of linearly uncorrelated latent variables (usually termed as components)
 #' such that maximizes the separation between the different classes in the first
 #' few components (\cite{Xia, 2011}). We used sum of squares captured by the model (R2) as
-#' a goodness of fit measure. We implemented this method using the
-#' \code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function. The output
+#' a goodness of fit measure. 
+#' 
+#' We implemented this method using the
+#' \code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function.
+#' The output
 #' p-value of this function will tell about the statistical
 #' significant of the group separation using miRNA/isomiR expression data.
+#' 
+#' Read more about the parameters related to the PLS-DA directly from
+#' \linkp[DiscriMiner]{plsDA} function.
+#' 
 #' @return 
-#' \code{\link[base]{list}} with the following elements: \code{R2Matrix}
+#' A \code{\link[base]{list}} with the following elements: \code{R2Matrix}
 #' (R-squared coefficients of the PLS model),
-#' \code{components} (of the PLS), \code{vip} (most important variables),
+#' \code{components} (of the PLS, similar to PCs in a PCA),
+#' \code{vip} (most important isomiRs/miRNAs),
 #' \code{group} (classification of the samples),
 #' \code{p.value} and \code{R2PermutationVector} obtained by the permutations.
 #' 
@@ -51,10 +59,12 @@
 #' elements will appear: 
 #' \code{R2RefinedMatrix} and \code{componentsRefinedModel} (R-squared coefficients
 #' of the PLS model only using the most important miRNAs/isomiRs). As well,
-#' \code{p.valRefined} and \code{R2RefinedPermutationVector} with p-value and R2 of the
-#' permutations shuffling individuals. And finally, 
-#' \code{p.valRefinedFixed} and \code{R2RefinedFixedPermutationVector} with p-value and R2 of the
-#' permutations shuffling the most important miRNAs/isomiRs.
+#' \code{p.valRefined} and \code{R2RefinedPermutationVector} with p-value
+#' and R2 of the
+#' permutations where samples were randomized. And finally, 
+#' \code{p.valRefinedFixed} and \code{R2RefinedFixedPermutationVector} with
+#' p-value and R2 of the
+#' permutations where miRNAs/isomiRs were randomized.
 #' @references 
 #' Perez-Enciso, Miguel and Tenenhaus, Michel. Prediction of clinical outcome with microarray data:
 #' a partial least  squares discriminant analysis (PLS-DA) approach. Human
@@ -233,23 +243,29 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
     return(R2Refined.perm)
 }
 
-#' Plot components from isoPLSDA(pairs plot)
+#' Plot components from isoPLSDA analysis (pairs plot)
 #' 
 #' Plot the most significant components that come from \code{\link{isoPLSDA}}
-#' together with the density of the samples along those components.
+#' together with the density of the samples scores along those components.
 #' 
 #' @aliases isoPLSDAplot
-#' @usage isoPLSDAplot(pls)
 #' @param pls output from \code{\link{isoPLSDA}} function.
-#' @return \code{\link[GGally]{ggpairs}} plot
+#' @return \code{\link[GGally]{ggpairs}} plot showing the scores
+#' for each sample using isomiRs/miRNAs expression to explain
+#' variation.
 #' @details 
 #' The function \code{isoPLSDAplot}
 #' helps to visualize the results from \code{\link{isoPLSDA}}.
 #' It will plot the samples using the 
 #' significant components (t1, t2, t3 ...) from the PLS-DA analysis and the 
-#' samples distribution along the components. It uses \code{\link[GGally]{ggpairs}}
+#' samples score distribution along the components.
+#' It uses \code{\link[GGally]{ggpairs}}
 #' for the plot.
-#' @return \code{\link[GGally]{ggpairs}} object
+#' @return \link[base]{data.frame} object with a first column
+#' refering to the sample group, and the following
+#' columns refering to the score that each sample 
+#' has for each
+#' component from the PLS-DA analysis.
 #' @examples
 #' data(mirData)
 #' ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
@@ -261,13 +277,9 @@ isoPLSDAplot <- function (pls){
     components = pls$component
     groups = pls$group
     datacomponents <- data.frame(condition = groups, components)
-    t <- dim(datacomponents)[2] - 1
-    n <- length(levels(factor(groups)))
-    # ggplot <- function (...) ggplot2::ggplot(...) +
-    #    scale_color_brewer(palette="Set1")
-    #unlockBinding("ggplot",parent.env(asNamespace("GGally")))
-    #assign("ggplot",ggplot,parent.env(asNamespace("GGally")))
-    #ggpairs(datacomponents, columns = 2:3, col="condition",
-    #        upper="blank",legends=TRUE)
+    p <- ggpairs(datacomponents, columns = 2:ncol(datacomponents),
+                ggplot2::aes(color = condition),
+                upper="blank",legends=TRUE)
+    print(p)
     datacomponents
 }

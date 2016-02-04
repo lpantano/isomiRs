@@ -1,31 +1,9 @@
-#' @rdname IsomirDataSeq
-#' @export
-IsomirDataSeq <- setClass("IsomirDataSeq",
-                            contains = "SummarizedExperiment",
-                            representation = representation(
-                                isoList="list",
-                                rawList="list",
-                                statsList="list"
-                        ))
-
-setValidity( "IsomirDataSeq", function( object ) {
-    if (!("counts" %in% names(assays(object))))
-        return( "the assays slot must contain a matrix named 'counts'" )
-    if ( !is.numeric( counts(object) ) )
-        return( "the count data is not numeric" )
-    if ( any( is.na( counts(object) ) ) )
-        return( "NA values are not allowed in the count matrix" )
-    if ( any( counts(object) < 0 ) )
-        return( "the count data contains negative values" )
-    TRUE
-} )
-
-#' Class that contain all isomiRs annotation for all samples
+#' Class that contains all isomiRs annotation for all samples
 #'
 #' The \code{\link{IsomirDataSeq}} is a subclass of
 #' \code{\link[SummarizedExperiment]{SummarizedExperiment}}
 #' used to store the raw data, intermediate calculations and results of an
-#' miRNA/isomiR analysis.  The \code{\link{IsomirDataSeq}} class stores all raw isomiRs
+#' miRNA/isomiR analysis. This class stores all raw isomiRs
 #' data for each sample, processed information,
 #' summary for each isomiR type,
 #' raw counts, normalized counts, and table with
@@ -40,29 +18,42 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' \code{\link[isomiRs]{isoNorm}} for normalization, \code{\link[isomiRs]{isoDE}} for
 #' differential expression and \code{\link{isoPLSDA}} for clustering.
 #' \code{\link[isomiRs]{isoPlot}} helps with basic expression plot.
-#'
-#' @param se \code{\link[SummarizedExperiment]{SummarizedExperiment}} object.
-#' @param expList list of samples with seqbuster output.
-#' @param isoList list of samples with summarized isomiR
-#' information for each type.
-#' @param statsList list of samples with general isomiR information.
-#' Could be empty list.
-#'
-#' @aliases IsomirDataSeq IsomirDataSeq-class
+#' 
+#' \code{metadata} contains two lists: \code{rawList} is list with same
+#' length than number of samples and stores the input files
+#' for each file, \code{isoList} is a list with same length than
+#' number of samples and stores information for each isomiR type summarizing
+#' the different changes for the different isomiRs types (trimming at 3',
+#' trimming a 5', addition and substitution).
+#' 
+#' @aliases IsomirDataSeq-class
 #' @examples
-#' \dontrun{
-#' fn_list = c("url1", "url2")
-#' de = data.frame(row.names=c("f1" , "f2"), condition = c("n1", "o1"))
+#' path <- system.file("extra", package="isomiRs")
+#' fn_list <- list.files(path, full.names = TRUE)
+#' de <- data.frame(row.names=c("f1" , "f2"), condition = c("newborn", "newborn"))
 #' ids <- IsomirDataSeqFromFiles(fn_list, design=de)
 #'
-#' select(ids, "hsa-let-7a-5p")
-#' counts(ids)[1:5, ]
-#' }
-#' @docType class
-#' @name IsomirDataSeq
+#' head(counts(ids))
+#' 
 #' @rdname IsomirDataSeq
 #' @export
-IsomirDataSeq <- function(se, expList, isoList, statsList){
+IsomirDataSeq <- setClass("IsomirDataSeq",
+                          contains = "SummarizedExperiment")
+
+setValidity( "IsomirDataSeq", function( object ) {
+    if (!("counts" %in% names(assays(object))))
+        return( "the assays slot must contain a matrix named 'counts'" )
+    if ( !is.numeric( counts(object) ) )
+        return( "the count data is not numeric" )
+    if ( any( is.na( counts(object) ) ) )
+        return( "NA values are not allowed in the count matrix" )
+    if ( any( counts(object) < 0 ) )
+        return( "the count data contains negative values" )
+    TRUE
+} )
+
+# Constructor
+.IsomirDataSeq <- function(se, rawList=NULL, isoList=NULL){
     if (!is(se, "SummarizedExperiment")) {
         if (is(se, "SummarizedExperiment0")) {
                   se <- as(se, "SummarizedExperiment")
@@ -75,16 +66,18 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
                   stop("'se' must be a SummarizedExperiment object")
         }
     }
-    new("IsomirDataSeq", se, rawList=expList,
-        isoList=isoList, statsList=statsList)
+    ids <- new("IsomirDataSeq", se)
+    metadata(ids) <- list(rawList = rawList, isoList = isoList)
+    ids
 }
 
 
 #' \code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool
 #'
 #' This function parses
-#' output of seqbuster tool to allow isomiRs/miRNAs analysis of samples in different groups such as
-#' characterization, differential expression and clustering. It creates
+#' output of seqbuster tool to allow isomiRs/miRNAs analysis of samples
+#' in different groups such as
+#' characterization, differential expression and clustering. It creates an
 #' \code{\link[isomiRs]{IsomirDataSeq}} object.
 #'
 #' @param files files with the output of seqbuster tool
@@ -99,15 +92,15 @@ IsomirDataSeq <- function(se, expList, isoList, statsList){
 #' \code{\link[isomiRs]{IsomirDataSeq}} object (see link to exmaple usage of this command)
 #' to allow visualization, queries, differential
 #' expression analysis and clustering.
-#' To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs file, and generates
+#' To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs files, and generates
 #' an initial matrix having all miRNAs detected among samples. As well, it creates
-#' a summary for each isomiR type (trimming, addition and substitution.) to
-#' visualize general isomiRs distribution among samples.
+#' a summary for each isomiR type (trimming, addition and substitution) to
+#' visualize general isomiRs distribution.
 #'
 #' @rdname IsomirDataSeqFromFiles
 #' @name IsomirDataSeqFromFiles
 #' @return
-#' \code{\link{IsomirDataSeq}} class
+#' \code{\link{IsomirDataSeq}} class object.
 #' @export
 IsomirDataSeqFromFiles <- function(files, design,
                                    header=FALSE, skip=1, ...){
@@ -136,6 +129,7 @@ IsomirDataSeqFromFiles <- function(files, design,
     countData <- IsoCountsFromMatrix(listSamples, design)
     se <- SummarizedExperiment(assays = SimpleList(counts=countData),
                                colData = DataFrame(design), ...)
-    ids <- IsomirDataSeq(se, listSamples, listIsomirs, list())
+    ids <- new("IsomirDataSeq", se)
+    ids <- .IsomirDataSeq(se, listSamples, listIsomirs)
     return(ids)
 }

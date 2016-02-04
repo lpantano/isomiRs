@@ -13,11 +13,11 @@ isoPlot(ids, type = "iso5", column = "condition")
 to use for the plot. See details for explanation.}
 
 \item{column}{string indicating the column in
-colData to color samples.}
+\code{colData} to color samples.}
 }
 \value{
-\code{\link{IsomirDataSeq}} with new stored data to avoid
-same calculation in the future.
+\link[ggplot2]{ggplot} object showing different isomiRs changes at
+different positions.
 }
 \description{
 This function plot different isomiRs proportion for each sample.
@@ -36,8 +36,9 @@ different sequences.
 
 Same logic applies to \code{type="add"} and \code{type="subs"}. However,
 when \code{type="add"}, the plot will refer to addition events from the
-3' end of the reference position. Note that this additions doesn't match
-to the precursor sequence. In this case, only 3 positions after the 3' end
+3' end of the reference position. Note that this additions don't match
+to the precursor sequence, they are non-template additions.
+In this case, only 3 positions after the 3' end
 will appear in the plot. When \code{type="subs"}, it will appear one
 position for each nucleotide in the reference miRNA. And the points
 will indicate isomiRs with nucleotide changes at the given position.

@@ -14,6 +14,8 @@ isoTop(ids, top = 20)
 \description{
 This function creates a heatmap with the top N
 isomiRs/miRNAs. It uses the matrix under \code{counts(ids)}
+to get the top expressed isomiRs/miRNAs using the average
+expression value
 and plot a heatmap with the raw counts for each sample.
 }
 \examples{

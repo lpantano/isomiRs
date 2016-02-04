@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 0.99.12
-Date: 2015-12-19
+Version: 0.99.13
+Date: 2016-01-03
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
@@ -10,7 +10,6 @@ biocViews: miRNA, RNASeq,
 Suggests:
     knitr,
     RUnit,
-    GGally,
     BiocStyle
 Depends:
     DiscriMiner,
@@ -26,7 +25,8 @@ Imports:
     RColorBrewer,
     gplots,
     methods,
-    ggplot2
+    ggplot2,
+    GGally
 Author: Lorena Pantano, Georgia Escaramis
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE

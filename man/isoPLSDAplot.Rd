@@ -2,7 +2,7 @@
 % Please edit documentation in R/PLSDA.R
 \name{isoPLSDAplot}
 \alias{isoPLSDAplot}
-\title{Plot components from isoPLSDA(pairs plot)}
+\title{Plot components from isoPLSDA analysis (pairs plot)}
 \usage{
 isoPLSDAplot(pls)
 }
@@ -10,20 +10,27 @@ isoPLSDAplot(pls)
 \item{pls}{output from \code{\link{isoPLSDA}} function.}
 }
 \value{
-\code{\link[GGally]{ggpairs}} plot
+\code{\link[GGally]{ggpairs}} plot showing the scores
+for each sample using isomiRs/miRNAs expression to explain
+variation.
 
-\code{\link[GGally]{ggpairs}} object
+\link[base]{data.frame} object with a first column
+refering to the sample group, and the following
+columns refering to the score that each sample 
+has for each
+component from the PLS-DA analysis.
 }
 \description{
 Plot the most significant components that come from \code{\link{isoPLSDA}}
-together with the density of the samples along those components.
+together with the density of the samples scores along those components.
 }
 \details{
 The function \code{isoPLSDAplot}
 helps to visualize the results from \code{\link{isoPLSDA}}.
 It will plot the samples using the 
 significant components (t1, t2, t3 ...) from the PLS-DA analysis and the 
-samples distribution along the components. It uses \code{\link[GGally]{ggpairs}}
+samples score distribution along the components.
+It uses \code{\link[GGally]{ggpairs}}
 for the plot.
 }
 \examples{

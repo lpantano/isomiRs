@@ -2,7 +2,7 @@
 % Please edit documentation in R/isomiRs.R
 \name{isoPlotPosition}
 \alias{isoPlotPosition}
-\title{Plot changes at a given position}
+\title{Plot nucleotides changes at a given position}
 \usage{
 isoPlotPosition(ids, position = 1, column = "condition")
 }
@@ -15,19 +15,20 @@ isoPlotPosition(ids, position = 1, column = "condition")
 colData to color samples.}
 }
 \value{
-\code{\link{IsomirDataSeq}} with new stored data to avoid
-same calculation in the future.
+\link[ggplot2]{ggplot} object showing changes of nucleotides
+at a given position.
 }
 \description{
 This function plot different isomiRs proportion for each sample at a given
-position focused on the nucleotide changes that happen there.
+position focused on the nucleotide change that happens there.
 }
 \details{
 It shows the nucleotides changes at the given position for each
 sample in each group.
 The color indicates the sample group. The size of the point is proportional
-to the number of total counts with changes.
-The position at \code{y} is the number of different sequences.
+to the number of total counts of isomiRs with changes.
+The position at \code{y} is the number of different sequences
+supporting the change.
 }
 \examples{
 data(mirData)

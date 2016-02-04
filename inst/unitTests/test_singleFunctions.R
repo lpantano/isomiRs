@@ -2,9 +2,9 @@ test_plotFunctions <-
     function()
     {
         data(mirData)
-        checkTrue(class(isoPlot(mirData,type="iso5"))[1]=="IsomirDataSeq")
-        checkTrue(class(isoPlot(mirData,type="iso3"))[1]=="IsomirDataSeq")
-        checkTrue(class(isoPlot(mirData,type="add"))[1]=="IsomirDataSeq")
+        checkTrue(class(isoPlot(mirData,type="iso5"))[1]=="list")
+        checkTrue(class(isoPlot(mirData,type="iso3"))[1]=="list")
+        checkTrue(class(isoPlot(mirData,type="add"))[1]=="list")
     }
 
 test_dseFunctions <-

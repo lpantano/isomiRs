@@ -10,7 +10,7 @@ isoPLSDA(ids, group, validation = NULL, learn = NULL, test = NULL,
 \arguments{
 \item{ids}{object of class \code{\link{IsomirDataSeq}}}
 
-\item{group}{column name in design data.frame}
+\item{group}{column name in \code{colData(ids)} to use as variable to explain.}
 
 \item{validation}{type of validation, either NULL or "learntest". 
 Default NULL}
@@ -31,12 +31,13 @@ based on R2 magnitude. Default nperm=400}
 filtering out variables with low VIP values}
 
 \item{vip}{Variance Importance in Projection threshold value when 
-a refinement precess is considered. Default vip=1.2}
+a refinement process is considered. Default vip=1.2}
 }
 \value{
-\code{\link[base]{list}} with the following elements: \code{R2Matrix}
+A \code{\link[base]{list}} with the following elements: \code{R2Matrix}
 (R-squared coefficients of the PLS model),
-\code{components} (of the PLS), \code{vip} (most important variables),
+\code{components} (of the PLS, similar to PCs in a PCA),
+\code{vip} (most important isomiRs/miRNAs),
 \code{group} (classification of the samples),
 \code{p.value} and \code{R2PermutationVector} obtained by the permutations.
 
@@ -44,17 +45,19 @@ If the option \code{refinment} is set to \code{TRUE}, then the following
 elements will appear: 
 \code{R2RefinedMatrix} and \code{componentsRefinedModel} (R-squared coefficients
 of the PLS model only using the most important miRNAs/isomiRs). As well,
-\code{p.valRefined} and \code{R2RefinedPermutationVector} with p-value and R2 of the
-permutations shuffling individuals. And finally, 
-\code{p.valRefinedFixed} and \code{R2RefinedFixedPermutationVector} with p-value and R2 of the
-permutations shuffling the most important miRNAs/isomiRs.
+\code{p.valRefined} and \code{R2RefinedPermutationVector} with p-value
+and R2 of the
+permutations where samples were randomized. And finally, 
+\code{p.valRefinedFixed} and \code{R2RefinedFixedPermutationVector} with
+p-value and R2 of the
+permutations where miRNAs/isomiRs were randomized.
 }
 \description{
 Use PLS-DA method with the normalized count data to detect the most
 important features (miRNAs/isomiRs) that explain better
 the group of samples given in the experimental design. It is a supervised
 clustering method with permutations to calculate the significance
-of analysis.
+of the analysis.
 }
 \details{
 Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
@@ -67,10 +70,16 @@ based on orthogonal transformations of the original variables (miRNAs/isomiRs) i
 set of linearly uncorrelated latent variables (usually termed as components)
 such that maximizes the separation between the different classes in the first
 few components (\cite{Xia, 2011}). We used sum of squares captured by the model (R2) as
-a goodness of fit measure. We implemented this method using the
-\code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function. The output
+a goodness of fit measure. 
+
+We implemented this method using the
+\code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function.
+The output
 p-value of this function will tell about the statistical
 significant of the group separation using miRNA/isomiR expression data.
+
+Read more about the parameters related to the PLS-DA directly from
+\linkp[DiscriMiner]{plsDA} function.
 }
 \examples{
 data(mirData)
