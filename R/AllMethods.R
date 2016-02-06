@@ -1,5 +1,5 @@
 
-#' Accessors for the 'counts' slot of a IsomirDataSeq object.
+#' Accessors for the count matrix of a IsomirDataSeq object.
 #'
 #' The counts slot holds the count data as a matrix of non-negative integer
 #' count values, one row for each isomiR, and one
@@ -60,7 +60,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 )
 
 
-#' Method to select specific miRNA from an IsomirDataSeq object.
+#' Method to select specific miRNAs from an IsomirDataSeq object.
 #'
 #' This method allows to select a miRNA and all its isomiRs
 #' from the count matrix.
@@ -71,16 +71,16 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' @aliases isoSelect isoSelect,IsomirDataSeq-method
 #'
 #' @param object a \code{IsomirDataSeq} object.
-#' @param mirna string refering to the miRNA to show
+#' @param mirna string referring to the miRNA to show
 #' @param minc int minimum number of isomiR reads needed
 #' to be included in the table.
 #' @return \code{\link[S4Vectors]{DataFrame-class}} with count
-#' information. The row.names
-#' show the isomiR name, and each of the columns shows the counts
+#' information. The \code{row.names}
+#' show the isomiR names, and each of the columns shows the counts
 #' for this isomiR in that sample. Mainly, it will return the count
 #' matrix only for isomiRs belonging to the miRNA family given by
-#' the \code{mirna} parameter. IsomiRs will have counts bigger than
-#' \code{minc} parameter.
+#' the \code{mirna} parameter. IsomiRs need to have counts bigger than
+#' \code{minc} parameter to be included in the output.
 #' 
 #' @author Lorena Pantano
 #' 

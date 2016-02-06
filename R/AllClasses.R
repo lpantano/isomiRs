@@ -23,7 +23,7 @@
 #' length than number of samples and stores the input files
 #' for each file, \code{isoList} is a list with same length than
 #' number of samples and stores information for each isomiR type summarizing
-#' the different changes for the different isomiRs types (trimming at 3',
+#' the different changes for the different isomiRs (trimming at 3',
 #' trimming a 5', addition and substitution).
 #' 
 #' @aliases IsomirDataSeq-class
@@ -87,9 +87,9 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @param ... arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}} including rowData and exptData
 #' @details
 #' This function parses the output of \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
-#' for each sample to create count matrix for isomiRs, miRNAs or isomiRs grouped in
+#' for each sample to create a count matrix for isomiRs, miRNAs or isomiRs grouped in
 #' types (i.e all sequences with variations at 5' but ignoring any other type). It creates
-#' \code{\link[isomiRs]{IsomirDataSeq}} object (see link to exmaple usage of this command)
+#' \code{\link[isomiRs]{IsomirDataSeq}} object (see link to example usage of this class)
 #' to allow visualization, queries, differential
 #' expression analysis and clustering.
 #' To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs files, and generates

@@ -8,7 +8,7 @@
 #'
 #' First, this function collapses all isomiRs in different types.
 #' Read more at \code{\link{isoCounts}} to know the different options
-#' available to collapse isomiRs into miRNAs.
+#' available to collapse isomiRs.
 #'
 #' After that, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
 #' expression analysis. It uses the design matrix stored at
@@ -22,7 +22,7 @@
 #' @param iso3 differentiate trimming at 3 miRNA from rest
 #' @param add differentiate additions miRNA from rest
 #' @param subs differentiate nt substitution miRNA from rest
-#' @param seed differentiate changes in 2-7 nt from rest
+#' @param seed differentiate changes in 2-7 nts from rest
 #' 
 #' Please, read \link{isoCounts} to understand how to use
 #' ref, iso5, iso3, add, subs and seed parameters.
@@ -30,7 +30,7 @@
 #' @return \code{\link[DESeq2]{DESeqDataSet}} object where
 #' count matrix will have isomiRs as rows, and columns as samples.
 #' All the information related to the differential expression analysis
-#' is stored as metadata columns. Please, read \link[DESeq2]{results} from
+#' is stored as metadata. Please, read \link[DESeq2]{results} from
 #' DESeq2 package to know how to access all the information.
 #' @examples
 #' data(mirData)
@@ -225,7 +225,7 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' @param iso3 differentiate trimming at 3 miRNA from rest
 #' @param add differentiate additions miRNA from rest
 #' @param subs differentiate nt substitution miRNA from rest
-#' @param seed differentiate changes in 2-7 nt from rest
+#' @param seed differentiate changes in 2-7 nts from rest
 #' @param minc int minimum number of isomiR sequences
 #'
 #' @details
