@@ -1,0 +1,5 @@
+2016-02-08:
+isomiRs 0.99.13:
+    - Modify main class to have all the information in metadata
+    - Improve docs with more information in return values
+    - Add minimum data to test creation of main class

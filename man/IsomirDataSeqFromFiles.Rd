@@ -15,7 +15,8 @@ IsomirDataSeqFromFiles(files, design, header = FALSE, skip = 1, ...)
 
 \item{skip}{skip first line when reading files}
 
-\item{...}{arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}} including rowData and exptData}
+\item{...}{arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}}
+including rowData.}
 }
 \value{
 \code{\link{IsomirDataSeq}} class object.
@@ -29,14 +30,23 @@ characterization, differential expression and clustering. It creates an
 }
 \details{
 This function parses the output of \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
-for each sample to create count matrix for isomiRs, miRNAs or isomiRs grouped in
+for each sample to create a count matrix for isomiRs, miRNAs or isomiRs grouped in
 types (i.e all sequences with variations at 5' but ignoring any other type). It creates
-\code{\link[isomiRs]{IsomirDataSeq}} object (see link to exmaple usage of this command)
+\code{\link[isomiRs]{IsomirDataSeq}} object (see link to example usage of this class)
 to allow visualization, queries, differential
 expression analysis and clustering.
 To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs files, and generates
-an initial matrix having all miRNAs detected among samples. As well, it creates
+an initial matrix having all isomiRs detected among samples. As well, it creates
 a summary for each isomiR type (trimming, addition and substitution) to
 visualize general isomiRs distribution.
+}
+\examples{
+path <- system.file("extra", package="isomiRs")
+fn_list <- list.files(path, full.names = TRUE)
+de <- data.frame(row.names=c("f1" , "f2"), condition = c("newborn", "newborn"))
+ids <- IsomirDataSeqFromFiles(fn_list, design=de)
+
+head(counts(ids))
+
 }
 

@@ -2,7 +2,7 @@
 #' 
 #' Use PLS-DA method with the normalized count data to detect the most
 #' important features (miRNAs/isomiRs) that explain better
-#' the group of samples given in the experimental design. It is a supervised
+#' the group of samples given by the experimental design. It is a supervised
 #' clustering method with permutations to calculate the significance
 #' of the analysis.
 #' 
@@ -45,7 +45,7 @@
 #' significant of the group separation using miRNA/isomiR expression data.
 #' 
 #' Read more about the parameters related to the PLS-DA directly from
-#' \linkp[DiscriMiner]{plsDA} function.
+#' \link[DiscriMiner]{plsDA} function.
 #' 
 #' @return 
 #' A \code{\link[base]{list}} with the following elements: \code{R2Matrix}
@@ -246,7 +246,7 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' Plot components from isoPLSDA analysis (pairs plot)
 #' 
 #' Plot the most significant components that come from \code{\link{isoPLSDA}}
-#' together with the density of the samples scores along those components.
+#' analysis together with the density of the samples scores along those components.
 #' 
 #' @aliases isoPLSDAplot
 #' @param pls output from \code{\link{isoPLSDA}} function.

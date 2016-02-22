@@ -18,14 +18,16 @@
 #' \code{\link[isomiRs]{isoNorm}} for normalization, \code{\link[isomiRs]{isoDE}} for
 #' differential expression and \code{\link{isoPLSDA}} for clustering.
 #' \code{\link[isomiRs]{isoPlot}} helps with basic expression plot.
-#' 
-#' \code{metadata} contains two lists: \code{rawList} is list with same
+#'
+#' \code{metadata} contains two lists: \code{rawList} is a list with same
 #' length than number of samples and stores the input files
-#' for each file, \code{isoList} is a list with same length than
+#' for each sample; \code{isoList} is a list with same length than
 #' number of samples and stores information for each isomiR type summarizing
 #' the different changes for the different isomiRs (trimming at 3',
-#' trimming a 5', addition and substitution).
-#' 
+#' trimming a 5', addition and substitution). For instance, you can get
+#' the data stored in \code{isoList} for sample 1 and 5' changes
+#' with this code \code{metadata(ids)[['isoList']][[1]]$t5sum}.
+#'
 #' @aliases IsomirDataSeq-class
 #' @examples
 #' path <- system.file("extra", package="isomiRs")
@@ -34,7 +36,7 @@
 #' ids <- IsomirDataSeqFromFiles(fn_list, design=de)
 #'
 #' head(counts(ids))
-#' 
+#'
 #' @rdname IsomirDataSeq
 #' @export
 IsomirDataSeq <- setClass("IsomirDataSeq",
@@ -84,7 +86,10 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @param design data frame containing groups for each sample
 #' @param header boolean to indicate files contain headers
 #' @param skip skip first line when reading files
-#' @param ... arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}} including rowData and exptData
+#' @param quiet boolean indicating to print messages
+#'  while reading files. Default \code{FALSE}.
+#' @param ... arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}}
+#' including rowData.
 #' @details
 #' This function parses the output of \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
 #' for each sample to create a count matrix for isomiRs, miRNAs or isomiRs grouped in
@@ -93,7 +98,7 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' to allow visualization, queries, differential
 #' expression analysis and clustering.
 #' To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs files, and generates
-#' an initial matrix having all miRNAs detected among samples. As well, it creates
+#' an initial matrix having all isomiRs detected among samples. As well, it creates
 #' a summary for each isomiR type (trimming, addition and substitution) to
 #' visualize general isomiRs distribution.
 #'
@@ -101,9 +106,17 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @name IsomirDataSeqFromFiles
 #' @return
 #' \code{\link{IsomirDataSeq}} class object.
+#' @examples
+#' path <- system.file("extra", package="isomiRs")
+#' fn_list <- list.files(path, full.names = TRUE)
+#' de <- data.frame(row.names=c("f1" , "f2"), condition = c("newborn", "newborn"))
+#' ids <- IsomirDataSeqFromFiles(fn_list, design=de)
+#'
+#' head(counts(ids))
+#'
 #' @export
 IsomirDataSeqFromFiles <- function(files, design,
-                                   header=FALSE, skip=1, ...){
+                                   header=FALSE, skip=1, quiet=TRUE, ...){
     listSamples <- vector("list")
     listIsomirs <- vector("list")
     idx <- 0
@@ -112,11 +125,13 @@ IsomirDataSeqFromFiles <- function(files, design,
     for (f in files){
         idx <- idx + 1
         d <- read.table(f, header=header, skip=skip, stringsAsFactors = FALSE)
+        if (quiet == FALSE)
+          cat("reading file: ", f, "\n")
         if (ncol(d) < 2){
             warning(paste0("This sample hasn't any lines: ", f))
         }else{
             d <- .filter_table(d)
-            out <- list(summary=0,
+            out <- list(summary = 0,
                         t5sum = .isomir_position(d, 6),
                         t3sum = .isomir_position(d, 7),
                         subsum = .subs_position(d, 4),

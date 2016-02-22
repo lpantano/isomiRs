@@ -15,7 +15,7 @@ isoPlotPosition(ids, position = 1, column = "condition")
 colData to color samples.}
 }
 \value{
-\link[ggplot2]{ggplot} object showing changes of nucleotides
+\link[ggplot2]{ggplot} object showing nucleotide changes
 at a given position.
 }
 \description{

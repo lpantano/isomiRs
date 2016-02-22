@@ -40,7 +40,7 @@ when \code{type="add"}, the plot will refer to addition events from the
 to the precursor sequence, they are non-template additions.
 In this case, only 3 positions after the 3' end
 will appear in the plot. When \code{type="subs"}, it will appear one
-position for each nucleotide in the reference miRNA. And the points
+position for each nucleotide in the reference miRNA. Points
 will indicate isomiRs with nucleotide changes at the given position.
 }
 \examples{

@@ -90,15 +90,17 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' # and with 10000 reads or more.
 #' isoSelect(mirData, mirna="hsa-let-7a-5p", minc=10000)
 #' @export
-isoSelect.IsomirDataSeq <- function(object, mirna="",  minc=10) {
+isoSelect.IsomirDataSeq <- function(object, mirna,  minc=10) {
     x <- metadata(object)$rawList
     if ( mirna == "" )
         stop("mirna parameter needs to have a value")
     l <- lapply( x, function(sample){
         sample %>% filter( mir == mirna )
     })
-    DataFrame(IsoCountsFromMatrix(l, colData(object), ref=TRUE,iso5=TRUE,iso3=TRUE,
-              add=TRUE, subs=TRUE, seed=TRUE, minc=minc))
+    df <- as.matrix(IsoCountsFromMatrix(l, colData(object), ref=TRUE,iso5=TRUE,iso3=TRUE,
+              add=TRUE, subs=TRUE, seed=TRUE))
+    df[ df < minc ] <- 0
+    DataFrame(df[ rowSums(df) > 0, , drop=FALSE])
 }
 
 

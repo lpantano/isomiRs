@@ -20,7 +20,7 @@ isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
 
 \item{subs}{differentiate nt substitution miRNA from rest}
 
-\item{seed}{differentiate changes in 2-7 nt from rest}
+\item{seed}{differentiate changes in 2-7 nts from rest}
 
 \item{minc}{int minimum number of isomiR sequences}
 }
@@ -29,19 +29,25 @@ isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
 The count matrix can be access with \code{counts(ids)}.
 }
 \description{
-This function collapses isomiRs into different groups.
+This function collapses isomiRs into different groups. It is a similar
+concept than how to work with gene isoforms. With this function,
+different changes can be put together into a single miRNA variant.
+For instance all sequences with variants at 3' end can be
+considered as different elements in the table
+or analysis having the following naming
+\code{hsa-miR-124a-5p.iso.t3:AAA}.
 }
 \details{
 You can merge all isomiRs into miRNAs by calling the function only
 with the first parameter \code{isoCounts(ids)}.
-You can get a table with isomiRs and
+You can get a table with isomiRs altogether and
 the reference miRBase sequences by calling the function with \code{ref=TRUE}.
 You can get a table with 5' trimming isomiRS, miRBase reference and
 the rest by calling with \code{isoCounts(ids, ref=TRUE, iso5=TRUE)}.
 If you set up all parameters to TRUE, you will get a table for
 each different sequence mapping to a miRNA (i.e. all isomiRs).
 
-Examples for the naming used for the isomiRs are  at
+Examples for the naming used for the isomiRs are at
 \url{http://seqcluster.readthedocs.org/mirna_annotation.html#mirna-annotation}.
 }
 \examples{

@@ -6,7 +6,7 @@
 \alias{counts,IsomirDataSeq-method}
 \alias{counts.IsomirDataSeq}
 \alias{counts<-,IsomirDataSeq,matrix-method}
-\title{Accessors for the 'counts' slot of a IsomirDataSeq object.}
+\title{Accessors for the count matrix of a IsomirDataSeq object.}
 \usage{
 counts.IsomirDataSeq(object, norm = FALSE)
 

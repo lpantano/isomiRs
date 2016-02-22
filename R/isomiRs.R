@@ -11,36 +11,28 @@
 #' available to collapse isomiRs.
 #'
 #' After that, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
-#' expression analysis. It uses the design matrix stored at
+#' expression analysis. It uses the count matrix and design experiment
+#' stored at (\code{counts(ids)} and \code{colData(ids)})
 #' \code{\link{IsomirDataSeq}} object
 #' to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 #'
 #' @param ids object of class \code{\link{IsomirDataSeq}}
 #' @param formula used for DE analysis
-#' @param ref differentiate reference miRNA from rest
-#' @param iso5 differentiate trimming at 5 miRNA from rest
-#' @param iso3 differentiate trimming at 3 miRNA from rest
-#' @param add differentiate additions miRNA from rest
-#' @param subs differentiate nt substitution miRNA from rest
-#' @param seed differentiate changes in 2-7 nts from rest
-#' 
-#' Please, read \link{isoCounts} to understand how to use
+#' @param ... options to pass to \link{isoCounts} including
 #' ref, iso5, iso3, add, subs and seed parameters.
 #' 
-#' @return \code{\link[DESeq2]{DESeqDataSet}} object where
-#' count matrix will have isomiRs as rows, and columns as samples.
-#' All the information related to the differential expression analysis
-#' is stored as metadata. Please, read \link[DESeq2]{results} from
-#' DESeq2 package to know how to access all the information.
+#' @return \code{\link[DESeq2]{DESeqDataSet}} object. 
+#' To get the differential expression isomiRs, use \link[DESeq2]{results} from
+#' DESeq2 package. This allows to ask for different contrast
+#' without calling again \code{isoDE}. Read \code{results} 
+#' manual to know how to access all the information.
+#' 
 #' @examples
 #' data(mirData)
 #' dds <- isoDE(mirData, formula=~condition)
 #' @export
-isoDE <- function(ids, formula, ref=FALSE, iso5=FALSE, iso3=FALSE,
-                add=FALSE, subs=FALSE, seed=FALSE){
-    if (ref | iso5 | iso3 | add | subs | seed){
-        ids <- isoCounts(ids, ref, iso5, iso3, add, subs, seed)
-    }
+isoDE <- function(ids, formula, ...){
+    ids <- isoCounts(ids, ...)
     countData <- counts(ids)
     dds <- DESeqDataSetFromMatrix(countData = countData,
                                 colData = colData(ids),
@@ -101,7 +93,7 @@ isoTop <- function(ids, top=20){
 #' to the precursor sequence, they are non-template additions.
 #' In this case, only 3 positions after the 3' end
 #' will appear in the plot. When \code{type="subs"}, it will appear one
-#' position for each nucleotide in the reference miRNA. And the points
+#' position for each nucleotide in the reference miRNA. Points
 #' will indicate isomiRs with nucleotide changes at the given position.
 #'
 #' @export
@@ -158,7 +150,7 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 #' @param position integer indicating the position to show
 #' @param column string indicating the column in
 #' colData to color samples.
-#' @return \link[ggplot2]{ggplot} object showing changes of nucleotides
+#' @return \link[ggplot2]{ggplot} object showing nucleotide changes
 #' at a given position. 
 #' @details
 #' It shows the nucleotides changes at the given position for each
@@ -217,7 +209,13 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 
 #' Create count matrix with different summarizing options
 #'
-#' This function collapses isomiRs into different groups.
+#' This function collapses isomiRs into different groups. It is a similar
+#' concept than how to work with gene isoforms. With this function,
+#' different changes can be put together into a single miRNA variant.
+#' For instance all sequences with variants at 3' end can be
+#' considered as different elements in the table
+#' or analysis having the following naming
+#' \code{hsa-miR-124a-5p.iso.t3:AAA}.
 #'
 #' @param ids object of class \code{\link{IsomirDataSeq}}
 #' @param ref differentiate reference miRNA from rest
@@ -232,14 +230,14 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #'
 #' You can merge all isomiRs into miRNAs by calling the function only
 #' with the first parameter \code{isoCounts(ids)}.
-#' You can get a table with isomiRs and
+#' You can get a table with isomiRs altogether and
 #' the reference miRBase sequences by calling the function with \code{ref=TRUE}.
 #' You can get a table with 5' trimming isomiRS, miRBase reference and
 #' the rest by calling with \code{isoCounts(ids, ref=TRUE, iso5=TRUE)}.
 #' If you set up all parameters to TRUE, you will get a table for
 #' each different sequence mapping to a miRNA (i.e. all isomiRs).
 #' 
-#' Examples for the naming used for the isomiRs are  at
+#' Examples for the naming used for the isomiRs are at
 #' \url{http://seqcluster.readthedocs.org/mirna_annotation.html#mirna-annotation}.
 #'
 #' @return \code{\link{IsomirDataSeq}} object with new count table.

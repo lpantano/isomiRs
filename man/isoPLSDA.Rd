@@ -55,7 +55,7 @@ permutations where miRNAs/isomiRs were randomized.
 \description{
 Use PLS-DA method with the normalized count data to detect the most
 important features (miRNAs/isomiRs) that explain better
-the group of samples given in the experimental design. It is a supervised
+the group of samples given by the experimental design. It is a supervised
 clustering method with permutations to calculate the significance
 of the analysis.
 }
@@ -79,7 +79,7 @@ p-value of this function will tell about the statistical
 significant of the group separation using miRNA/isomiR expression data.
 
 Read more about the parameters related to the PLS-DA directly from
-\linkp[DiscriMiner]{plsDA} function.
+\link[DiscriMiner]{plsDA} function.
 }
 \examples{
 data(mirData)

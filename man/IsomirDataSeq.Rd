@@ -26,12 +26,14 @@ available for this object are \code{\link[isomiRs]{isoCounts}} for count matrix 
 differential expression and \code{\link{isoPLSDA}} for clustering.
 \code{\link[isomiRs]{isoPlot}} helps with basic expression plot.
 
-\code{metadata} contains two lists: \code{rawList} is list with same
+\code{metadata} contains two lists: \code{rawList} is a list with same
 length than number of samples and stores the input files
-for each file, \code{isoList} is a list with same length than
+for each sample; \code{isoList} is a list with same length than
 number of samples and stores information for each isomiR type summarizing
-the different changes for the different isomiRs types (trimming at 3',
-trimming a 5', addition and substitution).
+the different changes for the different isomiRs (trimming at 3',
+trimming a 5', addition and substitution). For instance, you can get
+the data stored in \code{isoList} for sample 1 and 5' changes
+with this code \code{metadata(ids)[['isoList']][[1]]$t5sum}.
 }
 \examples{
 path <- system.file("extra", package="isomiRs")

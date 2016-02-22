@@ -22,7 +22,7 @@ component from the PLS-DA analysis.
 }
 \description{
 Plot the most significant components that come from \code{\link{isoPLSDA}}
-together with the density of the samples scores along those components.
+analysis together with the density of the samples scores along those components.
 }
 \details{
 The function \code{isoPLSDAplot}

@@ -4,35 +4,22 @@
 \alias{isoDE}
 \title{Differential expression analysis with DESeq2}
 \usage{
-isoDE(ids, formula, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
-  add = FALSE, subs = FALSE, seed = FALSE)
+isoDE(ids, formula, ...)
 }
 \arguments{
 \item{ids}{object of class \code{\link{IsomirDataSeq}}}
 
 \item{formula}{used for DE analysis}
 
-\item{ref}{differentiate reference miRNA from rest}
-
-\item{iso5}{differentiate trimming at 5 miRNA from rest}
-
-\item{iso3}{differentiate trimming at 3 miRNA from rest}
-
-\item{add}{differentiate additions miRNA from rest}
-
-\item{subs}{differentiate nt substitution miRNA from rest}
-
-\item{seed}{differentiate changes in 2-7 nt from rest
-
-Please, read \link{isoCounts} to understand how to use
+\item{...}{options to pass to \link{isoCounts} including
 ref, iso5, iso3, add, subs and seed parameters.}
 }
 \value{
-\code{\link[DESeq2]{DESeqDataSet}} object where
-count matrix will have isomiRs as rows, and columns as samples.
-All the information related to the differential expression analysis
-is stored as metadata columns. Please, read \link[DESeq2]{results} from
-DESeq2 package to know how to access all the information.
+\code{\link[DESeq2]{DESeqDataSet}} object. 
+To get the differential expression isomiRs, use \link[DESeq2]{results} from
+DESeq2 package. This allows to ask for different contrast
+without calling again \code{isoDE}. Read \code{results} 
+manual to know how to access all the information.
 }
 \description{
 This function does differential expression analysis with
@@ -42,10 +29,11 @@ It will return a \code{\link[DESeq2]{DESeqDataSet}} object.
 \details{
 First, this function collapses all isomiRs in different types.
 Read more at \code{\link{isoCounts}} to know the different options
-available to collapse isomiRs into miRNAs.
+available to collapse isomiRs.
 
 After that, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
-expression analysis. It uses the design matrix stored at
+expression analysis. It uses the count matrix and design experiment
+stored at (\code{counts(ids)} and \code{colData(ids)})
 \code{\link{IsomirDataSeq}} object
 to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 }
