@@ -1,0 +1,19 @@
+Package: isomiRs
+Version: 0.99.13
+Date: 2016-02-08
+Type: Package
+Title: Analyze isomiRs and miRNAs from small RNA-seq
+Description: Characterization of miRNAs and isomiRs, clustering and
+        differential expression.
+biocViews: miRNA, RNASeq, DifferentialExpression, Clustering
+Suggests: knitr, RUnit, BiocStyle
+Depends: R (>= 2.10), DiscriMiner, IRanges, S4Vectors, GenomicRanges,
+        SummarizedExperiment (>= 0.2.0)
+Imports: BiocGenerics (>= 0.7.5), DESeq2, plyr, dplyr, RColorBrewer,
+        gplots, methods, ggplot2, GGally
+Author: Lorena Pantano, Georgia Escaramis
+Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
+License: MIT + file LICENSE
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
+NeedsCompilation: no
