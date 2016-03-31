@@ -27,8 +27,9 @@ Imports:
     methods,
     ggplot2,
     GGally
-Author: Lorena Pantano, Georgia Escaramis
+uthor: Lorena Pantano, Georgia Escaramis
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
+NeedsCompilation: no
