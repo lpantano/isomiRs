@@ -85,7 +85,7 @@ Read more about the parameters related to the PLS-DA directly from
 data(mirData)
 ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
 ids = isoNorm(ids)
-pls.ids = isoPLSDA(ids, "condition", nperm = 10)
+pls.ids = isoPLSDA(ids, "condition", nperm = 2)
 cat(paste0("pval:",pls.ids$p.val))
 cat(paste0("components:",pls.ids$components))
 }
