@@ -4,7 +4,8 @@
 \alias{IsomirDataSeqFromFiles}
 \title{\code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool}
 \usage{
-IsomirDataSeqFromFiles(files, design, header = FALSE, skip = 1, ...)
+IsomirDataSeqFromFiles(files, design, header = FALSE, skip = 1,
+  quiet = TRUE, ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
@@ -14,6 +15,9 @@ IsomirDataSeqFromFiles(files, design, header = FALSE, skip = 1, ...)
 \item{header}{boolean to indicate files contain headers}
 
 \item{skip}{skip first line when reading files}
+
+\item{quiet}{boolean indicating to print messages
+while reading files. Default \code{FALSE}.}
 
 \item{...}{arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}}
 including rowData.}
