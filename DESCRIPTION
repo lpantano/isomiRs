@@ -12,6 +12,7 @@ Suggests:
     RUnit,
     BiocStyle
 Depends:
+     R (>= 3.2),
     DiscriMiner,
     IRanges,
     S4Vectors,
