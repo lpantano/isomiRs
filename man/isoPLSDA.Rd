@@ -83,8 +83,9 @@ Read more about the parameters related to the PLS-DA directly from
 }
 \examples{
 data(mirData)
-ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
-ids = isoNorm(ids)
+# Only miRNAs with > 10 reads in all samples.
+ids <- isoCounts(mirData, minc=10, mins=6)
+ids <- isoNorm(ids)
 pls.ids = isoPLSDA(ids, "condition", nperm = 2)
 cat(paste0("pval:",pls.ids$p.val))
 cat(paste0("components:",pls.ids$components))

@@ -29,6 +29,7 @@
 #' 
 #' @examples
 #' data(mirData)
+#' ids <- isoCounts(mirData, minc=10, mins=6)
 #' dds <- isoDE(mirData, formula=~condition)
 #' @export
 isoDE <- function(ids, formula, ...){
@@ -224,7 +225,9 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' @param add differentiate additions miRNA from rest
 #' @param subs differentiate nt substitution miRNA from rest
 #' @param seed differentiate changes in 2-7 nts from rest
-#' @param minc int minimum number of isomiR sequences
+#' @param minc int minimum number of isomiR sequences to be included.
+#' @param mins int minimum number of samples with number of 
+#' sequences bigger than \code{minc} counts.
 #'
 #' @details
 #'
@@ -246,15 +249,16 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' data(mirData)
 #' ids <- isoCounts(mirData, ref=TRUE)
 #' head(counts(ids))
-#' # taking into account isomiRs at 5' end.
-#' ids <- isoCounts(mirData, ref=TRUE, iso5=TRUE)
+#' # taking into account isomiRs and reference sequence.
+#' ids <- isoCounts(mirData, ref=TRUE, minc=10, mins=6)
 #' head(counts(ids))
 #' @export
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
-                      add=FALSE, subs=FALSE, seed=FALSE, minc=1){
+                      add=FALSE, subs=FALSE, seed=FALSE, minc=1, mins=1){
         counts <- IsoCountsFromMatrix(metadata(ids)$rawList, colData(ids), ref,
                                       iso5, iso3,
-                                      add, subs, seed, minc)
+                                      add, subs, seed)
+        counts <- counts[rowSums(counts > minc) >= mins, ]
         se <- SummarizedExperiment(assays = SimpleList(counts=counts),
                                    colData = colData(ids))
         .IsomirDataSeq(se, metadata(ids)$rawList, metadata(ids)$isoList)
@@ -275,6 +279,7 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #'
 #' @examples
 #' data(mirData)
+#' ids <- isoCounts(mirData, minc=10, mins=6)
 #' ids <- isoNorm(mirData, formula=~condition)
 #' head(counts(ids, norm=TRUE))
 #' @export
