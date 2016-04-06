@@ -5,7 +5,7 @@
 \title{Create count matrix with different summarizing options}
 \usage{
 isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
-  subs = FALSE, seed = FALSE, minc = 1)
+  subs = FALSE, seed = FALSE, minc = 1, mins = 1)
 }
 \arguments{
 \item{ids}{object of class \code{\link{IsomirDataSeq}}}
@@ -22,7 +22,10 @@ isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
 
 \item{seed}{differentiate changes in 2-7 nts from rest}
 
-\item{minc}{int minimum number of isomiR sequences}
+\item{minc}{int minimum number of isomiR sequences to be included.}
+
+\item{mins}{int minimum number of samples with number of 
+sequences bigger than \code{minc} counts.}
 }
 \value{
 \code{\link{IsomirDataSeq}} object with new count table.
@@ -54,8 +57,8 @@ Examples for the naming used for the isomiRs are at
 data(mirData)
 ids <- isoCounts(mirData, ref=TRUE)
 head(counts(ids))
-# taking into account isomiRs at 5' end.
-ids <- isoCounts(mirData, ref=TRUE, iso5=TRUE)
+# taking into account isomiRs and reference sequence.
+ids <- isoCounts(mirData, ref=TRUE, minc=10, mins=6)
 head(counts(ids))
 }
 
