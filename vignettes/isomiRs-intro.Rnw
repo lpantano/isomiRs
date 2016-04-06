@@ -215,9 +215,9 @@ samples distribution along the components.
 
 
 <<package-pls,eval=TRUE>>=
-ids = isoCounts(ids, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
+ids = isoCounts(ids, iso5=TRUE, minc=10, mins=6)
 ids = isoNorm(ids)
-pls.ids = isoPLSDA(ids, "condition", nperm = 5)
+pls.ids = isoPLSDA(ids, "condition", nperm = 2)
 df = isoPLSDAplot(pls.ids)
 @
 
