@@ -74,13 +74,14 @@
 #' pathways from metabolomic data using MetaboAnalyst. Nature Protocols. 2011.
 #' @examples
 #' data(mirData)
-#' ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
-#' ids = isoNorm(ids)
+#' # Only miRNAs with > 10 reads in all samples.
+#' ids <- isoCounts(mirData, minc=10, mins=6)
+#' ids <- isoNorm(ids)
 #' pls.ids = isoPLSDA(ids, "condition", nperm = 2)
 #' cat(paste0("pval:",pls.ids$p.val))
 #' cat(paste0("components:",pls.ids$components))
 #' @export
-isoPLSDA <- function(ids, group ,validation = NULL, learn = NULL, test = NULL,
+isoPLSDA <- function(ids, group , validation = NULL, learn = NULL, test = NULL,
                      tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2){
     tryCatch ({
         class(normcounts(ids))
@@ -268,9 +269,10 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' component from the PLS-DA analysis.
 #' @examples
 #' data(mirData)
-#' ids = isoCounts(mirData, iso5=TRUE, iso3=TRUE, add=TRUE, ref=TRUE)
-#' ids = isoNorm(ids)
-#' pls.ids = isoPLSDA(ids, "condition", nperm = 10)
+#' # Only miRNAs with > 10 reads in all samples.
+#' ids <- isoCounts(mirData, minc=10, mins=6)
+#' ids <- isoNorm(ids)
+#' pls.ids <- isoPLSDA(ids, "condition", nperm = 2)
 #' isoPLSDAplot(pls.ids)
 #' @export
 isoPLSDAplot <- function (pls){

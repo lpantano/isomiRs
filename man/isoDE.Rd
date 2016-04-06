@@ -39,6 +39,7 @@ to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 }
 \examples{
 data(mirData)
+ids <- isoCounts(mirData, minc=10, mins=6)
 dds <- isoDE(mirData, formula=~condition)
 }
 
