@@ -1,3 +1,6 @@
+2016-04-22:
+isomiRs 0.99.18
+    - Avoid removing isomiRs with mutation and reference non-detected
 2016-02-08:
 isomiRs 0.99.13:
     - Modify main class to have all the information in metadata
