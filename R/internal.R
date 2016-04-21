@@ -14,25 +14,27 @@
                                  summarise(total_subs=sum(freq)))
   tab.ref <- as.data.frame(tab %>% filter(subs==0) %>%
                               group_by(mir) %>%
-                              summarise(total_mir=sum(freq)))
+                              summarise(total_mir=sum(freq)+1))
   tab.fil <- merge(tab.subs, tab.ref, by=1) %>% mutate(ratio = total_subs/total_mir)
   cols <- apply(tab, 1, function(row){
-    .seq = row[2]
-    if (row[4]=="0")
-      return(c(.seq, row[4]))
-    if (tab.fil$ratio[tab.fil$subs==row[4] & tab.fil$mir==row[1]] > 0.50)
-      return(c(.seq, row[4]))
-    .pos = gsub("[ATGCNU]", "", row[4])
-    .subs = strsplit(gsub("[0-9]+", "", row[4]), "")
-    .nts = as.vector(strsplit(.seq, ""))
-    .nts[as.numeric(.pos)] = .subs[2]
-    c(paste0(as.vector(unlist(.nts)), collapse = ""), "0")
+      .seq = row["seq"]
+      if (row["subs"]=="0")
+          return(c(.seq, row["subs"]))
+      else if (sum(grepl(row["mir"], tab.fil$mir))==0)
+          donothing <- 0
+      else if (tab.fil$ratio[tab.fil$subs==row["subs"] & tab.fil$mir==row["mir"]] > 0.50)
+          return(c(.seq, row["subs"]))
+      .pos = gsub("[ATGCNU]", "", row["subs"])
+      .subs = strsplit(gsub("[0-9]+", "", row["subs"]), "")
+      .nts = as.vector(strsplit(.seq, ""))
+      .nts[as.numeric(.pos)] = .subs[2]
+      c(paste0(as.vector(unlist(.nts)), collapse = ""), "0")
   })
   tab$seq <- cols[1,]
   tab$subs <- cols[2,]
-  tab = tab %>% group_by(mir, seq, subs, add, t5, t3, DB, ambiguity, total) %>%
-            summarise(freq=sum(freq)) %>% mutate(score=freq/total) %>%
-            dplyr::select(mir, seq, freq, subs, add, t5, t3, DB, ambiguity, total)
+  tab = tab %>% group_by(mir, seq, subs, add, t5, t3, DB, ambiguity) %>%
+            summarise(freq=sum(freq))  %>%
+            dplyr::select(mir, seq, freq, subs, add, t5, t3, DB, ambiguity)
   as.data.frame(tab)
 }
 
@@ -40,14 +42,14 @@
 .filter_by_cov <- function(table, limit=0){
     freq <- mir <-  NULL
     tab.fil <- table[table$DB == "miRNA",]
+    tab.fil <- .clean_low_rate_changes(tab.fil)
     tab.fil.out <- as.data.frame(tab.fil %>% filter(subs==0) %>%
                                    group_by(mir) %>%
-                                   summarise(total=sum(freq)))
-    tab.fil <- merge(tab.fil[ ,c(3, 1:2, 4:ncol(tab.fil)) ],
+                                   summarise(total=sum(freq)+1))
+    tab.fil <- merge(tab.fil,
                      tab.fil.out,
                      by=1)
     tab.fil$score <- tab.fil$freq / tab.fil$total * 100
-    tab.fil <- .clean_low_rate_changes(tab.fil)
     tab.fil
 }
 
@@ -70,7 +72,6 @@
     table <- .filter_by_cov(table, cov)
     if (sum(grepl("u-", table$add))>0)
         table <- .convert_to_new_version(table)
-
     table
 }
 
@@ -88,7 +89,6 @@
 }
 
 # do counts table considering what isomiRs take into account
-
 IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
                                 iso3=FALSE, add=FALSE,
                                 subs=FALSE, seed=FALSE, minc=1){
@@ -98,15 +98,16 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
         d <- .collapse_mirs(d, ref=ref, iso5=iso5, iso3=iso3, add=add,
                          subs=subs, seed=seed)
         names(d)[ncol(d)] <- sample
-        d <- d[d[,2] > minc, ]
+        d <- d[d[,2] >= minc, ]
         if( nrow(table.merge) == 0){
             table.merge <- d
         }else{
             table.merge <- merge( table.merge, d, by=1, all=TRUE )
         }
     }
+
     row.names(table.merge) <- table.merge[ ,1]
-    table.merge <- as.matrix(table.merge[ ,2:ncol(table.merge)])
+    table.merge <- as.matrix(table.merge[ ,2:ncol(table.merge),drop=FALSE])
     table.merge[is.na(table.merge)] <- 0
     dt <- as.matrix(table.merge)
     if ( dim(dt)[1] == 0 )
