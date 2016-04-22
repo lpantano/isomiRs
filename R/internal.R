@@ -20,7 +20,7 @@
       .seq = row["seq"]
       if (row["subs"]=="0")
           return(c(.seq, row["subs"]))
-      else if (sum(grepl(row["mir"], tab.fil$mir))==0)
+      else if (sum(tab.fil$subs==row["subs"] & tab.fil$mir==row["mir"])==0)
           donothing <- 0
       else if (tab.fil$ratio[tab.fil$subs==row["subs"] & tab.fil$mir==row["mir"]] > 0.50)
           return(c(.seq, row["subs"]))
