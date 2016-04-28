@@ -40,7 +40,7 @@
 #' @rdname IsomirDataSeq
 #' @export
 IsomirDataSeq <- setClass("IsomirDataSeq",
-                          contains = "SummarizedExperiment")
+                          contains = "RangedSummarizedExperiment")
 
 setValidity( "IsomirDataSeq", function( object ) {
     if (!("counts" %in% names(assays(object))))
@@ -56,14 +56,14 @@ setValidity( "IsomirDataSeq", function( object ) {
 
 # Constructor
 .IsomirDataSeq <- function(se, rawList=NULL, isoList=NULL){
-    if (!is(se, "SummarizedExperiment")) {
+    if (!is(se, "RangedSummarizedExperiment")) {
         if (is(se, "SummarizedExperiment0")) {
-                  se <- as(se, "SummarizedExperiment")
+                  se <- as(se, "RangedSummarizedExperiment")
         } else if (is(se, "SummarizedExperiment")) {
                   # only to help transition from SummarizedExperiment to new
                   # RangedSummarizedExperiment objects,
                   # remove once transition is complete
-                  se <- as(se, "SummarizedExperiment")
+                  se <- as(se, "RangedSummarizedExperiment")
         } else {
                   stop("'se' must be a SummarizedExperiment object")
         }
@@ -144,7 +144,7 @@ IsomirDataSeqFromFiles <- function(files, design,
     countData <- IsoCountsFromMatrix(listSamples, design)
     se <- SummarizedExperiment(assays = SimpleList(counts=countData),
                                colData = DataFrame(design), ...)
-    ids <- new("IsomirDataSeq", se)
+    # ids <- new("IsomirDataSeq", se)
     ids <- .IsomirDataSeq(se, listSamples, listIsomirs)
     return(ids)
 }
