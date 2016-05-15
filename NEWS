@@ -1,0 +1,24 @@
+CHANGES IN VERSION  1.1.2 
+---------------------------
+
+OTHERS
+
+    o Update version dependecy for packages
+
+CHANGES IN VERSION  0.99.18 
+---------------------------
+
+BUG FIXES
+
+    o Avoid removing isomiRs with mutation and reference non-detected
+
+CHANGES IN VERSION  0.99.13 
+---------------------------
+
+NEW FEATURES
+
+    o Modify main class to have all the information in metadata
+
+    o Improve docs with more information in return values
+
+    o Add minimum data to test creation of main class
