@@ -3,7 +3,7 @@ isomiRs
 
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.45382.svg)](http://dx.doi.org/10.5281/zenodo.45382)
 
-analyze isomiRs from seqbuster tool 
+analyze isomiRs from seqbuster tool  or any BAM file after using [seqcluster seqbuster](http://seqcluster.readthedocs.io/mirna_annotation.html#mirna-isomirs-annotation-with-python)
 
 It needs R > 3.2
 
