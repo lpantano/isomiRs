@@ -76,9 +76,20 @@ from_pairs_to_matrix <- function(df){
     new_exp[abs(rowMax(new_exp) - rowMin(new_exp)) > minfc, ]
 }
 
-find_targets <- function(mirna, gene, target, group, min_cor= -.6){
-    mirna_norm <- .apply_median(as.matrix(mirna), group, minfc=0.5)
-    gene_norm <- .apply_median(as.matrix(gene), group, minfc=0.5)
+find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor= -.6){
+    mirna = assay(mirna_rse,"norm")[,order(colData(mirna_rse)[,summarize])]
+    message("Number of mirnas ", nrow(mirna), " with these columns:", paste(colnames(mirna)))
+    gene = assay(gene_rse, "norm")[,order(colData(gene_rse)[,summarize])]
+    message("Number of genes ", nrow(gene), " with these columns:", paste(colnames(gene)))
+    mirna_group = colData(mirna_rse)[order(colData(mirna_rse)[,summarize]),summarize]
+    gene_group = colData(gene_rse)[order(colData(gene_rse)[,summarize]),summarize]
+    message("Factors genes", levels(gene_group))
+    message("Factors mirnas", levels(mirna_group))
+    message("Order genes", gene_group)
+    message("Order mirnas", mirna_group)
+    
+    mirna_norm <- .apply_median(as.matrix(mirna), mirna_group, minfc=0.5)
+    gene_norm <- .apply_median(as.matrix(gene), gene_group, minfc=0.5)
     cor_target <- .cor_matrix(mirna_norm, gene_norm, as.matrix(target), min_cor)
     return(cor_target)
 }
@@ -121,7 +132,7 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
     mirna_de = as.character(metadata(mirna_rse)$sign)
     gene_de = as.character(metadata(gene_rse)$sign)
     mirna_group = colData(mirna_rse)[order(colData(mirna_rse)[,summarize]),summarize]
-    gene_group = colData(gene_rse)[order(colData(mirna_rse)[,summarize]),summarize]
+    gene_group = colData(gene_rse)[order(colData(gene_rse)[,summarize]),summarize]
     
     if (!all(levels(mirna_group) == levels(gene_group)))
         stop("levels in mirna and gene data are not the same")
