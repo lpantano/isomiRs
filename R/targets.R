@@ -1,3 +1,7 @@
+.no_na <- function(v){
+    return(v[!is.na(v)])
+}
+
 from_pairs_to_matrix <- function(df){
     if (!is.data.frame(df))
         error("Need a data.frame with 2 columns: gene, mir.")
@@ -49,8 +53,11 @@ from_pairs_to_matrix <- function(df){
                       from = "ENSEMBL", "ENTREZID", db = org )
     sel_genes <- convertIDs(target,
                             from = "ENSEMBL", "ENTREZID", db = org )
-    
-    ego <- enrichGO(sel_genes, org, ont = "BP", universe = uni[!is.na(uni)])
+    if (length(universe) > length(sel_genes)*3){
+        ego <- enrichGO(sel_genes, org, ont = "BP", universe = uni[!is.na(uni)])
+    }else{
+        ego <- enrichGO(sel_genes, org, ont = "BP")
+    }
     if (is.null(ego))
         return(NULL)
     if (nrow(ego@result)==0)
@@ -91,7 +98,8 @@ from_pairs_to_matrix <- function(df){
 #' target prediction values (1 if it is a target, 0 if not).
 #' @param summarize character column name in colData(rse) to use to group
 #' samples and compare betweem miRNA/gene expression.
-#' @example 
+#' @examples 
+#' 
 #' pairs <- as.matrix(data.frame(row.names=c("gene1", "gene2"),
 #'                             mirna1=c(0,1), mirna2=c(1,0)))
 #' mirna_matrix <- as.matrix(data.frame(row.names=c("mirna1", "mirna2"),
@@ -152,6 +160,11 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 #' where, \code{mirna_matrix} is the normalized counts expression, 
 #' \code{colData} is the metadata information and \code{mirna_keep}
 #' the list of miRNAs to be used by this function.
+#' @examples
+#' 
+#' library(org.Mm.eg.db)
+#' data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=org.Mm.eg.db)
+#' isoPlotNet(data)
 isoNetwork <- function(mirna_rse, gene_rse, target, 
                        summarize="group", org, min_cor = -.6){
     stopifnot(class(gene_rse)=="SummarizedExperiment")
@@ -189,19 +202,21 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
         .genes <- convertIDs(.genes,
                              "ENTREZID", "ENSEMBL", db = org)
         .genes <- .genes[!is.na(.genes)]
-        .idx <- which(colSums(cor_target[.genes,] != 0 ) > 0)
-        if ( length(.idx) > 0 )
+        .idx <- which(colSums(cor_target[.genes,,drop=FALSE] != 0 ) > 0)
+        if ( length(.idx) > 0 & length(.genes) > 2 ){
             .tab = data.frame(melt(as.matrix(cor_target[.genes, .idx]))) %>%
             filter(value != 0) %>%
             dplyr::select(gene=X1, mir=X2) %>%
             mutate(goid=x[1], go=x[2])
-        return(.tab)
+            return(.tab)
+        }
+        return(data.frame())
     }))
     
     res_by_mir <- net %>% group_by(mir, go) %>% dplyr::summarise(n()) %>%
         group_by(go) %>% dplyr::summarise(nmir=n())
-    res[match(res$Description, res_by_mir$go), "nmir"] = res_by_mir$nmir
-
+    res <- res[res$Description %in% res_by_mir$go,]
+    res[match(res_by_mir$go, res$Description), "nmir"] <- res_by_mir$nmir
     obj = .viz_mirna_gene_enrichment(list(network = net, summary = res),
                                      mirna_norm, gene_norm, mirna_group, org)
     list(network = net, summary = res, analysis=obj)
