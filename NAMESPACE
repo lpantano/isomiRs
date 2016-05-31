@@ -31,4 +31,4 @@ importFrom(DiscriMiner, plsDA)
 import(GGally)
 importFrom(gplots, heatmap.2)
 importFrom(ggplot2, aes, element_rect, geom_jitter, ggplot, labs, scale_color_brewer, scale_colour_brewer, theme, theme_bw)
-
+importFrom("utils", "read.table")
