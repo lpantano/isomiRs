@@ -20,7 +20,7 @@ from_pairs_to_matrix <- function(df){
     cor_target <- cor_target[common_mirna, common_gene]
     cor_target[ t(target[common_gene, common_mirna]) == 0 ] = 0 
     cat("Dimmension of cor matrix:", dim(cor_target), "\n")
-    stopifnot(nrow(cor_target)>2 & ncol(cor_target)>2)
+    stopifnot(nrow(cor_target)>1 & ncol(cor_target)>1)
     t(cor_target) # cor matrix with values only if mirna-gene are in target
 }
 
@@ -76,6 +76,40 @@ from_pairs_to_matrix <- function(df){
     new_exp[abs(rowMax(new_exp) - rowMin(new_exp)) > minfc, ]
 }
 
+#' Find miRNAs target using mRNA/miRNA expression
+#' 
+#' This function creates a matrix with rows (genes) and
+#' columns (mirnas) with values indicating if miRNA-gene
+#' pair is target according putative targets and negative
+#' correlation of the expression of both molecules.
+#' 
+#' @param mirna_rse \link[SummarizedExperiment]{SummarizedExperiment} with miRNA
+#' information. See details.
+#' @param gene_rse \link[SummarizedExperiment]{SummarizedExperiment} with gene
+#' information. See details.
+#' @param target matrix with miRNAs (columns) and genes (rows)
+#' target prediction values (1 if it is a target, 0 if not).
+#' @param summarize character column name in colData(rse) to use to group
+#' samples and compare betweem miRNA/gene expression.
+#' @example 
+#' pairs <- as.matrix(data.frame(row.names=c("gene1", "gene2"),
+#'                             mirna1=c(0,1), mirna2=c(1,0)))
+#' mirna_matrix <- as.matrix(data.frame(row.names=c("mirna1", "mirna2"),
+#'                                     time0_1=c(1,1),time0_2=c(1.2,0.9),
+#'                                     time1_1=c(8,8),time1_2=c(8.2,7.9)))
+#' gene_matrix <- as.matrix(data.frame(row.names=c("gene1", "gene2"),
+#'                                     time0_1=c(8,8),time0_2=c(8.2,7.9),
+#'                                     time1_1=c(1,1),time1_2=c(1.2,0.9)))
+#' mirna_col <- data.frame(row.names=c("time0_1","time0_2","time1_1","time1_2"),
+#'                        group=c("t0","t0","t1","t1"))
+#' gene_col <- data.frame(row.names=c("time0_1","time0_2","time1_1","time1_2"),
+#'                        group=c("t0","t0","t1","t1"))
+#'
+#' mirna <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(mirna_matrix)), 
+#'                             colData= mirna_col)
+#' gene <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(gene_matrix)), 
+#'                              colData= gene_col)
+#' find_targets(mirna, gene, pairs)
 find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor= -.6){
     mirna = assay(mirna_rse,"norm")[,order(colData(mirna_rse)[,summarize])]
     message("Number of mirnas ", nrow(mirna), " with these columns:", paste(colnames(mirna)))
@@ -102,7 +136,7 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 #' information. See details.
 #' @param target matrix with miRNAs (columns) and genes (rows)
 #' target prediction (1 if it is a target, 0 if not).
-#' @param group character column name in colData(rse) to use to group
+#' @param summarize character column name in colData(rse) to use to group
 #' samples and compare betweem miRNA/gene expression.
 #' @param org \link[AnnotationDbi]{AnnotationDb-objects}. (org.Mm.eg.db)
 #' @param min_cor numeric cutoff to consider a miRNA to regulate a target
@@ -253,6 +287,9 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
     }))
 }
 
+#' Functional miRNA / gene expression profile plot
+#' 
+#' @param obj output from \link{isoNetwork}
 isoPlotNet = function(obj){
    
     require(gridExtra)
