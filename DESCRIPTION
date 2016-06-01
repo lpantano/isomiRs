@@ -10,6 +10,8 @@ biocViews: miRNA, RNASeq,
 Suggests:
     knitr,
     RUnit,
+    org.Mm.eg.db,
+    clusterProfiler,
     BiocStyle
 Depends:
     R (>= 3.2),
@@ -21,12 +23,16 @@ Depends:
 Imports:
     BiocGenerics (>= 0.7.5),
     DESeq2,
+    reshape,
     plyr,
     dplyr,
     RColorBrewer,
     gplots,
     methods,
     ggplot2,
+    gtools,
+    gridExtra,
+    grid,
     GGally
 Author: Lorena Pantano, Georgia Escaramis
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
