@@ -121,7 +121,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
     label <- table$mir
     freq <- id <- NULL
     if (ref == TRUE){
-        ref.val <- do.call(paste,table[,4:7])
+        ref.val <- do.call(paste, table[,4:7])
         ref.val[grep("[ATGC]", ref.val, invert=TRUE)] <- "ref"
         ref.val[grep("[ATGC]", ref.val)] <- "iso"
         label <- paste(label, ref.val, sep=".")

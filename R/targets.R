@@ -3,21 +3,6 @@
 }
 
 
-.convertIDs <- function( ids, from, to, db, ifMultiple=c("putNA", "useFirst")) {
-    stopifnot( inherits( db, "AnnotationDb" ) )
-    ifMultiple <- match.arg( ifMultiple )
-    if (sum(ids %in% keys(db, from))==0)
-        return(ids)
-    suppressMessages( selRes <- AnnotationDbi::select(
-        db, keys=ids, keytype=from, columns=c(from,to) ) )
-    if ( ifMultiple == "putNA" ) {
-        duplicatedIds <- selRes[ duplicated( selRes[,from] ), from ]
-        selRes <- selRes[ ! selRes[,from] %in% duplicatedIds, ]
-    }
-    return( selRes[ match( ids, selRes[,from] ), to ] )
-}
-
-
 from_pairs_to_matrix <- function(df){
     if (!is.data.frame(df))
         error("Need a data.frame with 2 columns: gene, mir.")
@@ -57,22 +42,18 @@ from_pairs_to_matrix <- function(df){
     m = (1-cor(t(ma), method = "kendall"))
     m[m<0] = 0
     d = as.dist(m^2)
-    c = diana(d, diss = TRUE, stand = FALSE)
+    c = cluster::diana(d, diss = TRUE, stand = FALSE)
     
     cutree(as.hclust(c), h = c$dc)
 }
 
-.run_enricher <- function(target, universe, org, max_group=30){
+.run_enricher <- function(target, universe, org, genename, max_group=30){
     cat("GO enrichment with ", length(universe), " as universe", universe[1], "\n")
     cat("and ", length(target), " as query:", target[1], "\n")
-    uni <- .convertIDs(universe,
-                      from = "ENSEMBL", "ENTREZID", db = org )
-    sel_genes <- .convertIDs(target,
-                            from = "ENSEMBL", "ENTREZID", db = org )
     if (length(universe) > length(sel_genes)*3){
-        ego <- enrichGO(sel_genes, org, ont = "BP", universe = uni[!is.na(uni)])
+        ego <- enrichGO(sel_genes, org, ont = "BP", keytype = genename, universe = universe)
     }else{
-        ego <- enrichGO(sel_genes, org, ont = "BP")
+        ego <- enrichGO(sel_genes, org, ont = "BP", keytype = genename)
     }
     if (is.null(ego))
         return(NULL)
@@ -165,6 +146,8 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 #' @param summarize character column name in colData(rse) to use to group
 #' samples and compare betweem miRNA/gene expression.
 #' @param org \link[AnnotationDbi]{AnnotationDb}. (org.Mm.eg.db)
+#' @param genename character keytype of the gene
+#' names in gene_rse object.
 #' @param min_cor numeric cutoff to consider a miRNA to regulate a target
 #' @details 
 #' 
@@ -183,10 +166,11 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 #' library(org.Mm.eg.db)
 #' library(clusterProfiler)
 #' data(isoExample)
-#' data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=org.Mm.eg.db)
+#' ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, ont = "BP", keytype="ENSEMBL")
+#' data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
 #' isoPlotNet(data)
 isoNetwork <- function(mirna_rse, gene_rse, target, 
-                       summarize="group", org, min_cor = -.6){
+                       summarize="group", org, genename="ENSEMBL", min_cor = -.6){
     stopifnot(class(gene_rse)=="SummarizedExperiment")
     stopifnot(class(mirna_rse)=="SummarizedExperiment")
     stopifnot(is.data.frame(target) | is.matrix(target))
@@ -213,19 +197,19 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
     is_target_and_de <- rownames(cor_target)[apply(cor_target, 1, min) != 0]
     profile <- rownames(gene)[rowSums(gene>0)>3]
     stopifnot(length(is_target_and_de)>10)
-    res <- .run_enricher(is_target_and_de, profile, org)
+    if (class(org)=="character")
+        res <- .run_enricher(is_target_and_de, profile, org, genename=genename)
+    if (class(org)=="data.frame")
+        res <- org
     if ( is.null(res) )
         stop("No significant genes.")
     
     net <- do.call(rbind, apply(res, 1, function(x){
         .genes <- unlist(strsplit(x[8], split = "/"))
-        .genes <- .convertIDs(.genes,
-                             "ENTREZID", "ENSEMBL", db = org)
-        .genes <- .genes[!is.na(.genes)]
         .idx <- which(colSums(cor_target[.genes,,drop=FALSE] != 0 ) > 0)
         if ( length(.idx) > 0 & length(.genes) > 2 ){
-            .tab = data.frame(melt(as.matrix(cor_target[.genes, .idx]))) %>%
-            filter(value != 0) %>%
+            .tab = data.frame(reshape::melt.array(as.matrix(cor_target[.genes, .idx]))) %>%
+            dplyr::filter(value != 0) %>%
             dplyr::select(gene=X1, mir=X2) %>%
             mutate(goid=x[1], go=x[2])
             return(.tab)
@@ -245,7 +229,7 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
 .plot_profiles = function(groups, ma){
     lapply(unique(groups), function(g){
         .ma = ma[names(groups)[groups==g],]
-        ma_long = suppressMessages(melt(as.matrix(.ma)))
+        ma_long = suppressMessages(reshape::melt.array(as.matrix(.ma)))
         names(ma_long) = c("gene", "group", "average")
         ma_long$group = factor(ma_long$group, gtools::mixedsort(levels(ma_long$group)))
         n = round(length(unique(ma_long$group)) / 2)
@@ -272,12 +256,12 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
             cat("## GO term:", x)
         .m = as.character(unique(net[net$go==x, "mir"]))
         .g = as.character(unique(net[net$go==x, "gene"]))
-        .df = melt(rbind(ma_g[.g,], ma_m[.m,]))
+        .df = reshape::melt.array(rbind(ma_g[.g,], ma_m[.m,]))
         .groups = unique(groups[.g])
         for (c in unique(.groups)){
             .in_g = intersect(names(groups[groups==c]), .g)
             .reg = intersect(net[net$gene %in% .in_g, "mir"], .m)
-            .net = .df %>% filter(X1 %in% c(.in_g, .reg)) %>% mutate(type="gene")
+            .net = .df %>% dplyr::filter(X1 %in% c(.in_g, .reg)) %>% mutate(type="gene")
             .net[.net$X1 %in% .reg, "type"] = "miR"
             .net$X2 = factor(.net$X2, levels = levels(group))
             if (length(.in_g)<4)
@@ -292,8 +276,7 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
                 xlab("") + ylab("scaled normalized expression.")
             if (plot)
                 print(p)
-            out = data.frame(gene = paste(.convertIDs(.in_g, "ENSEMBL", "SYMBOL", 
-                                                     db = org ),
+            out = data.frame(gene = paste(.in_g,
                                           collapse=","),
                              mir = paste(.reg, collapse=","),
                              ngene = length(.in_g),
