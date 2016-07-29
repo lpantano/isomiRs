@@ -127,7 +127,7 @@ IsomirDataSeqFromFiles <- function(files, design,
         d <- read.table(f, header=header, skip=skip, stringsAsFactors = FALSE)
         if (quiet == FALSE)
           cat("reading file: ", f, "\n")
-        if (nrow(d) < 2){
+        if (ncol(d) < 2){
             warning(paste0("This sample hasn't any lines: ", f))
         }else{
             d <- .filter_table(d)
@@ -141,7 +141,6 @@ IsomirDataSeqFromFiles <- function(files, design,
             listIsomirs[[row.names(design)[idx]]] <- out
         }
     }
-    design = design[names(listSamples),,drop=FALSE]
     countData <- IsoCountsFromMatrix(listSamples, design)
     se <- SummarizedExperiment(assays = SimpleList(counts=countData),
                                colData = DataFrame(design), ...)
