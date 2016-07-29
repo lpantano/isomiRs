@@ -2,7 +2,6 @@
     return(v[!is.na(v)])
 }
 
-
 from_pairs_to_matrix <- function(df){
     if (!is.data.frame(df))
         error("Need a data.frame with 2 columns: gene, mir.")
