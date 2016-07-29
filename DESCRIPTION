@@ -11,6 +11,7 @@ Suggests:
     knitr,
     RUnit,
     org.Mm.eg.db,
+    cluster,
     clusterProfiler,
     BiocStyle
 Depends:
@@ -24,7 +25,9 @@ Imports:
     BiocGenerics (>= 0.7.5),
     DESeq2,
     reshape,
+    tidyr,
     plyr,
+    readr,
     dplyr,
     RColorBrewer,
     gplots,
