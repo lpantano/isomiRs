@@ -22,6 +22,9 @@ samples and compare betweem miRNA/gene expression.}
 
 \item{org}{\link[AnnotationDbi]{AnnotationDb}. (org.Mm.eg.db)}
 
+\item{genename}{character keytype of the gene
+names in gene_rse object.}
+
 \item{min_cor}{numeric cutoff to consider a miRNA to regulate a target}
 }
 \description{
