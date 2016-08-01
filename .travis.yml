@@ -1,4 +1,7 @@
 language: r
+use_bioc: true
+bioc_required: true
 sudo: false
 cache: packages
 r: bioc-devel
+
