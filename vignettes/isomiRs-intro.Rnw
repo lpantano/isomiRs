@@ -191,6 +191,16 @@ dds = isoDE(ids, formula=~condition, ref=TRUE, iso5=TRUE)
 head(results(dds, tidy=TRUE))
 @
 
+Alternative, for more complicated cases or if you want to control
+more the differential expression analysis paramters you can use
+directly \Biocpkg{DESeq2} package feeding it with the output of 
+\Rfunction{counts(ids)} and \Rfunction{colData(ids)} like this:
+
+<<package-de-with-deseq2>>=
+dds = DESeqDataSetFromMatrix(counts(ids), 
+                             colData(ids), design = ~ condition)
+@
+
 
 \subsection{Supervised classification}
 
