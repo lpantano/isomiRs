@@ -5,7 +5,7 @@ isomiRs
 
 analyze isomiRs from seqbuster tool  or any BAM file after using [seqcluster seqbuster](http://seqcluster.readthedocs.io/mirna_annotation.html#mirna-isomirs-annotation-with-python)
 
-It needs R > 3.2
+It needs R >= 3.3
 
 ###Installation
 
@@ -14,7 +14,7 @@ Inside R:
 ```
 library(devtools)
 library(roxygen2)
-devtools::install_github("lpantano/isomiRs", ref="master")
+devtools::install_github("lpantano/isomiRs", ref="upstream")
 library(isomiRs)
 openVignette(isomiRs)
 ```

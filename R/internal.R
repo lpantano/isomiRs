@@ -20,7 +20,7 @@
       .seq = row["seq"]
       if (row["subs"]=="0")
           return(c(.seq, row["subs"]))
-      else if (sum(grepl(row["mir"], tab.fil$mir))==0)
+      else if (sum(tab.fil$subs==row["subs"] & tab.fil$mir==row["mir"])==0)
           donothing <- 0
       else if (tab.fil$ratio[tab.fil$subs==row["subs"] & tab.fil$mir==row["mir"]] > 0.50)
           return(c(.seq, row["subs"]))
@@ -121,7 +121,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
     label <- table$mir
     freq <- id <- NULL
     if (ref == TRUE){
-        ref.val <- do.call(paste,table[,4:7])
+        ref.val <- do.call(paste, table[,4:7])
         ref.val[grep("[ATGC]", ref.val, invert=TRUE)] <- "ref"
         ref.val[grep("[ATGC]", ref.val)] <- "iso"
         label <- paste(label, ref.val, sep=".")

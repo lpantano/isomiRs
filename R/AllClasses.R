@@ -40,7 +40,7 @@
 #' @rdname IsomirDataSeq
 #' @export
 IsomirDataSeq <- setClass("IsomirDataSeq",
-                          contains = "RangedSummarizedExperiment")
+                          contains = "SummarizedExperiment")
 
 setValidity( "IsomirDataSeq", function( object ) {
     if (!("counts" %in% names(assays(object))))
@@ -56,14 +56,14 @@ setValidity( "IsomirDataSeq", function( object ) {
 
 # Constructor
 .IsomirDataSeq <- function(se, rawList=NULL, isoList=NULL){
-    if (!is(se, "RangedSummarizedExperiment")) {
+    if (!is(se, "SummarizedExperiment")) {
         if (is(se, "SummarizedExperiment0")) {
-                  se <- as(se, "RangedSummarizedExperiment")
+                  se <- as(se, "SummarizedExperiment")
         } else if (is(se, "SummarizedExperiment")) {
                   # only to help transition from SummarizedExperiment to new
                   # RangedSummarizedExperiment objects,
                   # remove once transition is complete
-                  se <- as(se, "RangedSummarizedExperiment")
+                  se <- as(se, "SummarizedExperiment")
         } else {
                   stop("'se' must be a SummarizedExperiment object")
         }
@@ -124,7 +124,8 @@ IsomirDataSeqFromFiles <- function(files, design,
       skip = 0
     for (f in files){
         idx <- idx + 1
-        d <- read.table(f, header=header, skip=skip, stringsAsFactors = FALSE)
+        d <- as.data.frame(suppressMessages(read_tsv(f, skip=skip)),
+                           stringsAsFactors=FALSE)
         if (quiet == FALSE)
           cat("reading file: ", f, "\n")
         if (nrow(d) < 2){
@@ -145,7 +146,6 @@ IsomirDataSeqFromFiles <- function(files, design,
     countData <- IsoCountsFromMatrix(listSamples, design)
     se <- SummarizedExperiment(assays = SimpleList(counts=countData),
                                colData = DataFrame(design), ...)
-    # ids <- new("IsomirDataSeq", se)
     ids <- .IsomirDataSeq(se, listSamples, listIsomirs)
     return(ids)
 }
