@@ -124,7 +124,8 @@ IsomirDataSeqFromFiles <- function(files, design,
       skip = 0
     for (f in files){
         idx <- idx + 1
-        d <- as.data.frame(read_tsv(f, skip=skip), stringsAsFactors=FALSE)
+        d <- as.data.frame(suppressMessages(read_tsv(f, skip=skip)),
+                           stringsAsFactors=FALSE)
         if (quiet == FALSE)
           cat("reading file: ", f, "\n")
         if (nrow(d) < 2){

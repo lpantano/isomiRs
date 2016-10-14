@@ -1,3 +1,11 @@
+CHANGES IN VERSION  1.1.5
+---------------------------
+
+OTHERS
+
+    o Suppress message from readr when reading
+    o Add instruction of how to create DESeq2 object from ids one.
+
 CHANGES IN VERSION  1.1.4
 ---------------------------
 
