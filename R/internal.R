@@ -8,7 +8,7 @@
     return(table)
 }
 
-.clean_low_rate_changes <- function(tab){
+.clean_low_rate_changes <- function(tab, rate=0.50){
   tab.subs <- as.data.frame(tab %>% filter(subs!=0) %>%
                                  group_by(mir, subs) %>%
                                  summarise(total_subs=sum(freq)))
@@ -22,7 +22,7 @@
           return(c(.seq, row["subs"]))
       else if (sum(tab.fil$subs==row["subs"] & tab.fil$mir==row["mir"])==0)
           donothing <- 0
-      else if (tab.fil$ratio[tab.fil$subs==row["subs"] & tab.fil$mir==row["mir"]] > 0.50)
+      else if (tab.fil$ratio[tab.fil$subs==row["subs"] & tab.fil$mir==row["mir"]] > rate)
           return(c(.seq, row["subs"]))
       .pos = gsub("[ATGCNU]", "", row["subs"])
       .subs = strsplit(gsub("[0-9]+", "", row["subs"]), "")
@@ -39,10 +39,10 @@
 }
 
 # filter by relative abundance to reference
-.filter_by_cov <- function(table, limit=0){
+.filter_by_cov <- function(table, limit=0, rate=0.5){
     freq <- mir <-  NULL
     tab.fil <- table[table$DB == "miRNA",]
-    tab.fil <- .clean_low_rate_changes(tab.fil)
+    tab.fil <- .clean_low_rate_changes(tab.fil, rate)
     tab.fil.out <- as.data.frame(tab.fil %>% filter(subs==0) %>%
                                    group_by(mir) %>%
                                    summarise(total=sum(freq)+1))
@@ -67,9 +67,9 @@
 }
 
 # Filter table reference
-.filter_table <- function(table, cov=1){
+.filter_table <- function(table, cov=1, rate=0.5){
     table <- .put_header(table)
-    table <- .filter_by_cov(table, cov)
+    table <- .filter_by_cov(table, cov, rate)
     if (sum(grepl("u-", table$add))>0)
         table <- .convert_to_new_version(table)
     table
