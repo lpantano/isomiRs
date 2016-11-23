@@ -4,13 +4,15 @@
 \alias{IsomirDataSeqFromFiles}
 \title{\code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool}
 \usage{
-IsomirDataSeqFromFiles(files, design, header = FALSE, skip = 1,
-  quiet = TRUE, ...)
+IsomirDataSeqFromFiles(files, design, rate = 0.5, header = FALSE,
+  skip = 1, quiet = TRUE, ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
 
 \item{design}{data frame containing groups for each sample}
+
+\item{rate}{minimum counts fraction to consider a mismatch a real mutation}
 
 \item{header}{boolean to indicate files contain headers}
 
