@@ -84,6 +84,7 @@ setValidity( "IsomirDataSeq", function( object ) {
 #'
 #' @param files files with the output of seqbuster tool
 #' @param design data frame containing groups for each sample
+#' @param rate minimum counts fraction to consider a mismatch a real mutation
 #' @param header boolean to indicate files contain headers
 #' @param skip skip first line when reading files
 #' @param quiet boolean indicating to print messages
@@ -115,7 +116,7 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' head(counts(ids))
 #'
 #' @export
-IsomirDataSeqFromFiles <- function(files, design,
+IsomirDataSeqFromFiles <- function(files, design, rate=0.5,
                                    header=FALSE, skip=1, quiet=TRUE, ...){
     listSamples <- vector("list")
     listIsomirs <- vector("list")
@@ -131,7 +132,7 @@ IsomirDataSeqFromFiles <- function(files, design,
         if (nrow(d) < 2){
             warning(paste0("This sample hasn't any lines: ", f))
         }else{
-            d <- .filter_table(d)
+            d <- .filter_table(d, rate=rate)
             out <- list(summary = 0,
                         t5sum = .isomir_position(d, 6),
                         t3sum = .isomir_position(d, 7),
