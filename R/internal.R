@@ -1,40 +1,44 @@
 # put header to input files
 .put_header <- function(table){
-    names(table)[c(1, 3, 4, 7, 8, 9, 10, 13, ncol(table))] <- c("seq", "freq", "mir",
-                                               "subs", "add", "t5", "t3",
-                                               "DB", "ambiguity")
-    table <- table[,c(1, 3, 4, 7, 8, 9, 10, 13, ncol(table))]
+    if ( sum(colnames(table)=="seq")==0 ){
+        names(table)[c(1, 3, 4, 7, 8, 9, 10, 13, ncol(table))] <- c("seq", "freq", "mir",
+                                                                    "mism", "add", "t5", "t3",
+                                                                    "DB", "ambiguity")
+    }
+    table <- table[,c("seq", "freq", "mir",
+                      "mism", "add", "t5", "t3",
+                      "DB", "ambiguity")]
     table[,2] <- as.numeric(table[,2])
     return(table)
 }
 
 .clean_low_rate_changes <- function(tab, rate=0.50){
-  tab.subs <- as.data.frame(tab %>% filter(subs!=0) %>%
-                                 group_by(mir, subs) %>%
+  tab.subs <- as.data.frame(tab %>% filter(mism!=0) %>%
+                                 group_by(mir, mism) %>%
                                  summarise(total_subs=sum(freq)))
-  tab.ref <- as.data.frame(tab %>% filter(subs==0) %>%
+  tab.ref <- as.data.frame(tab %>% filter(mism==0) %>%
                               group_by(mir) %>%
                               summarise(total_mir=sum(freq)+1))
   tab.fil <- merge(tab.subs, tab.ref, by=1) %>% mutate(ratio = total_subs/total_mir)
   cols <- apply(tab, 1, function(row){
       .seq = row["seq"]
-      if (row["subs"]=="0")
-          return(c(.seq, row["subs"]))
-      else if (sum(tab.fil$subs==row["subs"] & tab.fil$mir==row["mir"])==0)
+      if (row["mism"]=="0")
+          return(c(.seq, row["mism"]))
+      else if (sum(tab.fil$subs==row["mism"] & tab.fil$mir==row["mir"])==0)
           donothing <- 0
-      else if (tab.fil$ratio[tab.fil$subs==row["subs"] & tab.fil$mir==row["mir"]] > rate)
-          return(c(.seq, row["subs"]))
-      .pos = gsub("[ATGCNU]", "", row["subs"])
-      .subs = strsplit(gsub("[0-9]+", "", row["subs"]), "")
+      else if (tab.fil$ratio[tab.fil$subs==row["mism"] & tab.fil$mir==row["mir"]] > rate)
+          return(c(.seq, row["mism"]))
+      .pos = gsub("[ATGCNU]", "", row["mism"])
+      .subs = strsplit(gsub("[0-9]+", "", row["mism"]), "")
       .nts = as.vector(strsplit(.seq, ""))
       .nts[as.numeric(.pos)] = .subs[2]
       c(paste0(as.vector(unlist(.nts)), collapse = ""), "0")
   })
   tab$seq <- cols[1,]
-  tab$subs <- cols[2,]
-  tab = tab %>% group_by(mir, seq, subs, add, t5, t3, DB, ambiguity) %>%
+  tab$mism <- cols[2,]
+  tab = tab %>% group_by(mir, seq, mism, add, t5, t3, DB, ambiguity) %>%
             summarise(freq=sum(freq))  %>%
-            dplyr::select(mir, seq, freq, subs, add, t5, t3, DB, ambiguity)
+            dplyr::select(mir, seq, freq, mism, add, t5, t3, DB, ambiguity)
   as.data.frame(tab)
 }
 
@@ -43,7 +47,7 @@
     freq <- mir <-  NULL
     tab.fil <- table[table$DB == "miRNA",]
     tab.fil <- .clean_low_rate_changes(tab.fil, rate)
-    tab.fil.out <- as.data.frame(tab.fil %>% filter(subs==0) %>%
+    tab.fil.out <- as.data.frame(tab.fil %>% filter(mism==0) %>%
                                    group_by(mir) %>%
                                    summarise(total=sum(freq)+1))
     tab.fil <- merge(tab.fil,
@@ -96,7 +100,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
     for (sample in row.names(des)){
         d <- listTable[[sample]]
         d <- .collapse_mirs(d, ref=ref, iso5=iso5, iso3=iso3, add=add,
-                         subs=subs, seed=seed)
+                            subs=subs, seed=seed)
         names(d)[ncol(d)] <- sample
         d <- d[d[,2] >= minc, ]
         if( nrow(table.merge) == 0){
@@ -127,21 +131,21 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
         label <- paste(label, ref.val, sep=".")
     }
     if (iso5 == TRUE){
-        label <- paste(label, table[,6], sep=".t5:")
+        label <- paste(label, table[,"t5"], sep=".t5:")
     }
     if (seed == TRUE){
-        seed.val <- as.character(table[,4])
+        seed.val <- as.character(table[,"mism"])
         seed.val[grep("^[2-8][ATGC]", seed.val, invert=TRUE)] <- "0"
         label <- paste(label, seed.val, sep=".seed:")
     }
     if (iso3 == TRUE){
-        label <- paste(label, table[,7], sep=".t3:")
+        label <- paste(label, table[,"t3"], sep=".t3:")
     }
     if (add == TRUE){
-        label <- paste(label, table[,5], sep=".ad:")
+        label <- paste(label, table[,"add"], sep=".ad:")
     }
     if (subs == TRUE){
-        label <- paste(label, table[,4], sep=".mm:")
+        label <- paste(label, table[,"mism"], sep=".mm:")
     }
 
     table$id <- label
