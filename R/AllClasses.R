@@ -117,12 +117,12 @@ setValidity( "IsomirDataSeq", function( object ) {
 #'
 #' @export
 IsomirDataSeqFromFiles <- function(files, design, rate=0.5,
-                                   header=FALSE, skip=1, quiet=TRUE, ...){
+                                   header=TRUE, skip=0, quiet=TRUE, ...){
     listSamples <- vector("list")
     listIsomirs <- vector("list")
     idx <- 0
-    if (header == TRUE)
-      skip = 0
+    if (header == FALSE)
+      skip = 1
     for (f in files){
         idx <- idx + 1
         d <- as.data.frame(suppressMessages(read_tsv(f, skip=skip)),
