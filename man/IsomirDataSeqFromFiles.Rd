@@ -4,8 +4,8 @@
 \alias{IsomirDataSeqFromFiles}
 \title{\code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool}
 \usage{
-IsomirDataSeqFromFiles(files, design, rate = 0.5, header = FALSE,
-  skip = 1, quiet = TRUE, ...)
+IsomirDataSeqFromFiles(files, design, rate = 0.5, header = TRUE, skip = 0,
+  quiet = TRUE, ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
