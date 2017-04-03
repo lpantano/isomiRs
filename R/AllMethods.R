@@ -81,9 +81,9 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' matrix only for isomiRs belonging to the miRNA family given by
 #' the \code{mirna} parameter. IsomiRs need to have counts bigger than
 #' \code{minc} parameter to be included in the output.
-#' 
+#'
 #' @author Lorena Pantano
-#' 
+#'
 #' @examples
 #' data(mirData)
 #' # To select isomiRs from let-7a-5p miRNA
@@ -97,7 +97,8 @@ isoSelect.IsomirDataSeq <- function(object, mirna,  minc=10) {
     l <- lapply( x, function(sample){
         sample %>% filter( mir == mirna )
     })
-    df <- as.matrix(IsoCountsFromMatrix(l, colData(object), ref=TRUE,iso5=TRUE,iso3=TRUE,
+    df <- as.matrix(IsoCountsFromMatrix(l, colData(object), ref=TRUE,
+                                        iso5=TRUE,iso3=TRUE,
               add=TRUE, subs=TRUE, seed=TRUE))
     df[ df < minc ] <- 0
     DataFrame(df[ rowSums(df) > 0, , drop=FALSE])
