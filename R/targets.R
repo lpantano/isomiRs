@@ -22,7 +22,7 @@ from_pairs_to_matrix <- function(df){
     common_gene <- intersect(rownames(gene), rownames(target))
     common_mirna <- intersect(rownames(mirna), colnames(target))
     cor_target <- cor_target[common_mirna, common_gene]
-    cor_target[ t(target[common_gene, common_mirna]) == 0 ] = 0 
+    cor_target[ t(target[common_gene, common_mirna]) == 0 ] = 0
     cat("Dimmension of cor matrix:", dim(cor_target), "\n")
     stopifnot(nrow(cor_target)>1 & ncol(cor_target)>1)
     t(cor_target) # cor matrix with values only if mirna-gene are in target
@@ -42,7 +42,7 @@ from_pairs_to_matrix <- function(df){
     m[m<0] = 0
     d = as.dist(m^2)
     c = cluster::diana(d, diss = TRUE, stand = FALSE)
-    
+
     cutree(as.hclust(c), h = c$dc)
 }
 
@@ -80,12 +80,12 @@ from_pairs_to_matrix <- function(df){
 }
 
 #' Find miRNAs target using mRNA/miRNA expression
-#' 
+#'
 #' This function creates a matrix with rows (genes) and
 #' columns (mirnas) with values indicating if miRNA-gene
 #' pair is target according putative targets and negative
 #' correlation of the expression of both molecules.
-#' 
+#'
 #' @param mirna_rse \link[SummarizedExperiment]{SummarizedExperiment} with miRNA
 #' information. See details.
 #' @param gene_rse \link[SummarizedExperiment]{SummarizedExperiment} with gene
@@ -96,8 +96,8 @@ from_pairs_to_matrix <- function(df){
 #' samples and compare betweem miRNA/gene expression.
 #' @param min_cor numeric cutoff for correlation value that
 #' will be use to consider a miRNA-gene pair as valid.
-#' @examples 
-#' 
+#' @examples
+#'
 #' pairs <- as.matrix(data.frame(row.names=c("gene1", "gene2"),
 #'                             mirna1=c(0,1), mirna2=c(1,0)))
 #' mirna_matrix <- as.matrix(data.frame(row.names=c("mirna1", "mirna2"),
@@ -111,9 +111,9 @@ from_pairs_to_matrix <- function(df){
 #' gene_col <- data.frame(row.names=c("time0_1","time0_2","time1_1","time1_2"),
 #'                        group=c("t0","t0","t1","t1"))
 #'
-#' mirna <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(mirna_matrix)), 
+#' mirna <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(mirna_matrix)),
 #'                             colData= mirna_col)
-#' gene <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(gene_matrix)), 
+#' gene <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(gene_matrix)),
 #'                              colData= gene_col)
 #' find_targets(mirna, gene, pairs)
 find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor= -.6){
@@ -127,7 +127,7 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
     message("Factors mirnas", levels(mirna_group))
     message("Order genes", gene_group)
     message("Order mirnas", mirna_group)
-    
+
     mirna_norm <- .apply_median(as.matrix(mirna), mirna_group, minfc=0.5)
     gene_norm <- .apply_median(as.matrix(gene), gene_group, minfc=0.5)
     cor_target <- .cor_matrix(mirna_norm, gene_norm, as.matrix(target), min_cor)
@@ -135,7 +135,7 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 }
 
 #' Clustering miRNAs-genes pairs in similar pattern expression
-#' 
+#'
 #' @param mirna_rse \link[SummarizedExperiment]{SummarizedExperiment} with miRNA
 #' information. See details.
 #' @param gene_rse \link[SummarizedExperiment]{SummarizedExperiment} with gene
@@ -148,32 +148,33 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 #' @param genename character keytype of the gene
 #' names in gene_rse object.
 #' @param min_cor numeric cutoff to consider a miRNA to regulate a target
-#' @details 
-#' 
-#' This function will correlate miRNA and gene expression data using 
+#' @details
+#'
+#' This function will correlate miRNA and gene expression data using
 #' a specific metadata variable to group samples and detect pattern
 #' of expression that will be annotated with GO terms.
 #' mirna_rse and gene_rse can be created using the following code:
-#' 
+#'
 #' \code{mi_rse = SummarizedExperiment(assays=SimpleList(norm=mirna_matrix), colData, metadata=list(sign=mirna_keep))}
-#' 
-#' where, \code{mirna_matrix} is the normalized counts expression, 
+#'
+#' where, \code{mirna_matrix} is the normalized counts expression,
 #' \code{colData} is the metadata information and \code{mirna_keep}
 #' the list of miRNAs to be used by this function.
 #' @examples
-#' 
+#'
 #' library(org.Mm.eg.db)
 #' library(clusterProfiler)
 #' data(isoExample)
 #' ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, ont = "BP", keytype="ENSEMBL")
 #' data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
 #' isoPlotNet(data)
-isoNetwork <- function(mirna_rse, gene_rse, target, 
-                       summarize="group", org, genename="ENSEMBL", min_cor = -.6){
+isoNetwork <- function(mirna_rse, gene_rse, target,
+                       summarize="group", org, genename="ENSEMBL",
+                       min_cor = -.6){
     stopifnot(class(gene_rse)=="SummarizedExperiment")
     stopifnot(class(mirna_rse)=="SummarizedExperiment")
     stopifnot(is.data.frame(target) | is.matrix(target))
-    
+
     target = as.matrix(target)
     mirna = assay(mirna_rse,"norm")[,order(colData(mirna_rse)[,summarize])]
     message("Number of mirnas ", nrow(mirna), " with these columns:", paste(colnames(mirna)))
@@ -183,16 +184,16 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
     gene_de = as.character(metadata(gene_rse)$sign)
     mirna_group = colData(mirna_rse)[order(colData(mirna_rse)[,summarize]),summarize]
     gene_group = colData(gene_rse)[order(colData(gene_rse)[,summarize]),summarize]
-    
+
     if (!all(levels(mirna_group) == levels(gene_group)))
         stop("levels in mirna and gene data are not the same")
-    
+
     mirna_norm <- .apply_median(mirna[mirna_de,], mirna_group, minfc=0.5)
     message("Number of mirnas ", nrow(mirna_norm), " with these columns:", paste(colnames(mirna_norm)))
     gene_norm <- .apply_median(gene[gene_de,], gene_group, minfc=0.5)
     message("Number of mirnas ", nrow(gene_norm), " with these columns:", paste(colnames(gene_norm)))
     cor_target <- .cor_matrix(mirna_norm, gene_norm, target, min_cor)
-    
+
     is_target_and_de <- rownames(cor_target)[apply(cor_target, 1, min) != 0]
     profile <- rownames(gene)[rowSums(gene>0)>3]
     stopifnot(length(is_target_and_de)>10)
@@ -202,7 +203,7 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
         res <- org
     if ( is.null(res) )
         stop("No significant genes.")
-    
+
     net <- do.call(rbind, apply(res, 1, function(x){
         .genes <- unlist(strsplit(x[8], split = "/"))
         .idx <- which(colSums(cor_target[.genes,,drop=FALSE] != 0 ) > 0)
@@ -215,7 +216,7 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
         }
         return(data.frame())
     }))
-    
+
     res_by_mir <- net %>% group_by(mir, go) %>% dplyr::summarise(n()) %>%
         group_by(go) %>% dplyr::summarise(nmir=n())
     res <- res[res$Description %in% res_by_mir$go,]
@@ -232,7 +233,7 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
         names(ma_long) = c("gene", "group", "average")
         ma_long$group = factor(ma_long$group, gtools::mixedsort(levels(ma_long$group)))
         n = round(length(unique(ma_long$group)) / 2)
-        ggplot(ma_long, aes(x=group, y=average)) + 
+        ggplot(ma_long, aes(x=group, y=average)) +
             # geom_boxplot(outlier.size = 0.2, size=0.5) +
             stat_smooth(data=ma_long, size=0.5,
                         aes(x=group, y=average, group=1),method = "lm",formula = y~poly(x,n)) +
@@ -245,7 +246,7 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
 .viz_mirna_gene_enrichment <- function(obj, mirna_norm, mrna_norm, group, org, plot=FALSE){
     net <- obj$network
     summary <- obj$summary
-    
+
     ma_g = .scale(as.data.frame(mrna_norm)[as.character(unique(net$gene)),])
     ma_m = .scale(as.data.frame(mirna_norm)[as.character(unique(net$mir)),])
     groups = .cluster_exp(mrna_norm[as.character(unique(net$gene)),])
@@ -265,9 +266,10 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
             .net$X2 = factor(.net$X2, levels = levels(group))
             if (length(.in_g)<4)
                 next
-            p = ggplot(.net, aes(x=X2, y=value, colour=type, group=X1)) + 
+            p = ggplot(.net, aes(x=X2, y=value, colour=type, group=X1)) +
                 geom_line(size=0.1) +
-                stat_smooth(aes(x=X2, y=value, group=type),se=T,method = "lm",
+                stat_smooth(aes(x=X2, y=value, group=type),se=TRUE,
+                            method = "lm",
                             formula = y~poly(x,3)) +
                 ggtitle(paste("Group:", x, "(", length(.in_g), " genes )")) +
                 theme_bw(base_size = 11) +
@@ -304,52 +306,52 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
 }
 
 #' Functional miRNA / gene expression profile plot
-#' 
+#'
 #' @param obj output from \link{isoNetwork}
 isoPlotNet = function(obj){
     df = obj$analysis$table
     ma = as.matrix(df %>% dplyr::select(term, group, ngene) %>% spread(group, ngene, fill=0))
     df = df[rowSums(ma>4)>1,]
-    
+
     df$term_short = sapply(df$term, function(x){
         paste0(substr(x, 1, 50), "...")})
-    
-    df$term_short = factor(df$term_short, 
+
+    df$term_short = factor(df$term_short,
                            levels=unique(df$term_short[order(df$term)]))
-    
-    terms_vs_profile = 
+
+    terms_vs_profile =
         ggplot(df, aes(x=as.factor(group), y=term_short, size=ngene)) +
-        geom_point(color="grey75") + 
+        geom_point(color="grey75") +
         geom_text(aes(label=ngene), size=5) + scale_size("", guide = FALSE) +
         theme_bw() + xlab("profiles") + ylab("") +
         theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
         ggtitle("Number genes in each term and expression profile") +
         theme(plot.title = element_text(size = 10)) +
         theme(axis.text.y = element_text(size = 11))
-    
+
     mirna_df = .summary_mirna(df)
     ma = mirna_df %>% group_by(mir) %>% dplyr::summarise(total=n())
     mirna_df = mirna_df[mirna_df$mir %in% ma$mir[ma$total>1], ]
     mirna_ma = mirna_df %>% distinct() %>% mutate(value=1) %>% spread(mir, value, fill=0)
-    
+
     ma_temp = as.matrix(mirna_ma[,2:ncol(mirna_ma)])
     d = dist(t(ma_temp), method = "binary")
     hc = hclust(d, method="ward.D")
     mirna_df$mir = factor(mirna_df$mir, levels=hc$labels[hc$order])
-    
+
     mirna_df$term = factor(mirna_df$term, levels=sort(unique(df$term)))
-    
-    terms_vs_mirnas = 
+
+    terms_vs_mirnas =
         ggplot(mirna_df, aes(x=mir, y=term)) +
         geom_point() + ggtitle("miRNAs targeting that term") +
         theme_bw() + ylab("") + xlab("") +
         theme(axis.text.x = element_text(size = 10, angle = 90, hjust = 1, vjust=0.5)) +
         theme(axis.text.y=element_blank(),axis.ticks=element_blank()) +
         theme(plot.title = element_text(size = 10))
-              
+
     profiles = obj$analysis$profiles
     opts = theme(plot.margin = rep(unit(0,"null"),4),
-                 panel.margin = unit(0,"null"),
+                 panel.spacing = unit(0,"null"),
                  axis.ticks.length = unit(0,"null")
                  )
     pp.profiles <- arrangeGrob(padding = unit(0, "line"),
@@ -358,12 +360,12 @@ isoPlotNet = function(obj){
                                    ggplotGrob(profiles[[x]] + opts +
                                                   geom_text(data=dt,size=4,aes(x=x,y=y,label=p)))
                                    }), ncol=4)
-    
+
 
     p1 <- ggplot_gtable(ggplot_build(terms_vs_profile))
     p2 <- ggplot_gtable(ggplot_build(terms_vs_mirnas))
     maxWidth = unit.pmax(p1$heights[4:5], p2$heights[4:5])
-     
+
     p1$heights[4:5] <- maxWidth
     p2$heights[4:5] <- maxWidth
     p = grid.arrange(top=textGrob("miRNA-gene-term interaction"),
@@ -371,7 +373,7 @@ isoPlotNet = function(obj){
                  arrangeGrob(p1,p2, widths=c(2,3), ncol=2),
                  arrangeGrob(pp.profiles), heights = c(2,1)
                  ))
-    
+
     #p = grid.arrange(top=textGrob("summary"),
     #                 arrangeGrob(pp.terms,pp.mirs, widths=c(2,1), ncol=2),
     #                 arrangeGrob(profiles, ncol=3),

@@ -1,3 +1,16 @@
+CHANGES IN VERSION  1.3.4
+---------------------------
+
+FIXES
+
+    o Fix removing false mutations from the raw files. Change sequences
+    to correct the nucleotide at the specific position.
+
+FEATURES
+
+    o Improve code to remove error sequencing from raw data
+    o Improve code to show the raw data with isoSelect
+
 CHANGES IN VERSION  1.3.3
 ---------------------------
 
