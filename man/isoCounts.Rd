@@ -24,7 +24,7 @@ isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
 
 \item{minc}{int minimum number of isomiR sequences to be included.}
 
-\item{mins}{int minimum number of samples with number of 
+\item{mins}{int minimum number of samples with number of
 sequences bigger than \code{minc} counts.}
 }
 \value{

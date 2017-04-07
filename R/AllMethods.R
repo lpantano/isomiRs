@@ -80,7 +80,7 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' for this isomiR in that sample. Mainly, it will return the count
 #' matrix only for isomiRs belonging to the miRNA family given by
 #' the \code{mirna} parameter. IsomiRs need to have counts bigger than
-#' \code{minc} parameter to be included in the output.
+#' \code{minc} parameter at least in one sample to be included in the output.
 #'
 #' @author Lorena Pantano
 #'
@@ -97,11 +97,17 @@ isoSelect.IsomirDataSeq <- function(object, mirna,  minc=10) {
     l <- lapply( x, function(sample){
         sample %>% filter( mir == mirna )
     })
-    df <- as.matrix(IsoCountsFromMatrix(l, colData(object), ref=TRUE,
-                                        iso5=TRUE,iso3=TRUE,
-              add=TRUE, subs=TRUE, seed=TRUE))
-    df[ df < minc ] <- 0
-    DataFrame(df[ rowSums(df) > 0, , drop=FALSE])
+    .list_samples = lapply(row.names(colData(object)), function(sample){
+        d <- l[[sample]] %>%
+            mutate(id=paste(mir, mism, add, t5, t3, ":", seq)) %>%
+            select(id, freq) %>% mutate(sample=sample)
+        d
+    })
+    df <- bind_rows(.list_samples) %>%
+        #group_by(id, sample) %>%
+        #summarise(freq=sum(freq)) %>% ungroup() %>%
+        spread(key=sample, value=freq, fill=0)
+    DataFrame(df[ rowSums(df[,2:ncol(df)] >10 ) > 0, , drop=FALSE])
 }
 
 

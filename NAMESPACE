@@ -24,11 +24,17 @@ importFrom(tidyr, spread)
 importFrom(readr, read_tsv)
 importFrom(dplyr, select)
 importFrom(dplyr, summarise)
+importFrom(dplyr, rowwise)
 importFrom(dplyr, mutate)
 importFrom(dplyr, filter)
+importFrom(dplyr, if_else)
 importFrom(dplyr, group_by)
 importFrom(dplyr, "%>%")
 importFrom(dplyr, distinct)
+importFrom(dplyr, n)
+importFrom(dplyr, left_join)
+importFrom(dplyr, bind_rows)
+importFrom(dplyr, ungroup)
 importFrom(plyr, join_all)
 import(methods)
 import(DESeq2)
@@ -39,7 +45,7 @@ import(GGally)
 importFrom(gplots, heatmap.2)
 importFrom(ggplot2, aes, element_rect, geom_jitter, ggplot, element_text,
            labs, ggtitle, xlab, ylab, scale_size,
-           scale_color_brewer, scale_colour_brewer, theme, theme_bw, 
+           scale_color_brewer, scale_colour_brewer, theme, theme_bw,
            stat_smooth, element_blank, ggplot_gtable, ggplot_build,
            geom_text, geom_line, geom_point, ggplotGrob)
 import(gtools)

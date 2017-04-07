@@ -52,7 +52,7 @@ If you use the package, please cite this paper \cite{isomirs}.
 
 \section{Input format}
 
-The input should be the output of SeqBuster-miraligner tool (*.mirna files) 
+The input should be the output of SeqBuster-miraligner tool (*.mirna files)
 for each sample in the following format:
 
 <<format-line,eval=FALSE,echo=TRUE>>==
@@ -71,7 +71,7 @@ any other tool having the mapping information on the precursors. Read more on
 \section{IsomirDataSeq class}
 
 This object will store all raw data from the input files and some processed
-information used for visualization and statistical analysis. It is a subclass of \Rfunction{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the object contains 
+information used for visualization and statistical analysis. It is a subclass of \Rfunction{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the object contains
 raw and normalized counts from miraligner allowing to update the summarization of miRNA expression.
 
 \subsection{Access data}
@@ -83,12 +83,12 @@ You can browse for the same miRNA or isomiRs in all samples with \Rfunction{isoS
 <<package-select,message=FALSE>>=
 library(isomiRs)
 data(mirData)
-head(isoSelect(mirData, mirna="hsa-let-7a-5p"))
+head(isoSelect(mirData, mirna="hsa-let-7a-5p", 1000))
 @
 
 \subsection{isomiRs annotation}
 
-IsomiR names follows this structure: 
+IsomiR names follows this structure:
 
 \begin{itemize}
     \item miRNA name
@@ -96,7 +96,7 @@ IsomiR names follows this structure:
     \item t5 tag: indicates variations at 5' position. The naming contains two words: `direction - nucleotides`, where direction can be UPPER CASE NT (changes upstream of the 5' reference position) or LOWER CASE NT (changes downstream of the 5' reference position). `0` indicates no variation, meaning the 5' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (for upstream changes) or deleted (for downstream changes).
     \item t3 tag: indicates variations at 3' position. The naming contains two words: `direction - nucleotides`, where direction can be LOWER CASE NT (upstream of the 3' reference position) or UPPER CASE NT (downstream of the 3' reference position). `0` indicates no variation, meaning the 3' position is the same than the reference. After `direction`, it follows the nucleotide/s that are added (for downstream changes) or deleted (for upstream chanes).
     \item ad tag: indicates nucleotides additions at 3' position. The naming contains two words: `direction - nucleotides`, where direction is UPPER CASE NT (upstream of the 5' reference position). `0` indicates no variation, meaning the 3' position has no additions. After `direction`, it follows the nucleotide/s that are added.
-    \item mm tag: indicates nucleotides substitutions along the sequences. The naming contains three words: `position-nucleotideATsequence-nucleotideATreference`. 
+    \item mm tag: indicates nucleotides substitutions along the sequences. The naming contains three words: `position-nucleotideATsequence-nucleotideATreference`.
     \item seed tag: same than `mm` tag, but only if the change happens between nucleotide 2 and 8.
 \end{itemize}
 
@@ -143,7 +143,7 @@ trimming (iso5 and iso3), addition (add) or substitution (subs) changes.
 
 <<package-plot-iso-t5,message=FALSE>>=
 ids <- isoCounts(mirData)
-isoPlot(ids, type="iso5")
+isoPlot(ids, type="iso5", column = "group")
 @
 
 \subsection{Count data}
@@ -151,7 +151,7 @@ isoPlot(ids, type="iso5")
 \Rfunction{isoCounts} gets the count matrix that can be used for many
 different downstream analyses changing the way isomiRs are collapsed. The
 following command will merge all isomiRs into one feature: the reference
-miRNA. 
+miRNA.
 
 <<package-count,message=FALSE>>=
 head(counts(ids))
@@ -162,7 +162,7 @@ allows quick integration to another analyses like heatmap, clustering or PCA.
 
 
 <<package-norm,message=FALSE>>=
-ids = isoNorm(ids)
+ids = isoNorm(ids, formula = ~ group)
 heatmap(counts(ids, norm=TRUE)[1:100,], labRow = "")
 @
 
@@ -171,13 +171,13 @@ heatmap(counts(ids, norm=TRUE)[1:100,], labRow = "")
 
 The \Rfunction{isoDE} uses functions from \Biocpkg{DESeq2} package.
 This function has parameters to create a matrix using only the reference
-miRNAs, all isomiRs, or some of them. 
+miRNAs, all isomiRs, or some of them.
 This matrix and the design matrix are the inputs for DESeq2. The output
 will be a DESeqDataSet object, allowing to generate any plot or table
 explained in DESeq2 package vignette.
 
 <<package-de,message=FALSE>>=
-dds <- isoDE(ids, formula=~condition)
+dds <- isoDE(ids, formula=~group)
 library(DESeq2)
 plotMA(dds)
 head(results(dds, format="DataFrame"))
@@ -187,18 +187,18 @@ You can differentiate between reference sequences and isomiRs at 5' end
 with this command:
 
 <<package-de-iso5,message=FALSE>>=
-dds = isoDE(ids, formula=~condition, ref=TRUE, iso5=TRUE)
+dds = isoDE(ids, formula=~group, ref=TRUE, iso5=TRUE)
 head(results(dds, tidy=TRUE))
 @
 
 Alternative, for more complicated cases or if you want to control
 more the differential expression analysis paramters you can use
-directly \Biocpkg{DESeq2} package feeding it with the output of 
+directly \Biocpkg{DESeq2} package feeding it with the output of
 \Rfunction{counts(ids)} and \Rfunction{colData(ids)} like this:
 
 <<package-de-with-deseq2>>=
-dds = DESeqDataSetFromMatrix(counts(ids), 
-                             colData(ids), design = ~ condition)
+dds = DESeqDataSetFromMatrix(counts(ids),
+                             colData(ids), design = ~ group)
 @
 
 
@@ -219,15 +219,15 @@ a goodness of fit measure. We implemented this method using the
 p-value of this function will tell about the statistical
 significant of the group separation using miRNA expression data.
 Moreover, the function \Rfunction{isoPLSDAplot}
-helps to visualize the results. It will plot the samples using the 
-significant components (t1, t2, t3 ...) from the PLS-DA analysis and the 
+helps to visualize the results. It will plot the samples using the
+significant components (t1, t2, t3 ...) from the PLS-DA analysis and the
 samples distribution along the components.
 
 
 <<package-pls,eval=TRUE>>=
 ids = isoCounts(ids, iso5=TRUE, minc=10, mins=6)
-ids = isoNorm(ids)
-pls.ids = isoPLSDA(ids, "condition", nperm = 2)
+ids = isoNorm(ids, formula = ~ group)
+pls.ids = isoPLSDA(ids, "group", nperm = 2)
 df = isoPLSDAplot(pls.ids)
 @
 
@@ -240,7 +240,7 @@ variability on the predictors.
 
 
 <<package-plsplot,message=FALSE,eval=FALSE>>=
-pls.ids = isoPLSDA(ids,"condition", refinment = FALSE, vip = 0.8)
+pls.ids = isoPLSDA(ids,"group", refinment = FALSE, vip = 0.8)
 @
 
 

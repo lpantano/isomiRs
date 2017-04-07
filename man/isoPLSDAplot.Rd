@@ -4,10 +4,12 @@
 \alias{isoPLSDAplot}
 \title{Plot components from isoPLSDA analysis (pairs plot)}
 \usage{
-isoPLSDAplot(pls)
+isoPLSDAplot(pls, n = 2)
 }
 \arguments{
 \item{pls}{output from \code{\link{isoPLSDA}} function.}
+
+\item{n}{integer number of components to plot}
 }
 \value{
 \code{\link[GGally]{ggpairs}} plot showing the scores
@@ -16,7 +18,7 @@ variation.
 
 \link[base]{data.frame} object with a first column
 refering to the sample group, and the following
-columns refering to the score that each sample 
+columns refering to the score that each sample
 has for each
 component from the PLS-DA analysis.
 }
@@ -27,8 +29,8 @@ analysis together with the density of the samples scores along those components.
 \details{
 The function \code{isoPLSDAplot}
 helps to visualize the results from \code{\link{isoPLSDA}}.
-It will plot the samples using the 
-significant components (t1, t2, t3 ...) from the PLS-DA analysis and the 
+It will plot the samples using the
+significant components (t1, t2, t3 ...) from the PLS-DA analysis and the
 samples score distribution along the components.
 It uses \code{\link[GGally]{ggpairs}}
 for the plot.
@@ -37,8 +39,8 @@ for the plot.
 data(mirData)
 # Only miRNAs with > 10 reads in all samples.
 ids <- isoCounts(mirData, minc=10, mins=6)
-ids <- isoNorm(ids)
-pls.ids <- isoPLSDA(ids, "condition", nperm = 2)
+ids <- isoNorm(ids, formula=~group)
+pls.ids <- isoPLSDA(ids, "group", nperm = 2)
 isoPLSDAplot(pls.ids)
 }
 

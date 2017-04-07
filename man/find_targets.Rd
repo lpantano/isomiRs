@@ -44,9 +44,9 @@ mirna_col <- data.frame(row.names=c("time0_1","time0_2","time1_1","time1_2"),
 gene_col <- data.frame(row.names=c("time0_1","time0_2","time1_1","time1_2"),
                        group=c("t0","t0","t1","t1"))
 
-mirna <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(mirna_matrix)), 
+mirna <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(mirna_matrix)),
                             colData= mirna_col)
-gene <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(gene_matrix)), 
+gene <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(gene_matrix)),
                              colData= gene_col)
 find_targets(mirna, gene, pairs)
 }
