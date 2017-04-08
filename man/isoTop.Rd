@@ -21,5 +21,5 @@ and plot a heatmap with the raw counts for each sample.
 \examples{
 data(mirData)
 isoTop(mirData)
-}
 
+}

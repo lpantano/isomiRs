@@ -50,4 +50,3 @@ gene <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(gene_matrix)),
                              colData= gene_col)
 find_targets(mirna, gene, pairs)
 }
-

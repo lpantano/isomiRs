@@ -20,9 +20,12 @@
     paste0(as.vector(unlist(.nts)), collapse = "")
 }
 
-.clean_low_rate_changes <- function(tab, rate=0.50){
-    tab.fil = tab  %>%
-        filter(!(mism!="0" & ambiguity>1)) %>%
+.clean_low_rate_changes <- function(tab, rate=0.20, uniqueMism=TRUE){
+    if (uniqueMism){
+        tab = tab  %>%
+            filter(!(mism!="0" & ambiguity>1))
+    }
+    tab.fil = tab %>%
         rowwise() %>%
         mutate(seq=if_else((af<rate & !is.na(af)) | grepl("N", mism),
                            .change_seq(seq,mism),seq)) %>%
@@ -35,10 +38,15 @@
 }
 
 # filter by relative abundance to reference
-.filter_by_cov <- function(table, limit=0, rate=0.5){
+.filter_by_cov <- function(table, limit=0, rate=0.2,
+                           canonicalAdd=TRUE, uniqueMism=TRUE){
     freq <- mir <-  NULL
-    tab.fil <- table %>% filter(DB == "miRNA",
-                                !grepl("[GC]", add))
+    if (canonicalAdd){
+        tab.fil <- table %>% filter(DB == "miRNA",
+                                    !grepl("[GC]", add))
+    }else{
+        tab.fil <- table %>% filter(DB == "miRNA")
+    }
     tab.fil.out <- as.data.frame(tab.fil %>% filter(mism==0,
                                                     nchar(add)<3) %>%
                                    group_by(mir) %>%
@@ -54,7 +62,7 @@
                          select(-mism, -mir),
                      by="id") %>% select(-id)
     tab.fil$score <- tab.fil$freq / tab.fil$mir_f * 100
-    tab.fil <- .clean_low_rate_changes(tab.fil, rate)
+    tab.fil <- .clean_low_rate_changes(tab.fil, rate, uniqueMism)
 
     tab.fil <- left_join(tab.fil %>% mutate(id=paste(mir,mism)),
                          tab.mism %>% mutate(id=paste(mir,mism)) %>%
@@ -78,9 +86,10 @@
 }
 
 # Filter table reference
-.filter_table <- function(table, cov=1, rate=0.5){
+.filter_table <- function(table, cov=1, rate=0.2,
+                          canonicalAdd=TRUE, uniqueMism=TRUE){
     table <- .put_header(table)
-    table <- .filter_by_cov(table, cov, rate)
+    table <- .filter_by_cov(table, cov, rate, canonicalAdd, uniqueMism)
     if (sum(grepl("u-", table$add))>0)
         table <- .convert_to_new_version(table)
     table

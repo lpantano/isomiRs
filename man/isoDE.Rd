@@ -4,7 +4,7 @@
 \alias{isoDE}
 \title{Differential expression analysis with DESeq2}
 \usage{
-isoDE(ids, formula, ...)
+isoDE(ids, formula = NULL, ...)
 }
 \arguments{
 \item{ids}{object of class \code{\link{IsomirDataSeq}}}
@@ -41,5 +41,5 @@ to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 data(mirData)
 ids <- isoCounts(mirData, minc=10, mins=6)
 dds <- isoDE(mirData, formula=~group)
-}
 
+}

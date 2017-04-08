@@ -80,7 +80,7 @@
 #' pls.ids = isoPLSDA(ids, "group", nperm = 2)
 #' cat(paste0("pval:",pls.ids$p.val))
 #' cat(paste0("components:",pls.ids$components))
-#' @export
+#'
 isoPLSDA <- function(ids, group , validation = NULL, learn = NULL, test = NULL,
                      tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2){
     tryCatch ({
@@ -275,7 +275,7 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' ids <- isoNorm(ids, formula=~group)
 #' pls.ids <- isoPLSDA(ids, "group", nperm = 2)
 #' isoPLSDAplot(pls.ids)
-#' @export
+#'
 isoPLSDAplot <- function (pls, n=2){
     components = pls$component[,1:n]
     groups = pls$group

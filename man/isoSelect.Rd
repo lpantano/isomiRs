@@ -3,8 +3,9 @@
 \docType{methods}
 \name{isoSelect}
 \alias{isoSelect}
-\alias{isoSelect,IsomirDataSeq-method}
 \alias{isoSelect.IsomirDataSeq}
+\alias{isoSelect,IsomirDataSeq-method}
+\alias{isoSelect,IsomirDataSeq-method}
 \title{Method to select specific miRNAs from an IsomirDataSeq object.}
 \usage{
 isoSelect.IsomirDataSeq(object, mirna, minc = 10)
@@ -41,4 +42,3 @@ isoSelect(mirData, mirna="hsa-let-7a-5p", minc=10000)
 \author{
 Lorena Pantano
 }
-

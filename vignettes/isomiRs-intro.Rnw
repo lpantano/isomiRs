@@ -52,8 +52,12 @@ If you use the package, please cite this paper \cite{isomirs}.
 
 \section{Input format}
 
-The input should be the output of SeqBuster-miraligner tool (*.mirna files)
-for each sample in the following format:
+The input should be the output of SeqBuster-miraligner tool (*.mirna files). It
+is compatible with
+\href{http://github.com/mirtop/mirtop}{mirTOP} tool as well,
+which parses BAM files with alignments against miRNA precursors.
+
+For each sample the file should have the following format:
 
 <<format-line,eval=FALSE,echo=TRUE>>==
 seq     name    freq    mir     start   end     mism    add     t5      t3      s5      s3      DB      ambiguity

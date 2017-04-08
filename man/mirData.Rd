@@ -33,13 +33,12 @@ It contains miRNA count data from 6 samples: 3 newborns and 3 elderly
 human individuals (Somel et al, 2010).
 Use \code{colData} to see the experiment design.
 }
-\author{
-Lorena Pantano, 2016-04-07
-}
 \references{
 Pantano L, Friedlander MR, Escaramis G, Lizano E et al.
 Specific small-RNA signatures in the amygdala at premotor and motor stages
 of Parkinson's disease revealed by deep sequencing analysis.
 Bioinformatics 2016 Mar 1;32(5):673-81. PMID: 26530722
 }
-
+\author{
+Lorena Pantano, 2016-04-07
+}

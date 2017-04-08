@@ -34,4 +34,3 @@ supporting the change.
 data(mirData)
 isoPlotPosition(mirData, column="group")
 }
-
