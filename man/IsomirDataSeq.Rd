@@ -2,8 +2,8 @@
 % Please edit documentation in R/AllClasses.R
 \docType{class}
 \name{IsomirDataSeq-class}
-\alias{IsomirDataSeq}
 \alias{IsomirDataSeq-class}
+\alias{IsomirDataSeq}
 \title{Class that contains all isomiRs annotation for all samples}
 \description{
 The \code{\link{IsomirDataSeq}} is a subclass of
@@ -34,14 +34,53 @@ the different changes for the different isomiRs (trimming at 3',
 trimming a 5', addition and substitution). For instance, you can get
 the data stored in \code{isoList} for sample 1 and 5' changes
 with this code \code{metadata(ids)[['isoList']][[1]]$t5sum}.
+
+The naming of isomiRs follows these rules:
+\itemize{
+\item miRNA name
+\item type:ref if the sequence is the same than the miRNA reference. \code{iso} if the sequence has variations.
+\item \code{t5 tag}:indicates variations at 5 position.
+The naming contains two words: \code{direction - nucleotides},
+where direction can be UPPER CASE NT
+(changes upstream of the 5 reference position) or
+LOWER CASE NT (changes downstream of the 5 reference position).
+\code{0} indicates no variation, meaning the 5 position is
+the same than the reference. After \code{direction},
+it follows the nucleotide/s that are added (for upstream changes)
+or deleted (for downstream changes).
+\item \code{t3 tag}:indicates variations at 3 position.
+The naming contains two words: \code{direction - nucleotides},
+where direction can be LOWER CASE NT
+(upstream of the 3 reference position) or
+UPPER CASE NT (downstream of the 3 reference position).
+\code{0} indicates no variation, meaning the 3 position is
+the same than the reference. After \code{direction},
+it follows the nucleotide/s that are added (for downstream changes)
+or deleted (for upstream chanes).
+\item \code{ad tag}:indicates nucleotides additions at 3 position.
+The naming contains two words: \code{direction - nucleotides},
+where direction is UPPER CASE NT
+(upstream of the 5 reference position).
+\code{0} indicates no variation, meaning the 3 position
+has no additions. After \code{direction},
+it follows the nucleotide/s that are added.
+\item \code{mm tag}: indicates nucleotides substitutions along
+the sequences. The naming contains three words:
+\code{position-nucleotideATsequence-nucleotideATreference}.
+\item \code{seed tag}: same than \code{mm} tag,
+but only if the change happens between nucleotide 2 and 8.
+}
+
+In general nucleotides in UPPER case mean insertions respect
+to the reference sequence, and nucleotides in LOWER case
+mean deletions respect to the reference sequence.
 }
 \examples{
 path <- system.file("extra", package="isomiRs")
 fn_list <- list.files(path, full.names = TRUE)
 de <- data.frame(row.names=c("f1" , "f2"), condition = c("newborn", "newborn"))
-ids <- IsomirDataSeqFromFiles(fn_list, design=de)
+ids <- IsomirDataSeqFromFiles(fn_list, coldata=de)
 
 head(counts(ids))
 
 }
-

@@ -42,5 +42,5 @@ ids <- isoCounts(mirData, minc=10, mins=6)
 ids <- isoNorm(ids, formula=~group)
 pls.ids <- isoPLSDA(ids, "group", nperm = 2)
 isoPLSDAplot(pls.ids)
-}
 
+}

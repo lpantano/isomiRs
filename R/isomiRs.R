@@ -31,8 +31,11 @@
 #' data(mirData)
 #' ids <- isoCounts(mirData, minc=10, mins=6)
 #' dds <- isoDE(mirData, formula=~group)
-#' @export
-isoDE <- function(ids, formula, ...){
+#'
+isoDE <- function(ids, formula=NULL, ...){
+    if (is.null(formula)){
+        formula <- design(ids)
+    }
     ids <- isoCounts(ids, ...)
     countData <- counts(ids)
     dds <- DESeqDataSetFromMatrix(countData = countData,
@@ -55,7 +58,7 @@ isoDE <- function(ids, formula, ...){
 #' @examples
 #' data(mirData)
 #' isoTop(mirData)
-#' @export
+#'
 isoTop <- function(ids, top=20){
     select <- order(rowMeans(counts(ids)),
                     decreasing=TRUE)[1:top]
@@ -97,11 +100,14 @@ isoTop <- function(ids, top=20){
 #' position for each nucleotide in the reference miRNA. Points
 #' will indicate isomiRs with nucleotide changes at the given position.
 #'
-#' @export
+#'
 #' @examples
 #' data(mirData)
 #' isoPlot(mirData, column="group")
 isoPlot <- function(ids, type="iso5", column="condition"){
+    if (is.null(column)){
+        column <-  names(colData(ids))[1]
+    }
     freq <- size <- group <- abundance <- NULL
     codevn <- 2:5
     names(codevn) <- c("iso5", "iso3", "subs", "add")
@@ -162,11 +168,14 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 #' The position at \code{y} is the number of different sequences
 #' supporting the change.
 #'
-#' @export
+#'
 #' @examples
 #' data(mirData)
 #' isoPlotPosition(mirData, column="group")
 isoPlotPosition <- function(ids, position=1, column="condition"){
+    if (is.null(column)){
+        column <- names(colData(ids))[1]
+    }
     freq <- size <- group <- abundance <- NULL
     codevn <- 2:5
     type <- "subs"
@@ -254,7 +263,7 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' # taking into account isomiRs and reference sequence.
 #' ids <- isoCounts(mirData, ref=TRUE, minc=10, mins=6)
 #' head(counts(ids))
-#' @export
+#'
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
                       add=FALSE, subs=FALSE, seed=FALSE, minc=1, mins=1){
         counts <- IsoCountsFromMatrix(metadata(ids)$rawList, colData(ids), ref,
@@ -284,8 +293,11 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' ids <- isoCounts(mirData, minc=10, mins=6)
 #' ids <- isoNorm(mirData, formula=~group)
 #' head(counts(ids, norm=TRUE))
-#' @export
-isoNorm <- function(ids, formula=~condition){
+#'
+isoNorm <- function(ids, formula=NULL){
+    if (is.null(formula)){
+        formula <- design(ids)
+    }
     dds <- DESeqDataSetFromMatrix(countData = counts(ids),
                                 colData = colData(ids),
                                 design = formula)

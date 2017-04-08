@@ -60,5 +60,5 @@ head(counts(ids))
 # taking into account isomiRs and reference sequence.
 ids <- isoCounts(mirData, ref=TRUE, minc=10, mins=6)
 head(counts(ids))
-}
 
+}

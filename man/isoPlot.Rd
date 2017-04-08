@@ -47,4 +47,3 @@ will indicate isomiRs with nucleotide changes at the given position.
 data(mirData)
 isoPlot(mirData, column="group")
 }
-

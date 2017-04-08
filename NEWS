@@ -1,3 +1,13 @@
+CHANGES IN VERSION  1.3.5
+---------------------------
+
+FEATURES
+
+    o Add isomiRs naming to documentation
+    o Add design to the object to get better usability
+    o Remove non-template addition with C/G nucleotides by default (canonicalAdd)
+    o Remove sequences with mutations and more than one miRNA hit
+
 CHANGES IN VERSION  1.3.4
 ---------------------------
 

@@ -51,4 +51,3 @@ ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, ont = "BP",
 data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
 isoPlotNet(data)
 }
-
