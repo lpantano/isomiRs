@@ -45,6 +45,5 @@ will indicate isomiRs with nucleotide changes at the given position.
 }
 \examples{
 data(mirData)
-isoPlot(mirData)
+isoPlot(mirData, column="group")
 }
-

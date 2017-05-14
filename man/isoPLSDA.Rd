@@ -12,25 +12,25 @@ isoPLSDA(ids, group, validation = NULL, learn = NULL, test = NULL,
 
 \item{group}{column name in \code{colData(ids)} to use as variable to explain.}
 
-\item{validation}{type of validation, either NULL or "learntest". 
+\item{validation}{type of validation, either NULL or "learntest".
 Default NULL}
 
-\item{learn}{optional vector of indexes for a learn-set. 
+\item{learn}{optional vector of indexes for a learn-set.
 Only used when validation="learntest". Default NULL}
 
-\item{test}{optional vector of indices for a test-set. 
+\item{test}{optional vector of indices for a test-set.
 Only used when validation="learntest". Default NULL}
 
-\item{tol}{tolerance value based on maximum change of cumulative R-squared 
+\item{tol}{tolerance value based on maximum change of cumulative R-squared
 coefficient for each additional PLS component. Default tol=0.001}
 
 \item{nperm}{number of permutations to compute the PLD-DA p-value
 based on R2 magnitude. Default nperm=400}
 
-\item{refinment}{logical indicating whether a refined model, based on 
+\item{refinment}{logical indicating whether a refined model, based on
 filtering out variables with low VIP values}
 
-\item{vip}{Variance Importance in Projection threshold value when 
+\item{vip}{Variance Importance in Projection threshold value when
 a refinement process is considered. Default vip=1.2}
 }
 \value{
@@ -42,12 +42,12 @@ A \code{\link[base]{list}} with the following elements: \code{R2Matrix}
 \code{p.value} and \code{R2PermutationVector} obtained by the permutations.
 
 If the option \code{refinment} is set to \code{TRUE}, then the following
-elements will appear: 
+elements will appear:
 \code{R2RefinedMatrix} and \code{componentsRefinedModel} (R-squared coefficients
 of the PLS model only using the most important miRNAs/isomiRs). As well,
 \code{p.valRefined} and \code{R2RefinedPermutationVector} with p-value
 and R2 of the
-permutations where samples were randomized. And finally, 
+permutations where samples were randomized. And finally,
 \code{p.valRefinedFixed} and \code{R2RefinedFixedPermutationVector} with
 p-value and R2 of the
 permutations where miRNAs/isomiRs were randomized.
@@ -70,7 +70,7 @@ based on orthogonal transformations of the original variables (miRNAs/isomiRs) i
 set of linearly uncorrelated latent variables (usually termed as components)
 such that maximizes the separation between the different classes in the first
 few components (\cite{Xia, 2011}). We used sum of squares captured by the model (R2) as
-a goodness of fit measure. 
+a goodness of fit measure.
 
 We implemented this method using the
 \code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function.
@@ -85,10 +85,11 @@ Read more about the parameters related to the PLS-DA directly from
 data(mirData)
 # Only miRNAs with > 10 reads in all samples.
 ids <- isoCounts(mirData, minc=10, mins=6)
-ids <- isoNorm(ids)
-pls.ids = isoPLSDA(ids, "condition", nperm = 2)
+ids <- isoNorm(ids, formula=~group)
+pls.ids = isoPLSDA(ids, "group", nperm = 2)
 cat(paste0("pval:",pls.ids$p.val))
 cat(paste0("components:",pls.ids$components))
+
 }
 \references{
 Perez-Enciso, Miguel and Tenenhaus, Michel. Prediction of clinical outcome with microarray data:
@@ -98,4 +99,3 @@ Genetics. 2003.
 Xia, Jianguo and Wishart, David S. Web-based inference of biological patterns, functions and
 pathways from metabolomic data using MetaboAnalyst. Nature Protocols. 2011.
 }
-

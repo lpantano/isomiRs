@@ -12,4 +12,3 @@ isoPlotNet(obj)
 \description{
 Functional miRNA / gene expression profile plot
 }
-

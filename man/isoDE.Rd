@@ -4,7 +4,7 @@
 \alias{isoDE}
 \title{Differential expression analysis with DESeq2}
 \usage{
-isoDE(ids, formula, ...)
+isoDE(ids, formula = NULL, ...)
 }
 \arguments{
 \item{ids}{object of class \code{\link{IsomirDataSeq}}}
@@ -15,10 +15,10 @@ isoDE(ids, formula, ...)
 ref, iso5, iso3, add, subs and seed parameters.}
 }
 \value{
-\code{\link[DESeq2]{DESeqDataSet}} object. 
+\code{\link[DESeq2]{DESeqDataSet}} object.
 To get the differential expression isomiRs, use \link[DESeq2]{results} from
 DESeq2 package. This allows to ask for different contrast
-without calling again \code{isoDE}. Read \code{results} 
+without calling again \code{isoDE}. Read \code{results}
 manual to know how to access all the information.
 }
 \description{
@@ -40,6 +40,6 @@ to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
 \examples{
 data(mirData)
 ids <- isoCounts(mirData, minc=10, mins=6)
-dds <- isoDE(mirData, formula=~condition)
-}
+dds <- isoDE(mirData, formula=~group)
 
+}

@@ -32,6 +32,5 @@ supporting the change.
 }
 \examples{
 data(mirData)
-isoPlotPosition(mirData)
+isoPlotPosition(mirData, column="group")
 }
-

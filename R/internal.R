@@ -12,48 +12,63 @@
     return(table)
 }
 
-.clean_low_rate_changes <- function(tab, rate=0.50){
-  tab.subs <- as.data.frame(tab %>% filter(mism!=0) %>%
-                                 group_by(mir, mism) %>%
-                                 summarise(total_subs=sum(freq)))
-  tab.ref <- as.data.frame(tab %>% filter(mism==0) %>%
-                              group_by(mir) %>%
-                              summarise(total_mir=sum(freq)+1))
-  tab.fil <- merge(tab.subs, tab.ref, by=1) %>% mutate(ratio = total_subs/total_mir)
-  cols <- apply(tab, 1, function(row){
-      .seq = row["seq"]
-      if (row["mism"]=="0")
-          return(c(.seq, row["mism"]))
-      else if (sum(tab.fil$subs==row["mism"] & tab.fil$mir==row["mir"])==0)
-          donothing <- 0
-      else if (tab.fil$ratio[tab.fil$subs==row["mism"] & tab.fil$mir==row["mir"]] > rate)
-          return(c(.seq, row["mism"]))
-      .pos = gsub("[ATGCNU]", "", row["mism"])
-      .subs = strsplit(gsub("[0-9]+", "", row["mism"]), "")
-      .nts = as.vector(strsplit(.seq, ""))
-      .nts[as.numeric(.pos)] = .subs[2]
-      c(paste0(as.vector(unlist(.nts)), collapse = ""), "0")
-  })
-  tab$seq <- cols[1,]
-  tab$mism <- cols[2,]
-  tab = tab %>% group_by(mir, seq, mism, add, t5, t3, DB, ambiguity) %>%
-            summarise(freq=sum(freq))  %>%
-            dplyr::select(mir, seq, freq, mism, add, t5, t3, DB, ambiguity)
-  as.data.frame(tab)
+.change_seq <- function(x,mism){
+    .pos = gsub("[ATGCNU]", "", mism)
+    .subs = as.vector(unlist(strsplit(gsub("[0-9]+", "", mism), "")))
+    .nts = as.vector(unlist(strsplit(x, "")))
+    .nts[as.numeric(.pos)] = .subs[2]
+    paste0(as.vector(unlist(.nts)), collapse = "")
+}
+
+.clean_low_rate_changes <- function(tab, rate=0.20, uniqueMism=TRUE){
+    if (uniqueMism){
+        tab = tab  %>%
+            filter(!(mism!="0" & ambiguity>1))
+    }
+    tab.fil = tab %>%
+        rowwise() %>%
+        mutate(seq=if_else((af<rate & !is.na(af)) | grepl("N", mism),
+                           .change_seq(seq,mism),seq)) %>%
+        mutate(mism=if_else((af<rate & !is.na(af)),"0",mism))
+    tab.fil = tab.fil %>% ungroup() %>%
+        group_by(mir, seq, mism, add, t5, t3, DB, ambiguity) %>%
+        summarise(freq=sum(freq))  %>%
+        dplyr::select(mir, seq, freq, mism, add, t5, t3, DB, ambiguity)
+    as.data.frame(tab.fil)
 }
 
 # filter by relative abundance to reference
-.filter_by_cov <- function(table, limit=0, rate=0.5){
+.filter_by_cov <- function(table, limit=0, rate=0.2,
+                           canonicalAdd=TRUE, uniqueMism=TRUE){
     freq <- mir <-  NULL
-    tab.fil <- table[table$DB == "miRNA",]
-    tab.fil <- .clean_low_rate_changes(tab.fil, rate)
-    tab.fil.out <- as.data.frame(tab.fil %>% filter(mism==0) %>%
+    if (canonicalAdd){
+        tab.fil <- table %>% filter(DB == "miRNA",
+                                    !grepl("[GC]", add))
+    }else{
+        tab.fil <- table %>% filter(DB == "miRNA")
+    }
+    tab.fil.out <- as.data.frame(tab.fil %>% filter(mism==0,
+                                                    nchar(add)<3) %>%
                                    group_by(mir) %>%
-                                   summarise(total=sum(freq)+1))
-    tab.fil <- merge(tab.fil,
-                     tab.fil.out,
-                     by=1)
-    tab.fil$score <- tab.fil$freq / tab.fil$total * 100
+                                   summarise(mir_f=sum(freq)+1,
+                                             mir_n=n()+1))
+    tab.mism = tab.fil %>% filter(mism!=0) %>% group_by(mir, mism) %>%
+        summarise(mism_n=n(), mism_f=sum(freq)) %>%
+        left_join(tab.fil.out, by="mir") %>%
+        mutate(enrich=mism_n/mir_n, af=mism_f/mir_f, bias=af/enrich) %>%
+        ungroup()
+    tab.fil <- left_join(tab.fil %>% mutate(id=paste(mir,mism)),
+                     tab.mism %>% mutate(id=paste(mir,mism)) %>%
+                         select(-mism, -mir),
+                     by="id") %>% select(-id)
+    tab.fil$score <- tab.fil$freq / tab.fil$mir_f * 100
+    tab.fil <- .clean_low_rate_changes(tab.fil, rate, uniqueMism)
+
+    tab.fil <- left_join(tab.fil %>% mutate(id=paste(mir,mism)),
+                         tab.mism %>% mutate(id=paste(mir,mism)) %>%
+                             select(-mism, -mir),
+                         by="id") %>% select(-id)
+    tab.fil$score <- tab.fil$freq / tab.fil$mir_f * 100
     tab.fil
 }
 
@@ -71,9 +86,10 @@
 }
 
 # Filter table reference
-.filter_table <- function(table, cov=1, rate=0.5){
+.filter_table <- function(table, cov=1, rate=0.2,
+                          canonicalAdd=TRUE, uniqueMism=TRUE){
     table <- .put_header(table)
-    table <- .filter_by_cov(table, cov, rate)
+    table <- .filter_by_cov(table, cov, rate, canonicalAdd, uniqueMism)
     if (sum(grepl("u-", table$add))>0)
         table <- .convert_to_new_version(table)
     table
@@ -126,8 +142,9 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
     freq <- id <- NULL
     if (ref == TRUE){
         ref.val <- do.call(paste, table[,4:7])
-        ref.val[grep("[ATGC]", ref.val, invert=TRUE)] <- "ref"
-        ref.val[grep("[ATGC]", ref.val)] <- "iso"
+        ref.val[grep("[ATGC]", ref.val, invert=TRUE,
+                     ignore.case = TRUE)] <- "ref"
+        ref.val[grep("[ATGC]", ref.val, ignore.case = TRUE)] <- "iso"
         label <- paste(label, ref.val, sep=".")
     }
     if (iso5 == TRUE){

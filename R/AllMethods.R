@@ -19,7 +19,6 @@
 #' @examples
 #' data(mirData)
 #' head(counts(mirData))
-#' @export
 counts.IsomirDataSeq <- function(object, norm=FALSE) {
     if (norm){
         return(assays(object)[["norm"]])
@@ -28,12 +27,10 @@ counts.IsomirDataSeq <- function(object, norm=FALSE) {
 }
 
 #' @rdname counts
-#' @export
 setMethod("counts", signature(object="IsomirDataSeq"), counts.IsomirDataSeq)
 
 #' @name counts
 #' @rdname counts
-#' @exportMethod "counts<-"
 setReplaceMethod("counts", signature(object="IsomirDataSeq", value="matrix"),
                  function(object, value){
                      assays(object)[["counts"]] <- value
@@ -80,16 +77,15 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' for this isomiR in that sample. Mainly, it will return the count
 #' matrix only for isomiRs belonging to the miRNA family given by
 #' the \code{mirna} parameter. IsomiRs need to have counts bigger than
-#' \code{minc} parameter to be included in the output.
-#' 
+#' \code{minc} parameter at least in one sample to be included in the output.
+#'
 #' @author Lorena Pantano
-#' 
+#'
 #' @examples
 #' data(mirData)
 #' # To select isomiRs from let-7a-5p miRNA
 #' # and with 10000 reads or more.
 #' isoSelect(mirData, mirna="hsa-let-7a-5p", minc=10000)
-#' @export
 isoSelect.IsomirDataSeq <- function(object, mirna,  minc=10) {
     x <- metadata(object)$rawList
     if ( mirna == "" )
@@ -97,15 +93,55 @@ isoSelect.IsomirDataSeq <- function(object, mirna,  minc=10) {
     l <- lapply( x, function(sample){
         sample %>% filter( mir == mirna )
     })
-    df <- as.matrix(IsoCountsFromMatrix(l, colData(object), ref=TRUE,iso5=TRUE,iso3=TRUE,
-              add=TRUE, subs=TRUE, seed=TRUE))
-    df[ df < minc ] <- 0
-    DataFrame(df[ rowSums(df) > 0, , drop=FALSE])
+    .list_samples = lapply(row.names(colData(object)), function(sample){
+        d <- l[[sample]] %>%
+            mutate(id=paste(mir, mism, add, t5, t3, ":", seq)) %>%
+            select(id, freq) %>% mutate(sample=sample)
+        d
+    })
+    df <- bind_rows(.list_samples) %>%
+        #group_by(id, sample) %>%
+        #summarise(freq=sum(freq)) %>% ungroup() %>%
+        spread(key=sample, value=freq, fill=0)
+    DataFrame(df[ rowSums(df[,2:ncol(df)] >10 ) > 0, , drop=FALSE])
 }
 
+design.IsomirDataSeq <- function(object) object@design
+
+#' Accessors for the 'design' slot of a IsomirDataSeq object.
+#'
+#' The design holds the R \code{formula} which expresses how the
+#' counts depend on the variables in \code{colData}.
+#' See \code{\link{IsomirDataSeq}} for details.
+#'
+#' @docType methods
+#' @name design
+#' @rdname design
+#' @aliases design design,IsomirDataSeq-method design<-,IsomirDataSeq,formula-method
+#' @param object a \code{IsomirDataSeq} object
+#' @param value a \code{formula} to pass to DESeq2
+#' @examples
+#'
+#' data(mirData)
+#' design(mirData) <- formula(~ 1)
+#'
+setMethod("design", signature(object="IsomirDataSeq"), design.IsomirDataSeq)
+
+#' @name design
+#' @rdname design
+setReplaceMethod("design", signature(object="IsomirDataSeq", value="formula"),
+                 function( object, value ) {
+                     # Temporary hack for backward compatibility with "old"
+                     # IsomirDataSeq objects. Remove once all serialized
+                     # IsomirDataSeq objects around have been updated.
+                     if (!.hasSlot(object, "rowRanges"))
+                         object <- updateObject(object)
+                     object@design <- value
+                     validObject(object)
+                     object
+                 })
 
 #' @rdname isoSelect
-#' @export
 setMethod(f="isoSelect",
           signature = signature(object="IsomirDataSeq"),
           definition = isoSelect.IsomirDataSeq)

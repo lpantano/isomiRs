@@ -31,14 +31,14 @@ names in gene_rse object.}
 Clustering miRNAs-genes pairs in similar pattern expression
 }
 \details{
-This function will correlate miRNA and gene expression data using 
+This function will correlate miRNA and gene expression data using
 a specific metadata variable to group samples and detect pattern
 of expression that will be annotated with GO terms.
 mirna_rse and gene_rse can be created using the following code:
 
 \code{mi_rse = SummarizedExperiment(assays=SimpleList(norm=mirna_matrix), colData, metadata=list(sign=mirna_keep))}
 
-where, \code{mirna_matrix} is the normalized counts expression, 
+where, \code{mirna_matrix} is the normalized counts expression,
 \code{colData} is the metadata information and \code{mirna_keep}
 the list of miRNAs to be used by this function.
 }
@@ -51,4 +51,3 @@ ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, ont = "BP",
 data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
 isoPlotNet(data)
 }
-

@@ -20,19 +20,22 @@
 #' @param formula used for DE analysis
 #' @param ... options to pass to \link{isoCounts} including
 #' ref, iso5, iso3, add, subs and seed parameters.
-#' 
-#' @return \code{\link[DESeq2]{DESeqDataSet}} object. 
+#'
+#' @return \code{\link[DESeq2]{DESeqDataSet}} object.
 #' To get the differential expression isomiRs, use \link[DESeq2]{results} from
 #' DESeq2 package. This allows to ask for different contrast
-#' without calling again \code{isoDE}. Read \code{results} 
+#' without calling again \code{isoDE}. Read \code{results}
 #' manual to know how to access all the information.
-#' 
+#'
 #' @examples
 #' data(mirData)
 #' ids <- isoCounts(mirData, minc=10, mins=6)
-#' dds <- isoDE(mirData, formula=~condition)
-#' @export
-isoDE <- function(ids, formula, ...){
+#' dds <- isoDE(mirData, formula=~group)
+#'
+isoDE <- function(ids, formula=NULL, ...){
+    if (is.null(formula)){
+        formula <- design(ids)
+    }
     ids <- isoCounts(ids, ...)
     countData <- counts(ids)
     dds <- DESeqDataSetFromMatrix(countData = countData,
@@ -55,7 +58,7 @@ isoDE <- function(ids, formula, ...){
 #' @examples
 #' data(mirData)
 #' isoTop(mirData)
-#' @export
+#'
 isoTop <- function(ids, top=20){
     select <- order(rowMeans(counts(ids)),
                     decreasing=TRUE)[1:top]
@@ -77,7 +80,7 @@ isoTop <- function(ids, top=20){
 #' @param column string indicating the column in
 #' \code{colData} to color samples.
 #' @return \link[ggplot2]{ggplot} object showing different isomiRs changes at
-#' different positions. 
+#' different positions.
 #' @details
 #' There are four different values for \code{type} parameter. To plot
 #' trimming at 5' or 3' end, use \code{type="iso5"} or \code{type="iso3"}.
@@ -97,11 +100,14 @@ isoTop <- function(ids, top=20){
 #' position for each nucleotide in the reference miRNA. Points
 #' will indicate isomiRs with nucleotide changes at the given position.
 #'
-#' @export
+#'
 #' @examples
 #' data(mirData)
-#' isoPlot(mirData)
+#' isoPlot(mirData, column="group")
 isoPlot <- function(ids, type="iso5", column="condition"){
+    if (is.null(column)){
+        column <-  names(colData(ids))[1]
+    }
     freq <- size <- group <- abundance <- NULL
     codevn <- 2:5
     names(codevn) <- c("iso5", "iso3", "subs", "add")
@@ -114,18 +120,18 @@ isoPlot <- function(ids, type="iso5", column="condition"){
     isoList <- metadata(ids)$isoList
     for (sample in row.names(des)){
         if (nrow(isoList[[sample]][[coden]]) > 0 ){
-          uniq.dat <- as.data.frame( table(isoList[[sample]][[coden]]$size) )
           temp <- as.data.frame( isoList[[sample]][[coden]] %>%
+                                   distinct() %>%
                                    group_by(size) %>%
-                                   summarise( freq=sum(freq) )
+                                   summarise( freq=sum(freq), n=n() )
           )
-          total <- sum(temp$freq)
-          temp <- merge(temp, uniq.dat, by=1)
-          Total <- sum(temp$Freq)
-          temp$abundance <- temp$freq / total
-          temp$unique <- temp$Freq / Total
+          total <- sum(counts(ids)[,sample])
+          Total <- sum(temp$n)
+          temp$pct_abundance <- temp$freq / total
+          temp$unique <- temp$n / Total
           table <- rbind( table,
-                          data.frame( size=temp$size, abundance=temp$abundance,
+                          data.frame( size=temp$size,
+                                      pct_abundance=temp$pct_abundance*100,
                                       unique=temp$unique,
                                       sample=rep(sample, nrow(temp)),
                                       group=rep(des[sample, column],
@@ -134,11 +140,12 @@ isoPlot <- function(ids, type="iso5", column="condition"){
     }
     p <- ggplot(table) +
         geom_jitter(aes(x=factor(size),y=unique,colour=factor(group),
-                        size=abundance)) +
+                        size=pct_abundance)) +
         scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
-        labs(list(title=paste(type,"distribution"),y="# of unique sequences",
+        labs(list(title=paste(type,"distribution"),
+                  y="# of unique sequences",
                 x="position respect to the reference"))
     print(p)
 }
@@ -152,7 +159,7 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 #' @param column string indicating the column in
 #' colData to color samples.
 #' @return \link[ggplot2]{ggplot} object showing nucleotide changes
-#' at a given position. 
+#' at a given position.
 #' @details
 #' It shows the nucleotides changes at the given position for each
 #' sample in each group.
@@ -161,11 +168,14 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 #' The position at \code{y} is the number of different sequences
 #' supporting the change.
 #'
-#' @export
+#'
 #' @examples
 #' data(mirData)
-#' isoPlotPosition(mirData)
+#' isoPlotPosition(mirData, column="group")
 isoPlotPosition <- function(ids, position=1, column="condition"){
+    if (is.null(column)){
+        column <- names(colData(ids))[1]
+    }
     freq <- size <- group <- abundance <- NULL
     codevn <- 2:5
     type <- "subs"
@@ -185,21 +195,22 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
                                 group_by(change) %>%
                                 summarise( freq=sum(freq), times=n() )
                               )
-        total <- sum(temp$freq)
+        total <- sum(counts(ids)[,sample])
         Total <- sum(temp$times)
         temp$abundance <- temp$freq / total
         temp$unique <- temp$times / Total
         table <- rbind( table,
-                        data.frame( change=temp$change, abundance=temp$abundance,
-                                        unique=temp$unique,
-                                        sample=rep(sample, nrow(temp)),
-                                        group=rep(des[sample, column],
-                                                nrow(temp)) ) )
+                        data.frame( change=temp$change,
+                                    pct_abundance=temp$abundance*100,
+                                    unique=temp$unique,
+                                    sample=rep(sample, nrow(temp)),
+                                    group=rep(des[sample, column],
+                                              nrow(temp)) ) )
     }
 
     p <- ggplot(table) +
         geom_jitter(aes(x=factor(change),y=unique,colour=factor(group),
-                        size=abundance)) +
+                        size=pct_abundance)) +
         scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
@@ -226,7 +237,7 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' @param subs differentiate nt substitution miRNA from rest
 #' @param seed differentiate changes in 2-7 nts from rest
 #' @param minc int minimum number of isomiR sequences to be included.
-#' @param mins int minimum number of samples with number of 
+#' @param mins int minimum number of samples with number of
 #' sequences bigger than \code{minc} counts.
 #'
 #' @details
@@ -239,7 +250,7 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' the rest by calling with \code{isoCounts(ids, ref=TRUE, iso5=TRUE)}.
 #' If you set up all parameters to TRUE, you will get a table for
 #' each different sequence mapping to a miRNA (i.e. all isomiRs).
-#' 
+#'
 #' Examples for the naming used for the isomiRs are at
 #' \url{http://seqcluster.readthedocs.org/mirna_annotation.html#mirna-annotation}.
 #'
@@ -252,7 +263,7 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' # taking into account isomiRs and reference sequence.
 #' ids <- isoCounts(mirData, ref=TRUE, minc=10, mins=6)
 #' head(counts(ids))
-#' @export
+#'
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
                       add=FALSE, subs=FALSE, seed=FALSE, minc=1, mins=1){
         counts <- IsoCountsFromMatrix(metadata(ids)$rawList, colData(ids), ref,
@@ -280,10 +291,13 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' @examples
 #' data(mirData)
 #' ids <- isoCounts(mirData, minc=10, mins=6)
-#' ids <- isoNorm(mirData, formula=~condition)
+#' ids <- isoNorm(mirData, formula=~group)
 #' head(counts(ids, norm=TRUE))
-#' @export
-isoNorm <- function(ids, formula=~condition){
+#'
+isoNorm <- function(ids, formula=NULL){
+    if (is.null(formula)){
+        formula <- design(ids)
+    }
     dds <- DESeqDataSetFromMatrix(countData = counts(ids),
                                 colData = colData(ids),
                                 design = formula)

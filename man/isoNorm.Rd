@@ -4,7 +4,7 @@
 \alias{isoNorm}
 \title{Normalize count matrix}
 \usage{
-isoNorm(ids, formula = ~condition)
+isoNorm(ids, formula = NULL)
 }
 \arguments{
 \item{ids}{object of class \code{\link{IsomirDataSeq}}}
@@ -23,7 +23,7 @@ This function normalizes raw count matrix using
 \examples{
 data(mirData)
 ids <- isoCounts(mirData, minc=10, mins=6)
-ids <- isoNorm(mirData, formula=~condition)
+ids <- isoNorm(mirData, formula=~group)
 head(counts(ids, norm=TRUE))
-}
 
+}

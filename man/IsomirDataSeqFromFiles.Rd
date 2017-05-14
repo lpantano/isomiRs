@@ -4,15 +4,25 @@
 \alias{IsomirDataSeqFromFiles}
 \title{\code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool}
 \usage{
-IsomirDataSeqFromFiles(files, design, rate = 0.5, header = FALSE,
-  skip = 1, quiet = TRUE, ...)
+IsomirDataSeqFromFiles(files, coldata, rate = 0.2, canonicalAdd = TRUE,
+  uniqueMism = TRUE, design = ~1, header = TRUE, skip = 0,
+  quiet = TRUE, ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
 
-\item{design}{data frame containing groups for each sample}
+\item{coldata}{data frame containing groups for each sample}
 
 \item{rate}{minimum counts fraction to consider a mismatch a real mutation}
+
+\item{canonicalAdd}{\code{boolean} only keep A/T non-template addition.
+All non-template nucleotides at the 3' end will be removed if they
+contain C/G nts.}
+
+\item{uniqueMism}{\code{boolean} only keep mutations that have
+a unique hit to one miRNA molecule}
+
+\item{design}{a \code{formula} to pass to \code{\link[DESeq2]{DESeqDataSet}}}
 
 \item{header}{boolean to indicate files contain headers}
 
@@ -50,9 +60,9 @@ visualize general isomiRs distribution.
 path <- system.file("extra", package="isomiRs")
 fn_list <- list.files(path, full.names = TRUE)
 de <- data.frame(row.names=c("f1" , "f2"), condition = c("newborn", "newborn"))
-ids <- IsomirDataSeqFromFiles(fn_list, design=de)
+ids <- IsomirDataSeqFromFiles(fn_list, coldata=de)
 
 head(counts(ids))
 
-}
 
+}
