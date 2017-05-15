@@ -28,6 +28,13 @@ for this isomiR in that sample. Mainly, it will return the count
 matrix only for isomiRs belonging to the miRNA family given by
 the \code{mirna} parameter. IsomiRs need to have counts bigger than
 \code{minc} parameter at least in one sample to be included in the output.
+Annotation of isomiRs follows these rules:
+
+* miRNA name
+* mismatches
+* additions
+* 5 trimming events
+* 3 trimming events
 }
 \description{
 This method allows to select a miRNA and all its isomiRs
