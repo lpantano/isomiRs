@@ -9,7 +9,7 @@ isoPlot(ids, type = "iso5", column = "condition")
 \arguments{
 \item{ids}{object of class \code{\link{IsomirDataSeq}}}
 
-\item{type}{string (iso5, iso3, add, subs) to indicate what isomiRs
+\item{type}{string (iso5, iso3, add, subs, all) to indicate what isomiRs
 to use for the plot. See details for explanation.}
 
 \item{column}{string indicating the column in
@@ -26,7 +26,7 @@ changes.
 }
 \details{
 There are four different values for \code{type} parameter. To plot
-trimming at 5' or 3' end, use \code{type="iso5"} or \code{type="iso3"}.
+trimming at 5' or 3' end, use \code{type="iso5"} or \code{type="iso3"}. Get a summary of all using \code{type="all"}.
 In this case, it will plot 3 positions at both side of the reference
 position described at miRBase site. Each position refers to the number of
 sequences that start/end before or after the miRBase reference. The
@@ -42,6 +42,8 @@ In this case, only 3 positions after the 3' end
 will appear in the plot. When \code{type="subs"}, it will appear one
 position for each nucleotide in the reference miRNA. Points
 will indicate isomiRs with nucleotide changes at the given position.
+When \code{type="all"} a colar coordinate map will show 
+the abundance of each isomiR type in a single plot.
 }
 \examples{
 data(mirData)

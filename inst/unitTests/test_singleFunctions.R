@@ -2,9 +2,10 @@ test_plotFunctions <-
     function()
     {
         data(mirData)
-        checkTrue(class(isoPlot(mirData,type="iso5",column ="group"))[1]=="list")
-        checkTrue(class(isoPlot(mirData,type="iso3",column ="group"))[1]=="list")
-        checkTrue(class(isoPlot(mirData,type="add",column ="group"))[1]=="list")
+        checkTrue(class(isoPlot(mirData,type="iso5",column ="group"))[2]=="ggplot")
+        checkTrue(class(isoPlot(mirData,type="iso3",column ="group"))[2]=="ggplot")
+        checkTrue(class(isoPlot(mirData,type="add",column ="group"))[2]=="ggplot")
+        checkTrue(class(isoPlotPosition(mirData, column="group"))[2]=="ggplot")
     }
 
 test_dseFunctions <-
