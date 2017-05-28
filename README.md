@@ -10,12 +10,14 @@ It needs R >= 3.3
 
 ###Installation
 
-Inside R:
+http://bioconductor.org/packages/stats/bioc/isomiRs/
+
+Last development:
 
 ```
 library(devtools)
 library(roxygen2)
-devtools::install_github("lpantano/isomiRs", ref="upstream")
+devtools::install_github("lpantano/isomiRs")
 library(isomiRs)
 openVignette(isomiRs)
 ```
