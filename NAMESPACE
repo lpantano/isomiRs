@@ -58,6 +58,7 @@ importFrom(ggplot2, aes, element_rect, geom_jitter, ggplot, element_text,
 import(gtools)
 importFrom(gridExtra, grid.arrange, arrangeGrob)
 importFrom(grid, textGrob, unit, unit.pmax)
+import(grDevices)
 importFrom("graphics", "pairs")
 importFrom("stats", "as.dist", "as.hclust", "cutree", "dist", "hclust",
            "dnorm", "pnorm", "predict", "qnorm", "rnorm")

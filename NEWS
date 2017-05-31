@@ -1,7 +1,14 @@
+CHANGES IN VERSION  1.5.2
+---------------------------
+
+FIX
+    o Remove TMB dependency
+
 CHANGES IN VERSION  1.5.1
 ---------------------------
 
 FEATURES
+
     o Add new polar figure to plot all isomiRs at the same time
     o Add NLQO distribution to correct expression knowing sequencing
       bias [Argyropoulos et al, 2017]
