@@ -3,21 +3,28 @@ isomiRs
 
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.45382.svg)](http://dx.doi.org/10.5281/zenodo.45382)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![Build status](https://secure.travis-ci.org/lpantano/isomiRs.png)](https://secure.travis-ci.org/lpantano/isomiRs.png)
 
 analyze isomiRs from seqbuster tool  or any BAM file after using [seqcluster seqbuster](http://seqcluster.readthedocs.io/mirna_annotation.html#mirna-isomirs-annotation-with-python)
 
-It needs R >= 3.3
+[Bioconductor]: https://bioconductor.org
+[devtools]: https://cran.r-project.org/package=devtools
+[R]: https://www.r-project.org
 
-###Installation
+## Installation
 
-Inside R:
+This is an [R][] package.
 
+### [Bioconductor][] method
+
+```r
+source("https://bioconductor.org/biocLite.R")
+biocLite("isomiRs")
 ```
-library(devtools)
-library(roxygen2)
-devtools::install_github("lpantano/isomiRs", ref="upstream")
-library(isomiRs)
-openVignette(isomiRs)
-```
 
-or look at the vignette here: http://lpantano.github.io/isomiRs/vignettes/isomiR-intro.pdf
+### [devtools][] method
+
+```r
+install.packages("devtools")
+devtools::install_github("lpantano/isomiRs")
+```
