@@ -29,8 +29,8 @@ data("mirData")
 }
 \description{
 This data set is the object return by \code{\link{IsomirDataSeqFromFiles}}.
-It contains miRNA count data from 6 samples: 3 newborns and 3 elderly
-human individuals (Somel et al, 2010).
+It contains miRNA count data from 14 samples: 7 control individuals (pc) and
+7 patients with Parkinson's disease in early stage (Pantano et al, 2016).
 Use \code{colData} to see the experiment design.
 }
 \references{

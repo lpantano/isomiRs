@@ -1,10 +1,11 @@
 Package: isomiRs
-Version: 1.5.0
-Date: 2017-04-08
+Version: 1.5.1
+Date: 2017-05-25
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
    differential expression.
+LazyData: true
 biocViews: miRNA, RNASeq,
     DifferentialExpression, Clustering
 Suggests:
@@ -13,6 +14,7 @@ Suggests:
     org.Mm.eg.db,
     cluster,
     clusterProfiler,
+    pheatmap,
     BiocStyle
 Depends:
     R (>= 3.2),
@@ -36,10 +38,13 @@ Imports:
     gtools,
     gridExtra,
     grid,
-    GGally
+    GGally,
+    gamlss,
+    gamlss.dist,
+    TMB
 Author: Lorena Pantano, Georgia Escaramis
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 NeedsCompilation: no
