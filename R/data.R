@@ -15,3 +15,9 @@
 #' @format mirna expression data with 18 samples: 
 #' example of a time series data
 "mirna_ex_rse"
+
+#' Data frame containing mirna from XX paper
+#'
+#' @format mirna expression data in long format.
+#' Train and test data to use with isoCorrect
+"mirTritation"
