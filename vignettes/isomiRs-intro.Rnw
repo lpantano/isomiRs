@@ -31,7 +31,7 @@ Spain;} \\ \small{\texttt{$^*$lpantano (at) iscb.org}}}
 
 \section*{Introduction}
 
-miRNA are small RNA fragments (18-23 nt long) that influence gene expression
+miRNAs are small RNA fragments (18-23 nt long) that influence gene expression
 during development and cell stability. Morin et al \cite{morin}, discovered
 isomiRs first time after sequencing human stem cells.
 
@@ -75,7 +75,8 @@ any other tool having the mapping information on the precursors. Read more on
 \section{IsomirDataSeq class}
 
 This object will store all raw data from the input files and some processed
-information used for visualization and statistical analysis. It is a subclass of \Rfunction{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. Beside that, the object contains
+information used for visualization and statistical analysis. It is a subclass of \Rfunction{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. 
+Beside that, the object contains
 raw and normalized counts from miraligner allowing to update the summarization of miRNA expression.
 
 \subsection{Access data}
@@ -89,6 +90,16 @@ library(isomiRs)
 data(mirData)
 head(isoSelect(mirData, mirna="hsa-let-7a-5p", 1000))
 @
+
+\Rfunction{metadata(mirData)} contains two lists: \Rfunction{rawList} is a list with same
+length than number of samples and stores the input files
+for each sample; \Rfunction{isoList} is a list with same length than
+number of samples and stores information for each isomiR type summarizing
+the different changes for the different isomiRs (trimming at 3',
+trimming a 5', addition and substitution). For instance, you can get
+the data stored in \Rfunction{isoList} for sample 1 and 5' changes
+with this code \Rfunction{metadata(ids)[["isoList"]][[1]]["t5sum"]}.
+
 
 \subsection{isomiRs annotation}
 
@@ -109,13 +120,13 @@ In general nucleotides in UPPER case mean insertions respect to the reference se
 \section{Quick start}
 
 We are going to use a small RNAseq data from human
-frontal cortex samples \cite{somel2010} to give some basic examples of isomiRs analyses.
+brain samples \cite{pantano2016} to give some basic examples of isomiRs analyses.
 
 In this data set we will find two groups:
 
 \begin{itemize}
-    \item b: 3 individuals with less than a year
-    \item o: 3 individuals in the elderly.
+    \item pc: 7 control individuals
+    \item pt: 7 patients with Parkinson's Disease in early stage.
 \end{itemize}
 
 
@@ -129,7 +140,7 @@ data(mirData)
 
 The function \Rfunction{IsomirDataSeqFromFiles} needs a vector with the paths for each file
 and a data frame with the design experiment similar to the one used for
-a mRNA differential expression analysis. Row names of data frame should
+a mRNA differential expression analysis. Row names of the data frame should
 be the names for each sample in the same order than the list of files.
 
 <<package-plot-iso,message=FALSE,eval=FALSE>>=
@@ -166,8 +177,11 @@ allows quick integration to another analyses like heatmap, clustering or PCA.
 
 
 <<package-norm,message=FALSE>>=
+library(pheatmap)
 ids = isoNorm(ids, formula = ~ group)
-heatmap(counts(ids, norm=TRUE)[1:100,], labRow = "")
+pheatmap(counts(ids, norm=TRUE)[1:100,], 
+         annotation_col = data.frame(colData(ids)[,1,drop=FALSE]),
+         show_rownames = FALSE, scale="row")
 @
 
 

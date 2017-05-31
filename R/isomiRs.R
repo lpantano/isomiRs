@@ -75,7 +75,7 @@ isoTop <- function(ids, top=20){
 #' changes.
 #'
 #' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param type string (iso5, iso3, add, subs) to indicate what isomiRs
+#' @param type string (iso5, iso3, add, subs, all) to indicate what isomiRs
 #' to use for the plot. See details for explanation.
 #' @param column string indicating the column in
 #' \code{colData} to color samples.
@@ -83,7 +83,7 @@ isoTop <- function(ids, top=20){
 #' different positions.
 #' @details
 #' There are four different values for \code{type} parameter. To plot
-#' trimming at 5' or 3' end, use \code{type="iso5"} or \code{type="iso3"}.
+#' trimming at 5' or 3' end, use \code{type="iso5"} or \code{type="iso3"}. Get a summary of all using \code{type="all"}.
 #' In this case, it will plot 3 positions at both side of the reference
 #' position described at miRBase site. Each position refers to the number of
 #' sequences that start/end before or after the miRBase reference. The
@@ -99,12 +99,14 @@ isoTop <- function(ids, top=20){
 #' will appear in the plot. When \code{type="subs"}, it will appear one
 #' position for each nucleotide in the reference miRNA. Points
 #' will indicate isomiRs with nucleotide changes at the given position.
-#'
+#' When \code{type="all"} a colar coordinate map will show 
+#' the abundance of each isomiR type in a single plot.
 #'
 #' @examples
 #' data(mirData)
 #' isoPlot(mirData, column="group")
 isoPlot <- function(ids, type="iso5", column="condition"){
+    if (type == "all"){return(.plot_all_iso(ids, column))}
     if (is.null(column)){
         column <-  names(colData(ids))[1]
     }
@@ -138,7 +140,7 @@ isoPlot <- function(ids, type="iso5", column="condition"){
                                                 nrow(temp)) ) )
         }
     }
-    p <- ggplot(table) +
+    ggplot(table) +
         geom_jitter(aes(x=factor(size),y=unique,colour=factor(group),
                         size=pct_abundance)) +
         scale_colour_brewer("Groups",palette="Set1") +
@@ -147,7 +149,6 @@ isoPlot <- function(ids, type="iso5", column="condition"){
         labs(list(title=paste(type,"distribution"),
                   y="# of unique sequences",
                 x="position respect to the reference"))
-    print(p)
 }
 #' Plot nucleotides changes at a given position
 #'
@@ -208,7 +209,7 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
                                               nrow(temp)) ) )
     }
 
-    p <- ggplot(table) +
+    ggplot(table) +
         geom_jitter(aes(x=factor(change),y=unique,colour=factor(group),
                         size=pct_abundance)) +
         scale_colour_brewer("Groups",palette="Set1") +
@@ -216,7 +217,6 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
         theme(strip.background=element_rect(fill="slategray3")) +
         labs(list(title=paste(type,"distribution"),y="# of unique sequences",
                 x=paste0("changes at postiion ",position," respect to the reference")))
-    print(p)
 }
 
 #' Create count matrix with different summarizing options

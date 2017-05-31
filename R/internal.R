@@ -214,3 +214,35 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
     pos$size <- factor(pos$size, levels=1:25)
     return (pos[ ,c(3,4,2,5,6)])
 }
+
+# function to plot isomiR summary
+.plot_all_iso <- function(ids, column){
+    rawList <- metadata(ids)[[1]]
+    metadata <- as.data.frame(colData(ids))
+    metadata$sample <- as.character(row.names(metadata))
+    metadata$condition <- metadata[,column]
+    .l <- lapply(row.names(colData(ids)), function(sample){
+        .d <- rawList[[sample]] %>%
+            mutate(mismtag=ifelse(mism != "0", "Yes", "No")) %>%
+            mutate(addtag=ifelse(add != "0", "Yes", "No")) %>%
+            mutate(t5tag=ifelse(t5 != "0", "Yes", "No")) %>%
+            mutate(t3tag=ifelse(t3 != "0", "Yes", "No"))
+        .s <- data.frame(sample=sample,
+                   type=c("mism","add","t5","t3","ref"),
+                   freq=c(sum(.d$freq[.d$mismtag=="Yes"], na.rm=TRUE),
+                     sum(.d$freq[.d$addtag=="Yes"], na.rm=TRUE),
+                     sum(.d$freq[.d$t5tag=="Yes"], na.rm=TRUE),
+                     sum(.d$freq[.d$t3tag=="Yes"], na.rm=TRUE),
+                     sum(.d$freq[.d$mismtag!="Yes" & .d$addtag!="Yes"  & .d$t5tag!="Yes" & .d$t3tag!="Yes"])),
+                     stringsAsFactors = FALSE
+        )
+        .s$freq <- .s$freq/sum(.s$freq) * 100
+        .s
+    })
+    do.call(rbind, .l) %>% arrange(type) %>%
+        left_join(metadata, by="sample") %>%
+        ggplot(aes(x=type, y=freq, group=sample, color=condition)) +
+        geom_polygon(fill=NA) +
+        coord_polar(start=-pi) +
+        theme_bw()
+}
