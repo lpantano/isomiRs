@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 1.5.1
-Date: 2017-05-25
+Version: 1.5.2
+Date: 2017-05-31
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
@@ -17,7 +17,7 @@ Suggests:
     pheatmap,
     BiocStyle
 Depends:
-    R (>= 3.2),
+    R (>= 3.4),
     DiscriMiner,
     IRanges,
     S4Vectors (>= 0.9.25),
@@ -38,10 +38,12 @@ Imports:
     gtools,
     gridExtra,
     grid,
+    grDevices, 
+    graphics, 
+    stats,
     GGally,
     gamlss,
-    gamlss.dist,
-    TMB
+    gamlss.dist
 Author: Lorena Pantano, Georgia Escaramis
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
