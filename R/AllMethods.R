@@ -27,10 +27,11 @@ counts.IsomirDataSeq <- function(object, norm=FALSE) {
 }
 
 #' @rdname counts
+#' @exportMethod "counts"
 setMethod("counts", signature(object="IsomirDataSeq"), counts.IsomirDataSeq)
 
-#' @name counts
 #' @rdname counts
+#' @exportMethod "counts<-"
 setReplaceMethod("counts", signature(object="IsomirDataSeq", value="matrix"),
                  function(object, value){
                      assays(object)[["counts"]] <- value
@@ -39,7 +40,7 @@ setReplaceMethod("counts", signature(object="IsomirDataSeq", value="matrix"),
                  }
 )
 
-
+# normcounts
 setMethod(
     f = "normcounts",
     signature = signature(x="IsomirDataSeq"),
@@ -48,6 +49,7 @@ setMethod(
     }
 )
 
+# normcounts
 setReplaceMethod("normcounts", "IsomirDataSeq",
                  function(x, value){
                      assays(x)[["norm"]] <- value
@@ -131,11 +133,12 @@ design.IsomirDataSeq <- function(object) object@design
 #'
 #' data(mirData)
 #' design(mirData) <- formula(~ 1)
-#'
+#' @exportMethod "design"
 setMethod("design", signature(object="IsomirDataSeq"), design.IsomirDataSeq)
 
 #' @name design
 #' @rdname design
+#' @exportMethod "design<-"
 setReplaceMethod("design", signature(object="IsomirDataSeq", value="formula"),
                  function( object, value ) {
                      # Temporary hack for backward compatibility with "old"
@@ -149,6 +152,7 @@ setReplaceMethod("design", signature(object="IsomirDataSeq", value="formula"),
                  })
 
 #' @rdname isoSelect
+#' @exportMethod "isoSelect"
 setMethod(f="isoSelect",
           signature = signature(object="IsomirDataSeq"),
           definition = isoSelect.IsomirDataSeq)

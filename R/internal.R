@@ -241,8 +241,9 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
     })
     do.call(rbind, .l) %>% arrange(type) %>%
         left_join(metadata, by="sample") %>%
-        ggplot(aes(x=type, y=freq, group=sample, color=condition)) +
+        ggplot(aes_string(x="type", y="freq", group="sample", color="condition")) +
         geom_polygon(fill=NA) +
         coord_polar(start=-pi) +
+        scale_color_brewer(palette = "Set1") +
         theme_bw()
 }

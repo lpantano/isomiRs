@@ -64,5 +64,4 @@ ids <- IsomirDataSeqFromFiles(fn_list, coldata=de)
 
 head(counts(ids))
 
-
 }

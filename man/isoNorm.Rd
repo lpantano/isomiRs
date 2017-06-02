@@ -25,5 +25,4 @@ data(mirData)
 ids <- isoCounts(mirData, minc=10, mins=6)
 ids <- isoNorm(mirData, formula=~group)
 head(counts(ids, norm=TRUE))
-
 }

@@ -23,6 +23,7 @@
 #' qLQNO(p, mu = 1, sigma = 1, lower.tail = TRUE, log.p = FALSE)
 #' rLQNO(n, mu = 1, sigma = 1)
 #' LQNO(mu.link="log", sigma.link="log")
+#' @export 
 LQNO <-function (mu.link ="log", sigma.link="log") 
 {
     mstats <- checklink("mu.link", "Normal", substitute(mu.link),    
@@ -79,6 +80,7 @@ LQNO <-function (mu.link ="log", sigma.link="log")
 }
 
 #' @rdname LQNO
+#' @export
 dLQNO<-function(x, mu=1, sigma=1, log=FALSE)
  { 
     if (any(mu <= 0) )  stop(paste("mu must be greater than 0 ", "\n", "")) 
@@ -88,6 +90,7 @@ dLQNO<-function(x, mu=1, sigma=1, log=FALSE)
   }
 
 #' @rdname LQNO
+#' @export
 pLQNO <- function(q, mu=1, sigma=1, lower.tail = TRUE, log.p = FALSE)
   { 
     if (any(mu <= 0) )  stop(paste("mu must be greater than 0 ", "\n", "")) 
@@ -98,6 +101,7 @@ pLQNO <- function(q, mu=1, sigma=1, lower.tail = TRUE, log.p = FALSE)
 
 
 #' @rdname LQNO
+#' @export
 qLQNO <- function(p, mu=1, sigma=1, lower.tail = TRUE, log.p = FALSE)
   { 
     if (any(mu <= 0) )  stop(paste("mu must be greater than 0 ", "\n", "")) 
@@ -109,6 +113,7 @@ qLQNO <- function(p, mu=1, sigma=1, lower.tail = TRUE, log.p = FALSE)
 }
 
 #' @rdname LQNO
+#' @export
 rLQNO <- function(n, mu=1, sigma=1)
   { 
   if (any(mu <= 0) )  stop(paste("mu must be greater than 0 ", "\n", "")) 

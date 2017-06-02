@@ -26,5 +26,4 @@ See \code{\link{IsomirDataSeq}} for details.
 
 data(mirData)
 design(mirData) <- formula(~ 1)
-
 }

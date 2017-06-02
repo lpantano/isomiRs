@@ -1,3 +1,14 @@
+CHANGES IN VERSION  1.5.3
+---------------------------
+
+FEATURES
+
+    o Better colors for polar plot of isomiRs
+
+FIX
+    o Fix notes during R CHECK for variables inside dplyr/ggplot functions
+    o Use roxygen2 for NAMESPACE
+
 CHANGES IN VERSION  1.5.2
 ---------------------------
 

@@ -15,9 +15,10 @@
 #' library(ggplot2)
 #' ggplot(ma,aes(y=log2(reads), x=Dilution)) + geom_jitter()
 #' ggplot(ma,aes(y=m, x=Dilution)) + geom_jitter()
+#' @export
 isoCorrect <- function(train, data, cycles=5000){
     fLQNO.r <- gamlss(reads~ SampleID+random(miRNA),
-                       sigma.fo=~ SampleID+random(miRNA),
+                       sigma.formula=~ SampleID+random(miRNA),
                        data=train,family="LQNO",
                        control=gamlss.control(n.cyc=cycles,c.crit=0.1,
                                               mu.step=1,sigma.step=1),method=RS())
@@ -48,7 +49,7 @@ isoCorrect <- function(train, data, cycles=5000){
     # datA.NBI<-merge(datA,cor.NBI, by="miRNA")
     
     fLQNO.data.r <- gamlss(reads~ SampleID+random(miRNA)+offset(off.m),
-                           sigma.fo=~ SampleID+random(miRNA)+offset(off.s),
+                           sigma.formula=~ SampleID+random(miRNA)+offset(off.s),
                            data=data.LQNO,family="LQNO",
                            control=gamlss.control(n.cyc=cycles,c.crit=0.1,
                                                   mu.step=1,sigma.step=1,gd.tol=Inf), 

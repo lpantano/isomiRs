@@ -89,7 +89,6 @@ ids <- isoNorm(ids, formula=~group)
 pls.ids = isoPLSDA(ids, "group", nperm = 2)
 cat(paste0("pval:",pls.ids$p.val))
 cat(paste0("components:",pls.ids$components))
-
 }
 \references{
 Perez-Enciso, Miguel and Tenenhaus, Michel. Prediction of clinical outcome with microarray data:

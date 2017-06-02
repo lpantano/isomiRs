@@ -31,7 +31,7 @@
 #' data(mirData)
 #' ids <- isoCounts(mirData, minc=10, mins=6)
 #' dds <- isoDE(mirData, formula=~group)
-#'
+#' @export
 isoDE <- function(ids, formula=NULL, ...){
     if (is.null(formula)){
         formula <- design(ids)
@@ -58,7 +58,7 @@ isoDE <- function(ids, formula=NULL, ...){
 #' @examples
 #' data(mirData)
 #' isoTop(mirData)
-#'
+#' @export
 isoTop <- function(ids, top=20){
     select <- order(rowMeans(counts(ids)),
                     decreasing=TRUE)[1:top]
@@ -105,6 +105,7 @@ isoTop <- function(ids, top=20){
 #' @examples
 #' data(mirData)
 #' isoPlot(mirData, column="group")
+#' @export
 isoPlot <- function(ids, type="iso5", column="condition"){
     if (type == "all"){return(.plot_all_iso(ids, column))}
     if (is.null(column)){
@@ -141,8 +142,8 @@ isoPlot <- function(ids, type="iso5", column="condition"){
         }
     }
     ggplot(table) +
-        geom_jitter(aes(x=factor(size),y=unique,colour=factor(group),
-                        size=pct_abundance)) +
+        geom_jitter(aes_string(x="size",y="unique",colour="group",
+                        size="pct_abundance")) +
         scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
@@ -173,11 +174,12 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 #' @examples
 #' data(mirData)
 #' isoPlotPosition(mirData, column="group")
+#' @export
 isoPlotPosition <- function(ids, position=1, column="condition"){
     if (is.null(column)){
         column <- names(colData(ids))[1]
     }
-    freq <- size <- group <- abundance <- NULL
+    freq <- size <- change <- reference <- current <- NULL
     codevn <- 2:5
     type <- "subs"
     names(codevn) <- c("iso5", "iso3", "subs", "add")
@@ -189,7 +191,6 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
     table <- data.frame()
     isoList <- metadata(ids)$isoList
     for (sample in row.names(des)){
-        .info <- isoList[[sample]][[coden]]
         temp <- as.data.frame( isoList[[sample]][[coden]] %>%
                                 mutate(change=paste0(reference, ">", current)) %>%
                                 filter(size==1) %>%
@@ -210,8 +211,8 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
     }
 
     ggplot(table) +
-        geom_jitter(aes(x=factor(change),y=unique,colour=factor(group),
-                        size=pct_abundance)) +
+        geom_jitter(aes_string(x="change",y="unique",colour="group",
+                        size="pct_abundance")) +
         scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
@@ -263,7 +264,7 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' # taking into account isomiRs and reference sequence.
 #' ids <- isoCounts(mirData, ref=TRUE, minc=10, mins=6)
 #' head(counts(ids))
-#'
+#' @export
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
                       add=FALSE, subs=FALSE, seed=FALSE, minc=1, mins=1){
         counts <- IsoCountsFromMatrix(metadata(ids)$rawList, colData(ids), ref,
@@ -293,7 +294,7 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' ids <- isoCounts(mirData, minc=10, mins=6)
 #' ids <- isoNorm(mirData, formula=~group)
 #' head(counts(ids, norm=TRUE))
-#'
+#' @export
 isoNorm <- function(ids, formula=NULL){
     if (is.null(formula)){
         formula <- design(ids)
