@@ -50,3 +50,13 @@ Linear quadratic family that assumes the following relation for the *variance*
 of the normal distribution \code{Var = mu*(1+s*mu)}.
 regression on mu and on the sigma (log and identity links)
 }
+\details{
+Methods adapted from:
+
+Argyropoulos, Christos, et al. "Modeling bias and variation in 
+the stochastic processes of small RNA sequencing." 
+Nucleic Acids Research (2017).
+}
+\author{
+Christos Argyropoulos
+}

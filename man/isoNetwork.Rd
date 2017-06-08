@@ -47,7 +47,8 @@ the list of miRNAs to be used by this function.
 library(org.Mm.eg.db)
 library(clusterProfiler)
 data(isoExample)
-ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, ont = "BP", keytype="ENSEMBL")
+ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), 
+org.Mm.eg.db, ont = "BP", keytype="ENSEMBL")
 data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
 isoPlotNet(data)
 }

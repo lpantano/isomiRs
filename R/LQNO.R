@@ -23,6 +23,13 @@
 #' qLQNO(p, mu = 1, sigma = 1, lower.tail = TRUE, log.p = FALSE)
 #' rLQNO(n, mu = 1, sigma = 1)
 #' LQNO(mu.link="log", sigma.link="log")
+#' @author Christos Argyropoulos
+#' @details 
+#' Methods adapted from:
+#' 
+#' Argyropoulos, Christos, et al. "Modeling bias and variation in 
+#' the stochastic processes of small RNA sequencing." 
+#' Nucleic Acids Research (2017).
 #' @export 
 LQNO <-function (mu.link ="log", sigma.link="log") 
 {
