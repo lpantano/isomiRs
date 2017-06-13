@@ -229,6 +229,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
             mutate(t3tag=ifelse(t3 != "0", "Yes", "No"))
         .s <- data.frame(sample=sample,
                    type=c("mism","add","t5","t3","ref"),
+                   method="freq",
                    freq=c(sum(.d$freq[.d$mismtag=="Yes"], na.rm=TRUE),
                      sum(.d$freq[.d$addtag=="Yes"], na.rm=TRUE),
                      sum(.d$freq[.d$t5tag=="Yes"], na.rm=TRUE),
@@ -237,7 +238,18 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
                      stringsAsFactors = FALSE
         )
         .s$freq <- .s$freq/sum(.s$freq) * 100
-        .s
+        .u <- data.frame(sample=sample,
+                         type=c("mism","add","t5","t3","ref"),
+                         method="unique",
+                         freq=c(sum(.d$mismtag=="Yes"),
+                                sum(.d$addtag=="Yes"),
+                                sum(.d$t5tag=="Yes"),
+                                sum(.d$t3tag=="Yes"),
+                                sum(.d$mismtag!="Yes" & .d$addtag!="Yes"  & .d$t5tag!="Yes" & .d$t3tag!="Yes")),
+                         stringsAsFactors = FALSE
+        )
+        .u$freq <- .u$freq/sum(.u$freq) * 100
+        rbind(.s, .u)
     })
     do.call(rbind, .l) %>% arrange(type) %>%
         left_join(metadata, by="sample") %>%
@@ -245,5 +257,6 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
         geom_polygon(fill=NA) +
         coord_polar(start=-pi) +
         scale_color_brewer(palette = "Set1") +
+        facet_wrap(~method) +
         theme_bw()
 }
