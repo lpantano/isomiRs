@@ -19,7 +19,9 @@ Suggests:
 Depends:
     R (>= 3.4),
     DiscriMiner,
-    SummarizedExperiment
+    SummarizedExperiment,
+    TMB (>= 1.7.6),
+    RcppEigen
 Imports:
     BiocGenerics (>= 0.7.5),
     IRanges,
@@ -57,4 +59,5 @@ Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1.9000
-NeedsCompilation: no
+NeedsCompilation: yes
+LinkingTo: TMB, RcppEigen
