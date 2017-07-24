@@ -50,9 +50,9 @@ from_pairs_to_matrix <- function(df){
     cat("GO enrichment with ", length(universe), " as universe", universe[1], "\n")
     cat("and ", length(target), " as query:", target[1], "\n")
     if (length(universe) > length(sel_genes)*3){
-        ego <- enrichGO(sel_genes, org, ont = "BP", keytype = genename, universe = universe)
+        ego <- enrichGO(sel_genes, org, genename, ont = "BP", universe = universe)
     }else{
-        ego <- enrichGO(sel_genes, org, ont = "BP", keytype = genename)
+        ego <- enrichGO(sel_genes, org, genename, ont = "BP")
     }
     if (is.null(ego))
         return(NULL)
@@ -165,7 +165,7 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 #' library(org.Mm.eg.db)
 #' library(clusterProfiler)
 #' data(isoExample)
-#' ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, ont = "BP", keytype="ENSEMBL")
+#' ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, "ENSEMBL", ont = "BP")
 #' data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
 #' isoPlotNet(data)
 isoNetwork <- function(mirna_rse, gene_rse, target,
