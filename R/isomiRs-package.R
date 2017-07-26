@@ -16,12 +16,12 @@
 #' @import TMB
 #' @import RcppEigen
 #' @importFrom gamlss.dist checklink
+#' @importFrom lme4 glmer fixef ranef
 #' @importFrom reshape melt melt.array melt.data.frame melt.list
 #' @importFrom tidyr spread
 #' @importFrom readr read_tsv
 #' @importFrom dplyr select arrange summarise rowwise mutate filter 
 #' if_else group_by "%>%" distinct n left_join bind_rows ungroup
-#' @importFrom plyr join_all
 #' @importFrom DiscriMiner plsDA
 #' @importFrom grDevices colorRampPalette
 #' @importFrom RColorBrewer brewer.pal

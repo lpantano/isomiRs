@@ -133,6 +133,7 @@ design.IsomirDataSeq <- function(object) object@design
 #'
 #' data(mirData)
 #' design(mirData) <- formula(~ 1)
+#' @return design for the experiment
 #' @exportMethod "design"
 setMethod("design", signature(object="IsomirDataSeq"), design.IsomirDataSeq)
 

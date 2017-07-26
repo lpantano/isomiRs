@@ -31,7 +31,6 @@ Imports:
     DESeq2,
     reshape,
     tidyr,
-    plyr,
     readr,
     dplyr,
     RColorBrewer,
@@ -46,6 +45,7 @@ Imports:
     stats,
     GGally,
     gamlss,
+    lme4,
     gamlss.dist
 LazyData: true
 Authors@R: c(

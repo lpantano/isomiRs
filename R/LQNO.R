@@ -30,6 +30,7 @@
 #' Argyropoulos, Christos, et al. "Modeling bias and variation in 
 #' the stochastic processes of small RNA sequencing." 
 #' Nucleic Acids Research (2017).
+#' @return LQNO function
 #' @export 
 LQNO <-function (mu.link ="log", sigma.link="log") 
 {

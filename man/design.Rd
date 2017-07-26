@@ -17,6 +17,9 @@
 
 \item{value}{a \code{formula} to pass to DESeq2}
 }
+\value{
+design for the experiment
+}
 \description{
 The design holds the R \code{formula} which expresses how the
 counts depend on the variables in \code{colData}.

@@ -23,6 +23,9 @@ samples and compare betweem miRNA/gene expression.}
 \item{min_cor}{numeric cutoff for correlation value that
 will be use to consider a miRNA-gene pair as valid.}
 }
+\value{
+mirna-gene matrix
+}
 \description{
 This function creates a matrix with rows (genes) and
 columns (mirnas) with values indicating if miRNA-gene

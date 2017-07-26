@@ -58,6 +58,7 @@ isoDE <- function(ids, formula=NULL, ...){
 #' @examples
 #' data(mirData)
 #' isoTop(mirData)
+#' @return heatmap with top expressed miRNAs
 #' @export
 isoTop <- function(ids, top=20){
     select <- order(rowMeans(counts(ids)),

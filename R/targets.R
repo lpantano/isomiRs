@@ -116,6 +116,8 @@ from_pairs_to_matrix <- function(df){
 #' gene <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(gene_matrix)),
 #'                              colData= gene_col)
 #' find_targets(mirna, gene, pairs)
+#' @return mirna-gene matrix
+#' @export
 find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor= -.6){
     mirna = assay(mirna_rse,"norm")[,order(colData(mirna_rse)[,summarize])]
     message("Number of mirnas ", nrow(mirna), " with these columns:", paste(colnames(mirna)))
@@ -135,6 +137,8 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 }
 
 #' Clustering miRNAs-genes pairs in similar pattern expression
+#'
+#' Clustering miRNAs-genes pairs
 #'
 #' @param mirna_rse \link[SummarizedExperiment]{SummarizedExperiment} with miRNA
 #' information. See details.
@@ -165,9 +169,11 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 #' library(org.Mm.eg.db)
 #' library(clusterProfiler)
 #' data(isoExample)
-#' ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, "ENSEMBL", ont = "BP")
-#' data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
-#' isoPlotNet(data)
+#' # ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, "ENSEMBL", ont = "BP")
+#' # data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
+#' # isoPlotNet(data)
+#' @return list with network information
+#' @export
 isoNetwork <- function(mirna_rse, gene_rse, target,
                        summarize="group", org, genename="ENSEMBL",
                        min_cor = -.6){
@@ -217,12 +223,15 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
         return(data.frame())
     }))
 
-    res_by_mir <- net %>% group_by(mir, go) %>% dplyr::summarise(n()) %>%
+    res_by_mir <- net %>% group_by(mir, go) %>% 
+        dplyr::summarise(n()) %>%
         group_by(go) %>% dplyr::summarise(nmir=n())
     res <- res[res$Description %in% res_by_mir$go,]
     res[match(res_by_mir$go, res$Description), "nmir"] <- res_by_mir$nmir
-    obj = .viz_mirna_gene_enrichment(list(network = net, summary = res),
-                                     mirna_norm, gene_norm, mirna_group, org)
+    obj = .viz_mirna_gene_enrichment(list(network = net, 
+                                          summary = res),
+                                     mirna_norm, gene_norm, 
+                                     mirna_group, org)
     list(network = net, summary = res, analysis=obj)
 }
 
@@ -231,15 +240,18 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
         .ma = ma[names(groups)[groups==g],]
         ma_long = suppressMessages(reshape::melt.array(as.matrix(.ma)))
         names(ma_long) = c("gene", "group", "average")
-        ma_long$group = factor(ma_long$group, gtools::mixedsort(levels(ma_long$group)))
+        ma_long$group = factor(ma_long$group, 
+                               gtools::mixedsort(levels(ma_long$group)))
         n = round(length(unique(ma_long$group)) / 2)
         ggplot(ma_long, aes(x=group, y=average)) +
             # geom_boxplot(outlier.size = 0.2, size=0.5) +
             stat_smooth(data=ma_long, size=0.5,
-                        aes(x=group, y=average, group=1),method = "lm",formula = y~poly(x,n)) +
+                        aes(x=group, y=average, group=1),
+                        method = "lm",formula = y~poly(x,n)) +
             theme_bw(base_size = 11) + xlab(NULL) + ylab(NULL) +
             theme(axis.text.x=element_blank()) +
-            theme(axis.text.y=element_blank(),axis.ticks=element_blank())
+            theme(axis.text.y=element_blank(),
+                  axis.ticks=element_blank())
     })
 }
 
@@ -306,11 +318,16 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
 }
 
 #' Functional miRNA / gene expression profile plot
-#'
+#' 
+#' Plot analysis from isoNetwork
+#' 
 #' @param obj output from \link{isoNetwork}
+#' @return network ggplot
+#' @export
 isoPlotNet = function(obj){
     df = obj$analysis$table
-    ma = as.matrix(df %>% dplyr::select(term, group, ngene) %>% spread(group, ngene, fill=0))
+    ma = as.matrix(df %>% .[,c("term", "group", "ngene")] %>% 
+                       spread(group, ngene, fill=0))
     df = df[rowSums(ma>4)>1,]
 
     df$term_short = sapply(df$term, function(x){

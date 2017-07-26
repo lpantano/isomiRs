@@ -27,8 +27,11 @@ names in gene_rse object.}
 
 \item{min_cor}{numeric cutoff to consider a miRNA to regulate a target}
 }
+\value{
+list with network information
+}
 \description{
-Clustering miRNAs-genes pairs in similar pattern expression
+Clustering miRNAs-genes pairs
 }
 \details{
 This function will correlate miRNA and gene expression data using
@@ -47,7 +50,7 @@ the list of miRNAs to be used by this function.
 library(org.Mm.eg.db)
 library(clusterProfiler)
 data(isoExample)
-ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, "ENSEMBL", ont = "BP")
-data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
-isoPlotNet(data)
+# ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, "ENSEMBL", ont = "BP")
+# data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
+# isoPlotNet(data)
 }

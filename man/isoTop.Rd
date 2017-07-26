@@ -11,6 +11,9 @@ isoTop(ids, top = 20)
 
 \item{top}{number of isomiRs/miRNAs used}
 }
+\value{
+heatmap with top expressed miRNAs
+}
 \description{
 This function creates a heatmap with the top N
 isomiRs/miRNAs. It uses the matrix under \code{counts(ids)}

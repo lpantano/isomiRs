@@ -45,6 +45,9 @@ rLQNO(n, mu = 1, sigma = 1)
 
 \item{n}{number of observations. If length(n) > 1, the length is taken to be the number required.}
 }
+\value{
+LQNO function
+}
 \description{
 Linear quadratic family that assumes the following relation for the *variance*
 of the normal distribution \code{Var = mu*(1+s*mu)}.

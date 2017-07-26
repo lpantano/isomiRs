@@ -7,10 +7,11 @@
 isoPlotNet(obj)
 }
 \arguments{
-\item{obj}{output from \link{isoNetwork}
-
-For example look at: \code{\link{isoNetwork}}}
+\item{obj}{output from \link{isoNetwork}}
+}
+\value{
+network ggplot
 }
 \description{
-Functional miRNA / gene expression profile plot
+Plot analysis from isoNetwork
 }

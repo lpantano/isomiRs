@@ -9,7 +9,9 @@
 #' Argyropoulos, Christos, et al. "Modeling bias and variation in 
 #' the stochastic processes of small RNA sequencing." 
 #' Nucleic Acids Research (2017).
-
+#' @param counts count matrix
+#' @param groups character vector to indicate the group of each sample
+#' @param long boolean matrix in long format
 #' @return data.frame with estimates and p-values
 #' @examples
 #' options(warn = -1) # this is only for tiny example
