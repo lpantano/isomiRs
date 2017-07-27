@@ -112,7 +112,7 @@ isoSelect.IsomirDataSeq <- function(object, mirna,  minc=10) {
         #group_by(id, sample) %>%
         #summarise(freq=sum(freq)) %>% ungroup() %>%
         spread(key=sample, value=freq, fill=0)
-    DataFrame(df[ rowSums(df[,2:ncol(df)] >10 ) > 0, , drop=FALSE])
+    DataFrame(df[ rowSums(df[,2:ncol(df)] > minc ) > 0, , drop=FALSE])
 }
 
 design.IsomirDataSeq <- function(object) object@design
