@@ -48,7 +48,7 @@ p<-do.call(rbind, .l) %>% arrange(type) %>%
     theme(panel.grid.major = element_line(size = 1)) +
     theme(axis.title.x=element_blank(),
           axis.ticks=element_blank(),
-          axis.text = element_text(size=13, face = "bold", color="orange"),
+          axis.text.x = element_text(size=15, face = "bold", color="orange"),
           panel.border = element_blank(),
           axis.text.y = element_blank(),
           plot.background = element_rect(fill = "transparent",colour = NA),
@@ -57,7 +57,7 @@ p<-do.call(rbind, .l) %>% arrange(type) %>%
 
 hexSticker::sticker(p,
         package="isomiRs", 
-        s_x=0.9,
+        s_x=0.95,
         s_y=0.8, 
         s_width=1.2, 
         s_height=1.5,
