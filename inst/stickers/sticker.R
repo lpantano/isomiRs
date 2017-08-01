@@ -52,7 +52,7 @@ p<-do.call(rbind, .l) %>% arrange(type) %>%
           axis.text.y = element_blank(),
           plot.background = element_rect(fill = "transparent",colour = NA),
           panel.background = element_rect(fill = "transparent",colour = NA),
-          axis.text.x = element_text(size=25, face = "bold", color="orange")) +
+          axis.text.x = element_blank()) +
     scale_y_continuous(expand = c(0,0))
 
 hexSticker::sticker(p,
@@ -63,8 +63,9 @@ hexSticker::sticker(p,
         s_height=1.8,
         p_x = 1,
         p_y = 1.6,
-        h_color = "orange",
+        h_color = "orange2",
         h_fill = "steelblue",
-        p_color = "orange",
+        h_size = 1,
+        p_color = "orange2",
         p_size = 16,
         filename="inst/stickers/isomirs.png")
