@@ -283,6 +283,6 @@ isoPLSDAplot <- function (pls, n=2){
     p <- ggpairs(datacomponents, columns = 2:ncol(datacomponents),
                  aes_string(color = "condition"),
                 upper="blank",legends=TRUE)
-    print(p)
-    datacomponents
+    p
+    invisible(datacomponents)
 }
