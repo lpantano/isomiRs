@@ -41,7 +41,7 @@ metadata$condition <- metadata[,column]
 p<-do.call(rbind, .l) %>% arrange(type) %>%
     left_join(metadata, by="sample") %>%
     ggplot(aes_string(x="type", y="freq", group="sample", color="condition")) +
-    geom_polygon(fill=NA, size=1) +
+    geom_polygon(fill=NA, size=1.5) +
     coord_polar(start=-pi) +
     scale_color_manual(values = c("steelblue", "steelblue")) +
     theme_bw() + ylab("") + xlab("") + guides(color=FALSE) +
@@ -64,7 +64,7 @@ hexSticker::sticker(p,
         p_x = 1,
         p_y = 1.55,
         h_color = "orange2",
-        h_fill = "black",
+        h_fill = rgb(0, 0, 0, alpha = 0.7),
         h_size = 1,
         p_color = "orange2",
         p_size = 24,
