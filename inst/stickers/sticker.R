@@ -43,7 +43,7 @@ p<-do.call(rbind, .l) %>% arrange(type) %>%
     ggplot(aes_string(x="type", y="freq", group="sample", color="condition")) +
     geom_polygon(fill=NA, size=1) +
     coord_polar(start=-pi) +
-    scale_color_manual(values = c("purple4", "purple4")) +
+    scale_color_manual(values = c("steelblue", "steelblue")) +
     theme_bw() + ylab("") + xlab("") + guides(color=FALSE) +
     theme(panel.grid.major = element_line(size = 1)) +
     theme(axis.title.x=element_blank(),
@@ -64,7 +64,7 @@ hexSticker::sticker(p,
         p_x = 1,
         p_y = 1.55,
         h_color = "orange2",
-        h_fill = "steelblue4",
+        h_fill = "black",
         h_size = 1,
         p_color = "orange2",
         p_size = 24,
