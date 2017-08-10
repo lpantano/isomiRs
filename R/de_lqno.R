@@ -1,18 +1,18 @@
-
 #' Differential expression between two groups using LQNO model
 #' 
 #' 
 #' @author Christos Argyropoulos and Lorena Pantano
 #' @details 
-#' Methods adapted from:
+#' Methods adapted from *Argyropoulos et al (2017)*.
 #' 
+#' @references 
 #' Argyropoulos, Christos, et al. "Modeling bias and variation in 
 #' the stochastic processes of small RNA sequencing." 
 #' Nucleic Acids Research (2017).
-#' @param counts count matrix
-#' @param groups character vector to indicate the group of each sample
-#' @param long boolean matrix in long format
-#' @return data.frame with estimates and p-values
+#' @param counts Count matrix.
+#' @param groups Character vector to indicate the group of each sample.
+#' @param long Whether matrix is in long format. Default FALSE.
+#' @return data.frame with estimates and p-values.
 #' @examples
 #' options(warn = -1) # this is only for tiny example
 #' data(dat286)

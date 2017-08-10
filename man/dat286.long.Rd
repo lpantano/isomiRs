@@ -9,8 +9,8 @@
 dat286.long
 }
 \description{
-Argyropoulos, Christos, et al. "Modeling bias and variation in 
-the stochastic processes of small RNA sequencing." 
+Argyropoulos, Christos, et al. "Modeling bias and variation in
+the stochastic processes of small RNA sequencing."
 Nucleic Acids Research (2017).
 }
 \keyword{datasets}

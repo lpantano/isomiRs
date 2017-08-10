@@ -7,16 +7,16 @@
 isoPlot(ids, type = "iso5", column = "condition")
 }
 \arguments{
-\item{ids}{object of class \code{\link{IsomirDataSeq}}}
+\item{ids}{Object of class \link{IsomirDataSeq}.}
 
-\item{type}{string (iso5, iso3, add, subs, all) to indicate what isomiRs
+\item{type}{String (iso5, iso3, add, subs, all) to indicate what isomiRs
 to use for the plot. See details for explanation.}
 
-\item{column}{string indicating the column in
+\item{column}{String indicating the column in
 \code{colData} to color samples.}
 }
 \value{
-\link[ggplot2]{ggplot} object showing different isomiRs changes at
+\code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} Object showing different isomiRs changes at
 different positions.
 }
 \description{
@@ -42,7 +42,7 @@ In this case, only 3 positions after the 3' end
 will appear in the plot. When \code{type="subs"}, it will appear one
 position for each nucleotide in the reference miRNA. Points
 will indicate isomiRs with nucleotide changes at the given position.
-When \code{type="all"} a colar coordinate map will show 
+When \code{type="all"} a colar coordinate map will show
 the abundance of each isomiR type in a single plot.
 }
 \examples{

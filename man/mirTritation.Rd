@@ -10,8 +10,8 @@ Train and test data to use with isoCorrect}
 mirTritation
 }
 \description{
-Argyropoulos, Christos, et al. "Modeling bias and variation in 
-the stochastic processes of small RNA sequencing." 
+Argyropoulos, Christos, et al. "Modeling bias and variation in
+the stochastic processes of small RNA sequencing."
 Nucleic Acids Research (2017).
 }
 \keyword{datasets}

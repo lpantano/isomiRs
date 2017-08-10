@@ -7,24 +7,20 @@
 isoLQNO(counts, groups = NULL, long = FALSE)
 }
 \arguments{
-\item{counts}{count matrix}
+\item{counts}{Count matrix.}
 
-\item{groups}{character vector to indicate the group of each sample}
+\item{groups}{Character vector to indicate the group of each sample.}
 
-\item{long}{boolean matrix in long format}
+\item{long}{Boolean matrix in long format.}
 }
 \value{
-data.frame with estimates and p-values
+data.frame with estimates and p-values.
 }
 \description{
 Differential expression between two groups using LQNO model
 }
 \details{
-Methods adapted from:
-
-Argyropoulos, Christos, et al. "Modeling bias and variation in 
-the stochastic processes of small RNA sequencing." 
-Nucleic Acids Research (2017).
+Methods adapted from \emph{Argyropoulos et al (2017)}.
 }
 \examples{
 options(warn = -1) # this is only for tiny example
@@ -33,6 +29,11 @@ datRat<-subset(dat286.long,(Series=="Equi" | Series =="RatioA") & Amount=="100 f
 datRat$SampleID<-factor(datRat$SampleID)
 datRat$Series<-factor(datRat$Series)
 res <- isoLQNO(datRat, long=TRUE)
+}
+\references{
+Argyropoulos, Christos, et al. "Modeling bias and variation in
+the stochastic processes of small RNA sequencing."
+Nucleic Acids Research (2017).
 }
 \author{
 Christos Argyropoulos and Lorena Pantano

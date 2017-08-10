@@ -7,14 +7,14 @@
 isoCorrect(train, data, cycles = 5000, long = FALSE)
 }
 \arguments{
-\item{train}{long data.frame to train model}
+\item{train}{Long data.frame to train model.}
 
-\item{data}{long data.frame to correct abundance}
+\item{data}{Long data.frame to correct abundance.}
 
-\item{cycles}{number of cycles to reach convergency}
+\item{cycles}{Number of cycles to reach convergency.}
 
-\item{long}{boolean if input is in long format instead of standard
-wide format (rows:miRNAs, columns:samples)}
+\item{long}{Boolean if input is in long format instead of standard
+wide format (rows:miRNAs, columns:samples).}
 }
 \value{
 data.frame with corrected expression
@@ -25,8 +25,8 @@ this is the source file for fitting the linear quadratic normal family
 \details{
 Methods adapted from:
 
-Argyropoulos, Christos, et al. "Modeling bias and variation in 
-the stochastic processes of small RNA sequencing." 
+Argyropoulos, Christos, et al. "Modeling bias and variation in
+the stochastic processes of small RNA sequencing."
 Nucleic Acids Research (2017).
 }
 \examples{

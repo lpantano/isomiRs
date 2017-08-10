@@ -4,9 +4,9 @@
 
 from_pairs_to_matrix <- function(df){
     if (!is.data.frame(df))
-        error("Need a data.frame with 2 columns: gene, mir.")
+        stop("Need a data.frame with 2 columns: gene, mir.")
     if ( !(names(df) %in% c("gene","mir")) )
-        error("The columns should be names as gene and mir.")
+        stop("The columns should be names as gene and mir.")
     df$value <- 1
     ma = pairs %>% dplyr::select(gene, mir, value) %>%
         dplyr::distinct() %>% spread(mir, value, fill=0) %>% filter(!is.na(gene))
@@ -86,16 +86,16 @@ from_pairs_to_matrix <- function(df){
 #' pair is target according putative targets and negative
 #' correlation of the expression of both molecules.
 #'
-#' @param mirna_rse \link[SummarizedExperiment]{SummarizedExperiment} with miRNA
+#' @param mirna_rse [SummarizedExperiment::SummarizedExperiment] with miRNA
 #' information. See details.
-#' @param gene_rse \link[SummarizedExperiment]{SummarizedExperiment} with gene
+#' @param gene_rse [SummarizedExperiment::SummarizedExperiment] with gene
 #' information. See details.
-#' @param target matrix with miRNAs (columns) and genes (rows)
-#' target prediction values (1 if it is a target, 0 if not).
-#' @param summarize character column name in colData(rse) to use to group
-#' samples and compare betweem miRNA/gene expression.
-#' @param min_cor numeric cutoff for correlation value that
-#' will be use to consider a miRNA-gene pair as valid.
+#' @param target Matrix with miRNAs (columns) and genes (rows)
+#'   target prediction values (1 if it is a target, 0 if not).
+#' @param summarize Character column name in colData(rse) to use to group
+#'   samples and compare betweem miRNA/gene expression.
+#' @param min_cor Numeric cutoff for correlation value that
+#'   will be use to consider a miRNA-gene pair as valid.
 #' @examples
 #'
 #' pairs <- as.matrix(data.frame(row.names=c("gene1", "gene2"),
@@ -140,18 +140,18 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 #'
 #' Clustering miRNAs-genes pairs
 #'
-#' @param mirna_rse \link[SummarizedExperiment]{SummarizedExperiment} with miRNA
+#' @param mirna_rse [SummarizedExperiment::SummarizedExperiment] with miRNA
 #' information. See details.
-#' @param gene_rse \link[SummarizedExperiment]{SummarizedExperiment} with gene
+#' @param gene_rse [SummarizedExperiment::SummarizedExperiment] with gene
 #' information. See details.
-#' @param target matrix with miRNAs (columns) and genes (rows)
+#' @param target Matrix with miRNAs (columns) and genes (rows)
 #' target prediction (1 if it is a target, 0 if not).
-#' @param summarize character column name in colData(rse) to use to group
+#' @param summarize Character column name in `colData(rse)` to use to group
 #' samples and compare betweem miRNA/gene expression.
-#' @param org \link[AnnotationDbi]{AnnotationDb}. (org.Mm.eg.db)
-#' @param genename character keytype of the gene
-#' names in gene_rse object.
-#' @param min_cor numeric cutoff to consider a miRNA to regulate a target
+#' @param org [AnnotationDbi::AnnotationDb]:(org.Mm.eg.db).
+#' @param genename Character keytype of the gene
+#'   names in gene_rse object.
+#' @param min_cor Numeric cutoff to consider a miRNA to regulate a target.
 #' @details
 #'
 #' This function will correlate miRNA and gene expression data using
@@ -159,13 +159,13 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 #' of expression that will be annotated with GO terms.
 #' mirna_rse and gene_rse can be created using the following code:
 #'
-#' \code{mi_rse = SummarizedExperiment(assays=SimpleList(norm=mirna_matrix), colData, metadata=list(sign=mirna_keep))}
+#' `mi_rse = SummarizedExperiment(assays=SimpleList(norm=mirna_matrix), colData, metadata=list(sign=mirna_keep))`
 #'
-#' where, \code{mirna_matrix} is the normalized counts expression,
-#' \code{colData} is the metadata information and \code{mirna_keep}
+#' where, `mirna_matrix` is the normalized counts expression,
+#' `colData` is the metadata information and `mirna_keep`
 #' the list of miRNAs to be used by this function.
+#' 
 #' @examples
-#'
 #' library(org.Mm.eg.db)
 #' library(clusterProfiler)
 #' data(isoExample)
@@ -195,9 +195,12 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
         stop("levels in mirna and gene data are not the same")
 
     mirna_norm <- .apply_median(mirna[mirna_de,], mirna_group, minfc=0.5)
-    message("Number of mirnas ", nrow(mirna_norm), " with these columns:", paste(colnames(mirna_norm)))
+    message("Number of mirnas ", nrow(mirna_norm),
+            " with these columns:", paste(colnames(mirna_norm)))
     gene_norm <- .apply_median(gene[gene_de,], gene_group, minfc=0.5)
-    message("Number of mirnas ", nrow(gene_norm), " with these columns:", paste(colnames(gene_norm)))
+    message("Number of mirnas ", nrow(gene_norm),
+            " with these columns:", paste(colnames(gene_norm)))
+    
     cor_target <- .cor_matrix(mirna_norm, gene_norm, target, min_cor)
 
     is_target_and_de <- rownames(cor_target)[apply(cor_target, 1, min) != 0]
@@ -321,8 +324,8 @@ isoNetwork <- function(mirna_rse, gene_rse, target,
 #' 
 #' Plot analysis from isoNetwork
 #' 
-#' @param obj output from \link{isoNetwork}
-#' @return network ggplot
+#' @param obj Output from [isoNetwork()].
+#' @return Network ggplot.
 #' @export
 isoPlotNet = function(obj){
     df = obj$analysis$table

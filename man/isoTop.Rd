@@ -7,9 +7,9 @@
 isoTop(ids, top = 20)
 }
 \arguments{
-\item{ids}{object of class \code{\link{IsomirDataSeq}}}
+\item{ids}{Object of class \link{IsomirDataSeq}.}
 
-\item{top}{number of isomiRs/miRNAs used}
+\item{top}{Number of isomiRs/miRNAs used.}
 }
 \value{
 heatmap with top expressed miRNAs

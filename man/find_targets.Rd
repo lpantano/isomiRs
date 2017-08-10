@@ -8,19 +8,19 @@ find_targets(mirna_rse, gene_rse, target, summarize = "group",
   min_cor = -0.6)
 }
 \arguments{
-\item{mirna_rse}{\link[SummarizedExperiment]{SummarizedExperiment} with miRNA
+\item{mirna_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with miRNA
 information. See details.}
 
-\item{gene_rse}{\link[SummarizedExperiment]{SummarizedExperiment} with gene
+\item{gene_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with gene
 information. See details.}
 
-\item{target}{matrix with miRNAs (columns) and genes (rows)
+\item{target}{Matrix with miRNAs (columns) and genes (rows)
 target prediction values (1 if it is a target, 0 if not).}
 
-\item{summarize}{character column name in colData(rse) to use to group
+\item{summarize}{Character column name in colData(rse) to use to group
 samples and compare betweem miRNA/gene expression.}
 
-\item{min_cor}{numeric cutoff for correlation value that
+\item{min_cor}{Numeric cutoff for correlation value that
 will be use to consider a miRNA-gene pair as valid.}
 }
 \value{

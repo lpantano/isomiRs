@@ -1,30 +1,30 @@
 #' Differential expression analysis with DESeq2
 #'
 #' This function does differential expression analysis with
-#' \code{\link[DESeq2]{DESeq2-package}} using the specific formula.
-#' It will return a \code{\link[DESeq2]{DESeqDataSet}} object.
+#' [DESeq2::DESeq2-package] using the specific formula.
+#' It will return a [DESeq2::DESeqDataSet] object.
 #'
 #' @details
 #'
 #' First, this function collapses all isomiRs in different types.
-#' Read more at \code{\link{isoCounts}} to know the different options
+#' Read more at [isoCounts()] to know the different options
 #' available to collapse isomiRs.
 #'
-#' After that, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
+#' After that, [DESeq2::DESeq2-package] is used to do differential
 #' expression analysis. It uses the count matrix and design experiment
-#' stored at (\code{counts(ids)} and \code{colData(ids)})
-#' \code{\link{IsomirDataSeq}} object
-#' to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
+#' stored at (`counts(ids)` and `colData(ids)`)
+#' [IsomirDataSeq] object
+#' to construct a [DESeq2::DESeqDataSet] object.
 #'
-#' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param formula used for DE analysis
-#' @param ... options to pass to \link{isoCounts} including
-#' ref, iso5, iso3, add, subs and seed parameters.
+#' @param ids Object of class [IsomirDataSeq].
+#' @param formula Formula used for DE analysis.
+#' @param ... Options to pass to [isoCounts()] including
+#'   ref, iso5, iso3, add, subs and seed parameters.
 #'
-#' @return \code{\link[DESeq2]{DESeqDataSet}} object.
-#' To get the differential expression isomiRs, use \link[DESeq2]{results} from
+#' @return [DESeq2::DESeqDataSet] object.
+#' To get the differential expression isomiRs, use [DESeq2::results()] from
 #' DESeq2 package. This allows to ask for different contrast
-#' without calling again \code{isoDE}. Read \code{results}
+#' without calling again [isoDE()]. Read `results`
 #' manual to know how to access all the information.
 #'
 #' @examples
@@ -48,13 +48,14 @@ isoDE <- function(ids, formula=NULL, ...){
 #' Heatmap of the top expressed isomiRs
 #'
 #' This function creates a heatmap with the top N
-#' isomiRs/miRNAs. It uses the matrix under \code{counts(ids)}
+#' isomiRs/miRNAs. It uses the matrix under `counts(ids)`
 #' to get the top expressed isomiRs/miRNAs using the average
 #' expression value
 #' and plot a heatmap with the raw counts for each sample.
 #'
-#' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param top number of isomiRs/miRNAs used
+#' @param ids Object of class [IsomirDataSeq].
+#' @param top Number of isomiRs/miRNAs used.
+#' 
 #' @examples
 #' data(mirData)
 #' isoTop(mirData)
@@ -75,32 +76,32 @@ isoTop <- function(ids, top=20){
 #' It can show trimming events at both side, additions and nucleotides
 #' changes.
 #'
-#' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param type string (iso5, iso3, add, subs, all) to indicate what isomiRs
-#' to use for the plot. See details for explanation.
-#' @param column string indicating the column in
-#' \code{colData} to color samples.
-#' @return \link[ggplot2]{ggplot} object showing different isomiRs changes at
+#' @param ids Object of class [IsomirDataSeq].
+#' @param type String (iso5, iso3, add, subs, all) to indicate what isomiRs
+#'   to use for the plot. See details for explanation.
+#' @param column String indicating the column in
+#'   `colData` to color samples.
+#' @return [ggplot2::ggplot()] Object showing different isomiRs changes at
 #' different positions.
 #' @details
-#' There are four different values for \code{type} parameter. To plot
-#' trimming at 5' or 3' end, use \code{type="iso5"} or \code{type="iso3"}. Get a summary of all using \code{type="all"}.
+#' There are four different values for `type` parameter. To plot
+#' trimming at 5' or 3' end, use `type="iso5"` or `type="iso3"`. Get a summary of all using `type="all"`.
 #' In this case, it will plot 3 positions at both side of the reference
 #' position described at miRBase site. Each position refers to the number of
 #' sequences that start/end before or after the miRBase reference. The
 #' color indicates the sample group. The size of the point is proportional
-#' to the number of total counts. The position at \code{y} is the number of
+#' to the number of total counts. The position at `y` is the number of
 #' different sequences.
 #'
-#' Same logic applies to \code{type="add"} and \code{type="subs"}. However,
-#' when \code{type="add"}, the plot will refer to addition events from the
+#' Same logic applies to `type="add"` and `type="subs"`. However,
+#' when `type="add"`, the plot will refer to addition events from the
 #' 3' end of the reference position. Note that this additions don't match
 #' to the precursor sequence, they are non-template additions.
 #' In this case, only 3 positions after the 3' end
-#' will appear in the plot. When \code{type="subs"}, it will appear one
+#' will appear in the plot. When `type="subs"`, it will appear one
 #' position for each nucleotide in the reference miRNA. Points
 #' will indicate isomiRs with nucleotide changes at the given position.
-#' When \code{type="all"} a colar coordinate map will show 
+#' When `type="all"` a colar coordinate map will show 
 #' the abundance of each isomiR type in a single plot.
 #'
 #' @examples
@@ -157,18 +158,18 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 #' This function plot different isomiRs proportion for each sample at a given
 #' position focused on the nucleotide change that happens there.
 #'
-#' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param position integer indicating the position to show
-#' @param column string indicating the column in
-#' colData to color samples.
-#' @return \link[ggplot2]{ggplot} object showing nucleotide changes
+#' @param ids Object of class [IsomirDataSeq].
+#' @param position Integer indicating the position to show.
+#' @param column String indicating the column in
+#'   colData to color samples.
+#' @return [ggplot2::ggplot()] Object showing nucleotide changes
 #' at a given position.
 #' @details
 #' It shows the nucleotides changes at the given position for each
 #' sample in each group.
 #' The color indicates the sample group. The size of the point is proportional
 #' to the number of total counts of isomiRs with changes.
-#' The position at \code{y} is the number of different sequences
+#' The position at `y` is the number of different sequences
 #' supporting the change.
 #'
 #'
@@ -229,35 +230,35 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' For instance all sequences with variants at 3' end can be
 #' considered as different elements in the table
 #' or analysis having the following naming
-#' \code{hsa-miR-124a-5p.iso.t3:AAA}.
+#' `hsa-miR-124a-5p.iso.t3:AAA`.
 #'
-#' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param ref differentiate reference miRNA from rest
-#' @param iso5 differentiate trimming at 5 miRNA from rest
-#' @param iso3 differentiate trimming at 3 miRNA from rest
-#' @param add differentiate additions miRNA from rest
-#' @param subs differentiate nt substitution miRNA from rest
-#' @param seed differentiate changes in 2-7 nts from rest
-#' @param minc int minimum number of isomiR sequences to be included.
-#' @param mins int minimum number of samples with number of
-#' sequences bigger than \code{minc} counts.
+#' @param ids Object of class [IsomirDataSeq].
+#' @param ref Differentiate reference miRNA from rest.
+#' @param iso5 Differentiate trimming at 5 miRNA from rest.
+#' @param iso3 Differentiate trimming at 3 miRNA from rest.
+#' @param add Differentiate additions miRNA from rest.
+#' @param subs Differentiate nt substitution miRNA from rest.
+#' @param seed Differentiate changes in 2-7 nts from rest.
+#' @param minc Int minimum number of isomiR sequences to be included.
+#' @param mins Int minimum number of samples with number of
+#'   sequences bigger than `minc` counts.
 #'
 #' @details
 #'
 #' You can merge all isomiRs into miRNAs by calling the function only
-#' with the first parameter \code{isoCounts(ids)}.
+#' with the first parameter `isoCounts(ids)`.
 #' You can get a table with isomiRs altogether and
-#' the reference miRBase sequences by calling the function with \code{ref=TRUE}.
+#' the reference miRBase sequences by calling the function with `ref=TRUE`.
 #' You can get a table with 5' trimming isomiRS, miRBase reference and
-#' the rest by calling with \code{isoCounts(ids, ref=TRUE, iso5=TRUE)}.
+#' the rest by calling with `isoCounts(ids, ref=TRUE, iso5=TRUE)`.
 #' If you set up all parameters to TRUE, you will get a table for
 #' each different sequence mapping to a miRNA (i.e. all isomiRs).
 #'
 #' Examples for the naming used for the isomiRs are at
-#' \url{http://seqcluster.readthedocs.org/mirna_annotation.html#mirna-annotation}.
+#' http://seqcluster.readthedocs.org/mirna_annotation.html#mirna-annotation.
 #'
-#' @return \code{\link{IsomirDataSeq}} object with new count table.
-#' The count matrix can be access with \code{counts(ids)}.
+#' @return [IsomirDataSeq] object with new count table.
+#' The count matrix can be access with `counts(ids)`.
 #' @examples
 #' data(mirData)
 #' ids <- isoCounts(mirData, ref=TRUE)
@@ -281,14 +282,14 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' Normalize count matrix
 #'
 #' This function normalizes raw count matrix using
-#' \code{\link[DESeq2]{rlog}} function from \code{\link[DESeq2]{DESeq2-package}}.
+#' [DESeq2::rlog()] function from [DESeq2::DESeq2-package].
 #'
-#' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param formula formula that will be used for normalization
+#' @param ids Object of class [IsomirDataSeq].
+#' @param formula Formula that will be used for normalization.
 #'
-#' @return \code{\link{IsomirDataSeq}} object with the normalized
+#' @return [IsomirDataSeq] object with the normalized
 #' count matrix in a slot. The normalized matrix
-#' can be access with \code{counts(ids, norm=TRUE)}.
+#' can be access with `counts(ids, norm=TRUE)`.
 #'
 #' @examples
 #' data(mirData)

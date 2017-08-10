@@ -7,10 +7,10 @@
 isoPlotNet(obj)
 }
 \arguments{
-\item{obj}{output from \link{isoNetwork}}
+\item{obj}{Output from \code{\link[=isoNetwork]{isoNetwork()}}.}
 }
 \value{
-network ggplot
+Network ggplot.
 }
 \description{
 Plot analysis from isoNetwork

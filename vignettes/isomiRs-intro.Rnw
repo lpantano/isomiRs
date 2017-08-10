@@ -12,11 +12,11 @@ opts_chunk$set(tidy=FALSE,
 @
 
 
-<<style, eval=TRUE, echo=FALSE, results="asis">>=
-BiocStyle::latex()
+<<style-knitr, eval=TRUE, echo=FALSE, results="asis">>=
+BiocStyle::latex2()
 @
 
-\title{isomiRs}
+\bioctitle[isomiRs]{isomiRs: miRNAoma analysis from small-RNAseq data}
 \author{Lorena Pantano$^{1*}$, Georgia Escaramis$^{2*}$,
 Eulalia Martin$^{2*}$ \\ \small{Harvard H Chan School of Public Health,
 Boston, US;} \\ \small{$^{2}$ Center of Genomic Regulation, Barcelona,
@@ -26,7 +26,11 @@ Spain;} \\ \small{\texttt{$^*$lpantano (at) iscb.org}}}
 \begin{document}
 
 \maketitle
+
+\packageVersion{\Sexpr{BiocStyle::pkg_ver("isomiRs")}}
+
 \tableofcontents
+
 \newpage
 
 \section*{Introduction}
@@ -59,14 +63,14 @@ which parses BAM files with alignments against miRNA precursors.
 
 For each sample the file should have the following format:
 
-<<format-line,eval=FALSE,echo=TRUE>>==
-seq     name    freq    mir     start   end     mism    add     t5      t3      s5      s3      DB      ambiguity
-TGTAAACATCCTACACTCAGCTGT        seq_100014_x23  23      hsa-miR-30b-5p  17      40      0       0       0       GT    TTCATGTA        AGCTGTAA        miRNA   1
-TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30d-5p  6       26      13TC    0       0       g     TTGTTGTA        GAAGCTGT        miRNA   2
-TGTAAACATCCCTGACTGGAA   seq_100019_x4   4       hsa-miR-30e-5p  17      37      12CT    0       0       g     CTACTGTA        GAAGCTGT        miRNA   2
-CAAATTCGTATCTAGGGGATT   seq_100049_x1   1       hsa-miR-10a-3p  63      81      0       TT    0       ata   GTCACAAA        AATATGTA        miRNA   1
-TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1       hsa-miR-192-5p  25      47      8GT     0       c     agt   GGCTCTGA        AGCCAGTG        miRNA   1
-@
+\begin{verbatim}
+seq                     name           freq mir           start end  mism  add  t5  t3
+TGTAAACATCCTACACTCAGCT  seq_100014_x23  23  hsa-miR-30b-5p  17  40   0       0  0   GT
+TGTAAACATCCCTGACTGGAA   seq_100019_x4   4   hsa-miR-30d-5p  6   26   13TC    0  0   g
+TGTAAACATCCCTGACTGGAA   seq_100019_x4   4   hsa-miR-30e-5p  17  37   12CT    0  0   g
+CAAATTCGTATCTAGGGGATT   seq_100049_x1   1   hsa-miR-10a-3p  63  81   0       TT 0   ata
+TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1   hsa-miR-192-5p  25  47   8GT     0  c   agt
+\end{verbatim}
 
 This is the standard output of SeqBuster-miraligner tool, but can be converted from
 any other tool having the mapping information on the precursors. Read more on
@@ -75,13 +79,13 @@ any other tool having the mapping information on the precursors. Read more on
 \section{IsomirDataSeq class}
 
 This object will store all raw data from the input files and some processed
-information used for visualization and statistical analysis. It is a subclass of \Rfunction{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. 
+information used for visualization and statistical analysis. It is a subclass of \Rclass{SummarizedExperiment} with \Rfunction{colData} and \Rfunction{counts} methods. 
 Beside that, the object contains
 raw and normalized counts from miraligner allowing to update the summarization of miRNA expression.
 
 \subsection{Access data}
 
-The user can access the normalized count matrix with \Rfunction{counts(object, norm=TRUE)}.
+The user can access the normalized count matrix with \Rcode{counts(object, norm=TRUE)}.
 
 You can browse for the same miRNA or isomiRs in all samples with \Rfunction{isoSelect} method.
 
@@ -91,14 +95,14 @@ data(mirData)
 head(isoSelect(mirData, mirna="hsa-let-7a-5p", 1000))
 @
 
-\Rfunction{metadata(mirData)} contains two lists: \Rfunction{rawList} is a list with same
+\Rcode{metadata(mirData)} contains two lists: \Rfunction{rawList} is a list with same
 length than number of samples and stores the input files
 for each sample; \Rfunction{isoList} is a list with same length than
 number of samples and stores information for each isomiR type summarizing
 the different changes for the different isomiRs (trimming at 3',
 trimming a 5', addition and substitution). For instance, you can get
 the data stored in \Rfunction{isoList} for sample 1 and 5' changes
-with this code \Rfunction{metadata(ids)[["isoList"]][[1]]["t5sum"]}.
+with this code \Rcode{metadata(ids)[["isoList"]][[1]]["t5sum"]}.
 
 
 \subsection{isomiRs annotation}
@@ -153,7 +157,7 @@ ids <- IsomirDataSeqFromFiles(fn_list, design=de)
 You can plot isomiRs expression with \Rfunction{isoPlot}. In this figure you
 will see how abundant is each type of isomiRs at different positions
 considering the total abundance and the total number of sequences.
-The \Rfunction{type} parameter controls what type of isomiRs to show. It can be
+The \Rcode{type} parameter controls what type of isomiRs to show. It can be
 trimming (iso5 and iso3), addition (add) or substitution (subs) changes.
 
 <<package-plot-iso-t5,message=FALSE>>=
@@ -212,7 +216,7 @@ head(results(dds, tidy=TRUE))
 Alternative, for more complicated cases or if you want to control
 more the differential expression analysis paramters you can use
 directly \Biocpkg{DESeq2} package feeding it with the output of
-\Rfunction{counts(ids)} and \Rfunction{colData(ids)} like this:
+\Rcode{counts(ids)} and \Rcode{colData(ids)} like this:
 
 <<package-de-with-deseq2>>=
 dds = DESeqDataSetFromMatrix(counts(ids),
@@ -233,7 +237,7 @@ set of linearly uncorrelated latent variables (usually termed as components)
 such that maximizes the separation between the different classes in the first
 few components \cite{xia}. We used sum of squares captured by the model (R2) as
 a goodness of fit measure. We implemented this method using the
-\Rpackage{DiscriMiner} into \Rpackage{isoPLSDA} function. The output
+\Rpackage{DiscriMiner} into \Rfunction{isoPLSDA} function. The output
 p-value of this function will tell about the statistical
 significant of the group separation using miRNA expression data.
 Moreover, the function \Rfunction{isoPLSDAplot}

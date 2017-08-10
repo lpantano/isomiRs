@@ -1,12 +1,12 @@
 #' Correct miRNA expression based on prior ligation bias information
 #' 
-#' this is the source file for fitting the linear quadratic normal family
+#' This is the source file for fitting the linear quadratic normal family
 #' 
-#' @param train long data.frame to train model
-#' @param data long data.frame to correct abundance
-#' @param cycles number of cycles to reach convergency
-#' @param long boolean if input is in long format instead of standard
-#' wide format (rows:miRNAs, columns:samples)
+#' @param train Long data.frame to train model.
+#' @param data Long data.frame to correct abundance.
+#' @param cycles Number of cycles to reach convergency.
+#' @param long Boolean if input is in long format instead of standard
+#'   wide format (rows:miRNAs, columns:samples).
 #' @return data.frame with corrected expression
 #' @examples
 #' options(warn = -1) # this is only for tiny example

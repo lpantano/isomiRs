@@ -8,24 +8,24 @@ isoNetwork(mirna_rse, gene_rse, target, summarize = "group", org,
   genename = "ENSEMBL", min_cor = -0.6)
 }
 \arguments{
-\item{mirna_rse}{\link[SummarizedExperiment]{SummarizedExperiment} with miRNA
+\item{mirna_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with miRNA
 information. See details.}
 
-\item{gene_rse}{\link[SummarizedExperiment]{SummarizedExperiment} with gene
+\item{gene_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with gene
 information. See details.}
 
-\item{target}{matrix with miRNAs (columns) and genes (rows)
+\item{target}{Matrix with miRNAs (columns) and genes (rows)
 target prediction (1 if it is a target, 0 if not).}
 
-\item{summarize}{character column name in colData(rse) to use to group
+\item{summarize}{Character column name in \code{colData(rse)} to use to group
 samples and compare betweem miRNA/gene expression.}
 
-\item{org}{\link[AnnotationDbi]{AnnotationDb}. (org.Mm.eg.db)}
+\item{org}{}
 
-\item{genename}{character keytype of the gene
+\item{genename}{Character keytype of the gene
 names in gene_rse object.}
 
-\item{min_cor}{numeric cutoff to consider a miRNA to regulate a target}
+\item{min_cor}{Numeric cutoff to consider a miRNA to regulate a target.}
 }
 \value{
 list with network information
@@ -46,7 +46,6 @@ where, \code{mirna_matrix} is the normalized counts expression,
 the list of miRNAs to be used by this function.
 }
 \examples{
-
 library(org.Mm.eg.db)
 library(clusterProfiler)
 data(isoExample)

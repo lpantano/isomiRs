@@ -13,15 +13,15 @@ isoSelect.IsomirDataSeq(object, mirna, minc = 10)
 \S4method{isoSelect}{IsomirDataSeq}(object, mirna, minc = 10)
 }
 \arguments{
-\item{object}{a \code{IsomirDataSeq} object.}
+\item{object}{A \link{IsomirDataSeq} object.}
 
-\item{mirna}{string referring to the miRNA to show}
+\item{mirna}{String referring to the miRNA to show.}
 
-\item{minc}{int minimum number of isomiR reads needed
+\item{minc}{Minimum number of isomiR reads needed
 to be included in the table.}
 }
 \value{
-\code{\link[S4Vectors]{DataFrame-class}} with count
+\link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame} with count
 information. The \code{row.names}
 show the isomiR names, and each of the columns shows the counts
 for this isomiR in that sample. Mainly, it will return the count
@@ -29,12 +29,13 @@ matrix only for isomiRs belonging to the miRNA family given by
 the \code{mirna} parameter. IsomiRs need to have counts bigger than
 \code{minc} parameter at least in one sample to be included in the output.
 Annotation of isomiRs follows these rules:
-
-* miRNA name
-* mismatches
-* additions
-* 5 trimming events
-* 3 trimming events
+\itemize{
+\item miRNA name
+\item mismatches
+\item additions
+\item 5 trimming events
+\item 3 trimming events
+}
 }
 \description{
 This method allows to select a miRNA and all its isomiRs

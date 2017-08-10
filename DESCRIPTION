@@ -58,6 +58,7 @@ Authors@R: c(
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1.9000
 NeedsCompilation: yes
 LinkingTo: TMB, RcppEigen

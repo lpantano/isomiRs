@@ -7,32 +7,32 @@
 isoPLSDAplot(pls, n = 2)
 }
 \arguments{
-\item{pls}{output from \code{\link{isoPLSDA}} function.}
+\item{pls}{Output from \code{\link[=isoPLSDA]{isoPLSDA()}} function.}
 
-\item{n}{integer number of components to plot}
+\item{n}{Number of components to plot.}
 }
 \value{
-\code{\link[GGally]{ggpairs}} plot showing the scores
+\code{\link[GGally:ggpairs]{GGally::ggpairs()}} plot showing the scores
 for each sample using isomiRs/miRNAs expression to explain
 variation.
 
-\link[base]{data.frame} object with a first column
+\link[base:data.frame]{base::data.frame} object with a first column
 refering to the sample group, and the following
 columns refering to the score that each sample
 has for each
 component from the PLS-DA analysis.
 }
 \description{
-Plot the most significant components that come from \code{\link{isoPLSDA}}
+Plot the most significant components that come from \code{\link[=isoPLSDA]{isoPLSDA()}}
 analysis together with the density of the samples scores along those components.
 }
 \details{
 The function \code{isoPLSDAplot}
-helps to visualize the results from \code{\link{isoPLSDA}}.
+helps to visualize the results from \code{\link[=isoPLSDA]{isoPLSDA()}}.
 It will plot the samples using the
 significant components (t1, t2, t3 ...) from the PLS-DA analysis and the
 samples score distribution along the components.
-It uses \code{\link[GGally]{ggpairs}}
+It uses \code{\link[GGally:ggpairs]{GGally::ggpairs()}}
 for the plot.
 }
 \examples{
