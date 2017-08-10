@@ -43,7 +43,7 @@ p<-do.call(rbind, .l) %>% arrange(type) %>%
     ggplot(aes_string(x="type", y="freq", group="sample", color="condition")) +
     geom_polygon(fill=NA, size=1.5) +
     coord_polar(start=-pi) +
-    scale_color_manual(values = c("steelblue", "steelblue")) +
+    scale_color_manual(values = c("orange2", "orange2")) +
     theme_bw() + ylab("") + xlab("") + guides(color=FALSE) +
     theme(panel.grid.major = element_line(size = 1)) +
     theme(axis.title.x=element_blank(),
