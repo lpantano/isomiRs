@@ -1,11 +1,13 @@
 language: r
 sudo: false
 dist: trusty
-cache: packages
+cache:
+  packages: true
 r: bioc-devel
 r_github_packages:
   - jimhester/covr
 before_install:
   - tlmgr install bera
+  - tlmgr install nowidow
 after_success:
   - Rscript -e 'covr::codecov()'
