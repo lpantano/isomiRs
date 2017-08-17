@@ -23,30 +23,44 @@ qLQNO(p, mu = 1, sigma = 1, lower.tail = TRUE, log.p = FALSE)
 rLQNO(n, mu = 1, sigma = 1)
 }
 \arguments{
-\item{mu.link}{type of transformation}
+\item{mu.link}{Type of transformation}
 
-\item{sigma.link}{type of transformation}
+\item{sigma.link}{Type of transformation}
 
-\item{x}{vector of quantiles.}
+\item{x}{Vector of quantiles.}
 
-\item{mu}{vector of means.}
+\item{mu}{Vector of means.}
 
-\item{sigma}{vector of standard deviations.}
+\item{sigma}{Vector of standard deviations.}
 
-\item{log}{logical; if TRUE, probabilities p are given as log(p).}
+\item{log}{Logical; if TRUE, probabilities p are given as \code{log(p)}.}
 
-\item{q}{vector of quantiles.}
+\item{q}{Vector of quantiles.}
 
-\item{lower.tail}{logical; if TRUE (default), probabilities are P(X < x) otherwise, P(X > x).}
+\item{lower.tail}{Logical; if TRUE (default), probabilities are \code{P(X < x)}
+otherwise, \code{P(X > x)}.}
 
-\item{log.p}{logical; if TRUE, probabilities p are given as log(p).}
+\item{log.p}{Logical; if TRUE, probabilities p are given as \code{log(p)}.}
 
-\item{p}{vector of probabilities.}
+\item{p}{Vector of probabilities.}
 
-\item{n}{number of observations. If length(n) > 1, the length is taken to be the number required.}
+\item{n}{Number of observations. If length(n) > 1, the length is taken to be the number required.}
+}
+\value{
+LQNO function
 }
 \description{
-Linear quadratic family that assumes the following relation for the *variance*
+Linear quadratic family that assumes the following relation for the \emph{variance}
 of the normal distribution \code{Var = mu*(1+s*mu)}.
 regression on mu and on the sigma (log and identity links)
+}
+\details{
+Methods adapted from:
+
+Argyropoulos, Christos, et al. "Modeling bias and variation in
+the stochastic processes of small RNA sequencing."
+Nucleic Acids Research (2017).
+}
+\author{
+Christos Argyropoulos
 }

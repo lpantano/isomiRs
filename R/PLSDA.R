@@ -9,60 +9,60 @@
 #' @aliases isoPLSDA
 #' @usage isoPLSDA(ids, group, validation = NULL, learn = NULL, test = NULL,
 #'  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
-#' @param ids object of class \code{\link{IsomirDataSeq}}
-#' @param group column name in \code{colData(ids)} to use as variable to explain.
-#' @param validation type of validation, either NULL or "learntest".
-#' Default NULL
-#' @param learn	optional vector of indexes for a learn-set.
-#' Only used when validation="learntest". Default NULL
-#' @param test	optional vector of indices for a test-set.
-#' Only used when validation="learntest". Default NULL
-#' @param tol tolerance value based on maximum change of cumulative R-squared
-#' coefficient for each additional PLS component. Default tol=0.001
-#' @param nperm	number of permutations to compute the PLD-DA p-value
-#' based on R2 magnitude. Default nperm=400
-#' @param refinment logical indicating whether a refined model, based on
-#' filtering out variables with low VIP values
+#' @param ids Object of class \code{\link{IsomirDataSeq}}
+#' @param group Column name in \code{colData(ids)} to use as variable to explain.
+#' @param validation Type of validation, either NULL or "learntest".
+#'   Default NULL.
+#' @param learn	Optional vector of indexes for a learn-set.
+#'   Only used when validation="learntest". Default NULL.
+#' @param test	Optional vector of indices for a test-set.
+#'   Only used when validation="learntest". Default NULL
+#' @param tol Tolerance value based on maximum change of cumulative R-squared
+#'   coefficient for each additional PLS component. Default tol=0.001.
+#' @param nperm	Number of permutations to compute the PLD-DA p-value
+#'   based on R2 magnitude. Default nperm=400.
+#' @param refinment Logical indicating whether a refined model, based on
+#'   filtering out variables with low VIP values.
 #' @param vip Variance Importance in Projection threshold value when
-#' a refinement process is considered. Default vip=1.2
+#'   a refinement process is considered. Default vip=1.2 .
 #' @details
 #' Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
 #' appropriate for analysis of high dimensionality data sets and multicollinearity
-#' (\cite{Perez-Enciso, 2013}). PLS-DA is a supervised method (i.e. makes use of class
+#' (*Perez-Enciso, 2013*). PLS-DA is a supervised method (i.e. makes use of class
 #' labels) with the aim to provide a dimension reduction strategy in a situation
 #' where we want to relate a binary response variable (in our case young or old
 #' status) to a set of predictor variables. Dimensionality reduction procedure is
 #' based on orthogonal transformations of the original variables (miRNAs/isomiRs) into a
 #' set of linearly uncorrelated latent variables (usually termed as components)
 #' such that maximizes the separation between the different classes in the first
-#' few components (\cite{Xia, 2011}). We used sum of squares captured by the model (R2) as
+#' few components (*Xia, 2011*). We used sum of squares captured by the model (R2) as
 #' a goodness of fit measure.
 #'
 #' We implemented this method using the
-#' \code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function.
+#' [DiscriMiner::DiscriMiner-package] into [isoPLSDA()] function.
 #' The output
 #' p-value of this function will tell about the statistical
 #' significant of the group separation using miRNA/isomiR expression data.
 #'
 #' Read more about the parameters related to the PLS-DA directly from
-#' \link[DiscriMiner]{plsDA} function.
+#' [DiscriMiner::plsDA()] function.
 #'
 #' @return
-#' A \code{\link[base]{list}} with the following elements: \code{R2Matrix}
+#' A [base::list] with the following elements: `R2Matrix`
 #' (R-squared coefficients of the PLS model),
-#' \code{components} (of the PLS, similar to PCs in a PCA),
-#' \code{vip} (most important isomiRs/miRNAs),
-#' \code{group} (classification of the samples),
-#' \code{p.value} and \code{R2PermutationVector} obtained by the permutations.
+#' `components` (of the PLS, similar to PCs in a PCA),
+#' `vip` (most important isomiRs/miRNAs),
+#' `group` (classification of the samples),
+#' `p.value` and `R2PermutationVecto` obtained by the permutations.
 #'
-#' If the option \code{refinment} is set to \code{TRUE}, then the following
+#' If the option `refinment` is set to TRUE, then the following
 #' elements will appear:
-#' \code{R2RefinedMatrix} and \code{componentsRefinedModel} (R-squared coefficients
+#' `R2RefinedMatrix` and `componentsRefinedModel` (R-squared coefficients
 #' of the PLS model only using the most important miRNAs/isomiRs). As well,
-#' \code{p.valRefined} and \code{R2RefinedPermutationVector} with p-value
+#' `p.valRefined` and `R2RefinedPermutationVector` with p-value
 #' and R2 of the
 #' permutations where samples were randomized. And finally,
-#' \code{p.valRefinedFixed} and \code{R2RefinedFixedPermutationVector} with
+#' `p.valRefinedFixed` and `R2RefinedFixedPermutationVector` with
 #' p-value and R2 of the
 #' permutations where miRNAs/isomiRs were randomized.
 #' @references
@@ -80,7 +80,7 @@
 #' pls.ids = isoPLSDA(ids, "group", nperm = 2)
 #' cat(paste0("pval:",pls.ids$p.val))
 #' cat(paste0("components:",pls.ids$components))
-#'
+#' @export
 isoPLSDA <- function(ids, group , validation = NULL, learn = NULL, test = NULL,
                      tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2){
     tryCatch ({
@@ -246,24 +246,24 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 
 #' Plot components from isoPLSDA analysis (pairs plot)
 #'
-#' Plot the most significant components that come from \code{\link{isoPLSDA}}
+#' Plot the most significant components that come from [isoPLSDA()]
 #' analysis together with the density of the samples scores along those components.
 #'
 #' @aliases isoPLSDAplot
-#' @param pls output from \code{\link{isoPLSDA}} function.
-#' @param n integer number of components to plot
-#' @return \code{\link[GGally]{ggpairs}} plot showing the scores
+#' @param pls Output from [isoPLSDA()] function.
+#' @param n Number of components to plot.
+#' @return [GGally::ggpairs()] plot showing the scores
 #' for each sample using isomiRs/miRNAs expression to explain
 #' variation.
 #' @details
-#' The function \code{isoPLSDAplot}
-#' helps to visualize the results from \code{\link{isoPLSDA}}.
+#' The function `isoPLSDAplot`
+#' helps to visualize the results from [isoPLSDA()].
 #' It will plot the samples using the
 #' significant components (t1, t2, t3 ...) from the PLS-DA analysis and the
 #' samples score distribution along the components.
-#' It uses \code{\link[GGally]{ggpairs}}
+#' It uses [GGally::ggpairs()]
 #' for the plot.
-#' @return \link[base]{data.frame} object with a first column
+#' @return [base::data.frame] object with a first column
 #' refering to the sample group, and the following
 #' columns refering to the score that each sample
 #' has for each
@@ -275,14 +275,14 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' ids <- isoNorm(ids, formula=~group)
 #' pls.ids <- isoPLSDA(ids, "group", nperm = 2)
 #' isoPLSDAplot(pls.ids)
-#'
+#' @export
 isoPLSDAplot <- function (pls, n=2){
     components = pls$component[,1:n]
     groups = pls$group
     datacomponents <- data.frame(condition = groups, components)
     p <- ggpairs(datacomponents, columns = 2:ncol(datacomponents),
-                ggplot2::aes(color = condition),
+                 aes_string(color = "condition"),
                 upper="blank",legends=TRUE)
-    print(p)
-    datacomponents
+    p
+    invisible(datacomponents)
 }

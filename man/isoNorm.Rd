@@ -7,23 +7,22 @@
 isoNorm(ids, formula = NULL)
 }
 \arguments{
-\item{ids}{object of class \code{\link{IsomirDataSeq}}}
+\item{ids}{Object of class \link{IsomirDataSeq}.}
 
-\item{formula}{formula that will be used for normalization}
+\item{formula}{Formula that will be used for normalization.}
 }
 \value{
-\code{\link{IsomirDataSeq}} object with the normalized
+\link{IsomirDataSeq} object with the normalized
 count matrix in a slot. The normalized matrix
 can be access with \code{counts(ids, norm=TRUE)}.
 }
 \description{
 This function normalizes raw count matrix using
-\code{\link[DESeq2]{rlog}} function from \code{\link[DESeq2]{DESeq2-package}}.
+\code{\link[DESeq2:rlog]{DESeq2::rlog()}} function from \link[DESeq2:DESeq2-package]{DESeq2::DESeq2-package}.
 }
 \examples{
 data(mirData)
 ids <- isoCounts(mirData, minc=10, mins=6)
 ids <- isoNorm(mirData, formula=~group)
 head(counts(ids, norm=TRUE))
-
 }

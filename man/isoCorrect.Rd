@@ -2,30 +2,42 @@
 % Please edit documentation in R/correction.R
 \name{isoCorrect}
 \alias{isoCorrect}
-\title{Calculate the correction factors from the equimolar 286 experiments}
+\title{Correct miRNA expression based on prior ligation bias information}
 \usage{
-isoCorrect(train, data, cycles = 5000)
+isoCorrect(train, data, cycles = 5000, long = FALSE)
 }
 \arguments{
-\item{train}{long data.frame to train model}
+\item{train}{Long data.frame to train model.}
 
-\item{data}{long data.frame to correct abundance}
+\item{data}{Long data.frame to correct abundance.}
 
-\item{cycles}{number of cycles to reach convergency}
+\item{cycles}{Number of cycles to reach convergency.}
+
+\item{long}{Boolean if input is in long format instead of standard
+wide format (rows:miRNAs, columns:samples).}
 }
 \value{
 data.frame with corrected expression
 }
 \description{
-this is the source file for fitting the linear quadratic normal famile
-change the string to the location you saved this file in your drive
+This is the source file for fitting the linear quadratic normal family
+}
+\details{
+Methods adapted from:
+
+Argyropoulos, Christos, et al. "Modeling bias and variation in
+the stochastic processes of small RNA sequencing."
+Nucleic Acids Research (2017).
 }
 \examples{
-options(warn = -1)
+options(warn = -1) # this is only for tiny example
 data(mirTritation)
 ma <- isoCorrect(mirTritation[mirTritation$class=="train",],
-mirTritation[mirTritation$class=="test",],cycles=5)
+mirTritation[mirTritation$class=="test",],cycles=5,long=TRUE)
 library(ggplot2)
 ggplot(ma,aes(y=log2(reads), x=Dilution)) + geom_jitter()
 ggplot(ma,aes(y=m, x=Dilution)) + geom_jitter()
+}
+\author{
+Christos Argyropoulos and Lorena Pantano
 }

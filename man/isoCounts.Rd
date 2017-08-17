@@ -8,27 +8,27 @@ isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
   subs = FALSE, seed = FALSE, minc = 1, mins = 1)
 }
 \arguments{
-\item{ids}{object of class \code{\link{IsomirDataSeq}}}
+\item{ids}{Object of class \link{IsomirDataSeq}.}
 
-\item{ref}{differentiate reference miRNA from rest}
+\item{ref}{Differentiate reference miRNA from rest.}
 
-\item{iso5}{differentiate trimming at 5 miRNA from rest}
+\item{iso5}{Differentiate trimming at 5 miRNA from rest.}
 
-\item{iso3}{differentiate trimming at 3 miRNA from rest}
+\item{iso3}{Differentiate trimming at 3 miRNA from rest.}
 
-\item{add}{differentiate additions miRNA from rest}
+\item{add}{Differentiate additions miRNA from rest.}
 
-\item{subs}{differentiate nt substitution miRNA from rest}
+\item{subs}{Differentiate nt substitution miRNA from rest.}
 
-\item{seed}{differentiate changes in 2-7 nts from rest}
+\item{seed}{Differentiate changes in 2-7 nts from rest.}
 
-\item{minc}{int minimum number of isomiR sequences to be included.}
+\item{minc}{Int minimum number of isomiR sequences to be included.}
 
-\item{mins}{int minimum number of samples with number of
+\item{mins}{Int minimum number of samples with number of
 sequences bigger than \code{minc} counts.}
 }
 \value{
-\code{\link{IsomirDataSeq}} object with new count table.
+\link{IsomirDataSeq} object with new count table.
 The count matrix can be access with \code{counts(ids)}.
 }
 \description{
@@ -51,7 +51,7 @@ If you set up all parameters to TRUE, you will get a table for
 each different sequence mapping to a miRNA (i.e. all isomiRs).
 
 Examples for the naming used for the isomiRs are at
-\url{http://seqcluster.readthedocs.org/mirna_annotation.html#mirna-annotation}.
+http://seqcluster.readthedocs.org/mirna_annotation.html#mirna-annotation.
 }
 \examples{
 data(mirData)
@@ -60,5 +60,4 @@ head(counts(ids))
 # taking into account isomiRs and reference sequence.
 ids <- isoCounts(mirData, ref=TRUE, minc=10, mins=6)
 head(counts(ids))
-
 }

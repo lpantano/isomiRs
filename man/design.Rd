@@ -13,18 +13,20 @@
 \S4method{design}{IsomirDataSeq,formula}(object) <- value
 }
 \arguments{
-\item{object}{a \code{IsomirDataSeq} object}
+\item{object}{A \link{IsomirDataSeq} object.}
 
-\item{value}{a \code{formula} to pass to DESeq2}
+\item{value}{A formula to pass to DESeq2.}
+}
+\value{
+design for the experiment
 }
 \description{
 The design holds the R \code{formula} which expresses how the
 counts depend on the variables in \code{colData}.
-See \code{\link{IsomirDataSeq}} for details.
+See \link{IsomirDataSeq} for details.
 }
 \examples{
 
 data(mirData)
 design(mirData) <- formula(~ 1)
-
 }

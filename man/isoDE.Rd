@@ -7,39 +7,38 @@
 isoDE(ids, formula = NULL, ...)
 }
 \arguments{
-\item{ids}{object of class \code{\link{IsomirDataSeq}}}
+\item{ids}{Object of class \link{IsomirDataSeq}.}
 
-\item{formula}{used for DE analysis}
+\item{formula}{Formula used for DE analysis.}
 
-\item{...}{options to pass to \link{isoCounts} including
+\item{...}{Options to pass to \code{\link[=isoCounts]{isoCounts()}} including
 ref, iso5, iso3, add, subs and seed parameters.}
 }
 \value{
-\code{\link[DESeq2]{DESeqDataSet}} object.
-To get the differential expression isomiRs, use \link[DESeq2]{results} from
+\link[DESeq2:DESeqDataSet]{DESeq2::DESeqDataSet} object.
+To get the differential expression isomiRs, use \code{\link[DESeq2:results]{DESeq2::results()}} from
 DESeq2 package. This allows to ask for different contrast
-without calling again \code{isoDE}. Read \code{results}
+without calling again \code{\link[=isoDE]{isoDE()}}. Read \code{results}
 manual to know how to access all the information.
 }
 \description{
 This function does differential expression analysis with
-\code{\link[DESeq2]{DESeq2-package}} using the specific formula.
-It will return a \code{\link[DESeq2]{DESeqDataSet}} object.
+\link[DESeq2:DESeq2-package]{DESeq2::DESeq2-package} using the specific formula.
+It will return a \link[DESeq2:DESeqDataSet]{DESeq2::DESeqDataSet} object.
 }
 \details{
 First, this function collapses all isomiRs in different types.
-Read more at \code{\link{isoCounts}} to know the different options
+Read more at \code{\link[=isoCounts]{isoCounts()}} to know the different options
 available to collapse isomiRs.
 
-After that, \code{\link[DESeq2]{DESeq2-package}} is used to do differential
+After that, \link[DESeq2:DESeq2-package]{DESeq2::DESeq2-package} is used to do differential
 expression analysis. It uses the count matrix and design experiment
 stored at (\code{counts(ids)} and \code{colData(ids)})
-\code{\link{IsomirDataSeq}} object
-to construct a \code{\link[DESeq2]{DESeqDataSet}} object.
+\link{IsomirDataSeq} object
+to construct a \link[DESeq2:DESeqDataSet]{DESeq2::DESeqDataSet} object.
 }
 \examples{
 data(mirData)
 ids <- isoCounts(mirData, minc=10, mins=6)
 dds <- isoDE(mirData, formula=~group)
-
 }

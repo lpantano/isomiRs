@@ -1,28 +1,38 @@
 #' LQNO distribution
 #' 
 #' Linear quadratic family that assumes the following relation for the *variance*
-#' of the normal distribution \code{Var = mu*(1+s*mu)}.
+#' of the normal distribution `Var = mu*(1+s*mu)`.
 #' regression on mu and on the sigma (log and identity links)
 #' 
 #' @rdname LQNO
 #' 
-#' @param mu.link type of transformation
-#' @param sigma.link type of transformation
-#' @param x vector of quantiles.
-#' @param q vector of quantiles.
-#' @param p vector of probabilities.
-#' @param n number of observations. If length(n) > 1, the length is taken to be the number required.
-#' @param mu vector of means.
-#' @param sigma vector of standard deviations.
-#' @param log logical; if TRUE, probabilities p are given as log(p).
-#' @param log.p logical; if TRUE, probabilities p are given as log(p).
-#' @param lower.tail logical; if TRUE (default), probabilities are P(X < x) otherwise, P(X > x).
+#' @param mu.link Type of transformation
+#' @param sigma.link Type of transformation
+#' @param x Vector of quantiles.
+#' @param q Vector of quantiles.
+#' @param p Vector of probabilities.
+#' @param n Number of observations. If length(n) > 1, the length is taken to be the number required.
+#' @param mu Vector of means.
+#' @param sigma Vector of standard deviations.
+#' @param log Logical; if TRUE, probabilities p are given as `log(p)`.
+#' @param log.p Logical; if TRUE, probabilities p are given as `log(p)`.
+#' @param lower.tail Logical; if TRUE (default), probabilities are `P(X < x)`
+#'   otherwise, `P(X > x)`.
 #' @usage
 #' dLQNO(x, mu = 1, sigma = 1, log = FALSE)
 #' pLQNO(q, mu = 1, sigma = 1, lower.tail = TRUE, log.p = FALSE)
 #' qLQNO(p, mu = 1, sigma = 1, lower.tail = TRUE, log.p = FALSE)
 #' rLQNO(n, mu = 1, sigma = 1)
 #' LQNO(mu.link="log", sigma.link="log")
+#' @author Christos Argyropoulos
+#' @details 
+#' Methods adapted from:
+#' 
+#' Argyropoulos, Christos, et al. "Modeling bias and variation in 
+#' the stochastic processes of small RNA sequencing." 
+#' Nucleic Acids Research (2017).
+#' @return LQNO function
+#' @export 
 LQNO <-function (mu.link ="log", sigma.link="log") 
 {
     mstats <- checklink("mu.link", "Normal", substitute(mu.link),    
@@ -79,6 +89,7 @@ LQNO <-function (mu.link ="log", sigma.link="log")
 }
 
 #' @rdname LQNO
+#' @export
 dLQNO<-function(x, mu=1, sigma=1, log=FALSE)
  { 
     if (any(mu <= 0) )  stop(paste("mu must be greater than 0 ", "\n", "")) 
@@ -88,6 +99,7 @@ dLQNO<-function(x, mu=1, sigma=1, log=FALSE)
   }
 
 #' @rdname LQNO
+#' @export
 pLQNO <- function(q, mu=1, sigma=1, lower.tail = TRUE, log.p = FALSE)
   { 
     if (any(mu <= 0) )  stop(paste("mu must be greater than 0 ", "\n", "")) 
@@ -98,6 +110,7 @@ pLQNO <- function(q, mu=1, sigma=1, lower.tail = TRUE, log.p = FALSE)
 
 
 #' @rdname LQNO
+#' @export
 qLQNO <- function(p, mu=1, sigma=1, lower.tail = TRUE, log.p = FALSE)
   { 
     if (any(mu <= 0) )  stop(paste("mu must be greater than 0 ", "\n", "")) 
@@ -109,6 +122,7 @@ qLQNO <- function(p, mu=1, sigma=1, lower.tail = TRUE, log.p = FALSE)
 }
 
 #' @rdname LQNO
+#' @export
 rLQNO <- function(n, mu=1, sigma=1)
   { 
   if (any(mu <= 0) )  stop(paste("mu must be greater than 0 ", "\n", "")) 

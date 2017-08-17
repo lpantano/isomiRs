@@ -7,15 +7,15 @@
 isoPlotPosition(ids, position = 1, column = "condition")
 }
 \arguments{
-\item{ids}{object of class \code{\link{IsomirDataSeq}}}
+\item{ids}{Object of class \link{IsomirDataSeq}.}
 
-\item{position}{integer indicating the position to show}
+\item{position}{Integer indicating the position to show.}
 
-\item{column}{string indicating the column in
+\item{column}{String indicating the column in
 colData to color samples.}
 }
 \value{
-\link[ggplot2]{ggplot} object showing nucleotide changes
+\code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} Object showing nucleotide changes
 at a given position.
 }
 \description{

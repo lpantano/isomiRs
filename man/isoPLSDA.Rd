@@ -8,40 +8,40 @@ isoPLSDA(ids, group, validation = NULL, learn = NULL, test = NULL,
  tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2)
 }
 \arguments{
-\item{ids}{object of class \code{\link{IsomirDataSeq}}}
+\item{ids}{Object of class \code{\link{IsomirDataSeq}}}
 
-\item{group}{column name in \code{colData(ids)} to use as variable to explain.}
+\item{group}{Column name in \code{colData(ids)} to use as variable to explain.}
 
-\item{validation}{type of validation, either NULL or "learntest".
-Default NULL}
+\item{validation}{Type of validation, either NULL or "learntest".
+Default NULL.}
 
-\item{learn}{optional vector of indexes for a learn-set.
+\item{learn}{Optional vector of indexes for a learn-set.
+Only used when validation="learntest". Default NULL.}
+
+\item{test}{Optional vector of indices for a test-set.
 Only used when validation="learntest". Default NULL}
 
-\item{test}{optional vector of indices for a test-set.
-Only used when validation="learntest". Default NULL}
+\item{tol}{Tolerance value based on maximum change of cumulative R-squared
+coefficient for each additional PLS component. Default tol=0.001.}
 
-\item{tol}{tolerance value based on maximum change of cumulative R-squared
-coefficient for each additional PLS component. Default tol=0.001}
+\item{nperm}{Number of permutations to compute the PLD-DA p-value
+based on R2 magnitude. Default nperm=400.}
 
-\item{nperm}{number of permutations to compute the PLD-DA p-value
-based on R2 magnitude. Default nperm=400}
-
-\item{refinment}{logical indicating whether a refined model, based on
-filtering out variables with low VIP values}
+\item{refinment}{Logical indicating whether a refined model, based on
+filtering out variables with low VIP values.}
 
 \item{vip}{Variance Importance in Projection threshold value when
-a refinement process is considered. Default vip=1.2}
+a refinement process is considered. Default vip=1.2 .}
 }
 \value{
-A \code{\link[base]{list}} with the following elements: \code{R2Matrix}
+A \link[base:list]{base::list} with the following elements: \code{R2Matrix}
 (R-squared coefficients of the PLS model),
 \code{components} (of the PLS, similar to PCs in a PCA),
 \code{vip} (most important isomiRs/miRNAs),
 \code{group} (classification of the samples),
-\code{p.value} and \code{R2PermutationVector} obtained by the permutations.
+\code{p.value} and \code{R2PermutationVecto} obtained by the permutations.
 
-If the option \code{refinment} is set to \code{TRUE}, then the following
+If the option \code{refinment} is set to TRUE, then the following
 elements will appear:
 \code{R2RefinedMatrix} and \code{componentsRefinedModel} (R-squared coefficients
 of the PLS model only using the most important miRNAs/isomiRs). As well,
@@ -62,24 +62,24 @@ of the analysis.
 \details{
 Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
 appropriate for analysis of high dimensionality data sets and multicollinearity
-(\cite{Perez-Enciso, 2013}). PLS-DA is a supervised method (i.e. makes use of class
+(\emph{Perez-Enciso, 2013}). PLS-DA is a supervised method (i.e. makes use of class
 labels) with the aim to provide a dimension reduction strategy in a situation
 where we want to relate a binary response variable (in our case young or old
 status) to a set of predictor variables. Dimensionality reduction procedure is
 based on orthogonal transformations of the original variables (miRNAs/isomiRs) into a
 set of linearly uncorrelated latent variables (usually termed as components)
 such that maximizes the separation between the different classes in the first
-few components (\cite{Xia, 2011}). We used sum of squares captured by the model (R2) as
+few components (\emph{Xia, 2011}). We used sum of squares captured by the model (R2) as
 a goodness of fit measure.
 
 We implemented this method using the
-\code{\link[DiscriMiner]{DiscriMiner-package}} into \code{\link{isoPLSDA}} function.
+\link[DiscriMiner:DiscriMiner-package]{DiscriMiner::DiscriMiner-package} into \code{\link[=isoPLSDA]{isoPLSDA()}} function.
 The output
 p-value of this function will tell about the statistical
 significant of the group separation using miRNA/isomiR expression data.
 
 Read more about the parameters related to the PLS-DA directly from
-\link[DiscriMiner]{plsDA} function.
+\code{\link[DiscriMiner:plsDA]{DiscriMiner::plsDA()}} function.
 }
 \examples{
 data(mirData)
@@ -89,7 +89,6 @@ ids <- isoNorm(ids, formula=~group)
 pls.ids = isoPLSDA(ids, "group", nperm = 2)
 cat(paste0("pval:",pls.ids$p.val))
 cat(paste0("components:",pls.ids$components))
-
 }
 \references{
 Perez-Enciso, Miguel and Tenenhaus, Michel. Prediction of clinical outcome with microarray data:

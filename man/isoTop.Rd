@@ -7,9 +7,12 @@
 isoTop(ids, top = 20)
 }
 \arguments{
-\item{ids}{object of class \code{\link{IsomirDataSeq}}}
+\item{ids}{Object of class \link{IsomirDataSeq}.}
 
-\item{top}{number of isomiRs/miRNAs used}
+\item{top}{Number of isomiRs/miRNAs used.}
+}
+\value{
+heatmap with top expressed miRNAs
 }
 \description{
 This function creates a heatmap with the top N
@@ -21,5 +24,4 @@ and plot a heatmap with the raw counts for each sample.
 \examples{
 data(mirData)
 isoTop(mirData)
-
 }

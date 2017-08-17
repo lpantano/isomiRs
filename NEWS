@@ -1,3 +1,30 @@
+CHANGES IN VERSION  1.5.5
+---------------------------
+
+FIX
+    o Remove unused function join_all
+    o Use parameter not integer number
+
+CHANGES IN VERSION  1.5.4
+---------------------------
+
+FEATURES
+
+    o Better documentation for isoCorrection function. Add
+      proper authors and citation.
+
+
+CHANGES IN VERSION  1.5.3
+---------------------------
+
+FEATURES
+
+    o Better colors for polar plot of isomiRs
+
+FIX
+    o Fix notes during R CHECK for variables inside dplyr/ggplot functions
+    o Use roxygen2 for NAMESPACE
+
 CHANGES IN VERSION  1.5.2
 ---------------------------
 

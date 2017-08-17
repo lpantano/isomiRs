@@ -1,11 +1,10 @@
 Package: isomiRs
-Version: 1.5.4
-Date: 2017-07-24
+Version: 1.5.5
+Date: 2017-08-16
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
    differential expression.
-LazyData: true
 biocViews: miRNA, RNASeq,
     DifferentialExpression, Clustering
 Suggests:
@@ -19,16 +18,18 @@ Suggests:
 Depends:
     R (>= 3.4),
     DiscriMiner,
-    IRanges,
-    S4Vectors (>= 0.9.25),
-    GenomicRanges,
-    SummarizedExperiment (>= 1.1.6)
+    SummarizedExperiment,
+    TMB (>= 1.7.6),
+    RcppEigen
 Imports:
     BiocGenerics (>= 0.7.5),
+    IRanges,
+    S4Vectors,
+    GenomicRanges,
+    Biobase,
     DESeq2,
     reshape,
     tidyr,
-    plyr,
     readr,
     dplyr,
     RColorBrewer,
@@ -43,10 +44,20 @@ Imports:
     stats,
     GGally,
     gamlss,
+    lme4,
     gamlss.dist
-Author: Lorena Pantano, Georgia Escaramis
+LazyData: true
+Authors@R: c(
+    person("Lorena", "Pantano",
+           email = "lorena.pantano@gmail.com",
+           role = c("aut", "cre")),
+    person("Georgia", "Escaramis", role = "aut"),
+    person("Christos", "Argyropoulos",
+    email = "cargyropoulos@unm.edu", role="aut"))
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1.9000
-NeedsCompilation: no
+NeedsCompilation: yes
+LinkingTo: TMB, RcppEigen

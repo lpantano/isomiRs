@@ -78,6 +78,7 @@
 #'
 #' @rdname IsomirDataSeq
 #' @md
+#' @exportClass "IsomirDataSeq"
 IsomirDataSeq <- setClass("IsomirDataSeq",
                           contains = "SummarizedExperiment",
                           representation = representation(
@@ -162,7 +163,7 @@ setValidity( "IsomirDataSeq", function( object ) {
 #'
 #' head(counts(ids))
 #'
-#'
+#' @export
 IsomirDataSeqFromFiles <- function(files, coldata, rate=0.2,
                                    canonicalAdd=TRUE, uniqueMism=TRUE,
                                    design = ~1,

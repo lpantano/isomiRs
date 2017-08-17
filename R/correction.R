@@ -1,34 +1,50 @@
-#' Calculate the correction factors from the equimolar 286 experiments
+#' Correct miRNA expression based on prior ligation bias information
 #' 
-#' this is the source file for fitting the linear quadratic normal famile
-#' change the string to the location you saved this file in your drive
+#' This is the source file for fitting the linear quadratic normal family
 #' 
-#' @param train long data.frame to train model
-#' @param data long data.frame to correct abundance
-#' @param cycles number of cycles to reach convergency
+#' @param train Long data.frame to train model.
+#' @param data Long data.frame to correct abundance.
+#' @param cycles Number of cycles to reach convergency.
+#' @param long Boolean if input is in long format instead of standard
+#'   wide format (rows:miRNAs, columns:samples).
 #' @return data.frame with corrected expression
 #' @examples
-#' options(warn = -1)
+#' options(warn = -1) # this is only for tiny example
 #' data(mirTritation)
 #' ma <- isoCorrect(mirTritation[mirTritation$class=="train",],
-#' mirTritation[mirTritation$class=="test",],cycles=5)
+#' mirTritation[mirTritation$class=="test",],cycles=5,long=TRUE)
 #' library(ggplot2)
 #' ggplot(ma,aes(y=log2(reads), x=Dilution)) + geom_jitter()
 #' ggplot(ma,aes(y=m, x=Dilution)) + geom_jitter()
-isoCorrect <- function(train, data, cycles=5000){
+#' @author Christos Argyropoulos and Lorena Pantano
+#' @details 
+#' Methods adapted from:
+#' 
+#' Argyropoulos, Christos, et al. "Modeling bias and variation in 
+#' the stochastic processes of small RNA sequencing." 
+#' Nucleic Acids Research (2017).
+#' @export
+isoCorrect <- function(train, data, cycles=5000, long=FALSE){
+    
+    if (!class(train) %in% c("data.frame", "matrix"))
+        stop("train data should be data.frame or matrix")
+    if (!class(data) %in% c("data.frame", "matrix"))
+        stop("target data should be data.frame or matrix")
+    
+    if (long == FALSE){
+        train = reshape::melt(as.matrix(train))
+        names(train) = c("miRNA", "SampleID", "reads")
+        data = reshape::melt(as.matrix(data))
+        names(data) = c("miRNA", "SampleID", "reads")
+    }
+    
     fLQNO.r <- gamlss(reads~ SampleID+random(miRNA),
-                       sigma.fo=~ SampleID+random(miRNA),
+                       sigma.formula=~ SampleID+random(miRNA),
                        data=train,family="LQNO",
                        control=gamlss.control(n.cyc=cycles,c.crit=0.1,
                                               mu.step=1,sigma.step=1),method=RS())
-    ## fit the NBI to the 01 data.
-    # fNBI.01.r<-gamlss(reads~ SampleID+random(miRNA),
-    #                   sigma.fo=~ SampleID+random(miRNA),
-    #                   data=train,family="NBI",
-    #                   control=gamlss.control(n.cyc=5000,c.crit=0.001,
-    #                                          mu.step=1,sigma.step=1,gd.tol=Inf),
-    #                   method=RS())
-    # 
+
+    
     corrfact <- function(fit,data) {
         pred <- predictAll(fit,type="terms",data=data)
         off.m <- pred$mu[,"random(miRNA)"]
@@ -40,15 +56,13 @@ isoCorrect <- function(train, data, cycles=5000){
     ## correction factors from LQNO
     cor.LQNO <- corrfact(fLQNO.r,train)
     ## correction factors from NBI
-    # cor.NBI<-corrfact(fNBI.01.r,train)
-    
+
     ## in order to correct the development , merge the correction factors into it
     ## we will refit both models and see what we get
     data.LQNO <- merge(data,cor.LQNO, by="miRNA") ## correction factors from the LQNO model
-    # datA.NBI<-merge(datA,cor.NBI, by="miRNA")
-    
+
     fLQNO.data.r <- gamlss(reads~ SampleID+random(miRNA)+offset(off.m),
-                           sigma.fo=~ SampleID+random(miRNA)+offset(off.s),
+                           sigma.formula=~ SampleID+random(miRNA)+offset(off.s),
                            data=data.LQNO,family="LQNO",
                            control=gamlss.control(n.cyc=cycles,c.crit=0.1,
                                                   mu.step=1,sigma.step=1,gd.tol=Inf), 
@@ -57,17 +71,7 @@ isoCorrect <- function(train, data, cycles=5000){
                                                   bf.cyc = 300, bf.tol = 0.1, 
                                                   bf.trace = FALSE),
                            method=RS())
-    # 
-    # fNBI.1.r<-gamlss(reads~ SampleID+random(miRNA)+offset(off.m),
-    #                  sigma.fo=~ SampleID+random(miRNA)+offset(off.s),
-    #                  data=datA.NBI,family="NBI",
-    #                  control=gamlss.control(n.cyc=5000,c.crit=0.001,
-    #                                         mu.step=1,sigma.step=1,gd.tol=Inf), 
-    #                  i.control=glim.control(cc = 0.001, cyc = 500,  glm.trace = FALSE, 
-    #                                         bf.cyc = 300, bf.tol = 0.001, bf.trace = FALSE),
-    #                  method=RS())
-    # 
-    
+
     ## function to predict the effects of bias correction
     pred.fun <- function(x) {
         dummy <- predict(x[[1]],type="terms",se.fit=TRUE)
@@ -75,13 +79,15 @@ isoCorrect <- function(train, data, cycles=5000){
                         s=dummy$se.fit[,"random(miRNA)"])
         x[[2]]$m <- d$m
         x[[2]]$s <- d$s
-        # d<-ddply(x[[2]][,c("miRNA","m","s")],.(miRNA),summarize,m=mean(m)/log(10),s=mean(s)/log(10))
         x[[2]]
     }
-    # 
-    # 
+
+    
     fitSE.LQNO <- pred.fun(list(fLQNO.data.r, data.LQNO))
-    # fitSE.NBI<-pred.fun(list(fNBI.1.r,datA.NBI))
-    # 
-    fitSE.LQNO
+
+    if (long == TRUE)
+        return(fitSE.LQNO)
+    ma <- fitSE.LQNO[, c("miRNA", "SampleID", "m")] %>% spread(key="SampleID", value="m")
+    row.names(ma) <- ma[,1]
+    ma <- ma[,2:ncol(ma)]
 }
