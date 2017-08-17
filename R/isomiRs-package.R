@@ -35,7 +35,8 @@
 #' @importFrom grid textGrob unit unit.pmax
 #' @importFrom graphics pairs
 #' @importFrom stats as.dist as.hclust cutree dist hclust
-#'             dnorm pnorm predict qnorm rnorm
+#'             dnorm pnorm predict qnorm rnorm deviance
+#'             model.matrix nlminb p.adjust
 
 #' 
 "_PACKAGE"
