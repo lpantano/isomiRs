@@ -5,7 +5,6 @@ Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
    differential expression.
-LazyData: true
 biocViews: miRNA, RNASeq,
     DifferentialExpression, Clustering
 Suggests:

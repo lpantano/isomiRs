@@ -18,9 +18,9 @@ BiocStyle::latex2()
 
 \bioctitle[isomiRs]{isomiRs: miRNAoma analysis from small-RNAseq data}
 \author{Lorena Pantano$^{1*}$, Georgia Escaramis$^{2*}$,
-Eulalia Martin$^{2*}$ \\ \small{Harvard TH Chan School of Public Health,
+Eulalia Martin$^{2*}$ \\ \small{Harvard H Chan School of Public Health,
 Boston, US;} \\ \small{$^{2}$ Center of Genomic Regulation, Barcelona,
-Spain;} \\ \small{\texttt{$^*$lpantano (at) gmail.com}}}
+Spain;} \\ \small{\texttt{$^*$lpantano (at) iscb.org}}}
 \date{Modified: 3 Feb, 2015. Compiled: \today}
 
 \begin{document}

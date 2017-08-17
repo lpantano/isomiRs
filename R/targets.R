@@ -8,8 +8,9 @@ from_pairs_to_matrix <- function(df){
     if ( !(names(df) %in% c("gene","mir")) )
         stop("The columns should be names as gene and mir.")
     df$value <- 1
-    ma = pairs %>% dplyr::select(gene, mir, value) %>%
-        dplyr::distinct() %>% spread(mir, value, fill=0) %>% filter(!is.na(gene))
+    ma = pairs %>% .[c("gene", "mir", "value")] %>%
+        dplyr::distinct() %>% spread(mir, value, fill = 0) %>%
+        filter(!is.na(gene))
     row.names(ma) = ma$gene
     ma
 }
@@ -24,7 +25,7 @@ from_pairs_to_matrix <- function(df){
     cor_target <- cor_target[common_mirna, common_gene]
     cor_target[ t(target[common_gene, common_mirna]) == 0 ] = 0
     cat("Dimmension of cor matrix:", dim(cor_target), "\n")
-    stopifnot(nrow(cor_target)>1 & ncol(cor_target)>1)
+    stopifnot(nrow(cor_target) > 1 & ncol(cor_target) > 1)
     t(cor_target) # cor matrix with values only if mirna-gene are in target
 }
 
@@ -68,7 +69,7 @@ from_pairs_to_matrix <- function(df){
 .median_by_group <- function(e, g){
     sapply(levels(g), function(i){
         idx = which(g == i)
-        mean(e[idx], na.rm=TRUE)
+        mean(e[idx], na.rm = TRUE)
     })
 }
 
@@ -98,40 +99,29 @@ from_pairs_to_matrix <- function(df){
 #'   will be use to consider a miRNA-gene pair as valid.
 #' @examples
 #'
-#' pairs <- as.matrix(data.frame(row.names=c("gene1", "gene2"),
-#'                             mirna1=c(0,1), mirna2=c(1,0)))
-#' mirna_matrix <- as.matrix(data.frame(row.names=c("mirna1", "mirna2"),
-#'                                     time0_1=c(1,1),time0_2=c(1.2,0.9),
-#'                                     time1_1=c(8,8),time1_2=c(8.2,7.9)))
-#' gene_matrix <- as.matrix(data.frame(row.names=c("gene1", "gene2"),
-#'                                     time0_1=c(8,8),time0_2=c(8.2,7.9),
-#'                                     time1_1=c(1,1),time1_2=c(1.2,0.9)))
-#' mirna_col <- data.frame(row.names=c("time0_1","time0_2","time1_1","time1_2"),
-#'                        group=c("t0","t0","t1","t1"))
-#' gene_col <- data.frame(row.names=c("time0_1","time0_2","time1_1","time1_2"),
-#'                        group=c("t0","t0","t1","t1"))
-#'
-#' mirna <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(mirna_matrix)),
-#'                             colData= mirna_col)
-#' gene <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(gene_matrix)),
-#'                              colData= gene_col)
-#' find_targets(mirna, gene, pairs)
+#' data(isoExample)
+#' mirna_ma <- matrix(rbinom(20*25, c(0, 1), 1), ncol = 20)
+#' colnames(mirna_ma) <- rownames(mirna_ex_rse)
+#' rownames(mirna_ma) <- rownames(gene_ex_rse)
+#' corMat <- find_targets(mirna_ex_rse, gene_ex_rse, mirna_ma)
 #' @return mirna-gene matrix
 #' @export
-find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor= -.6){
-    mirna = assay(mirna_rse,"norm")[,order(colData(mirna_rse)[,summarize])]
-    message("Number of mirnas ", nrow(mirna), " with these columns:", paste(colnames(mirna)))
-    gene = assay(gene_rse, "norm")[,order(colData(gene_rse)[,summarize])]
-    message("Number of genes ", nrow(gene), " with these columns:", paste(colnames(gene)))
-    mirna_group = colData(mirna_rse)[order(colData(mirna_rse)[,summarize]),summarize]
-    gene_group = colData(gene_rse)[order(colData(gene_rse)[,summarize]),summarize]
-    message("Factors genes", levels(gene_group))
-    message("Factors mirnas", levels(mirna_group))
-    message("Order genes", gene_group)
-    message("Order mirnas", mirna_group)
+find_targets <- function(mirna_rse, gene_rse, target,
+                         summarize="group", min_cor= -.6){
+    mirna = assay(mirna_rse,"norm")[, order(colData(mirna_rse)[,summarize])]
+    message("Number of mirnas ", nrow(mirna))
+    gene = assay(gene_rse, "norm")[, order(colData(gene_rse)[,summarize])]
+    message("Number of genes ", nrow(gene))
+    mirna_group = colData(mirna_rse)[order(colData(mirna_rse)[,summarize]), summarize]
+    gene_group = colData(gene_rse)[order(colData(gene_rse)[,summarize]), summarize]
+    message("Factors genes", paste(levels(gene_group)))
+    message("Factors mirnas", paste(levels(mirna_group)))
+    message("Order genes", paste(gene_group))
+    message("Order mirnas", paste(mirna_group))
 
-    mirna_norm <- .apply_median(as.matrix(mirna), mirna_group, minfc=0.5)
-    gene_norm <- .apply_median(as.matrix(gene), gene_group, minfc=0.5)
+    mirna_norm <- .apply_median(as.matrix(mirna), mirna_group, minfc = 0.5)
+    gene_norm <- .apply_median(as.matrix(gene), gene_group, minfc = 0.5)
+    message("Calculating cor matrix")
     cor_target <- .cor_matrix(mirna_norm, gene_norm, as.matrix(target), min_cor)
     return(cor_target)
 }
@@ -169,7 +159,8 @@ find_targets <- function(mirna_rse, gene_rse, target, summarize="group", min_cor
 #' library(org.Mm.eg.db)
 #' library(clusterProfiler)
 #' data(isoExample)
-#' # ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, "ENSEMBL", ont = "BP")
+#' # ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
+#' #                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
 #' # data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
 #' # isoPlotNet(data)
 #' @return list with network information
