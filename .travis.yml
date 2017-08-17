@@ -1,10 +1,11 @@
 language: r
+sudo: false
 dist: trusty
 cache: packages
 r: bioc-devel
 r_github_packages:
   - jimhester/covr
 before_install:
-  - sudo apt-get install texlive-fonts-extra
+  - tlmgr install bera
 after_success:
   - Rscript -e 'covr::codecov()'
