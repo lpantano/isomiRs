@@ -9,5 +9,6 @@ r_github_packages:
 before_install:
   - tlmgr install bera
   - tlmgr install nowidow
+  - tlmgr install parnotes
 after_success:
   - Rscript -e 'covr::codecov()'
