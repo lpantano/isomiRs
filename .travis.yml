@@ -5,5 +5,7 @@ cache: packages
 r: bioc-devel
 r_github_packages:
   - jimhester/covr
+before_install:
+  - apt-get install texlive-fonts-extra
 after_success:
   - Rscript -e 'covr::codecov()'

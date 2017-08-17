@@ -4,7 +4,7 @@
 \alias{isoNetwork}
 \title{Clustering miRNAs-genes pairs in similar pattern expression}
 \usage{
-isoNetwork(mirna_rse, gene_rse, target, summarize = "group", org,
+isoNetwork(mirna_rse, gene_rse, target, org, summarize = "group",
   genename = "ENSEMBL", min_cor = -0.6)
 }
 \arguments{
@@ -17,10 +17,10 @@ information. See details.}
 \item{target}{Matrix with miRNAs (columns) and genes (rows)
 target prediction (1 if it is a target, 0 if not).}
 
+\item{org}{\link[AnnotationDbi:AnnotationDb]{AnnotationDbi::AnnotationDb} obejct. For example:(org.Mm.eg.db).}
+
 \item{summarize}{Character column name in \code{colData(rse)} to use to group
 samples and compare betweem miRNA/gene expression.}
-
-\item{org}{}
 
 \item{genename}{Character keytype of the gene
 names in gene_rse object.}
@@ -49,7 +49,8 @@ the list of miRNAs to be used by this function.
 library(org.Mm.eg.db)
 library(clusterProfiler)
 data(isoExample)
-# ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")), org.Mm.eg.db, "ENSEMBL", ont = "BP")
+# ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
+#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
 # data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
 # isoPlotNet(data)
 }

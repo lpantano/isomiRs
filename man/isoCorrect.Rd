@@ -20,7 +20,7 @@ wide format (rows:miRNAs, columns:samples).}
 data.frame with corrected expression
 }
 \description{
-this is the source file for fitting the linear quadratic normal family
+This is the source file for fitting the linear quadratic normal family
 }
 \details{
 Methods adapted from:

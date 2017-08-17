@@ -131,14 +131,14 @@ find_targets <- function(mirna_rse, gene_rse, target,
 #' Clustering miRNAs-genes pairs
 #'
 #' @param mirna_rse [SummarizedExperiment::SummarizedExperiment] with miRNA
-#' information. See details.
+#'   information. See details.
 #' @param gene_rse [SummarizedExperiment::SummarizedExperiment] with gene
-#' information. See details.
+#'   information. See details.
 #' @param target Matrix with miRNAs (columns) and genes (rows)
-#' target prediction (1 if it is a target, 0 if not).
+#'   target prediction (1 if it is a target, 0 if not).
+#' @param org [AnnotationDbi::AnnotationDb] obejct. For example:(org.Mm.eg.db).
 #' @param summarize Character column name in `colData(rse)` to use to group
-#' samples and compare betweem miRNA/gene expression.
-#' @param org [AnnotationDbi::AnnotationDb]:(org.Mm.eg.db).
+#'   samples and compare betweem miRNA/gene expression.
 #' @param genename Character keytype of the gene
 #'   names in gene_rse object.
 #' @param min_cor Numeric cutoff to consider a miRNA to regulate a target.
@@ -165,8 +165,8 @@ find_targets <- function(mirna_rse, gene_rse, target,
 #' # isoPlotNet(data)
 #' @return list with network information
 #' @export
-isoNetwork <- function(mirna_rse, gene_rse, target,
-                       summarize="group", org, genename="ENSEMBL",
+isoNetwork <- function(mirna_rse, gene_rse, target, org,
+                       summarize="group", genename="ENSEMBL",
                        min_cor = -.6){
     stopifnot(class(gene_rse)=="SummarizedExperiment")
     stopifnot(class(mirna_rse)=="SummarizedExperiment")

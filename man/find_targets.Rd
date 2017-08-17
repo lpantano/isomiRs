@@ -34,22 +34,9 @@ correlation of the expression of both molecules.
 }
 \examples{
 
-pairs <- as.matrix(data.frame(row.names=c("gene1", "gene2"),
-                            mirna1=c(0,1), mirna2=c(1,0)))
-mirna_matrix <- as.matrix(data.frame(row.names=c("mirna1", "mirna2"),
-                                    time0_1=c(1,1),time0_2=c(1.2,0.9),
-                                    time1_1=c(8,8),time1_2=c(8.2,7.9)))
-gene_matrix <- as.matrix(data.frame(row.names=c("gene1", "gene2"),
-                                    time0_1=c(8,8),time0_2=c(8.2,7.9),
-                                    time1_1=c(1,1),time1_2=c(1.2,0.9)))
-mirna_col <- data.frame(row.names=c("time0_1","time0_2","time1_1","time1_2"),
-                       group=c("t0","t0","t1","t1"))
-gene_col <- data.frame(row.names=c("time0_1","time0_2","time1_1","time1_2"),
-                       group=c("t0","t0","t1","t1"))
-
-mirna <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(mirna_matrix)),
-                            colData= mirna_col)
-gene <- SummarizedExperiment(assays=SimpleList(norm=as.matrix(gene_matrix)),
-                             colData= gene_col)
-find_targets(mirna, gene, pairs)
+data(isoExample)
+mirna_ma <- matrix(rbinom(20*25, c(0, 1), 1), ncol = 20)
+colnames(mirna_ma) <- rownames(mirna_ex_rse)
+rownames(mirna_ma) <- rownames(gene_ex_rse)
+corMat <- find_targets(mirna_ex_rse, gene_ex_rse, mirna_ma)
 }

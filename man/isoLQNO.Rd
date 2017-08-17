@@ -11,7 +11,7 @@ isoLQNO(counts, groups = NULL, long = FALSE)
 
 \item{groups}{Character vector to indicate the group of each sample.}
 
-\item{long}{Boolean matrix in long format.}
+\item{long}{Whether matrix is in long format. Default FALSE.}
 }
 \value{
 data.frame with estimates and p-values.
