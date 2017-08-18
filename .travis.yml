@@ -1,7 +1,8 @@
 language: r
+sudo: false
 os:
-  - osx
-#  - linux
+#  - osx
+  - linux
 cache:
   packages: true
 r: bioc-devel
