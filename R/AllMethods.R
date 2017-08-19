@@ -154,6 +154,6 @@ setReplaceMethod("design", signature(object="IsomirDataSeq", value="formula"),
 
 #' @rdname isoSelect
 #' @exportMethod "isoSelect"
-setMethod(f="isoSelect",
+setMethod(f = "isoSelect",
           signature = signature(object="IsomirDataSeq"),
           definition = isoSelect.IsomirDataSeq)

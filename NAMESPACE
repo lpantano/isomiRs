@@ -3,7 +3,7 @@
 export(IsomirDataSeqFromFiles)
 export(LQNO)
 export(dLQNO)
-export(find_targets)
+export(findTargets)
 export(isoCorrect)
 export(isoCounts)
 export(isoDE)

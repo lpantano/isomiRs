@@ -1,7 +1,6 @@
 language: r
 sudo: false
 os:
-#  - osx
   - linux
 cache:
   packages: true

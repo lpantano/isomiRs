@@ -39,15 +39,13 @@ isoLQNO <- function(counts, groups=NULL, long=FALSE){
     ## STEP 0: PREPARE THE DATA FOR THE FIT - THIS PART DOES NOT CHANGE
     u_X<-as.numeric(factor(counts$miRNA)) ## maps readings to the identity of the miRNA
     u_G<-as.numeric(factor(counts$Series)) ## maps counts to group
-    y=counts$reads  ## extract the actual counts
+    y<-counts$reads  ## extract the actual counts
     X<-model.matrix(~Series,data=counts) ## design matrix (ANOVA) for group comparisons
-    
     
     ## STEP 1: USE A POISSON MODEL TO OBTAIN ESTIMATES FOR THE MU SUBMODEL
     ##====================================================================
     ## fit the parameters for the mu submodel using the poisson GLM
     gl<-glmer(reads~Series+(0+Series|miRNA),data=counts,family="poisson")
-    
     
     ## STEP 2: USE THE MU MODEL ESTIMATES TO FIT THE PHI SUBMODEL
     ##============================================================
@@ -57,7 +55,6 @@ isoLQNO <- function(counts, groups=NULL, long=FALSE){
     b=fixef(gl) ## initial values for the overall group means (mean submodel) 
     ## initial values for the variation of miRNAs around their group mean (mean submodel)
     u_m=as.matrix(ranef(gl)$miRNA)
-    
     ## Very rough initial values for the phi submodel parameters
     s_b=rep(0,ncol(X)) ## initial values for the overall group means (phi submodel) 
     ## initial values for the variation of miRNAs around their group mean (phi submodel)
@@ -84,6 +81,7 @@ isoLQNO <- function(counts, groups=NULL, long=FALSE){
     dummy<-summary(rep,"fixed",p.value=FALSE)[,1] ## parameter estimates
     s_b=dummy[1:max(u_G)]
     sigsig=dummy[-(1:max(u_G))]
+    
     ## STEP 3: REFIT THE MODEL WITHOUT FIXING ANY PARAMETERS
     ##=========================================================
     obj.TMB<-MakeADFun(data=list(y=y,X=X,u_X=u_X,u_G=u_G),

@@ -1,6 +1,6 @@
 # put header to input files
 .put_header <- function(table){
-    if ( sum(colnames(table)=="seq")==0 ){
+    if ( sum(colnames(table) == "seq")==0 ){
         names(table)[c(1, 3, 4, 7, 8, 9, 10, 13, ncol(table))] <- c("seq", "freq", "mir",
                                                                     "mism", "add", "t5", "t3",
                                                                     "DB", "ambiguity")
@@ -12,7 +12,7 @@
     return(table)
 }
 
-.change_seq <- function(x,mism){
+.change_seq <- function(x, mism){
     .pos = gsub("[ATGCNU]", "", mism)
     .subs = as.vector(unlist(strsplit(gsub("[0-9]+", "", mism), "")))
     .nts = as.vector(unlist(strsplit(x, "")))
@@ -23,16 +23,16 @@
 .clean_low_rate_changes <- function(tab, rate=0.20, uniqueMism=TRUE){
     if (uniqueMism){
         tab = tab  %>%
-            filter(!(mism!="0" & ambiguity>1))
+            filter(!(mism != "0" & ambiguity > 1))
     }
     tab.fil = tab %>%
         rowwise() %>%
-        mutate(seq=if_else((af<rate & !is.na(af)) | grepl("N", mism),
-                           .change_seq(seq,mism),seq)) %>%
-        mutate(mism=if_else((af<rate & !is.na(af)),"0",mism))
+        mutate(seq = if_else((af<rate & !is.na(af)) | grepl("N", mism),
+                           .change_seq(seq, mism),seq)) %>%
+        mutate(mism = if_else((af<rate & !is.na(af)), "0", mism))
     tab.fil = tab.fil %>% ungroup() %>%
         group_by(mir, seq, mism, add, t5, t3, DB, ambiguity) %>%
-        summarise(freq=sum(freq))  %>%
+        summarise(freq = sum(freq))  %>%
         dplyr::select(mir, seq, freq, mism, add, t5, t3, DB, ambiguity)
     as.data.frame(tab.fil)
 }

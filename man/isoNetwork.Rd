@@ -51,6 +51,7 @@ library(clusterProfiler)
 data(isoExample)
 # ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
 #                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
-# data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex, org=ego@result)
+# data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,
+                    org = slot(ego, "result"))
 # isoPlotNet(data)
 }

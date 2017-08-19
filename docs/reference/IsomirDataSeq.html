@@ -92,12 +92,15 @@ experimental information for each sample.</p>
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code><a href='IsomirDataSeqFromFiles.html'>IsomirDataSeqFromFiles</a></code> creates this object using seqbuster output files.</p>
-<p>Methods for this objects are <code><a href='counts.html'>counts</a></code> to get count matrix
-and <code><a href='isoSelect.html'>isoSelect</a></code>
+    <p><code><a href='IsomirDataSeqFromFiles.html'>IsomirDataSeqFromFiles</a></code> creates this object using seqbuster
+output files.</p>
+<p>Methods for this objects are <code><a href='counts.html'>counts</a></code> to get
+count matrix and <code><a href='isoSelect.html'>isoSelect</a></code>
 for miRNA/isomiR selection. Functions
-available for this object are <code><a href='isoCounts.html'>isoCounts</a></code> for count matrix creation,
-<code><a href='isoNorm.html'>isoNorm</a></code> for normalization, <code><a href='isoDE.html'>isoDE</a></code> for
+available for this object are <code><a href='isoCounts.html'>isoCounts</a></code> for
+count matrix creation,
+<code><a href='isoNorm.html'>isoNorm</a></code> for normalization,
+<code><a href='isoDE.html'>isoDE</a></code> for
 differential expression and <code><a href='isoPLSDA.html'>isoPLSDA</a></code> for clustering.
 <code><a href='isoPlot.html'>isoPlot</a></code> helps with basic expression plot.
     <code>metadata</code> contains two lists: <code>rawList</code> is a list with same
@@ -110,7 +113,8 @@ the data stored in <code>isoList</code> for sample 1 and 5' changes
 with this code <code>metadata(ids)[['isoList']][[1]]$t5sum</code>.</p>
 <p>The naming of isomiRs follows these rules:</p><ul>
 <li><p>miRNA name</p></li>
-<li><p>type:ref if the sequence is the same than the miRNA reference. <code>iso</code> if the sequence has variations.</p></li>
+<li><p>type:ref if the sequence is the same than the miRNA reference.
+<code>iso</code> if the sequence has variations.</p></li>
 <li><p><code>t5 tag</code>:indicates variations at 5 position.
 The naming contains two words: <code>direction - nucleotides</code>,
 where direction can be UPPER CASE NT
@@ -150,7 +154,8 @@ mean deletions respect to the reference sequence.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extra"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"isomiRs"</span>)
 <span class='no'>fn_list</span> <span class='kw'>&lt;-</span> <span class='fu'>list.files</span>(<span class='no'>path</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>de</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>row.names</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"f1"</span> , <span class='st'>"f2"</span>), <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"newborn"</span>, <span class='st'>"newborn"</span>))
+<span class='no'>de</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>row.names</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"f1"</span> , <span class='st'>"f2"</span>),
+                 <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"newborn"</span>, <span class='st'>"newborn"</span>))
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='IsomirDataSeqFromFiles.html'>IsomirDataSeqFromFiles</a></span>(<span class='no'>fn_list</span>, <span class='kw'>coldata</span><span class='kw'>=</span><span class='no'>de</span>)
 
 <span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>))</div><div class='output co'>#&gt;               f1 f2

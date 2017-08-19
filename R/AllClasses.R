@@ -9,13 +9,16 @@
 #' raw counts, normalized counts, and table with
 #' experimental information for each sample.
 #'
-#' \code{\link{IsomirDataSeqFromFiles}} creates this object using seqbuster output files.
+#' \code{\link{IsomirDataSeqFromFiles}} creates this object using seqbuster
+#' output files.
 #'
-#' Methods for this objects are \code{\link[isomiRs]{counts}} to get count matrix
-#' and \code{\link[isomiRs]{isoSelect}}
+#' Methods for this objects are \code{\link[isomiRs]{counts}} to get
+#' count matrix and \code{\link[isomiRs]{isoSelect}}
 #' for miRNA/isomiR selection. Functions
-#' available for this object are \code{\link[isomiRs]{isoCounts}} for count matrix creation,
-#' \code{\link[isomiRs]{isoNorm}} for normalization, \code{\link[isomiRs]{isoDE}} for
+#' available for this object are \code{\link[isomiRs]{isoCounts}} for
+#' count matrix creation,
+#' \code{\link[isomiRs]{isoNorm}} for normalization,
+#' \code{\link[isomiRs]{isoDE}} for
 #' differential expression and \code{\link{isoPLSDA}} for clustering.
 #' \code{\link[isomiRs]{isoPlot}} helps with basic expression plot.
 #'
@@ -31,7 +34,8 @@
 #' The naming of isomiRs follows these rules:
 #'
 #' * miRNA name
-#' * type:ref if the sequence is the same than the miRNA reference. \code{iso} if the sequence has variations.
+#' * type:ref if the sequence is the same than the miRNA reference.
+#' \code{iso} if the sequence has variations.
 #' * \code{t5 tag}:indicates variations at 5 position.
 #' The naming contains two words: \code{direction - nucleotides},
 #' where direction can be UPPER CASE NT
@@ -71,7 +75,8 @@
 #' @examples
 #' path <- system.file("extra", package="isomiRs")
 #' fn_list <- list.files(path, full.names = TRUE)
-#' de <- data.frame(row.names=c("f1" , "f2"), condition = c("newborn", "newborn"))
+#' de <- data.frame(row.names=c("f1" , "f2"),
+#'                  condition = c("newborn", "newborn"))
 #' ids <- IsomirDataSeqFromFiles(fn_list, coldata=de)
 #'
 #' head(counts(ids))
@@ -84,20 +89,20 @@ IsomirDataSeq <- setClass("IsomirDataSeq",
                           representation = representation(
                               design = "formula"))
 
-setValidity( "IsomirDataSeq", function( object ) {
+setValidity("IsomirDataSeq", function(object) {
     if (!("counts" %in% names(assays(object))))
-        return( "the assays slot must contain a matrix named 'counts'" )
-    if ( !is.numeric( counts(object) ) )
-        return( "the count data is not numeric" )
-    if ( any( is.na( counts(object) ) ) )
-        return( "NA values are not allowed in the count matrix" )
-    if ( any( counts(object) < 0 ) )
-        return( "the count data contains negative values" )
+        return("the assays slot must contain a matrix named 'counts'")
+    if (!is.numeric(counts(object)))
+        return("the count data is not numeric")
+    if (any(is.na(counts(object))))
+        return("NA values are not allowed in the count matrix" )
+    if (any( counts(object) < 0L))
+        return("the count data contains negative values")
     TRUE
-} )
+})
 
 # Constructor
-.IsomirDataSeq <- function(se, rawList=NULL, isoList=NULL, design=~1){
+.IsomirDataSeq <- function(se, rawList=NULL, isoList=NULL, design=~1L){
     if (!is(se, "SummarizedExperiment")) {
         if (is(se, "SummarizedExperiment0")) {
                   se <- as(se, "SummarizedExperiment")
@@ -137,17 +142,24 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @param skip skip first line when reading files
 #' @param quiet boolean indicating to print messages
 #'  while reading files. Default \code{FALSE}.
-#' @param ... arguments provided to \code{\link[SummarizedExperiment]{SummarizedExperiment}}
+#' @param ... arguments provided to
+#'  \code{\link[SummarizedExperiment]{SummarizedExperiment}}
 #' including rowData.
 #' @details
-#' This function parses the output of \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
-#' for each sample to create a count matrix for isomiRs, miRNAs or isomiRs grouped in
-#' types (i.e all sequences with variations at 5' but ignoring any other type). It creates
-#' \code{\link[isomiRs]{IsomirDataSeq}} object (see link to example usage of this class)
+#' This function parses the output of
+#' \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
+#' for each sample to create a count matrix for isomiRs, miRNAs or
+#' isomiRs grouped in
+#' types (i.e all sequences with variations at 5' but ignoring any other type).
+#' It creates
+#' \code{\link[isomiRs]{IsomirDataSeq}} object (see link to example usage of
+#' this class)
 #' to allow visualization, queries, differential
 #' expression analysis and clustering.
-#' To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs files, and generates
-#' an initial matrix having all isomiRs detected among samples. As well, it creates
+#' To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs
+#' files, and generates
+#' an initial matrix having all isomiRs detected among samples. As well,
+#' it creates
 #' a summary for each isomiR type (trimming, addition and substitution) to
 #' visualize general isomiRs distribution.
 #'
@@ -158,7 +170,8 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @examples
 #' path <- system.file("extra", package="isomiRs")
 #' fn_list <- list.files(path, full.names = TRUE)
-#' de <- data.frame(row.names=c("f1" , "f2"), condition = c("newborn", "newborn"))
+#' de <- data.frame(row.names=c("f1" , "f2"),
+#'                  condition = c("newborn", "newborn"))
 #' ids <- IsomirDataSeqFromFiles(fn_list, coldata=de)
 #'
 #' head(counts(ids))
@@ -166,24 +179,24 @@ setValidity( "IsomirDataSeq", function( object ) {
 #' @export
 IsomirDataSeqFromFiles <- function(files, coldata, rate=0.2,
                                    canonicalAdd=TRUE, uniqueMism=TRUE,
-                                   design = ~1,
+                                   design = ~1L,
                                    header=TRUE, skip=0, quiet=TRUE, ...){
     listSamples <- vector("list")
     listIsomirs <- vector("list")
     idx <- 0
     if (header == FALSE)
       skip = 1
-    for (f in files){
+    for (f in files) {
         idx <- idx + 1
-        d <- as.data.frame(suppressMessages(read_tsv(f, skip=skip)),
-                           stringsAsFactors=FALSE)
+        d <- as.data.frame(suppressMessages(read_tsv(f, skip = skip)),
+                           stringsAsFactors = FALSE)
         if (quiet == FALSE)
           cat("reading file: ", f, "\n")
-        if (nrow(d) < 2){
+        if (nrow(d) < 2) {
             warning(paste0("This sample hasn't any lines: ", f))
         }else{
-            d <- .filter_table(d, rate=rate, canonicalAdd=canonicalAdd,
-                               uniqueMism=uniqueMism)
+            d <- .filter_table(d, rate = rate, canonicalAdd = canonicalAdd,
+                               uniqueMism = uniqueMism)
             out <- list(summary = 0,
                         t5sum = .isomir_position(d, 6),
                         t3sum = .isomir_position(d, 7),
@@ -194,9 +207,9 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate=0.2,
             listIsomirs[[row.names(coldata)[idx]]] <- out
         }
     }
-    coldata = coldata[names(listSamples),,drop=FALSE]
+    coldata = coldata[names(listSamples),, drop = FALSE]
     countData <- IsoCountsFromMatrix(listSamples, coldata)
-    se <- SummarizedExperiment(assays = SimpleList(counts=countData),
+    se <- SummarizedExperiment(assays = SimpleList(counts = countData),
                                colData = DataFrame(coldata), ...)
     ids <- .IsomirDataSeq(se, listSamples, listIsomirs, design)
     return(ids)

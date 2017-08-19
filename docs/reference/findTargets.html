@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Differential expression between two groups using LQNO model — isoLQNO • isomiRs</title>
+<title>Find miRNAs target using mRNA/miRNA expression — findTargets • isomiRs</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,54 +75,61 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Differential expression between two groups using LQNO model</h1>
+    <h1>Find miRNAs target using mRNA/miRNA expression</h1>
     </div>
 
     
-    <p>Differential expression between two groups using LQNO model</p>
+    <p>This function creates a matrix with rows (genes) and
+columns (mirnas) with values indicating if miRNA-gene
+pair is target according putative targets and negative
+correlation of the expression of both molecules.</p>
     
 
-    <pre class="usage"><span class='fu'>isoLQNO</span>(<span class='no'>counts</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>long</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>findTargets</span>(<span class='no'>mirna_rse</span>, <span class='no'>gene_rse</span>, <span class='no'>target</span>, <span class='kw'>summarize</span> <span class='kw'>=</span> <span class='st'>"group"</span>,
+  <span class='kw'>min_cor</span> <span class='kw'>=</span> -<span class='fl'>0.6</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>counts</th>
-      <td><p>Count matrix.</p></td>
+      <th>mirna_rse</th>
+      <td><p><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment::SummarizedExperiment</a> with miRNA
+information. See details.</p></td>
     </tr>
     <tr>
-      <th>groups</th>
-      <td><p>Character vector to indicate the group of each sample.</p></td>
+      <th>gene_rse</th>
+      <td><p><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment::SummarizedExperiment</a> with gene
+information. See details.</p></td>
     </tr>
     <tr>
-      <th>long</th>
-      <td><p>Whether matrix is in long format. Default FALSE.</p></td>
+      <th>target</th>
+      <td><p>Matrix with miRNAs (columns) and genes (rows)
+target prediction values (1 if it is a target, 0 if not).</p></td>
+    </tr>
+    <tr>
+      <th>summarize</th>
+      <td><p>Character column name in colData(rse) to use to group
+samples and compare betweem miRNA/gene expression.</p></td>
+    </tr>
+    <tr>
+      <th>min_cor</th>
+      <td><p>Numeric cutoff for correlation value that
+will be use to consider a miRNA-gene pair as valid.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame with estimates and p-values.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Methods adapted from <em>Argyropoulos et al (2017)</em>.</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Argyropoulos, Christos, et al. "Modeling bias and variation in
-the stochastic processes of small RNA sequencing."
-Nucleic Acids Research (2017).</p>
+    <p>mirna-gene matrix</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>options</span>(<span class='kw'>warn</span> <span class='kw'>=</span> -<span class='fl'>1</span>) <span class='co'># this is only for tiny example</span>
-<span class='fu'>data</span>(<span class='no'>dat286</span>)
-<span class='no'>datRat</span><span class='kw'>&lt;-</span><span class='fu'>subset</span>(<span class='no'>dat286.long</span>,(<span class='no'>Series</span><span class='kw'>==</span><span class='st'>"Equi"</span> <span class='kw'>|</span> <span class='no'>Series</span> <span class='kw'>==</span><span class='st'>"RatioA"</span>) <span class='kw'>&amp;</span> <span class='no'>Amount</span><span class='kw'>==</span><span class='st'>"100 fmoles"</span>)
-<span class='no'>datRat</span>$<span class='no'>SampleID</span><span class='kw'>&lt;-</span><span class='fu'>factor</span>(<span class='no'>datRat</span>$<span class='no'>SampleID</span>)
-<span class='no'>datRat</span>$<span class='no'>Series</span><span class='kw'>&lt;-</span><span class='fu'>factor</span>(<span class='no'>datRat</span>$<span class='no'>Series</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>isoLQNO</span>(<span class='no'>datRat</span>, <span class='kw'>long</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div></pre>
+    <pre class="examples"><div class='input'>
+<span class='fu'>data</span>(<span class='no'>isoExample</span>)
+<span class='no'>mirna_ma</span> <span class='kw'>&lt;-</span> <span class='fu'>matrix</span>(<span class='fu'>rbinom</span>(<span class='fl'>20</span>*<span class='fl'>25</span>, <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>1</span>), <span class='fl'>1</span>), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>20</span>)
+<span class='fu'>colnames</span>(<span class='no'>mirna_ma</span>) <span class='kw'>&lt;-</span> <span class='fu'>rownames</span>(<span class='no'>mirna_ex_rse</span>)
+<span class='fu'>rownames</span>(<span class='no'>mirna_ma</span>) <span class='kw'>&lt;-</span> <span class='fu'>rownames</span>(<span class='no'>gene_ex_rse</span>)
+<span class='no'>corMat</span> <span class='kw'>&lt;-</span> <span class='fu'>findTargets</span>(<span class='no'>mirna_ex_rse</span>, <span class='no'>gene_ex_rse</span>, <span class='no'>mirna_ma</span>)</div><div class='output co'>#&gt; <span class='message'>Number of mirnas 20</span></div><div class='output co'>#&gt; <span class='message'>Number of genes 25</span></div><div class='output co'>#&gt; <span class='message'>Factors genescontrolday1day2day3day7day14</span></div><div class='output co'>#&gt; <span class='message'>Factors mirnascontrolday1day2day3day7day14</span></div><div class='output co'>#&gt; <span class='message'>Order genescontrolcontrolcontrolday1day1day1day2day2day2day3day3day3day7day7day7day14day14day14</span></div><div class='output co'>#&gt; <span class='message'>Order mirnascontrolcontrolcontrolday1day1day1day2day2day2day3day3day3day7day7day7day14day14day14</span></div><div class='output co'>#&gt; <span class='message'>Calculating cor matrix</span></div><div class='output co'>#&gt; Dimmension of cor matrix: 20 25 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -130,17 +137,9 @@ Nucleic Acids Research (2017).</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
-
-    <h2>Author</h2>
-    
-Christos Argyropoulos and Lorena Pantano
 
   </div>
 </div>

@@ -87,7 +87,7 @@ characterization, differential expression and clustering. It creates an
     
 
     <pre class="usage"><span class='fu'>IsomirDataSeqFromFiles</span>(<span class='no'>files</span>, <span class='no'>coldata</span>, <span class='kw'>rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>canonicalAdd</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>uniqueMism</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='fl'>1</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>uniqueMism</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='fl'>1L</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -135,7 +135,8 @@ while reading files. Default <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>arguments provided to <code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment</a></code>
+      <td><p>arguments provided to
+<code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment</a></code>
 including rowData.</p></td>
     </tr>
     </table>
@@ -146,14 +147,20 @@ including rowData.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function parses the output of <a href='http://seqcluster.readthedocs.org/mirna_annotation.html'>http://seqcluster.readthedocs.org/mirna_annotation.html</a>
-for each sample to create a count matrix for isomiRs, miRNAs or isomiRs grouped in
-types (i.e all sequences with variations at 5' but ignoring any other type). It creates
-<code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code> object (see link to example usage of this class)
+    <p>This function parses the output of
+<a href='http://seqcluster.readthedocs.org/mirna_annotation.html'>http://seqcluster.readthedocs.org/mirna_annotation.html</a>
+for each sample to create a count matrix for isomiRs, miRNAs or
+isomiRs grouped in
+types (i.e all sequences with variations at 5' but ignoring any other type).
+It creates
+<code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code> object (see link to example usage of
+this class)
 to allow visualization, queries, differential
 expression analysis and clustering.
-To create the <code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code>, it parses the isomiRs files, and generates
-an initial matrix having all isomiRs detected among samples. As well, it creates
+To create the <code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code>, it parses the isomiRs
+files, and generates
+an initial matrix having all isomiRs detected among samples. As well,
+it creates
 a summary for each isomiR type (trimming, addition and substitution) to
 visualize general isomiRs distribution.</p>
     
@@ -161,7 +168,8 @@ visualize general isomiRs distribution.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"extra"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"isomiRs"</span>)
 <span class='no'>fn_list</span> <span class='kw'>&lt;-</span> <span class='fu'>list.files</span>(<span class='no'>path</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>de</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>row.names</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"f1"</span> , <span class='st'>"f2"</span>), <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"newborn"</span>, <span class='st'>"newborn"</span>))
+<span class='no'>de</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>row.names</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"f1"</span> , <span class='st'>"f2"</span>),
+                 <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"newborn"</span>, <span class='st'>"newborn"</span>))
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>IsomirDataSeqFromFiles</span>(<span class='no'>fn_list</span>, <span class='kw'>coldata</span><span class='kw'>=</span><span class='no'>de</span>)
 
 <span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>))</div><div class='output co'>#&gt;               f1 f2

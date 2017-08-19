@@ -16,13 +16,16 @@ raw counts, normalized counts, and table with
 experimental information for each sample.
 }
 \details{
-\code{\link{IsomirDataSeqFromFiles}} creates this object using seqbuster output files.
+\code{\link{IsomirDataSeqFromFiles}} creates this object using seqbuster
+output files.
 
-Methods for this objects are \code{\link[isomiRs]{counts}} to get count matrix
-and \code{\link[isomiRs]{isoSelect}}
+Methods for this objects are \code{\link[isomiRs]{counts}} to get
+count matrix and \code{\link[isomiRs]{isoSelect}}
 for miRNA/isomiR selection. Functions
-available for this object are \code{\link[isomiRs]{isoCounts}} for count matrix creation,
-\code{\link[isomiRs]{isoNorm}} for normalization, \code{\link[isomiRs]{isoDE}} for
+available for this object are \code{\link[isomiRs]{isoCounts}} for
+count matrix creation,
+\code{\link[isomiRs]{isoNorm}} for normalization,
+\code{\link[isomiRs]{isoDE}} for
 differential expression and \code{\link{isoPLSDA}} for clustering.
 \code{\link[isomiRs]{isoPlot}} helps with basic expression plot.
 
@@ -38,7 +41,8 @@ with this code \code{metadata(ids)[['isoList']][[1]]$t5sum}.
 The naming of isomiRs follows these rules:
 \itemize{
 \item miRNA name
-\item type:ref if the sequence is the same than the miRNA reference. \code{iso} if the sequence has variations.
+\item type:ref if the sequence is the same than the miRNA reference.
+\code{iso} if the sequence has variations.
 \item \code{t5 tag}:indicates variations at 5 position.
 The naming contains two words: \code{direction - nucleotides},
 where direction can be UPPER CASE NT
@@ -78,7 +82,8 @@ mean deletions respect to the reference sequence.
 \examples{
 path <- system.file("extra", package="isomiRs")
 fn_list <- list.files(path, full.names = TRUE)
-de <- data.frame(row.names=c("f1" , "f2"), condition = c("newborn", "newborn"))
+de <- data.frame(row.names=c("f1" , "f2"),
+                 condition = c("newborn", "newborn"))
 ids <- IsomirDataSeqFromFiles(fn_list, coldata=de)
 
 head(counts(ids))

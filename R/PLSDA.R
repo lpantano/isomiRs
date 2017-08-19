@@ -83,14 +83,12 @@
 #' @export
 isoPLSDA <- function(ids, group , validation = NULL, learn = NULL, test = NULL,
                      tol = 0.001, nperm = 400, refinment = FALSE, vip = 1.2){
-    tryCatch ({
-        class(normcounts(ids))
-    }, error = function(e){
-        return("please, run first normIso.")
-    })
+    if (is.null(normcounts(ids)))
+        stop("please, run first isoNorm")
+
     variables <- t(normcounts(ids))
     group <- droplevels(colData(ids)[,group])
-    if (length(group) < 6){
+    if (length(group) < 6) {
         return("this analysis only runs with group larger than 6.")
     }
     # Auxiliary data containing variable names and numeric ID per variable
@@ -282,7 +280,7 @@ isoPLSDAplot <- function (pls, n=2){
     datacomponents <- data.frame(condition = groups, components)
     p <- ggpairs(datacomponents, columns = 2:ncol(datacomponents),
                  aes_string(color = "condition"),
-                upper="blank",legends=TRUE)
+                upper="blank")
     p
     invisible(datacomponents)
 }
