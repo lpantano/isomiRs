@@ -11,9 +11,6 @@ r:
 r_github_packages:
   - jimhester/covr
 before_install:
-  - tlmgr install bera
-  - tlmgr install nowidow
-  - tlmgr install parnotes
-  - tlmgr install marginfix
+  - tlmgr install bera nowidow parnotes marginfix etoolbox titlesec sectsty framed enumitem parskip soul placeins footmisc changepage xstring caption mathtools
 after_success:
   - Rscript -e 'covr::codecov()'
