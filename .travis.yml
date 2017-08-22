@@ -4,7 +4,9 @@ os:
   - linux
 cache:
   packages: true
-r: bioc-devel
+r: 
+  - bioc-devel
+  - bioc-release
 # r_check_args: --no-build-vignettes
 r_github_packages:
   - jimhester/covr

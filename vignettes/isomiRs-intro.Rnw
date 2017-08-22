@@ -1,5 +1,5 @@
 %\VignetteIndexEntry{isomiRs}
-%\VignetteKeywords{smallRNA, miRNAs,isomiRs, DifferentailExpression}
+%\VignetteKeywords{smallRNA, miRNAs, isomiRs, DifferentailExpression}
 %\VignetteEngine{knitr::knitr}
 \documentclass{article}
 \usepackage[utf8]{inputenc}
