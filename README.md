@@ -6,6 +6,8 @@ isomiRs
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.45382.svg)](http://dx.doi.org/10.5281/zenodo.45382)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build status](https://secure.travis-ci.org/lpantano/isomiRs.png)](https://secure.travis-ci.org/lpantano/isomiRs.png)
+[![coverage](https://img.shields.io/codecov/c/github/lpantano/isomiRs/master.svg)](https://codecov.io/github/lpantano/isomiRs?branch=master)
+
 
 Analyze isomiRs from seqbuster tool  or any BAM file after using [seqcluster seqbuster](http://seqcluster.readthedocs.io/mirna_annotation.html#mirna-isomirs-annotation-with-python)
 
