@@ -9,7 +9,6 @@ biocViews: miRNA, RNASeq,
     DifferentialExpression, Clustering
 Suggests:
     knitr,
-    RUnit,
     org.Mm.eg.db,
     cluster,
     clusterProfiler,
