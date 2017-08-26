@@ -37,5 +37,5 @@ test_that("target", {
 test_that("accesor", {
     expect_output(str(design(mirData)), "formula")
     expect_true(class(counts(mirData)) == "matrix")
-    expect_equal(nrow(isoSelect(mirData, "hsa-let-7a-5p")), 45)
+    expect_equal(nrow(isoSelect(mirData, "hsa-let-7a-5p")), 37)
 })
