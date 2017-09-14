@@ -20,14 +20,20 @@ Analyze isomiRs from seqbuster tool  or any BAM file after using [seqcluster seq
 
 This is an [R][] package.
 
-### [Bioconductor][] method
+### [Bioconductor][] stable version
 
 ```r
 source("https://bioconductor.org/biocLite.R")
 biocLite("isomiRs")
 ```
 
-### [devtools][] method
+### [Bioconductor][] latest version
+
+```r
+devtools::install_git("https://git@git.bioconductor.org/packages/isomiRs")
+```
+
+### [devtools][] development version
 
 ```r
 install.packages("devtools")
