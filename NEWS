@@ -2,6 +2,7 @@ CHANGES IN VERSION  1.5.5
 ---------------------------
 
 FIX
+
     o Migrate vignette to new BiocStyle
     o Remove unused function join_all
     o Use parameter not integer number
