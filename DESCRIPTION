@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 1.7.0
-Date: 2017-08-24
+Version: 1.7.1
+Date: 2017-11-29
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and

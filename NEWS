@@ -1,3 +1,11 @@
+CHANGES IN VERSION  1.7.1
+---------------------------
+
+FIX
+
+* Fix error when table is empty after filtering bad hits.
+
+
 CHANGES IN VERSION  1.5.5
 ---------------------------
 
