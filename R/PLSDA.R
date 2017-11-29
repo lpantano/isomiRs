@@ -53,7 +53,7 @@
 #' `components` (of the PLS, similar to PCs in a PCA),
 #' `vip` (most important isomiRs/miRNAs),
 #' `group` (classification of the samples),
-#' `p.value` and `R2PermutationVecto` obtained by the permutations.
+#' `p.value` and `R2PermutationVector` obtained by the permutations.
 #'
 #' If the option `refinment` is set to TRUE, then the following
 #' elements will appear:

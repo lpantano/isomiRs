@@ -197,6 +197,8 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate=0.2,
         }else{
             d <- .filter_table(d, rate = rate, canonicalAdd = canonicalAdd,
                                uniqueMism = uniqueMism)
+            if (nrow(d) == 0)
+                next
             out <- list(summary = 0,
                         t5sum = .isomir_position(d, 6),
                         t3sum = .isomir_position(d, 7),
@@ -207,6 +209,8 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate=0.2,
             listIsomirs[[row.names(coldata)[idx]]] <- out
         }
     }
+    if (length(listSamples) == 0)
+        stop("No samples had valids miRNA hits.")
     coldata = coldata[names(listSamples),, drop = FALSE]
     countData <- IsoCountsFromMatrix(listSamples, coldata)
     se <- SummarizedExperiment(assays = SimpleList(counts = countData),

@@ -131,7 +131,7 @@ IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
     table.merge[is.na(table.merge)] <- 0
     dt <- as.matrix(table.merge)
     if ( dim(dt)[1] == 0 )
-        warning("No miRNA found.")
+        warning("No miRNA found. Make sure the third column of the file has the count value different than 0.")
     dt
 }
 
