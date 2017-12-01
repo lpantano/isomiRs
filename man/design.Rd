@@ -5,7 +5,6 @@
 \alias{design}
 \alias{design,IsomirDataSeq-method}
 \alias{design<-,IsomirDataSeq,formula-method}
-\alias{design}
 \title{Accessors for the 'design' slot of a IsomirDataSeq object.}
 \usage{
 \S4method{design}{IsomirDataSeq}(object)

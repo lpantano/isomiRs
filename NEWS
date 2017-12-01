@@ -1,8 +1,8 @@
-CHANGES IN VERSION  1.7.1
----------------------------
+## CHANGES IN VERSION  1.7.1
 
 FIX
 
+* Use limma::voom when number of samples is high. Set up by user.
 * Fix error when table is empty after filtering bad hits.
 
 

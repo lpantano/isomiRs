@@ -37,8 +37,8 @@ rLQNO(n, mu = 1, sigma = 1)
 
 \item{q}{Vector of quantiles.}
 
-\item{lower.tail}{Logical; if TRUE (default), probabilities are \code{P(X < x)}
-otherwise, \code{P(X > x)}.}
+\item{lower.tail}{Logical; if TRUE (default), probabilities are \code{P(X &lt; x)}
+otherwise, \code{P(X &gt; x)}.}
 
 \item{log.p}{Logical; if TRUE, probabilities p are given as \code{log(p)}.}
 

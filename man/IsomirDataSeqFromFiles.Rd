@@ -5,8 +5,8 @@
 \title{\code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool}
 \usage{
 IsomirDataSeqFromFiles(files, coldata, rate = 0.2, canonicalAdd = TRUE,
-  uniqueMism = TRUE, design = ~1L, header = TRUE, skip = 0,
-  quiet = TRUE, ...)
+  uniqueMism = TRUE, design = ~1L, minHits = 1L, header = TRUE,
+  skip = 0, quiet = TRUE, ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
@@ -23,6 +23,9 @@ contain C/G nts.}
 a unique hit to one miRNA molecule}
 
 \item{design}{a \code{formula} to pass to \code{\link[DESeq2]{DESeqDataSet}}}
+
+\item{minHits}{Minimum number of reads in the sample to consider it
+in the final matrix.}
 
 \item{header}{boolean to indicate files contain headers}
 

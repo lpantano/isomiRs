@@ -39,7 +39,7 @@ A \link[base:list]{base::list} with the following elements: \code{R2Matrix}
 \code{components} (of the PLS, similar to PCs in a PCA),
 \code{vip} (most important isomiRs/miRNAs),
 \code{group} (classification of the samples),
-\code{p.value} and \code{R2PermutationVecto} obtained by the permutations.
+\code{p.value} and \code{R2PermutationVector} obtained by the permutations.
 
 If the option \code{refinment} is set to TRUE, then the following
 elements will appear:

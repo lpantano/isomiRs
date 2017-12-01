@@ -5,7 +5,6 @@
 \alias{isoSelect}
 \alias{isoSelect.IsomirDataSeq}
 \alias{isoSelect,IsomirDataSeq-method}
-\alias{isoSelect,IsomirDataSeq-method}
 \title{Method to select specific miRNAs from an IsomirDataSeq object.}
 \usage{
 isoSelect.IsomirDataSeq(object, mirna, minc = 10)

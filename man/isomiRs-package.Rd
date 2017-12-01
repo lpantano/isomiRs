@@ -6,7 +6,8 @@
 \alias{isomiRs-package}
 \title{isomiRs}
 \description{
-isomiRs
+Characterization of miRNAs and isomiRs, clustering and
+differential expression.
 }
 \author{
 \strong{Maintainer}: Lorena Pantano \email{lorena.pantano@gmail.com}

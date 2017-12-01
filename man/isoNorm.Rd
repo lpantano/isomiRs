@@ -4,12 +4,15 @@
 \alias{isoNorm}
 \title{Normalize count matrix}
 \usage{
-isoNorm(ids, formula = NULL)
+isoNorm(ids, formula = NULL, maxSamples = 50)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}
 
 \item{formula}{Formula that will be used for normalization.}
+
+\item{maxSamples}{Maximum number of samples to use with
+\code{\link[DESeq2:rlog]{DESeq2::rlog()}}, if not \code{\link[limma:voom]{limma::voom()}} is used.}
 }
 \value{
 \link{IsomirDataSeq} object with the normalized

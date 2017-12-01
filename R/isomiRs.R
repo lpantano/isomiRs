@@ -286,7 +286,8 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #'
 #' @param ids Object of class [IsomirDataSeq].
 #' @param formula Formula that will be used for normalization.
-#'
+#' @param maxSamples Maximum number of samples to use with
+#'   [DESeq2::rlog()], if not [limma::voom()] is used.
 #' @return [IsomirDataSeq] object with the normalized
 #' count matrix in a slot. The normalized matrix
 #' can be access with `counts(ids, norm=TRUE)`.
@@ -297,14 +298,21 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' ids <- isoNorm(mirData, formula=~group)
 #' head(counts(ids, norm=TRUE))
 #' @export
-isoNorm <- function(ids, formula=NULL){
+isoNorm <- function(ids, formula=NULL, maxSamples = 50){
     if (is.null(formula)){
         formula <- design(ids)
     }
-    dds <- DESeqDataSetFromMatrix(countData = counts(ids),
-                                colData = colData(ids),
-                                design = formula)
-    rld <- rlog(dds, blind=FALSE)
-    normcounts(ids) <- assay(rld)
-    ids
+    if (length(colnames(ids)) < maxSamples){
+        dds <- DESeqDataSetFromMatrix(countData = counts(ids),
+                                      colData = colData(ids),
+                                      design = formula)
+        rld <- rlog(dds, blind=FALSE)
+        normcounts(ids) <- assay(rld)
+    }else{
+        d <- colData(ids)
+        m <- model.matrix(formula, d)
+        v <- voom(counts(ids), m)
+        normcounts(ids) <- v[["E"]]
+    }
+   ids
 }

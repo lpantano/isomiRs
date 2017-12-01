@@ -52,11 +52,19 @@
                                    group_by(mir) %>%
                                    summarise(mir_f=sum(freq)+1,
                                              mir_n=n()+1))
-    tab.mism = tab.fil %>% filter(mism!=0) %>% group_by(mir, mism) %>%
-        summarise(mism_n=n(), mism_f=sum(freq)) %>%
-        left_join(tab.fil.out, by="mir") %>%
-        mutate(enrich=mism_n/mir_n, af=mism_f/mir_f, bias=af/enrich) %>%
-        ungroup()
+    tab.fil <- tab.fil %>%
+        left_join(tab.fil.out, by="mir") 
+    tab.mism <- tab.fil %>% filter(mism!=0) 
+    if (nrow(tab.mism) == 0)
+        return(tab.fil)
+    
+    tab.mism <- tab.mism %>% 
+        group_by(mir, mism, mir_n, mir_f) %>%
+        summarise(mism_n=n(), mism_f=sum(freq))  %>%
+        mutate(enrich=mism_n/mir_n, af=mism_f/mir_f, bias=af/enrich) %>% 
+        ungroup() %>% 
+        select(-mir_n, -mir_f)
+       
     tab.fil <- left_join(tab.fil %>% mutate(id=paste(mir,mism)),
                      tab.mism %>% mutate(id=paste(mir,mism)) %>%
                          select(-mism, -mir),
@@ -64,10 +72,12 @@
     tab.fil$score <- tab.fil$freq / tab.fil$mir_f * 100
     tab.fil <- .clean_low_rate_changes(tab.fil, rate, uniqueMism)
 
-    tab.fil <- left_join(tab.fil %>% mutate(id=paste(mir,mism)),
-                         tab.mism %>% mutate(id=paste(mir,mism)) %>%
-                             select(-mism, -mir),
-                         by="id") %>% select(-id)
+    tab.fil <- tab.fil %>%
+        left_join(tab.fil.out, by="mir") %>% 
+        mutate(id=paste(mir,mism)) %>% 
+        left_join(tab.mism %>% mutate(id=paste(mir,mism)) %>%
+                      select(-mism, -mir),
+                  by="id") %>% select(-id)
     tab.fil$score <- tab.fil$freq / tab.fil$mir_f * 100
     tab.fil
 }

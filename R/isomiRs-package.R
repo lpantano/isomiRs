@@ -8,6 +8,7 @@
 #' @import SummarizedExperiment
 #' @import methods
 #' @import DESeq2
+#' @importFrom limma voom
 #' @import GGally
 #' @import gtools
 #' @import grDevices

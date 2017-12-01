@@ -134,17 +134,19 @@ setValidity("IsomirDataSeq", function(object) {
 #' @param design a \code{formula} to pass to \code{\link[DESeq2]{DESeqDataSet}}
 #' @param rate minimum counts fraction to consider a mismatch a real mutation
 #' @param canonicalAdd \code{boolean} only keep A/T non-template addition.
-#' All non-template nucleotides at the 3' end will be removed if they
-#' contain C/G nts.
+#'   All non-template nucleotides at the 3' end will be removed if they
+#'   contain C/G nts.
 #' @param uniqueMism \code{boolean} only keep mutations that have
-#' a unique hit to one miRNA molecule
+#'   a unique hit to one miRNA molecule
+#' @param minHits Minimum number of reads in the sample to consider it
+#'   in the final matrix.
 #' @param header boolean to indicate files contain headers
 #' @param skip skip first line when reading files
 #' @param quiet boolean indicating to print messages
-#'  while reading files. Default \code{FALSE}.
+#'   while reading files. Default \code{FALSE}.
 #' @param ... arguments provided to
 #'  \code{\link[SummarizedExperiment]{SummarizedExperiment}}
-#' including rowData.
+#'   including rowData.
 #' @details
 #' This function parses the output of
 #' \url{http://seqcluster.readthedocs.org/mirna_annotation.html}
@@ -180,9 +182,11 @@ setValidity("IsomirDataSeq", function(object) {
 IsomirDataSeqFromFiles <- function(files, coldata, rate=0.2,
                                    canonicalAdd=TRUE, uniqueMism=TRUE,
                                    design = ~1L,
+                                   minHits = 1L,
                                    header=TRUE, skip=0, quiet=TRUE, ...){
     listSamples <- vector("list")
     listIsomirs <- vector("list")
+    n_filtered = 0
     idx <- 0
     if (header == FALSE)
       skip = 1
@@ -191,14 +195,19 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate=0.2,
         d <- as.data.frame(suppressMessages(read_tsv(f, skip = skip)),
                            stringsAsFactors = FALSE)
         if (quiet == FALSE)
-          cat("reading file: ", f, "\n")
+          message("reading file: ", f)
         if (nrow(d) < 2) {
-            warning(paste0("This sample hasn't any lines: ", f))
+            n_filtered = n_filtered + 1
+            message(paste0("This sample hasn't any lines: ", f))
         }else{
             d <- .filter_table(d, rate = rate, canonicalAdd = canonicalAdd,
                                uniqueMism = uniqueMism)
-            if (nrow(d) == 0)
+            if (nrow(d) < minHits){
+                n_filtered = n_filtered + 1
+                message("Skipping sample ", f,
+                        ". Low number of hits according to minHits.")
                 next
+            }
             out <- list(summary = 0,
                         t5sum = .isomir_position(d, 6),
                         t3sum = .isomir_position(d, 7),
@@ -216,5 +225,6 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate=0.2,
     se <- SummarizedExperiment(assays = SimpleList(counts = countData),
                                colData = DataFrame(coldata), ...)
     ids <- .IsomirDataSeq(se, listSamples, listIsomirs, design)
+    message("Total samples filtered due to low number of hits: ", n_filtered)
     return(ids)
 }
