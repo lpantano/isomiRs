@@ -28,6 +28,7 @@ Imports:
     GenomicRanges,
     Biobase,
     DESeq2,
+    limma,
     reshape,
     tidyr,
     readr,
