@@ -28,8 +28,9 @@
     tab.fil = tab %>%
         rowwise() %>%
         mutate(seq = if_else((af<rate & !is.na(af)) | grepl("N", mism),
-                           .change_seq(seq, mism),seq)) %>%
-        mutate(mism = if_else((af<rate & !is.na(af)), "0", mism))
+                             .change_seq(seq, mism), seq)) %>%
+        mutate(mism = if_else((af<rate & !is.na(af) | grepl("N", mism)),
+                              "0", mism))
     tab.fil = tab.fil %>% ungroup() %>%
         group_by(mir, seq, mism, add, t5, t3, DB, ambiguity) %>%
         summarise(freq = sum(freq))  %>%
