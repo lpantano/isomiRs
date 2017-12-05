@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -83,7 +83,7 @@
 <code><a href='http://www.rdocumentation.org/packages/DESeq2/topics/rlog'>DESeq2::rlog()</a></code> function from <a href='http://www.rdocumentation.org/packages/DESeq2/topics/DESeq2-package'>DESeq2::DESeq2-package</a>.</p>
     
 
-    <pre class="usage"><span class='fu'>isoNorm</span>(<span class='no'>ids</span>, <span class='kw'>formula</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>isoNorm</span>(<span class='no'>ids</span>, <span class='kw'>formula</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>maxSamples</span> <span class='kw'>=</span> <span class='fl'>50</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -95,6 +95,11 @@
     <tr>
       <th>formula</th>
       <td><p>Formula that will be used for normalization.</p></td>
+    </tr>
+    <tr>
+      <th>maxSamples</th>
+      <td><p>Maximum number of samples to use with
+<code><a href='http://www.rdocumentation.org/packages/DESeq2/topics/rlog'>DESeq2::rlog()</a></code>, if not <code><a href='http://www.rdocumentation.org/packages/limma/topics/voom'>limma::voom()</a></code> is used.</p></td>
     </tr>
     </table>
     
@@ -108,27 +113,13 @@ can be access with <code><a href='counts.html'>counts(ids, norm=TRUE)</a></code>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mirData</span>)
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoCounts.html'>isoCounts</a></span>(<span class='no'>mirData</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mins</span><span class='kw'>=</span><span class='fl'>6</span>)
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>isoNorm</span>(<span class='no'>mirData</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>group</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='output co'>#&gt; <span class='message'>factor levels were dropped which had no samples</span></div><div class='input'><span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>, <span class='kw'>norm</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;                       pc2       pt2       pt7       pc1       pt6       pc3
-#&gt; hsa-let-7a-2-3p  3.359390  3.071367  2.897433  2.891080  2.701001  3.034015
-#&gt; hsa-let-7a-3p   10.286097 10.001767  9.713809  9.556400  9.455658  9.568679
-#&gt; hsa-let-7a-5p   18.864299 18.704379 18.435450 18.146873 18.253761 18.144663
-#&gt; hsa-let-7b-3p   11.237055 10.826430 10.220776  9.991825 10.174342 10.025003
-#&gt; hsa-let-7b-5p   16.620809 16.392974 15.998464 15.936787 15.814123 15.858538
-#&gt; hsa-let-7c-3p    5.321446  5.080029  5.549875  5.232819  5.484454  5.271296
-#&gt;                       pt3       pt5       pt4       pc5       pc4       pc7
-#&gt; hsa-let-7a-2-3p  2.946939  2.799358  2.310709  3.217075  3.221739  2.770960
-#&gt; hsa-let-7a-3p   10.082313  9.639452  9.625344 10.332679  9.550486  9.948226
-#&gt; hsa-let-7a-5p   18.615203 18.124950 18.304688 18.626690 18.307934 18.210683
-#&gt; hsa-let-7b-3p   10.650875 10.098523  9.983959 11.092818 10.362724 10.480457
-#&gt; hsa-let-7b-5p   16.254793 15.748570 15.823459 16.298281 15.979812 15.883865
-#&gt; hsa-let-7c-3p    5.181525  5.240958  5.299531  5.354279  5.210706  5.450914
-#&gt;                       pc6       pt1
-#&gt; hsa-let-7a-2-3p  3.224440  2.703139
-#&gt; hsa-let-7a-3p    9.773393  9.900004
-#&gt; hsa-let-7a-5p   18.223200 18.156654
-#&gt; hsa-let-7b-3p   10.278231 10.424200
-#&gt; hsa-let-7b-5p   15.892572 15.811066
-#&gt; hsa-let-7c-3p    5.243474  5.309992</div></pre>
+<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>isoNorm</span>(<span class='no'>mirData</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>group</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='input'><span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>, <span class='kw'>norm</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;                    cc1    cc2    cc3    ct2    ct3    ct4
+#&gt; hsa-let-7a-2-3p  2.535  3.112  2.576  2.563  2.523  2.899
+#&gt; hsa-let-7a-3p    9.013  9.725  9.213  8.939  8.957  9.231
+#&gt; hsa-let-7a-5p   17.644 18.203 17.619 17.639 17.662 17.490
+#&gt; hsa-let-7b-3p    9.558 10.978  9.553  9.778  9.559 10.044
+#&gt; hsa-let-7b-5p   15.452 16.198 15.376 15.374 15.304 15.361
+#&gt; hsa-let-7c-3p    4.628  4.646  4.658  4.726  4.921  4.686</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

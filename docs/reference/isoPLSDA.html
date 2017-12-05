@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -144,7 +144,7 @@ a refinement process is considered. Default vip=1.2 .</p></td>
 <code>components</code> (of the PLS, similar to PCs in a PCA),
 <code>vip</code> (most important isomiRs/miRNAs),
 <code>group</code> (classification of the samples),
-<code>p.value</code> and <code>R2PermutationVecto</code> obtained by the permutations.</p>
+<code>p.value</code> and <code>R2PermutationVector</code> obtained by the permutations.</p>
 <p>If the option <code>refinment</code> is set to TRUE, then the following
 elements will appear:
 <code>R2RefinedMatrix</code> and <code>componentsRefinedModel</code> (R-squared coefficients
@@ -190,8 +190,10 @@ pathways from metabolomic data using MetaboAnalyst. Nature Protocols. 2011.</p>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mirData</span>)
 <span class='co'># Only miRNAs with &gt; 10 reads in all samples.</span>
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoCounts.html'>isoCounts</a></span>(<span class='no'>mirData</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mins</span><span class='kw'>=</span><span class='fl'>6</span>)
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoNorm.html'>isoNorm</a></span>(<span class='no'>ids</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>group</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='output co'>#&gt; <span class='message'>factor levels were dropped which had no samples</span></div><div class='input'><span class='no'>pls.ids</span> <span class='kw'>=</span> <span class='fu'>isoPLSDA</span>(<span class='no'>ids</span>, <span class='st'>"group"</span>, <span class='kw'>nperm</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'>cat</span>(<span class='fu'>paste0</span>(<span class='st'>"pval:"</span>,<span class='no'>pls.ids</span>$<span class='no'>p.val</span>))</div><div class='output co'>#&gt; pval:1</div><div class='input'><span class='fu'>cat</span>(<span class='fu'>paste0</span>(<span class='st'>"components:"</span>,<span class='no'>pls.ids</span>$<span class='no'>components</span>))</div><div class='output co'>#&gt; components:-7.57947253992083 components:-25.3585565000001 components:0.195567502506289 components:13.5423591758866 components:1.61510905023163 components:9.42046263904913 components:-13.0674228461778 components:-4.78896463973935 components:-3.81847501277925 components:0.405139081453592 components:13.2253946082814 components:10.2827695179266 components:9.19292991027107 components:-3.26683994698899 components:-5.99825265983859 components:14.405083119 components:-5.07094449502939 components:2.57649287180775 components:-7.14715807723921 components:8.91744056802121 components:-7.36729558574904 components:-0.0583135167405379 components:0.025273690875176 components:-2.51285436245379 components:1.13738293925962 components:1.33288761471967 components:7.10269041319377 components:-7.34243251982663 components:4.84531251206383 components:-1.54892083215524 components:-11.9360665252263 components:3.49791931757892 components:-1.02908099996298 components:2.19356963786863 components:-4.41559839696736 components:6.29141501081738 components:-2.12025036894569 components:-2.82635176325596 components:-6.22475324422899 components:1.17217868904657 components:0.697330878927742 components:11.4032960844394</div></pre>
+<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoNorm.html'>isoNorm</a></span>(<span class='no'>ids</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>group</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='output co'>#&gt; <span class='message'>-- note: fitType='parametric', but the dispersion trend was not well captured by the</span>
+#&gt; <span class='message'>   function: y = a/x + b, and a local regression fit was automatically substituted.</span>
+#&gt; <span class='message'>   specify fitType='local' or 'mean' to avoid this message next time.</span></div><div class='input'><span class='no'>pls.ids</span> <span class='kw'>=</span> <span class='fu'>isoPLSDA</span>(<span class='no'>ids</span>, <span class='st'>"group"</span>, <span class='kw'>nperm</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='fu'>cat</span>(<span class='fu'>paste0</span>(<span class='st'>"pval:"</span>,<span class='no'>pls.ids</span>$<span class='no'>p.val</span>))</div><div class='output co'>#&gt; pval:0.5</div><div class='input'><span class='fu'>cat</span>(<span class='fu'>paste0</span>(<span class='st'>"components:"</span>,<span class='no'>pls.ids</span>$<span class='no'>components</span>))</div><div class='output co'>#&gt; components:2.26176836886327 components:21.0544809371789 components:4.82913224361242 components:-8.09136370797731 components:-8.77835318684671 components:-11.2756646548306 components:15.1728136520458 components:-12.4321017446132 components:13.8938784710137 components:-6.20352771908986 components:-2.99261064987036 components:-7.4384520094859 components:2.33149005358021 components:0.397770684760909 components:-0.063186089342203 components:-6.28960875880129 components:-9.36077403013135 components:12.9843081399338</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

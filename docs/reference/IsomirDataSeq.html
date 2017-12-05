@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -156,8 +156,7 @@ mean deletions respect to the reference sequence.</p>
 <span class='no'>fn_list</span> <span class='kw'>&lt;-</span> <span class='fu'>list.files</span>(<span class='no'>path</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>de</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>row.names</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"f1"</span> , <span class='st'>"f2"</span>),
                  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"newborn"</span>, <span class='st'>"newborn"</span>))
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='IsomirDataSeqFromFiles.html'>IsomirDataSeqFromFiles</a></span>(<span class='no'>fn_list</span>, <span class='kw'>coldata</span><span class='kw'>=</span><span class='no'>de</span>)
-
+<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='IsomirDataSeqFromFiles.html'>IsomirDataSeqFromFiles</a></span>(<span class='no'>fn_list</span>, <span class='kw'>coldata</span><span class='kw'>=</span><span class='no'>de</span>)</div><div class='output co'>#&gt; <span class='message'>Total samples filtered due to low number of hits: 0</span></div><div class='input'>
 <span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>))</div><div class='output co'>#&gt;               f1 f2
 #&gt; hsa-let-7a-5p  0 18
 #&gt; hsa-let-7b-5p  0  6

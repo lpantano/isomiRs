@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -129,25 +129,15 @@ Annotation of isomiRs follows these rules:</p><ul>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mirData</span>)
 <span class='co'># To select isomiRs from let-7a-5p miRNA</span>
 <span class='co'># and with 10000 reads or more.</span>
-<span class='fu'>isoSelect</span>(<span class='no'>mirData</span>, <span class='kw'>mirna</span><span class='kw'>=</span><span class='st'>"hsa-let-7a-5p"</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10000</span>)</div><div class='output co'>#&gt; DataFrame with 4 rows and 15 columns
-#&gt;                                                id       pc1       pc2       pc3
-#&gt;                                       &lt;character&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-#&gt; 1  hsa-let-7a-5p 0 0 0 0 : TGAGGTAGTAGGTTGTATAGTT    382703    259187    279317
-#&gt; 2   hsa-let-7a-5p 0 0 0 t : TGAGGTAGTAGGTTGTATAGT     76284     65140     62420
-#&gt; 3 hsa-let-7a-5p 0 0 0 T : TGAGGTAGTAGGTTGTATAGTTT     14582      9490     10487
-#&gt; 4 hsa-let-7a-5p 0 A 0 0 : TGAGGTAGTAGGTTGTATAGTTA     15438      7826     10425
-#&gt;         pc4       pc5       pc6       pc7       pt1       pt2       pt3
-#&gt;   &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-#&gt; 1    353169    337896    157358    247664    111195    239647    363483
-#&gt; 2     91323     89100     39450     63273     25631     57218     90108
-#&gt; 3     13063     12455      5908      9233      4481      8640     14828
-#&gt; 4     12032     10865      5021      8075      3677      7523     13486
-#&gt;         pt4       pt5       pt6       pt7
-#&gt;   &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-#&gt; 1    321629    110483    222561    391118
-#&gt; 2     60010     27788     50366     79196
-#&gt; 3     12396      4467      8337     15646
-#&gt; 4     13765      3728      7498     15605</div></pre>
+<span class='fu'>isoSelect</span>(<span class='no'>mirData</span>, <span class='kw'>mirna</span><span class='kw'>=</span><span class='st'>"hsa-let-7a-5p"</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10000</span>)</div><div class='output co'>#&gt; DataFrame with 2 rows and 7 columns
+#&gt;                                               id       cc1       cc2       cc3
+#&gt;                                      &lt;character&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+#&gt; 1 hsa-let-7a-5p 0 0 0 0 : TGAGGTAGTAGGTTGTATAGTT    235825    171354    149541
+#&gt; 2  hsa-let-7a-5p 0 0 0 t : TGAGGTAGTAGGTTGTATAGT     50920     52403     35525
+#&gt;         ct2       ct3       ct4
+#&gt;   &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+#&gt; 1    163569    114028    123454
+#&gt; 2     35795     24993     34512</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

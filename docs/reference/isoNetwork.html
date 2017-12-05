@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -140,18 +140,26 @@ the list of miRNAs to be used by this function.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>library(org.Mm.eg.db)
-library(clusterProfiler)
-data(isoExample)
-# ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
-#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
-# data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,
-                    org = slot(ego, "result"))
-# isoPlotNet(data)
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:7:46: unexpected ')'</span>
-#&gt; <span class='error'>6: # data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,</span>
-#&gt; <span class='error'>7:                     org = slot(ego, "result"))</span>
-#&gt; <span class='error'>                                                ^</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>org.Mm.eg.db</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: AnnotationDbi</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘AnnotationDbi’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:isomiRs’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    select</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:dplyr’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    select</span></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'>library</span>(<span class='no'>clusterProfiler</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: DOSE</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>DOSE v3.3.2  For help: https://guangchuangyu.github.io/DOSE</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>If you use DOSE in published research, please cite:</span>
+#&gt; <span class='message'>Guangchuang Yu, Li-Gen Wang, Guang-Rong Yan, Qing-Yu He. DOSE: an R/Bioconductor package for Disease Ontology Semantic and Enrichment analysis. Bioinformatics 2015, 31(4):608-609</span></div><div class='output co'>#&gt; <span class='message'>clusterProfiler v3.5.6  For help: https://guangchuangyu.github.io/clusterProfiler</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>If you use clusterProfiler in published research, please cite:</span>
+#&gt; <span class='message'>Guangchuang Yu., Li-Gen Wang, Yanyan Han, Qing-Yu He. clusterProfiler: an R package for comparing biological themes among gene clusters. OMICS: A Journal of Integrative Biology. 2012, 16(5):284-287.</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘clusterProfiler’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:purrr’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    simplify</span></div><div class='input'><span class='fu'>data</span>(<span class='no'>isoExample</span>)
+<span class='co'># ego &lt;- enrichGO(row.names(assay(gene_ex_rse, "norm")),</span>
+<span class='co'>#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")</span>
+<span class='co'># data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,</span>
+<span class='co'>#                   org = slot(ego, "result"))</span>
+<span class='co'># isoPlotNet(data)</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

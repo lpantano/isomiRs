@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -122,17 +122,17 @@ Nucleic Acids Research (2017).</p>
     <pre class="examples"><div class='input'><span class='fu'>options</span>(<span class='kw'>warn</span> <span class='kw'>=</span> -<span class='fl'>1</span>) <span class='co'># this is only for tiny example</span>
 <span class='fu'>data</span>(<span class='no'>mirTritation</span>)
 <span class='no'>ma</span> <span class='kw'>&lt;-</span> <span class='fu'>isoCorrect</span>(<span class='no'>mirTritation</span>[<span class='no'>mirTritation</span>$<span class='no'>class</span><span class='kw'>==</span><span class='st'>"train"</span>,],
-<span class='no'>mirTritation</span>[<span class='no'>mirTritation</span>$<span class='no'>class</span><span class='kw'>==</span><span class='st'>"test"</span>,],<span class='kw'>cycles</span><span class='kw'>=</span><span class='fl'>5</span>,<span class='kw'>long</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; GAMLSS-RS iteration 1: Global Deviance = 39000.5 
-#&gt; GAMLSS-RS iteration 2: Global Deviance = 38564.41 
-#&gt; GAMLSS-RS iteration 3: Global Deviance = 37919.24 
-#&gt; GAMLSS-RS iteration 4: Global Deviance = 36917.76 
-#&gt; GAMLSS-RS iteration 5: Global Deviance = 35390.42 
-#&gt; GAMLSS-RS iteration 1: Global Deviance = 9211.416 
-#&gt; GAMLSS-RS iteration 2: Global Deviance = 8002.558 
-#&gt; GAMLSS-RS iteration 3: Global Deviance = 7217.307 
-#&gt; GAMLSS-RS iteration 4: Global Deviance = 6799.902 
-#&gt; GAMLSS-RS iteration 5: Global Deviance = 6579.711 </div><div class='input'><span class='fu'>library</span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>ma</span>,<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='fu'>log2</span>(<span class='no'>reads</span>), <span class='kw'>x</span><span class='kw'>=</span><span class='no'>Dilution</span>)) + <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_jitter'>geom_jitter</a></span>()</div><div class='img'><img src='isoCorrect-3.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>ma</span>,<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='no'>m</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='no'>Dilution</span>)) + <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_jitter'>geom_jitter</a></span>()</div><div class='img'><img src='isoCorrect-4.png' alt='' width='700' height='432.632880098887' /></div></pre>
+<span class='no'>mirTritation</span>[<span class='no'>mirTritation</span>$<span class='no'>class</span><span class='kw'>==</span><span class='st'>"test"</span>,],<span class='kw'>cycles</span><span class='kw'>=</span><span class='fl'>5</span>,<span class='kw'>long</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; GAMLSS-RS iteration 1: Global Deviance = 39000 
+#&gt; GAMLSS-RS iteration 2: Global Deviance = 38564 
+#&gt; GAMLSS-RS iteration 3: Global Deviance = 37919 
+#&gt; GAMLSS-RS iteration 4: Global Deviance = 36918 
+#&gt; GAMLSS-RS iteration 5: Global Deviance = 35390 
+#&gt; GAMLSS-RS iteration 1: Global Deviance = 9211 
+#&gt; GAMLSS-RS iteration 2: Global Deviance = 8003 
+#&gt; GAMLSS-RS iteration 3: Global Deviance = 7217 
+#&gt; GAMLSS-RS iteration 4: Global Deviance = 6800 
+#&gt; GAMLSS-RS iteration 5: Global Deviance = 6580 </div><div class='input'><span class='fu'>library</span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>ma</span>,<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='fu'>log2</span>(<span class='no'>reads</span>), <span class='kw'>x</span><span class='kw'>=</span><span class='no'>Dilution</span>)) + <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_jitter'>geom_jitter</a></span>()</div><div class='img'><img src='isoCorrect-1.png' alt='' width='700' height='432.632880098887' /></div><div class='input'><span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/ggplot'>ggplot</a></span>(<span class='no'>ma</span>,<span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/aes'>aes</a></span>(<span class='kw'>y</span><span class='kw'>=</span><span class='no'>m</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='no'>Dilution</span>)) + <span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/geom_jitter'>geom_jitter</a></span>()</div><div class='img'><img src='isoCorrect-2.png' alt='' width='700' height='432.632880098887' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

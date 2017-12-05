@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -87,8 +87,8 @@ characterization, differential expression and clustering. It creates an
     
 
     <pre class="usage"><span class='fu'>IsomirDataSeqFromFiles</span>(<span class='no'>files</span>, <span class='no'>coldata</span>, <span class='kw'>rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>canonicalAdd</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>uniqueMism</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='fl'>1L</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>uniqueMism</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='fl'>1L</span>, <span class='kw'>minHits</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -119,6 +119,11 @@ a unique hit to one miRNA molecule</p></td>
     <tr>
       <th>design</th>
       <td><p>a <code>formula</code> to pass to <code><a href='http://www.rdocumentation.org/packages/DESeq2/topics/DESeqDataSet'>DESeqDataSet</a></code></p></td>
+    </tr>
+    <tr>
+      <th>minHits</th>
+      <td><p>Minimum number of reads in the sample to consider it
+in the final matrix.</p></td>
     </tr>
     <tr>
       <th>header</th>
@@ -170,8 +175,7 @@ visualize general isomiRs distribution.</p>
 <span class='no'>fn_list</span> <span class='kw'>&lt;-</span> <span class='fu'>list.files</span>(<span class='no'>path</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>de</span> <span class='kw'>&lt;-</span> <span class='fu'>data.frame</span>(<span class='kw'>row.names</span><span class='kw'>=</span><span class='fu'>c</span>(<span class='st'>"f1"</span> , <span class='st'>"f2"</span>),
                  <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"newborn"</span>, <span class='st'>"newborn"</span>))
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>IsomirDataSeqFromFiles</span>(<span class='no'>fn_list</span>, <span class='kw'>coldata</span><span class='kw'>=</span><span class='no'>de</span>)
-
+<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>IsomirDataSeqFromFiles</span>(<span class='no'>fn_list</span>, <span class='kw'>coldata</span><span class='kw'>=</span><span class='no'>de</span>)</div><div class='output co'>#&gt; <span class='message'>Total samples filtered due to low number of hits: 0</span></div><div class='input'>
 <span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>))</div><div class='output co'>#&gt;               f1 f2
 #&gt; hsa-let-7a-5p  0 18
 #&gt; hsa-let-7b-5p  0  6

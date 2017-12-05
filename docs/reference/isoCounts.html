@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -155,35 +155,21 @@ http://seqcluster.readthedocs.org/mirna_annotation.html#mirna-annotation.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mirData</span>)
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>isoCounts</span>(<span class='no'>mirData</span>, <span class='kw'>ref</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>))</div><div class='output co'>#&gt;                        pc2    pt2    pt7    pc1    pt6    pc3    pt3    pt5
-#&gt; hsa-let-7a-2-3p.iso      6      3      0      9      2      4      4      0
-#&gt; hsa-let-7a-2-3p.ref      5      4     10      4      2      9      5      3
-#&gt; hsa-let-7a-3p.iso      782    634   1002   1140    536    857   1169    380
-#&gt; hsa-let-7a-3p.ref      146    111    157    153     77    116    192     53
-#&gt; hsa-let-7a-5p.iso    96391  84487 126832 124343  76467  96519 136940  41708
-#&gt; hsa-let-7a-5p.ref   259187 239647 391118 382703 222561 279317 363483 110483
-#&gt;                        pt4    pc5    pc4    pc7    pc6    pt1
-#&gt; hsa-let-7a-2-3p.iso      0      7     10      4      5      0
-#&gt; hsa-let-7a-2-3p.ref      0      7     10      2      5      2
-#&gt; hsa-let-7a-3p.iso      888   1313    903   1050    516    444
-#&gt; hsa-let-7a-3p.ref       90    301    147    169    121     98
-#&gt; hsa-let-7a-5p.iso    98125 130896 136026  93118  58277  39226
-#&gt; hsa-let-7a-5p.ref   321629 337896 353169 247664 157358 111195</div><div class='input'><span class='co'># taking into account isomiRs and reference sequence.</span>
+<span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>))</div><div class='output co'>#&gt;                        cc1    cc2    cc3    ct2    ct3    ct4
+#&gt; hsa-let-7a-2-3p.iso      2      7      2      0      2      6
+#&gt; hsa-let-7a-2-3p.ref      3      6      2      4      0      6
+#&gt; hsa-let-7a-3p.iso      653    593    543    448    312    553
+#&gt; hsa-let-7a-3p.ref      114    114     87     48     31     82
+#&gt; hsa-let-7a-5p.iso    81905  73478  54347  58497  40218  52069
+#&gt; hsa-let-7a-5p.ref   235825 171354 149541 163569 114028 123454</div><div class='input'><span class='co'># taking into account isomiRs and reference sequence.</span>
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>isoCounts</span>(<span class='no'>mirData</span>, <span class='kw'>ref</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mins</span><span class='kw'>=</span><span class='fl'>6</span>)
-<span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>))</div><div class='output co'>#&gt;                      pc2    pt2    pt7    pc1    pt6    pc3    pt3    pt5
-#&gt; hsa-let-7a-3p.iso    782    634   1002   1140    536    857   1169    380
-#&gt; hsa-let-7a-3p.ref    146    111    157    153     77    116    192     53
-#&gt; hsa-let-7a-5p.iso  96391  84487 126832 124343  76467  96519 136940  41708
-#&gt; hsa-let-7a-5p.ref 259187 239647 391118 382703 222561 279317 363483 110483
-#&gt; hsa-let-7b-3p.iso   1966   1404   1589   1639   1051   1264   1992    566
-#&gt; hsa-let-7b-5p.iso  41690  31802  41571  50956  23576  35542  48289  13555
-#&gt;                      pt4    pc5    pc4    pc7    pc6    pt1
-#&gt; hsa-let-7a-3p.iso    888   1313    903   1050    516    444
-#&gt; hsa-let-7a-3p.ref     90    301    147    169    121     98
-#&gt; hsa-let-7a-5p.iso  98125 130896 136026  93118  58277  39226
-#&gt; hsa-let-7a-5p.ref 321629 337896 353169 247664 157358 111195
-#&gt; hsa-let-7b-3p.iso   1144   2852   1984   1722    875    749
-#&gt; hsa-let-7b-5p.iso  32629  46634  45151  32215  19793  14587</div></pre>
+<span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>))</div><div class='output co'>#&gt;                      cc1    cc2    cc3    ct2    ct3    ct4
+#&gt; hsa-let-7a-3p.iso    653    593    543    448    312    553
+#&gt; hsa-let-7a-3p.ref    114    114     87     48     31     82
+#&gt; hsa-let-7a-5p.iso  81905  73478  54347  58497  40218  52069
+#&gt; hsa-let-7a-5p.ref 235825 171354 149541 163569 114028 123454
+#&gt; hsa-let-7b-3p.iso   1033   1729    668    808    483   1058
+#&gt; hsa-let-7b-5p.iso  31209  36938  18988  22156  14187  20585</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

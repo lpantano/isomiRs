@@ -52,7 +52,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="..//index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
@@ -125,7 +125,9 @@ for the plot.</p>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mirData</span>)
 <span class='co'># Only miRNAs with &gt; 10 reads in all samples.</span>
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoCounts.html'>isoCounts</a></span>(<span class='no'>mirData</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mins</span><span class='kw'>=</span><span class='fl'>6</span>)
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoNorm.html'>isoNorm</a></span>(<span class='no'>ids</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>group</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='output co'>#&gt; <span class='message'>factor levels were dropped which had no samples</span></div><div class='input'><span class='no'>pls.ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoPLSDA.html'>isoPLSDA</a></span>(<span class='no'>ids</span>, <span class='st'>"group"</span>, <span class='kw'>nperm</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoNorm.html'>isoNorm</a></span>(<span class='no'>ids</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>group</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='output co'>#&gt; <span class='message'>-- note: fitType='parametric', but the dispersion trend was not well captured by the</span>
+#&gt; <span class='message'>   function: y = a/x + b, and a local regression fit was automatically substituted.</span>
+#&gt; <span class='message'>   specify fitType='local' or 'mean' to avoid this message next time.</span></div><div class='input'><span class='no'>pls.ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoPLSDA.html'>isoPLSDA</a></span>(<span class='no'>ids</span>, <span class='st'>"group"</span>, <span class='kw'>nperm</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='fu'>isoPLSDAplot</span>(<span class='no'>pls.ids</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
