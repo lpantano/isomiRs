@@ -1,3 +1,7 @@
+## CHANGES IN VERSION  1.7.2
+
+Move correction functions to independent package scounts.
+
 ## CHANGES IN VERSION  1.7.1
 
 FIX

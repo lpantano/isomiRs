@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 1.7.1
-Date: 2017-11-30
+Version: 1.7.2
+Date: 2018-01-01
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
@@ -43,18 +43,13 @@ Imports:
     grDevices, 
     graphics, 
     stats,
-    GGally,
-    gamlss,
-    lme4,
-    gamlss.dist
+    GGally
 LazyData: true
 Authors@R: c(
     person("Lorena", "Pantano",
            email = "lorena.pantano@gmail.com",
            role = c("aut", "cre")),
-    person("Georgia", "Escaramis", role = "aut"),
-    person("Christos", "Argyropoulos",
-    email = "cargyropoulos@unm.edu", role="aut"))
+    person("Georgia", "Escaramis", role = "aut"))
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
