@@ -120,7 +120,7 @@ IsomiR names follows this structure:
 
 In general nucleotides in UPPER case mean insertions respect to the reference sequence, and nucleotides in LOWER case mean deletions respect to the reference sequence.
 
-## Quick start
+## Reading input
 
 We are going to use a small RNAseq data from human
 brain samples [@pantano2016] to give some basic examples of isomiRs analyses.
@@ -137,8 +137,6 @@ data(mirData)
 ```
 
 
-### Reading input
-
 The function `IsomirDataSeqFromFiles` needs a vector with the paths for each file
 and a data frame with the design experiment similar to the one used for
 a mRNA differential expression analysis. Row names of the data frame should
@@ -149,7 +147,7 @@ ids <- IsomirDataSeqFromFiles(fn_list, design=de)
 ```
 
 
-### Descriptive analysis
+## Descriptive analysis
 
 You can plot isomiRs expression with `isoPlot`. In this figure you
 will see how abundant is each type of isomiRs at different positions
@@ -159,10 +157,10 @@ trimming (iso5 and iso3), addition (add) or substitution (subs) changes.
 
 ```{r package-plot-iso-t5,message=FALSE}
 ids <- isoCounts(mirData)
-isoPlot(ids, type="iso5", column = "group")
+isoPlot(ids, type="all", column = "group")
 ```
 
-### Count data
+## Count data
 
 `isoCounts` gets the count matrix that can be used for many
 different downstream analyses changing the way isomiRs are collapsed. The
@@ -221,7 +219,7 @@ dds = DESeqDataSetFromMatrix(counts(ids),
 ```
 
 
-### Supervised classification
+## Supervised classification
 
 Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
 appropriate for analysis of high dimensionality data sets and multicollineality
@@ -243,7 +241,7 @@ significant components (t1, t2, t3 ...) from the PLS-DA analysis and the
 samples distribution along the components.
 
 
-```{r package-pls,eval=TRUE}
+```{r package-pls}
 ids = isoCounts(ids, iso5=TRUE, minc=10, mins=6)
 ids = isoNorm(ids, formula = ~ group)
 pls.ids = isoPLSDA(ids, "group", nperm = 2)
@@ -258,8 +256,51 @@ for both the explained variability on the response and the explained
 variability on the predictors.
 
 
-```{r package-plsplot,message=FALSE,eval=FALSE}
+```{r package-plsplot, message=FALSE, eval=FALSE}
 pls.ids = isoPLSDA(ids,"group", refinment = FALSE, vip = 0.8)
+```
+
+
+## Gene - miRNA integration
+
+The package offers a correlation analysis of miRNA and gene expression data.
+Having two SummarizedExperiments objects with their expression, the target
+prediction for each miRNA, the function `isoNetwork` and `isoPlotNetwork` can
+generate a summarized figure showing the relationship between expression
+profile, miRNA repression and enrichment analysis:
+
+```{r isonetwork, message=FALSE, error=FALSE, fig.width=7}
+# library(org.Mm.eg.db)
+# library(clusterProfiler)
+data(isoExample)
+
+# ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
+#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
+data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,
+                  org = ego)
+isoPlotNet(data)
+```
+
+
+As an option, `org` can be `org.Mm.eg.db` and `genename` can be
+`ENSEMBL` and it will run `enrcihGO` internally.
+
+To create the ma_ex matrix, the user can use `findTargets`:
+
+```{r findtarget}
+mirna_ma <- matrix(rbinom(20 * 25, c(0, 1), 1), ncol = 20)
+colnames(mirna_ma) <- rownames(mirna_ex_rse)
+rownames(mirna_ma) <- rownames(gene_ex_rse)
+ma_ex <- findTargets(mirna_ex_rse, gene_ex_rse, mirna_ma)
+head(ma_ex[,1:4])
+```
+
+And to get the `mirna_ma` data.frame with the miRNA-target information,
+the user can use `mirna2targetscan` function:
+
+```{r mirna2targetscan}
+mirna_ma <- mirna2targetscan(c("hsa-miR-34c-5p"))
+head(mirna_ma)
 ```
 
 
@@ -268,8 +309,8 @@ pls.ids = isoPLSDA(ids,"group", refinment = FALSE, vip = 0.8)
 Here is the output of `sessionInfo` on the system on which
 this document was compiled:
 
-```{r sessionInfo,results='asis',echo=FALSE}
-toLatex(sessionInfo())
+```{r sessionInfo}
+sessionInfo()
 ```
 
 

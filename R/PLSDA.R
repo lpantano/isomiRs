@@ -274,13 +274,13 @@ R2RefinedPermutationVector <- function(variables, group, validation, learn,
 #' pls.ids <- isoPLSDA(ids, "group", nperm = 2)
 #' isoPLSDAplot(pls.ids)
 #' @export
-isoPLSDAplot <- function (pls, n=2){
+isoPLSDAplot <- function (pls, n = 2){
     components = pls$component[,1:n]
     groups = pls$group
     datacomponents <- data.frame(condition = groups, components)
     p <- ggpairs(datacomponents, columns = 2:ncol(datacomponents),
                  aes_string(color = "condition"),
                 upper="blank")
-    p
+    print(p)
     invisible(datacomponents)
 }

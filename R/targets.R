@@ -156,13 +156,13 @@ findTargets <- function(mirna_rse, gene_rse, target,
 #' the list of miRNAs to be used by this function.
 #' 
 #' @examples
-#' library(org.Mm.eg.db)
-#' library(clusterProfiler)
+#' # library(org.Mm.eg.db)
+#' # library(clusterProfiler)
 #' data(isoExample)
 #' # ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
 #' #                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
-#' data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,
-#'                   org = slot(ego, "result"))
+#' data <- isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,
+#'                   org = ego)
 #' isoPlotNet(data)
 #' @return list with network information
 #' @export
@@ -172,7 +172,6 @@ isoNetwork <- function(mirna_rse, gene_rse, target, org,
     stopifnot(class(gene_rse) == "SummarizedExperiment")
     stopifnot(class(mirna_rse) == "SummarizedExperiment")
     stopifnot(is.data.frame(target) | is.matrix(target))
-
     target = as.matrix(target)
     mirna = assay(mirna_rse,"norm")[,order(colData(mirna_rse)[,summarize])]
     message("Number of mirnas ", nrow(mirna), " with these columns:", paste(colnames(mirna)))
@@ -198,10 +197,13 @@ isoNetwork <- function(mirna_rse, gene_rse, target, org,
     is_target_and_de <- rownames(cor_target)[apply(cor_target, 1, min) != 0]
     profile <- rownames(gene)[rowSums(gene > 0) > 3]
     stopifnot(length(is_target_and_de) > 10)
+    res <- NULL
     if (class(org) == "character")
-        res <- .run_enricher(is_target_and_de, profile, org, genename = genename)
-    if (class(org) == "data.frame")
-        res <- org
+        res <- .run_enricher(is_target_and_de, profile,
+                             org,
+                             genename = genename)
+    if (class(org)[1] == "enrichResult")
+        res <- slot(org, "result")
     if (is.null(res))
         stop("No significant genes.")
 
@@ -340,7 +342,7 @@ isoPlotNet = function(obj){
                               size = "ngene")) +
         geom_point(color = "grey75") +
         geom_text(aes_string(label = "ngene"), size = 5) +
-        theme_bw() + xlab("profiles") + ylab("") +
+        theme_bw() + xlab("Gene expression profiles") + ylab("") +
         theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
         ggtitle("Number genes in each term and expression profile") +
         theme(plot.title = element_text(size = 10)) +

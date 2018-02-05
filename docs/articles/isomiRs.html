@@ -62,7 +62,7 @@
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      <p>isomiRs package version: 1.7.1</p>
+      <p>isomiRs package version: 1.7.2</p>
     </div>
     
 <div class="contents">
@@ -134,31 +134,28 @@ TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1   hsa-miR-192-5p  25  47   8GT     0  
 <p>In general nucleotides in UPPER case mean insertions respect to the reference sequence, and nucleotides in LOWER case mean deletions respect to the reference sequence.</p>
 </div>
 </div>
-<div id="quick-start" class="section level2">
+<div id="reading-input" class="section level2">
 <h2 class="hasAnchor">
-<a href="#quick-start" class="anchor"></a>Quick start</h2>
+<a href="#reading-input" class="anchor"></a>Reading input</h2>
 <p>We are going to use a small RNAseq data from human brain samples <span class="citation">(<span class="citeproc-not-found" data-reference-id="pantano2016"><strong>???</strong></span>)</span> to give some basic examples of isomiRs analyses.</p>
 <p>In this data set we will find two groups:</p>
 <p><em>pc: 7 control individuals </em>pt: 7 patients with Parkinson’s Disease in early stage.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(isomiRs)
 <span class="kw">data</span>(mirData)</code></pre></div>
-<div id="reading-input" class="section level3">
-<h3 class="hasAnchor">
-<a href="#reading-input" class="anchor"></a>Reading input</h3>
 <p>The function <code>IsomirDataSeqFromFiles</code> needs a vector with the paths for each file and a data frame with the design experiment similar to the one used for a mRNA differential expression analysis. Row names of the data frame should be the names for each sample in the same order than the list of files.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ids &lt;-<span class="st"> </span><span class="kw"><a href="../reference/IsomirDataSeqFromFiles.html">IsomirDataSeqFromFiles</a></span>(fn_list, <span class="dt">design=</span>de)</code></pre></div>
 </div>
-<div id="descriptive-analysis" class="section level3">
-<h3 class="hasAnchor">
-<a href="#descriptive-analysis" class="anchor"></a>Descriptive analysis</h3>
+<div id="descriptive-analysis" class="section level2">
+<h2 class="hasAnchor">
+<a href="#descriptive-analysis" class="anchor"></a>Descriptive analysis</h2>
 <p>You can plot isomiRs expression with <code>isoPlot</code>. In this figure you will see how abundant is each type of isomiRs at different positions considering the total abundance and the total number of sequences. The <code>type</code> parameter controls what type of isomiRs to show. It can be trimming (iso5 and iso3), addition (add) or substitution (subs) changes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ids &lt;-<span class="st"> </span><span class="kw"><a href="../reference/isoCounts.html">isoCounts</a></span>(mirData)
-<span class="kw"><a href="../reference/isoPlot.html">isoPlot</a></span>(ids, <span class="dt">type=</span><span class="st">"iso5"</span>, <span class="dt">column =</span> <span class="st">"group"</span>)</code></pre></div>
+<span class="kw"><a href="../reference/isoPlot.html">isoPlot</a></span>(ids, <span class="dt">type=</span><span class="st">"all"</span>, <span class="dt">column =</span> <span class="st">"group"</span>)</code></pre></div>
 <p><img src="isomiRs_files/figure-html/package-plot-iso-t5-1.png" width="672"></p>
 </div>
-<div id="count-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#count-data" class="anchor"></a>Count data</h3>
+<div id="count-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#count-data" class="anchor"></a>Count data</h2>
 <p><code>isoCounts</code> gets the count matrix that can be used for many different downstream analyses changing the way isomiRs are collapsed. The following command will merge all isomiRs into one feature: the reference miRNA.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids))</code></pre></div>
 <pre><code>##                    cc1    cc2    cc3    ct2    ct3    ct4
@@ -175,7 +172,6 @@ ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.htm
          <span class="dt">annotation_col =</span> <span class="kw">data.frame</span>(<span class="kw">colData</span>(ids)[,<span class="dv">1</span>,<span class="dt">drop=</span><span class="ot">FALSE</span>]),
          <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>, <span class="dt">scale=</span><span class="st">"row"</span>)</code></pre></div>
 <p><img src="isomiRs_files/figure-html/package-norm-1.png" width="672"></p>
-</div>
 <div id="differential-expression-analysis" class="section level3">
 <h3 class="hasAnchor">
 <a href="#differential-expression-analysis" class="anchor"></a>Differential expression analysis</h3>
@@ -225,23 +221,141 @@ ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.htm
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dds =<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/DESeq2/topics/DESeqDataSet">DESeqDataSetFromMatrix</a></span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids),
                              <span class="kw">colData</span>(ids), <span class="dt">design =</span> <span class="op">~</span><span class="st"> </span>group)</code></pre></div>
 </div>
-<div id="supervised-classification" class="section level3">
-<h3 class="hasAnchor">
-<a href="#supervised-classification" class="anchor"></a>Supervised classification</h3>
+</div>
+<div id="supervised-classification" class="section level2">
+<h2 class="hasAnchor">
+<a href="#supervised-classification" class="anchor"></a>Supervised classification</h2>
 <p>Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically appropriate for analysis of high dimensionality data sets and multicollineality <span class="citation">(Pérez-Enciso and Tenenhaus 2003)</span>. PLS-DA is a supervised method (i.e. makes use of class labels) with the aim to provide a dimension reduction strategy in a situation where we want to relate a binary response variable (in our case young or old status) to a set of predictor variables. Dimensionality reduction procedure is based on orthogonal transformations of the original variables (isomiRs) into a set of linearly uncorrelated latent variables (usually termed as components) such that maximizes the separation between the different classes in the first few components <span class="citation">(Xia and Wishart 2011)</span>. We used sum of squares captured by the model (R2) as a goodness of fit measure. We implemented this method using the <code>DiscriMiner</code> into <code>isoPLSDA</code> function. The output p-value of this function will tell about the statistical significant of the group separation using miRNA expression data. Moreover, the function <code>isoPLSDAplot</code> helps to visualize the results. It will plot the samples using the significant components (t1, t2, t3 …) from the PLS-DA analysis and the samples distribution along the components.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ids =<span class="st"> </span><span class="kw"><a href="../reference/isoCounts.html">isoCounts</a></span>(ids, <span class="dt">iso5=</span><span class="ot">TRUE</span>, <span class="dt">minc=</span><span class="dv">10</span>, <span class="dt">mins=</span><span class="dv">6</span>)
 ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.html">isoNorm</a></span>(ids, <span class="dt">formula =</span> <span class="op">~</span><span class="st"> </span>group)
 pls.ids =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDA.html">isoPLSDA</a></span>(ids, <span class="st">"group"</span>, <span class="dt">nperm =</span> <span class="dv">2</span>)
 df =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDAplot.html">isoPLSDAplot</a></span>(pls.ids)</code></pre></div>
+<p><img src="isomiRs_files/figure-html/package-pls-1.png" width="672"></p>
 <p>The analysis can be done again using only the most important discriminant isomiRS from the PLS-DA models based on the analysis. We used Variable Importance for the Projection (VIP) criterion to select the most important features, since takes into account the contribution of a specific predictor for both the explained variability on the response and the explained variability on the predictors.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pls.ids =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDA.html">isoPLSDA</a></span>(ids,<span class="st">"group"</span>, <span class="dt">refinment =</span> <span class="ot">FALSE</span>, <span class="dt">vip =</span> <span class="fl">0.8</span>)</code></pre></div>
 </div>
+<div id="gene---mirna-integration" class="section level2">
+<h2 class="hasAnchor">
+<a href="#gene---mirna-integration" class="anchor"></a>Gene - miRNA integration</h2>
+<p>The package offers a correlation analysis of miRNA and gene expression data. Having two SummarizedExperiments objects with their expression, the target prediction for each miRNA, the function <code>isoNetwork</code> and <code>isoPlotNetwork</code> can generate a summarized figure showing the relationship between expression profile, miRNA repression and enrichment analysis:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library(org.Mm.eg.db)</span>
+<span class="co"># library(clusterProfiler)</span>
+<span class="kw">data</span>(isoExample)
+
+<span class="co"># ego &lt;- enrichGO(row.names(assay(gene_ex_rse, "norm")),</span>
+<span class="co">#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")</span>
+data =<span class="st"> </span><span class="kw"><a href="../reference/isoNetwork.html">isoNetwork</a></span>(mirna_ex_rse, gene_ex_rse, ma_ex,
+                  <span class="dt">org =</span> ego)</code></pre></div>
+<pre><code>## Dimmension of cor matrix: 20 25</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/isoPlotNet.html">isoPlotNet</a></span>(data)</code></pre></div>
+<p><img src="isomiRs_files/figure-html/isonetwork-1.png" width="672"></p>
+<p>As an option, <code>org</code> can be <code>org.Mm.eg.db</code> and <code>genename</code> can be <code>ENSEMBL</code> and it will run <code>enrcihGO</code> internally.</p>
+<p>To create the ma_ex matrix, the user can use <code>findTargets</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mirna_ma &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rbinom</span>(<span class="dv">20</span> <span class="op">*</span><span class="st"> </span><span class="dv">25</span>, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">20</span>)
+<span class="kw">colnames</span>(mirna_ma) &lt;-<span class="st"> </span><span class="kw">rownames</span>(mirna_ex_rse)
+<span class="kw">rownames</span>(mirna_ma) &lt;-<span class="st"> </span><span class="kw">rownames</span>(gene_ex_rse)
+ma_ex &lt;-<span class="st"> </span><span class="kw"><a href="../reference/findTargets.html">findTargets</a></span>(mirna_ex_rse, gene_ex_rse, mirna_ma)</code></pre></div>
+<pre><code>## Dimmension of cor matrix: 20 25</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ma_ex[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</code></pre></div>
+<pre><code>##                    mmu-miR-181c-5p mmu-miR-181a-5p mmu-miR-221-3p
+## ENSMUSG00000021822       0.0000000      -0.7333333      0.0000000
+## ENSMUSG00000062960       0.0000000       0.0000000     -0.7333333
+## ENSMUSG00000032462       0.0000000       0.0000000      0.0000000
+## ENSMUSG00000004530      -0.7333333       0.0000000      0.0000000
+## ENSMUSG00000026193       0.0000000       0.0000000      0.0000000
+## ENSMUSG00000059049       0.0000000       0.0000000      0.0000000
+##                    mmu-miR-204-5p
+## ENSMUSG00000021822            0.0
+## ENSMUSG00000062960            0.0
+## ENSMUSG00000032462           -0.6
+## ENSMUSG00000004530            0.0
+## ENSMUSG00000026193            0.0
+## ENSMUSG00000059049            0.0</code></pre>
+<p>And to get the <code>mirna_ma</code> data.frame with the miRNA-target information, the user can use <code>mirna2targetscan</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mirna_ma &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mirna2targetscan.html">mirna2targetscan</a></span>(<span class="kw">c</span>(<span class="st">"hsa-miR-34c-5p"</span>))
+<span class="kw">head</span>(mirna_ma)</code></pre></div>
+<pre><code>##                         miRFamily Seedmatch  PCT  gene
+## 1 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.29 79719
+## 2 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.76   215
+## 3 miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58  3983
+## 4 miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58  3983
+## 5 miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58  3983
+## 6 miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58  3983</code></pre>
 </div>
 <div id="session-info" class="section level2">
 <h2 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h2>
 <p>Here is the output of <code>sessionInfo</code> on the system on which this document was compiled:</p>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>## R version 3.4.3 (2017-11-30)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS High Sierra 10.13
+## 
+## Matrix products: default
+## BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] parallel  stats4    stats     graphics  grDevices utils     datasets 
+## [8] methods   base     
+## 
+## other attached packages:
+##  [1] DESeq2_1.19.29             pheatmap_1.0.8            
+##  [3] bindrcpp_0.2.0.9000        isomiRs_1.7.2             
+##  [5] SummarizedExperiment_1.8.1 DelayedArray_0.4.1        
+##  [7] matrixStats_0.52.2         Biobase_2.38.0            
+##  [9] GenomicRanges_1.30.1       GenomeInfoDb_1.14.0       
+## [11] IRanges_2.12.0             S4Vectors_0.16.0          
+## [13] BiocGenerics_0.24.0        DiscriMiner_0.1-29        
+## [15] BiocStyle_2.5.41          
+## 
+## loaded via a namespace (and not attached):
+##  [1] bitops_1.0-6              bit64_0.9-7              
+##  [3] RColorBrewer_1.1-2        rprojroot_1.2            
+##  [5] tools_3.4.3               backports_1.1.2          
+##  [7] R6_2.2.2                  rpart_4.1-11             
+##  [9] KernSmooth_2.23-15        Hmisc_4.1-1              
+## [11] DBI_0.7                   lazyeval_0.2.1           
+## [13] colorspace_1.3-2          nnet_7.3-12              
+## [15] tidyselect_0.2.3          gridExtra_2.3            
+## [17] GGally_1.3.2              bit_1.1-12               
+## [19] compiler_3.4.3            htmlTable_1.11.2         
+## [21] labeling_0.3              caTools_1.17.1           
+## [23] scales_0.5.0              checkmate_1.8.5          
+## [25] readr_1.1.1               genefilter_1.60.0        
+## [27] stringr_1.2.0             digest_0.6.13            
+## [29] foreign_0.8-69            rmarkdown_1.6.0.9008     
+## [31] XVector_0.18.0            base64enc_0.1-3          
+## [33] pkgconfig_2.0.1           htmltools_0.3.6          
+## [35] limma_3.34.7              htmlwidgets_1.0          
+## [37] rlang_0.1.6.9003          rstudioapi_0.7           
+## [39] RSQLite_2.0               bindr_0.1.0.9000         
+## [41] BiocParallel_1.12.0       gtools_3.5.0             
+## [43] acepack_1.4.1             dplyr_0.7.4.9000         
+## [45] RCurl_1.95-4.8            magrittr_1.5             
+## [47] GenomeInfoDbData_0.99.1   Formula_1.2-2            
+## [49] Matrix_1.2-12             Rcpp_0.12.15             
+## [51] munsell_0.4.3             stringi_1.1.6            
+## [53] yaml_2.1.16               zlibbioc_1.24.0          
+## [55] gplots_3.0.1              plyr_1.8.4               
+## [57] grid_3.4.3                blob_1.1.0               
+## [59] gdata_2.18.0              lattice_0.20-35          
+## [61] splines_3.4.3             annotate_1.56.0          
+## [63] hms_0.3                   locfit_1.5-9.1           
+## [65] knitr_1.19                pillar_1.1.0             
+## [67] codetools_0.2-15          geneplotter_1.56.0       
+## [69] XML_3.98-1.9              glue_1.2.0               
+## [71] evaluate_0.10.1           latticeExtra_0.6-28      
+## [73] data.table_1.10.4-3       tidyr_0.8.0              
+## [75] gtable_0.2.0              purrr_0.2.4              
+## [77] reshape_0.8.7             assertthat_0.2.0         
+## [79] ggplot2_2.2.1             xtable_1.8-2             
+## [81] survival_2.41-3           tibble_1.4.2             
+## [83] targetscan.Hs.eg.db_0.6.1 AnnotationDbi_1.40.0     
+## [85] memoise_1.1.0             cluster_2.0.6</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
@@ -279,7 +393,11 @@ df =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDAplot
       <li><a href="#citing-isomirs">Citing isomiRs</a></li>
       <li><a href="#input-format">Input format</a></li>
       <li><a href="#isomirdataseq-class">IsomirDataSeq class</a></li>
-      <li><a href="#quick-start">Quick start</a></li>
+      <li><a href="#reading-input">Reading input</a></li>
+      <li><a href="#descriptive-analysis">Descriptive analysis</a></li>
+      <li><a href="#count-data">Count data</a></li>
+      <li><a href="#supervised-classification">Supervised classification</a></li>
+      <li><a href="#gene---mirna-integration">Gene - miRNA integration</a></li>
       <li><a href="#session-info">Session info</a></li>
       <li><a href="#references">References</a></li>
       </ul>

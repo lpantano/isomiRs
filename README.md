@@ -9,7 +9,7 @@ isomiRs
 [![coverage](https://img.shields.io/codecov/c/github/lpantano/isomiRs/master.svg)](https://codecov.io/github/lpantano/isomiRs?branch=master)
 
 
-Analyze isomiRs from seqbuster tool  or any BAM file after using [seqcluster seqbuster](http://seqcluster.readthedocs.io/mirna_annotation.html#mirna-isomirs-annotation-with-python)
+Analyze isomiRs from seqbuster tool  or any BAM file after using [seqbuster miraligner](http://seqcluster.readthedocs.io/mirna_annotation.html#mirna-isomirs-annotation-with-python)
 
 
 [Bioconductor]: https://bioconductor.org

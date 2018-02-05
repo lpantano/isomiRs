@@ -1,21 +1,21 @@
-## CHANGES IN VERSION  1.7.2
+# 1.7.2
 
-FEATURE
+## Feature
 * Add mirna prediction using targetscan annotation package in BioC.
 
-FIX
+## Fixes
 * Move correction functions to independent package scounts.
 
-## CHANGES IN VERSION  1.7.1
+# 1.7.1
 
-FIX
+## Fixes
 
 * Use limma::voom when number of samples is high. Set up by user.
 * Fix error when table is empty after filtering bad hits.
 
 
-CHANGES IN VERSION  1.5.5
----------------------------
+# 1.5.5
+
 
 FIX
 
@@ -24,8 +24,8 @@ FIX
     o Use parameter not integer number
     o Using testthat for unit test
 
-CHANGES IN VERSION  1.5.4
----------------------------
+# 1.5.4
+
 
 FEATURES
 
@@ -33,8 +33,8 @@ FEATURES
       proper authors and citation.
 
 
-CHANGES IN VERSION  1.5.3
----------------------------
+# 1.5.3
+
 
 FEATURES
 
@@ -44,14 +44,14 @@ FIX
     o Fix notes during R CHECK for variables inside dplyr/ggplot functions
     o Use roxygen2 for NAMESPACE
 
-CHANGES IN VERSION  1.5.2
----------------------------
+# 1.5.2
+
 
 FIX
     o Remove TMB dependency
 
-CHANGES IN VERSION  1.5.1
----------------------------
+# 1.5.1
+
 
 FEATURES
 
@@ -61,8 +61,8 @@ FEATURES
     o Improve data documentation
 
 
-CHANGES IN VERSION  1.3.5
----------------------------
+# 1.3.5
+
 
 FEATURES
 
@@ -71,8 +71,8 @@ FEATURES
     o Remove non-template addition with C/G nucleotides by default (canonicalAdd)
     o Remove sequences with mutations and more than one miRNA hit
 
-CHANGES IN VERSION  1.3.4
----------------------------
+# 1.3.4
+
 
 FIXES
 
@@ -84,59 +84,59 @@ FEATURES
     o Improve code to remove error sequencing from raw data
     o Improve code to show the raw data with isoSelect
 
-CHANGES IN VERSION  1.3.3
----------------------------
+# 1.3.3
+
 
 FIXES
 
     o Fix data with correct headers name
 
-CHANGES IN VERSION  1.3.2
----------------------------
+# 1.3.2
+
 
 OTHERS
 
     o Preparing migration to new isomiRs naming using mirTOP naming system
 
-CHANGES IN VERSION  1.3.1
----------------------------
+# 1.3.1
+
 
 OTHERS
 
     o Add option to IsomirDataSeqFromFiles to decide
     when to consider mutations as reals
 
-CHANGES IN VERSION  1.1.5
----------------------------
+# 1.1.5
+
 
 OTHERS
 
     o Suppress message from readr when reading
     o Add instruction of how to create DESeq2 object from ids one.
 
-CHANGES IN VERSION  1.1.4
----------------------------
+# 1.1.4
+
 
 OTHERS
 
     o Add mRNA-miRNA integration
 
-CHANGES IN VERSION  1.1.2
----------------------------
+# 1.1.2
+
 
 OTHERS
 
     o Update version dependecy for packages
 
-CHANGES IN VERSION  0.99.18
----------------------------
+# 0.99.18
+
 
 BUG FIXES
 
     o Avoid removing isomiRs with mutation and reference non-detected
 
-CHANGES IN VERSION  0.99.13
----------------------------
+# 0.99.13
+
 
 NEW FEATURES
 

@@ -46,12 +46,12 @@ where, \code{mirna_matrix} is the normalized counts expression,
 the list of miRNAs to be used by this function.
 }
 \examples{
-library(org.Mm.eg.db)
-library(clusterProfiler)
+# library(org.Mm.eg.db)
+# library(clusterProfiler)
 data(isoExample)
 # ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
 #                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
-data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,
-                  org = slot(ego, "result"))
+data <- isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,
+                  org = ego)
 isoPlotNet(data)
 }
