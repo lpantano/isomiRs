@@ -1,3 +1,10 @@
+#' enrichResult class
+#'
+#' @format enrichResult class with the output of:
+#' ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
+#'                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
+"ego"
+
 #' Data frame containing gene-mirna relationship
 #'
 #' @format A data frame with rows sames as gene_ex_rse and

@@ -13,5 +13,6 @@ isoPlotNet(obj)
 Network ggplot.
 }
 \description{
-Plot analysis from isoNetwork
+Plot analysis from \code{\link[=isoNetwork]{isoNetwork()}}. See that function
+for an example of the figure.
 }

@@ -120,7 +120,7 @@ findTargets <- function(mirna_rse, gene_rse, target,
 
     mirna_norm <- .apply_median(as.matrix(mirna), mirna_group, minfc = 0.5)
     gene_norm <- .apply_median(as.matrix(gene), gene_group, minfc = 0.5)
-    message("Calculating cor matrix")
+    message("Calculating correlation matrix")
     cor_target <- .cor_matrix(mirna_norm, gene_norm, as.matrix(target), min_cor)
     return(cor_target)
 }
@@ -161,9 +161,9 @@ findTargets <- function(mirna_rse, gene_rse, target,
 #' data(isoExample)
 #' # ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
 #' #                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
-#' # data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,
-#' #                   org = slot(ego, "result"))
-#' # isoPlotNet(data)
+#' data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,
+#'                   org = slot(ego, "result"))
+#' isoPlotNet(data)
 #' @return list with network information
 #' @export
 isoNetwork <- function(mirna_rse, gene_rse, target, org,
@@ -316,7 +316,8 @@ isoNetwork <- function(mirna_rse, gene_rse, target, org,
 
 #' Functional miRNA / gene expression profile plot
 #' 
-#' Plot analysis from isoNetwork
+#' Plot analysis from [isoNetwork()]. See that function
+#' for an example of the figure.
 #' 
 #' @param obj Output from [isoNetwork()].
 #' @return Network ggplot.
@@ -334,15 +335,17 @@ isoPlotNet = function(obj){
                            levels = unique(df$term_short[order(df$term)]))
 
     terms_vs_profile =
-        ggplot(df, aes(x = as.factor("group"), y = "term_short", size = "ngene")) +
+        ggplot(df, aes_string(x = "group",
+                              y = "term_short",
+                              size = "ngene")) +
         geom_point(color = "grey75") +
-        geom_text(aes_string(label = "ngene"), size=5) +
-        scale_size("", guide = FALSE) +
+        geom_text(aes_string(label = "ngene"), size = 5) +
         theme_bw() + xlab("profiles") + ylab("") +
         theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
         ggtitle("Number genes in each term and expression profile") +
         theme(plot.title = element_text(size = 10)) +
-        theme(axis.text.y = element_text(size = 11))
+        theme(axis.text.y = element_text(size = 7)) +
+        theme(legend.position="none")
 
     mirna_df = .summary_mirna(df)
     ma = mirna_df %>% group_by(mir) %>% dplyr::summarise(total=n())
@@ -361,7 +364,7 @@ isoPlotNet = function(obj){
         ggplot(mirna_df, aes_string(x = "mir", y = "term")) +
         geom_point() + ggtitle("miRNAs targeting that term") +
         theme_bw() + ylab("") + xlab("") +
-        theme(axis.text.x = element_text(size = 10, angle = 90,
+        theme(axis.text.x = element_text(size = 7, angle = 90,
                                          hjust = 1, vjust = 0.5)) +
         theme(axis.text.y = element_blank(), axis.ticks = element_blank()) +
         theme(plot.title = element_text(size = 10))
@@ -372,7 +375,8 @@ isoPlotNet = function(obj){
                  axis.ticks.length = unit(0,"null")
                  )
     pp.profiles <- arrangeGrob(padding = unit(0, "line"),
-                               grobs = lapply(sort(unique(df$group)), function(x){
+                               grobs = lapply(sort(unique(df$group)),
+                                              function(x){
                                    dt = data.frame(x = 3, y = 0.9, p = x)
                                    ggplotGrob(profiles[[x]] + opts +
                                                   geom_text(data = dt,
@@ -385,15 +389,14 @@ isoPlotNet = function(obj){
 
     p1 <- ggplot_gtable(ggplot_build(terms_vs_profile))
     p2 <- ggplot_gtable(ggplot_build(terms_vs_mirnas))
-    maxWidth = unit.pmax(p1$heights[4:5], p2$heights[4:5])
-
-    p1$heights[4:5] <- maxWidth
-    p2$heights[4:5] <- maxWidth
+    maxWidth = unit.pmax(p1$heights[c(2, 7)], p2$heights[c(2, 7)])
+    p1$heights[c(2, 7)] <- maxWidth
+    p2$heights[c(2, 7)] <- maxWidth
     p = grid.arrange(top = textGrob("miRNA-gene-term interaction"),
                      arrangeGrob(
-                 arrangeGrob(p1, p2, widths = c(2,3), ncol = 2),
-                 arrangeGrob(pp.profiles), heights = c(2,1)
-                 ))
+                         arrangeGrob(p1, p2, ncol = 2),
+                         arrangeGrob(pp.profiles), heights = c(2,1)
+                     ))
 
     #p = grid.arrange(top=textGrob("summary"),
     #                 arrangeGrob(pp.terms,pp.mirs, widths=c(2,1), ncol=2),
