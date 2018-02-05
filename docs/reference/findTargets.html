@@ -58,6 +58,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/isomiRs.html">Get Started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -129,7 +132,7 @@ will be use to consider a miRNA-gene pair as valid.</p></td>
 <span class='no'>mirna_ma</span> <span class='kw'>&lt;-</span> <span class='fu'>matrix</span>(<span class='fu'>rbinom</span>(<span class='fl'>20</span>*<span class='fl'>25</span>, <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>1</span>), <span class='fl'>1</span>), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>20</span>)
 <span class='fu'>colnames</span>(<span class='no'>mirna_ma</span>) <span class='kw'>&lt;-</span> <span class='fu'>rownames</span>(<span class='no'>mirna_ex_rse</span>)
 <span class='fu'>rownames</span>(<span class='no'>mirna_ma</span>) <span class='kw'>&lt;-</span> <span class='fu'>rownames</span>(<span class='no'>gene_ex_rse</span>)
-<span class='no'>corMat</span> <span class='kw'>&lt;-</span> <span class='fu'>findTargets</span>(<span class='no'>mirna_ex_rse</span>, <span class='no'>gene_ex_rse</span>, <span class='no'>mirna_ma</span>)</div><div class='output co'>#&gt; <span class='message'>Number of mirnas 20</span></div><div class='output co'>#&gt; <span class='message'>Number of genes 25</span></div><div class='output co'>#&gt; <span class='message'>Factors genescontrolday1day2day3day7day14</span></div><div class='output co'>#&gt; <span class='message'>Factors mirnascontrolday1day2day3day7day14</span></div><div class='output co'>#&gt; <span class='message'>Order genescontrolcontrolcontrolday1day1day1day2day2day2day3day3day3day7day7day7day14day14day14</span></div><div class='output co'>#&gt; <span class='message'>Order mirnascontrolcontrolcontrolday1day1day1day2day2day2day3day3day3day7day7day7day14day14day14</span></div><div class='output co'>#&gt; <span class='message'>Calculating cor matrix</span></div><div class='output co'>#&gt; Dimmension of cor matrix: 20 25 </div></pre>
+<span class='no'>corMat</span> <span class='kw'>&lt;-</span> <span class='fu'>findTargets</span>(<span class='no'>mirna_ex_rse</span>, <span class='no'>gene_ex_rse</span>, <span class='no'>mirna_ma</span>)</div><div class='output co'>#&gt; <span class='message'>Number of mirnas 20</span></div><div class='output co'>#&gt; <span class='message'>Number of genes 25</span></div><div class='output co'>#&gt; <span class='message'>Factors genescontrolday1day2day3day7day14</span></div><div class='output co'>#&gt; <span class='message'>Factors mirnascontrolday1day2day3day7day14</span></div><div class='output co'>#&gt; <span class='message'>Order genescontrolcontrolcontrolday1day1day1day2day2day2day3day3day3day7day7day7day14day14day14</span></div><div class='output co'>#&gt; <span class='message'>Order mirnascontrolcontrolcontrolday1day1day1day2day2day2day3day3day3day7day7day7day14day14day14</span></div><div class='output co'>#&gt; <span class='message'>Calculating correlation matrix</span></div><div class='output co'>#&gt; Dimmension of cor matrix: 20 25 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -146,7 +149,7 @@ will be use to consider a miRNA-gene pair as valid.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Lorena Pantano, Georgia Escaramis, Christos Argyropoulos.</p>
+  <p>Developed by Lorena Pantano, Georgia Escaramis.</p>
 </div>
 
 <div class="pkgdown">

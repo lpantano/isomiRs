@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><code>IsomirDataSeqFromFiles</code> loads miRNA annotation from seqbuster tool — IsomirDataSeqFromFiles • isomiRs</title>
+<title>`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool — IsomirDataSeqFromFiles • isomiRs</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -58,6 +58,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/isomiRs.html">Get Started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -75,7 +78,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><code>IsomirDataSeqFromFiles</code> loads miRNA annotation from seqbuster tool</h1>
+    <h1>`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool</h1>
     </div>
 
     
@@ -83,7 +86,7 @@
 output of seqbuster tool to allow isomiRs/miRNAs analysis of samples
 in different groups such as
 characterization, differential expression and clustering. It creates an
-<code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code> object.</p>
+<a href='IsomirDataSeq.html'>isomiRs::IsomirDataSeq</a> object.</p>
     
 
     <pre class="usage"><span class='fu'>IsomirDataSeqFromFiles</span>(<span class='no'>files</span>, <span class='no'>coldata</span>, <span class='kw'>rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>canonicalAdd</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -118,7 +121,7 @@ a unique hit to one miRNA molecule</p></td>
     </tr>
     <tr>
       <th>design</th>
-      <td><p>a <code>formula</code> to pass to <code><a href='http://www.rdocumentation.org/packages/DESeq2/topics/DESeqDataSet'>DESeqDataSet</a></code></p></td>
+      <td><p>a <code>formula</code> to pass to <a href='http://www.rdocumentation.org/packages/DESeq2/topics/DESeqDataSet'>DESeq2::DESeqDataSet</a></p></td>
     </tr>
     <tr>
       <th>minHits</th>
@@ -141,28 +144,28 @@ while reading files. Default <code>FALSE</code>.</p></td>
     <tr>
       <th>...</th>
       <td><p>arguments provided to
-<code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment</a></code>
+<a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment::SummarizedExperiment</a>
 including rowData.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code> class object.</p>
+    <p><a href='IsomirDataSeq.html'>IsomirDataSeq</a> class object.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function parses the output of
-<a href='http://seqcluster.readthedocs.org/mirna_annotation.html'>http://seqcluster.readthedocs.org/mirna_annotation.html</a>
+http://seqcluster.readthedocs.org/mirna_annotation.html
 for each sample to create a count matrix for isomiRs, miRNAs or
 isomiRs grouped in
 types (i.e all sequences with variations at 5' but ignoring any other type).
 It creates
-<code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code> object (see link to example usage of
+<a href='IsomirDataSeq.html'>isomiRs::IsomirDataSeq</a> object (see link to example usage of
 this class)
 to allow visualization, queries, differential
 expression analysis and clustering.
-To create the <code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code>, it parses the isomiRs
+To create the <a href='IsomirDataSeq.html'>isomiRs::IsomirDataSeq</a>, it parses the isomiRs
 files, and generates
 an initial matrix having all isomiRs detected among samples. As well,
 it creates
@@ -202,7 +205,7 @@ visualize general isomiRs distribution.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Lorena Pantano, Georgia Escaramis, Christos Argyropoulos.</p>
+  <p>Developed by Lorena Pantano, Georgia Escaramis.</p>
 </div>
 
 <div class="pkgdown">

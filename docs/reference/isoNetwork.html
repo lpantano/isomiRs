@@ -58,6 +58,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/isomiRs.html">Get Started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -140,26 +143,13 @@ the list of miRNAs to be used by this function.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>org.Mm.eg.db</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: AnnotationDbi</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘AnnotationDbi’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:isomiRs’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    select</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:dplyr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    select</span></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'>library</span>(<span class='no'>clusterProfiler</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: DOSE</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>DOSE v3.3.2  For help: https://guangchuangyu.github.io/DOSE</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>If you use DOSE in published research, please cite:</span>
-#&gt; <span class='message'>Guangchuang Yu, Li-Gen Wang, Guang-Rong Yan, Qing-Yu He. DOSE: an R/Bioconductor package for Disease Ontology Semantic and Enrichment analysis. Bioinformatics 2015, 31(4):608-609</span></div><div class='output co'>#&gt; <span class='message'>clusterProfiler v3.5.6  For help: https://guangchuangyu.github.io/clusterProfiler</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>If you use clusterProfiler in published research, please cite:</span>
-#&gt; <span class='message'>Guangchuang Yu., Li-Gen Wang, Yanyan Han, Qing-Yu He. clusterProfiler: an R package for comparing biological themes among gene clusters. OMICS: A Journal of Integrative Biology. 2012, 16(5):284-287.</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘clusterProfiler’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:purrr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    simplify</span></div><div class='input'><span class='fu'>data</span>(<span class='no'>isoExample</span>)
+    <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>org.Mm.eg.db</span>)
+<span class='fu'>library</span>(<span class='no'>clusterProfiler</span>)
+<span class='fu'>data</span>(<span class='no'>isoExample</span>)
 <span class='co'># ego &lt;- enrichGO(row.names(assay(gene_ex_rse, "norm")),</span>
 <span class='co'>#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")</span>
-<span class='co'># data = isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,</span>
-<span class='co'>#                   org = slot(ego, "result"))</span>
-<span class='co'># isoPlotNet(data)</span></div></pre>
+<span class='no'>data</span> <span class='kw'>=</span> <span class='fu'>isoNetwork</span>(<span class='no'>mirna_ex_rse</span>, <span class='no'>gene_ex_rse</span>, <span class='no'>ma_ex</span>,
+                  <span class='kw'>org</span> <span class='kw'>=</span> <span class='fu'>slot</span>(<span class='no'>ego</span>, <span class='st'>"result"</span>))</div><div class='output co'>#&gt; <span class='message'>Number of mirnas 20 with these columns:A201_Day0A200_Day0A196_Day0A167_Day1A165_Day1A63_Day1A172_Day2A70_Day2A69_Day2A178_Day3A75_Day3A74_Day3A181_Day7A180_Day7A80_Day7A189_Day14A85_Day14A84_Day14</span></div><div class='output co'>#&gt; <span class='message'>Number of genes 25 with these columns:control_1control_2control_3day1_1day1_2day1_3day2_1day2_2day2_3day3_1day3_2day3_3day7_1day7_2day7_3day14_1day14_2day14_3</span></div><div class='output co'>#&gt; <span class='message'>Number of mirnas 20 with these columns:controlday1day2day3day7day14</span></div><div class='output co'>#&gt; <span class='message'>Number of mirnas 25 with these columns:controlday1day2day3day7day14</span></div><div class='output co'>#&gt; Dimmension of cor matrix: 20 25 </div><div class='input'><span class='fu'><a href='isoPlotNet.html'>isoPlotNet</a></span>(<span class='no'>data</span>)</div><div class='img'><img src='isoNetwork-1.png' alt='' width='700' height='432.632880098887' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -178,7 +168,7 @@ the list of miRNAs to be used by this function.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Lorena Pantano, Georgia Escaramis, Christos Argyropoulos.</p>
+  <p>Developed by Lorena Pantano, Georgia Escaramis.</p>
 </div>
 
 <div class="pkgdown">

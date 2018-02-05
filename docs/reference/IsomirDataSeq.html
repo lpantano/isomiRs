@@ -58,6 +58,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/isomiRs.html">Get Started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -79,8 +82,8 @@
     </div>
 
     
-    <p>The <code>IsomirDataSeq</code> is a subclass of
-<code><a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment</a></code>
+    <p>The IsomirDataSeq is a subclass of
+<a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment::SummarizedExperiment</a>
 used to store the raw data, intermediate calculations and results of an
 miRNA/isomiR analysis. This class stores all raw isomiRs
 data for each sample, processed information,
@@ -92,17 +95,17 @@ experimental information for each sample.</p>
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code><a href='IsomirDataSeqFromFiles.html'>IsomirDataSeqFromFiles</a></code> creates this object using seqbuster
+    <p><a href='IsomirDataSeqFromFiles.html'>IsomirDataSeqFromFiles</a> creates this object using seqbuster
 output files.</p>
-<p>Methods for this objects are <code><a href='counts.html'>counts</a></code> to get
-count matrix and <code><a href='isoSelect.html'>isoSelect</a></code>
+<p>Methods for this objects are <code><a href='counts.html'>isomiRs::counts()</a></code> to get
+count matrix and <code><a href='isoSelect.html'>isomiRs::isoSelect()</a></code>
 for miRNA/isomiR selection. Functions
-available for this object are <code><a href='isoCounts.html'>isoCounts</a></code> for
+available for this object are <code><a href='isoCounts.html'>isomiRs::isoCounts()</a></code> for
 count matrix creation,
-<code><a href='isoNorm.html'>isoNorm</a></code> for normalization,
-<code><a href='isoDE.html'>isoDE</a></code> for
-differential expression and <code><a href='isoPLSDA.html'>isoPLSDA</a></code> for clustering.
-<code><a href='isoPlot.html'>isoPlot</a></code> helps with basic expression plot.
+<code><a href='isoNorm.html'>isomiRs::isoNorm()</a></code> for normalization,
+<code><a href='isoDE.html'>isomiRs::isoDE()</a></code> for
+differential expression and <code><a href='isoPLSDA.html'>isomiRs::isoPLSDA()</a></code> for clustering.
+<code><a href='isoPlot.html'>isomiRs::isoPlot()</a></code> helps with basic expression plot.
     <code>metadata</code> contains two lists: <code>rawList</code> is a list with same
 length than number of samples and stores the input files
 for each sample; <code>isoList</code> is a list with same length than
@@ -149,6 +152,8 @@ but only if the change happens between nucleotide 2 and 8.</p></li>
     <p>In general nucleotides in UPPER case mean insertions respect
 to the reference sequence, and nucleotides in LOWER case
 mean deletions respect to the reference sequence.</p>
+<p>[['isoList']: R:['isoList'
+[1]: R:1</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -180,7 +185,7 @@ mean deletions respect to the reference sequence.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Lorena Pantano, Georgia Escaramis, Christos Argyropoulos.</p>
+  <p>Developed by Lorena Pantano, Georgia Escaramis.</p>
 </div>
 
 <div class="pkgdown">
