@@ -15,7 +15,6 @@ differential expression.
 Authors:
 \itemize{
   \item Georgia Escaramis
-  \item Christos Argyropoulos \email{cargyropoulos@unm.edu}
 }
 
 }

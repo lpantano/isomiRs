@@ -2,7 +2,7 @@
 % Please edit documentation in R/AllClasses.R
 \name{IsomirDataSeqFromFiles}
 \alias{IsomirDataSeqFromFiles}
-\title{\code{IsomirDataSeqFromFiles} loads miRNA annotation from seqbuster tool}
+\title{`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool}
 \usage{
 IsomirDataSeqFromFiles(files, coldata, rate = 0.2, canonicalAdd = TRUE,
   uniqueMism = TRUE, design = ~1L, minHits = 1L, header = TRUE,
@@ -22,7 +22,7 @@ contain C/G nts.}
 \item{uniqueMism}{\code{boolean} only keep mutations that have
 a unique hit to one miRNA molecule}
 
-\item{design}{a \code{formula} to pass to \code{\link[DESeq2]{DESeqDataSet}}}
+\item{design}{a \code{formula} to pass to \link[DESeq2:DESeqDataSet]{DESeq2::DESeqDataSet}}
 
 \item{minHits}{Minimum number of reads in the sample to consider it
 in the final matrix.}
@@ -35,31 +35,31 @@ in the final matrix.}
 while reading files. Default \code{FALSE}.}
 
 \item{...}{arguments provided to
-\code{\link[SummarizedExperiment]{SummarizedExperiment}}
+\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment}
 including rowData.}
 }
 \value{
-\code{\link{IsomirDataSeq}} class object.
+\link{IsomirDataSeq} class object.
 }
 \description{
 This function parses
 output of seqbuster tool to allow isomiRs/miRNAs analysis of samples
 in different groups such as
 characterization, differential expression and clustering. It creates an
-\code{\link[isomiRs]{IsomirDataSeq}} object.
+\link[isomiRs:IsomirDataSeq]{isomiRs::IsomirDataSeq} object.
 }
 \details{
 This function parses the output of
-\url{http://seqcluster.readthedocs.org/mirna_annotation.html}
+http://seqcluster.readthedocs.org/mirna_annotation.html
 for each sample to create a count matrix for isomiRs, miRNAs or
 isomiRs grouped in
 types (i.e all sequences with variations at 5' but ignoring any other type).
 It creates
-\code{\link[isomiRs]{IsomirDataSeq}} object (see link to example usage of
+\link[isomiRs:IsomirDataSeq]{isomiRs::IsomirDataSeq} object (see link to example usage of
 this class)
 to allow visualization, queries, differential
 expression analysis and clustering.
-To create the \code{\link[isomiRs]{IsomirDataSeq}}, it parses the isomiRs
+To create the \link[isomiRs:IsomirDataSeq]{isomiRs::IsomirDataSeq}, it parses the isomiRs
 files, and generates
 an initial matrix having all isomiRs detected among samples. As well,
 it creates

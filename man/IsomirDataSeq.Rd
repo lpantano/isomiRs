@@ -6,8 +6,8 @@
 \alias{IsomirDataSeq}
 \title{Class that contains all isomiRs annotation for all samples}
 \description{
-The \code{\link{IsomirDataSeq}} is a subclass of
-\code{\link[SummarizedExperiment]{SummarizedExperiment}}
+The \link{IsomirDataSeq} is a subclass of
+\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment}
 used to store the raw data, intermediate calculations and results of an
 miRNA/isomiR analysis. This class stores all raw isomiRs
 data for each sample, processed information,
@@ -16,18 +16,18 @@ raw counts, normalized counts, and table with
 experimental information for each sample.
 }
 \details{
-\code{\link{IsomirDataSeqFromFiles}} creates this object using seqbuster
+\link{IsomirDataSeqFromFiles} creates this object using seqbuster
 output files.
 
-Methods for this objects are \code{\link[isomiRs]{counts}} to get
-count matrix and \code{\link[isomiRs]{isoSelect}}
+Methods for this objects are \code{\link[isomiRs:counts]{isomiRs::counts()}} to get
+count matrix and \code{\link[isomiRs:isoSelect]{isomiRs::isoSelect()}}
 for miRNA/isomiR selection. Functions
-available for this object are \code{\link[isomiRs]{isoCounts}} for
+available for this object are \code{\link[isomiRs:isoCounts]{isomiRs::isoCounts()}} for
 count matrix creation,
-\code{\link[isomiRs]{isoNorm}} for normalization,
-\code{\link[isomiRs]{isoDE}} for
-differential expression and \code{\link{isoPLSDA}} for clustering.
-\code{\link[isomiRs]{isoPlot}} helps with basic expression plot.
+\code{\link[isomiRs:isoNorm]{isomiRs::isoNorm()}} for normalization,
+\code{\link[isomiRs:isoDE]{isomiRs::isoDE()}} for
+differential expression and \code{\link[isomiRs:isoPLSDA]{isomiRs::isoPLSDA()}} for clustering.
+\code{\link[isomiRs:isoPlot]{isomiRs::isoPlot()}} helps with basic expression plot.
 
 \code{metadata} contains two lists: \code{rawList} is a list with same
 length than number of samples and stores the input files
@@ -78,6 +78,9 @@ but only if the change happens between nucleotide 2 and 8.
 In general nucleotides in UPPER case mean insertions respect
 to the reference sequence, and nucleotides in LOWER case
 mean deletions respect to the reference sequence.
+
+[['isoList']: R:['isoList'
+[1]: R:1
 }
 \examples{
 path <- system.file("extra", package="isomiRs")
