@@ -38,11 +38,6 @@ isoLQN <- function()
     .Deprecated("scounts::isoLQN")
 }
 
-isoLQN <- function()
-{
-    .Deprecated("scounts::isoLQN")
-}
-
 isoCorrection <- function()
 {
     .Deprecated("scounts::isoCorrection")
@@ -50,7 +45,6 @@ isoCorrection <- function()
 
 #' isomiRs
 #'
-#' @useDynLib isomiRs
 #' @import BiocGenerics
 #' @import S4Vectors
 #' @import IRanges
@@ -63,11 +57,14 @@ isoCorrection <- function()
 #' @import gtools
 #' @import grDevices
 #' @import Biobase
+#' @import targetscan.Hs.eg.db
+#' @importFrom AnnotationDbi keys mget revmap
 #' @importFrom reshape melt melt.array melt.data.frame melt.list
 #' @importFrom tidyr spread
 #' @importFrom readr read_tsv
 #' @importFrom dplyr select arrange summarise rowwise mutate filter 
-#' if_else group_by "%>%" distinct n left_join bind_rows ungroup
+#'             if_else group_by "%>%" distinct n left_join 
+#'             bind_rows ungroup
 #' @importFrom DiscriMiner plsDA
 #' @importFrom grDevices colorRampPalette
 #' @importFrom RColorBrewer brewer.pal

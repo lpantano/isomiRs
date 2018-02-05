@@ -148,7 +148,8 @@ findTargets <- function(mirna_rse, gene_rse, target,
 #' of expression that will be annotated with GO terms.
 #' mirna_rse and gene_rse can be created using the following code:
 #'
-#' `mi_rse = SummarizedExperiment(assays=SimpleList(norm=mirna_matrix), colData, metadata=list(sign=mirna_keep))`
+#' `mi_rse = SummarizedExperiment(assays=SimpleList(norm=mirna_matrix),
+#'                                colData, metadata=list(sign=mirna_keep))`
 #'
 #' where, `mirna_matrix` is the normalized counts expression,
 #' `colData` is the metadata information and `mirna_keep`
@@ -399,4 +400,38 @@ isoPlotNet = function(obj){
     #                 arrangeGrob(profiles, ncol=3),
     #                 nrow=2, heights=c(2,2))
     invisible(p)
+}
+
+
+#' Find targets in targetscan database
+#' 
+#' From a list of miRNA names, find their targets
+#' in [targetscan.Hs.eg.db] annotation package.
+#' 
+#' @param mirna Character vector with miRNA names as in
+#'   miRBase 21.
+#'   
+#' @return [data.frame] with 4 columns:
+#'   * miRFamily
+#'   * Seedmatch
+#'   * PCT
+#'   * entrezGene
+#' @examples 
+#' mirna2targetscan(c("hsa-miR-34c-5p"))
+#' @export
+mirna2targetscan <- function(mirna){
+    mir <- intersect(mirna, keys(targetscan.Hs.egMIRNA))
+    if (length(mir) != length(mirna))
+        message("Missing miRNAs: ", setdiff(mirna, mir))
+    fam <- mget(mir, targetscan.Hs.egMIRBASE2FAMILY)
+    genes = mget(unlist(fam), revmap(targetscan.Hs.egTARGETS))
+    full = mget(unlist(genes), targetscan.Hs.egTARGETSFULL) 
+    lapply(names(full), function(x){
+        data.frame(miRFamily = full[[x]]@miRFamily, 
+                   Seedmatch = full[[x]]@Seedmatch,
+                   PCT = full[[x]]@PCT,
+                   gene = x,
+                   stringsAsFactors = FALSE)
+    }) %>% bind_rows() %>%
+        filter(miRFamily %in% unlist(fam))
 }

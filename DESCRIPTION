@@ -18,32 +18,32 @@ Suggests:
 Depends:
     R (>= 3.4),
     DiscriMiner,
-    SummarizedExperiment,
-    TMB (>= 1.7.6),
-    RcppEigen
+    SummarizedExperiment
 Imports:
+    AnnotationDbi,
     BiocGenerics (>= 0.7.5),
-    IRanges,
-    S4Vectors,
-    GenomicRanges,
     Biobase,
     DESeq2,
-    limma,
-    reshape,
-    tidyr,
-    readr,
+    IRanges,
     dplyr,
-    RColorBrewer,
+    GenomicRanges,
     gplots,
-    methods,
     ggplot2,
     gtools,
     gridExtra,
     grid,
     grDevices, 
     graphics, 
+    GGally,
+    limma,
+    methods,
+    RColorBrewer,
+    readr,
+    reshape,
     stats,
-    GGally
+    S4Vectors,
+    tidyr,
+    targetscan.Hs.eg.db
 LazyData: true
 Authors@R: c(
     person("Lorena", "Pantano",
@@ -56,4 +56,4 @@ VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1.9000
 NeedsCompilation: yes
-LinkingTo: TMB, RcppEigen
+Encoding: UTF-8

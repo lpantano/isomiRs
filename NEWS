@@ -1,6 +1,10 @@
 ## CHANGES IN VERSION  1.7.2
 
-Move correction functions to independent package scounts.
+FEATURE
+* Add mirna prediction using targetscan annotation package in BioC.
+
+FIX
+* Move correction functions to independent package scounts.
 
 ## CHANGES IN VERSION  1.7.1
 
