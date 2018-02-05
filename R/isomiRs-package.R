@@ -1,3 +1,53 @@
+#' Deprecated functions in package isomiRs
+#' 
+#' 
+#' @rdname isomiRs-deprecated
+#' 
+#' @details
+#' The following functions are deprecated and will be made defunct; 
+#' use the replacement indicated below:
+#' * isoCorrection dLQNO qLQNO pLQNO rLQNOLQNO isoLQNO
+
+dLQNO <- function()
+{
+    .Deprecated("scounts::dLQNO")
+}
+
+qLQNO <- function()
+{
+    .Deprecated("scounts::qLQNO")
+}
+
+pLQNO <- function()
+{
+    .Deprecated("scounts::pLQNO")
+}
+
+rLQNO <- function()
+{
+    .Deprecated("scounts::rLQNO")
+}
+
+LQNO <- function()
+{
+    .Deprecated("scounts::LQNO")
+}
+
+isoLQN <- function()
+{
+    .Deprecated("scounts::isoLQN")
+}
+
+isoLQN <- function()
+{
+    .Deprecated("scounts::isoLQN")
+}
+
+isoCorrection <- function()
+{
+    .Deprecated("scounts::isoCorrection")
+}
+
 #' isomiRs
 #'
 #' @useDynLib isomiRs
