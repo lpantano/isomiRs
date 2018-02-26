@@ -87,11 +87,14 @@ isoTop <- function(ids, top=20){
 #' There are four different values for `type` parameter. To plot
 #' trimming at 5' or 3' end, use `type="iso5"` or `type="iso3"`. Get a summary of all using `type="all"`.
 #' In this case, it will plot 3 positions at both side of the reference
-#' position described at miRBase site. Each position refers to the number of
+#' position described at miRBase site. Each position refers to the % of
 #' sequences that start/end before or after the miRBase reference. The
 #' color indicates the sample group. The size of the point is proportional
-#' to the number of total counts. The position at `y` is the number of
-#' different sequences.
+#' to the abundance considering the total as all the sequences in the sample.
+#' The position at `y` is the % of
+#' different sequences considering the total as all sequences with changes
+#' for the specific
+#' isomiR showed.
 #'
 #' Same logic applies to `type="add"` and `type="subs"`. However,
 #' when `type="add"`, the plot will refer to addition events from the
@@ -150,7 +153,7 @@ isoPlot <- function(ids, type="iso5", column="condition"){
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
         labs(list(title=paste(type,"distribution"),
-                  y="# of unique sequences",
+                  y="pct of isomiRs",
                 x="position respect to the reference"))
 }
 #' Plot nucleotides changes at a given position
@@ -169,7 +172,7 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 #' sample in each group.
 #' The color indicates the sample group. The size of the point is proportional
 #' to the number of total counts of isomiRs with changes.
-#' The position at `y` is the number of different sequences
+#' The position at `y` is the % of different isomiRs
 #' supporting the change.
 #'
 #'
@@ -218,8 +221,11 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
         scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
-        labs(list(title=paste(type,"distribution"),y="# of unique sequences",
-                x=paste0("changes at postiion ",position," respect to the reference")))
+        labs(list(title=paste(type,"distribution"),
+                  y="pct of isomiRs",
+                x=paste0("changes at postiion ",
+                         position, 
+                         " respect to the reference")))
 }
 
 #' Create count matrix with different summarizing options

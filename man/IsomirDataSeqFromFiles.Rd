@@ -20,7 +20,8 @@ All non-template nucleotides at the 3' end will be removed if they
 contain C/G nts.}
 
 \item{uniqueMism}{\code{boolean} only keep mutations that have
-a unique hit to one miRNA molecule}
+a unique hit to one miRNA molecule. For instance, if the sequence map
+to two different miRNAs, then it would be removed.}
 
 \item{design}{a \code{formula} to pass to \link[DESeq2:DESeqDataSet]{DESeq2::DESeqDataSet}}
 

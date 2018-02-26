@@ -1,6 +1,7 @@
 # 1.7.2
 
 ## Feature
+* Improve docs to explain better isoPlot figures. Thanks @mshadbolt.
 * Add mirna prediction using targetscan annotation package in BioC.
 
 ## Fixes

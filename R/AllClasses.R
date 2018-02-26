@@ -137,7 +137,8 @@ setValidity("IsomirDataSeq", function(object) {
 #'   All non-template nucleotides at the 3' end will be removed if they
 #'   contain C/G nts.
 #' @param uniqueMism `boolean` only keep mutations that have
-#'   a unique hit to one miRNA molecule
+#'   a unique hit to one miRNA molecule. For instance, if the sequence map
+#'    to two different miRNAs, then it would be removed.
 #' @param minHits Minimum number of reads in the sample to consider it
 #'   in the final matrix.
 #' @param header boolean to indicate files contain headers
