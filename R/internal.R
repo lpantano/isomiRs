@@ -12,6 +12,11 @@
     return(table)
 }
 
+
+.filter_N_add <- function(table){
+    table[!grepl("N", table[["add"]]),]
+}
+
 .change_seq <- function(x, mism){
     .pos = gsub("[ATGCNU]", "", mism)
     .subs = as.vector(unlist(strsplit(gsub("[0-9]+", "", mism), "")))
@@ -100,6 +105,7 @@
 .filter_table <- function(table, cov=1, rate=0.2,
                           canonicalAdd=TRUE, uniqueMism=TRUE){
     table <- .put_header(table)
+    table <- .filter_N_add(table)
     table <- .filter_by_cov(table, cov, rate, canonicalAdd, uniqueMism)
     if (sum(grepl("u-", table$add))>0)
         table <- .convert_to_new_version(table)
