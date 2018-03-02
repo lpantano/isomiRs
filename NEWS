@@ -5,6 +5,7 @@
 * Add mirna prediction using targetscan annotation package in BioC.
 
 ## Fixes
+* Remove sequences with Ns in add column.
 * Move correction functions to independent package scounts.
 
 # 1.7.1
