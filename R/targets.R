@@ -424,19 +424,26 @@ isoPlotNet = function(obj){
 #' @examples 
 #' mirna2targetscan(c("hsa-miR-34c-5p"))
 #' @export
-mirna2targetscan <- function(mirna){
+mirna2targetscan <- function(mirna, org = NULL, keytype = NULL){
     mir <- intersect(mirna, keys(targetscan.Hs.egMIRNA))
     if (length(mir) != length(mirna))
         message("Missing miRNAs: ", setdiff(mirna, mir))
     fam <- mget(mir, targetscan.Hs.egMIRBASE2FAMILY)
     genes = mget(unlist(fam), revmap(targetscan.Hs.egTARGETS))
     full = mget(unlist(genes), targetscan.Hs.egTARGETSFULL) 
-    lapply(names(full), function(x){
+    df <- lapply(names(full), function(x){
         data.frame(miRFamily = full[[x]]@miRFamily, 
                    Seedmatch = full[[x]]@Seedmatch,
                    PCT = full[[x]]@PCT,
                    gene = x,
                    stringsAsFactors = FALSE)
     }) %>% bind_rows() %>%
-        filter(miRFamily %in% unlist(fam))
+        filter(miRFamily %in% unlist(fam)) %>% 
+        distinct()
+    if (!is.null(org)){
+        map <- AnnotationDbi::select(org, unique(df[["gene"]]),
+                                     columns = keytype,
+                                     keytype = "ENTREZID")
+    }
+    df %>% left_join(map, by = c("gene" = "ENTREZID"))
 }

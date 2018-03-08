@@ -139,6 +139,7 @@ setValidity("IsomirDataSeq", function(object) {
 #' @param uniqueMism `boolean` only keep mutations that have
 #'   a unique hit to one miRNA molecule. For instance, if the sequence map
 #'    to two different miRNAs, then it would be removed.
+#' @param uniqueHits `boolean` whether filtering ambigous sequences or not.
 #' @param minHits Minimum number of reads in the sample to consider it
 #'   in the final matrix.
 #' @param header boolean to indicate files contain headers
@@ -180,11 +181,12 @@ setValidity("IsomirDataSeq", function(object) {
 #' head(counts(ids))
 #'
 #' @export
-IsomirDataSeqFromFiles <- function(files, coldata, rate=0.2,
-                                   canonicalAdd=TRUE, uniqueMism=TRUE,
+IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
+                                   canonicalAdd = TRUE, uniqueMism = TRUE,
+                                   uniqueHits = FALSE,
                                    design = ~1L,
                                    minHits = 1L,
-                                   header=TRUE, skip=0, quiet=TRUE, ...){
+                                   header = TRUE, skip = 0, quiet = TRUE, ...){
     listSamples <- vector("list")
     listIsomirs <- vector("list")
     n_filtered = 0
@@ -202,7 +204,7 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate=0.2,
             message(paste0("This sample hasn't any lines: ", f))
         }else{
             d <- .filter_table(d, rate = rate, canonicalAdd = canonicalAdd,
-                               uniqueMism = uniqueMism)
+                               uniqueMism = uniqueMism, uniqueHits = uniqueHits)
             if (nrow(d) < minHits){
                 n_filtered = n_filtered + 1
                 message("Skipping sample ", f,

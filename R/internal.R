@@ -103,8 +103,11 @@
 
 # Filter table reference
 .filter_table <- function(table, cov=1, rate=0.2,
-                          canonicalAdd=TRUE, uniqueMism=TRUE){
+                          canonicalAdd=TRUE, uniqueMism=TRUE,
+                          uniqueHits = FALSE){
     table <- .put_header(table)
+    if (uniqueHits)
+        table <- table[table[["ambiguity"]] == 1, ]
     table <- .filter_N_add(table)
     table <- .filter_by_cov(table, cov, rate, canonicalAdd, uniqueMism)
     if (sum(grepl("u-", table$add))>0)
