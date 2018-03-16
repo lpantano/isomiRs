@@ -5,8 +5,8 @@
 \title{`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool}
 \usage{
 IsomirDataSeqFromFiles(files, coldata, rate = 0.2, canonicalAdd = TRUE,
-  uniqueMism = TRUE, design = ~1L, minHits = 1L, header = TRUE,
-  skip = 0, quiet = TRUE, ...)
+  uniqueMism = TRUE, uniqueHits = FALSE, design = ~1L, minHits = 1L,
+  header = TRUE, skip = 0, quiet = TRUE, ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
@@ -22,6 +22,8 @@ contain C/G nts.}
 \item{uniqueMism}{\code{boolean} only keep mutations that have
 a unique hit to one miRNA molecule. For instance, if the sequence map
 to two different miRNAs, then it would be removed.}
+
+\item{uniqueHits}{\code{boolean} whether filtering ambigous sequences or not.}
 
 \item{design}{a \code{formula} to pass to \link[DESeq2:DESeqDataSet]{DESeq2::DESeqDataSet}}
 

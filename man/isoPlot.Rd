@@ -47,6 +47,8 @@ position for each nucleotide in the reference miRNA. Points
 will indicate isomiRs with nucleotide changes at the given position.
 When \code{type="all"} a colar coordinate map will show
 the abundance of each isomiR type in a single plot.
+Note the position is relatively to the
+sequence not the miRNA.
 }
 \examples{
 data(mirData)

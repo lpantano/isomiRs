@@ -105,7 +105,9 @@ isoTop <- function(ids, top=20){
 #' position for each nucleotide in the reference miRNA. Points
 #' will indicate isomiRs with nucleotide changes at the given position.
 #' When `type="all"` a colar coordinate map will show 
-#' the abundance of each isomiR type in a single plot.
+#' the abundance of each isomiR type in a single plot. 
+#' Note the position is relatively to the
+#' sequence not the miRNA.
 #'
 #' @examples
 #' data(mirData)
@@ -173,7 +175,8 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 #' The color indicates the sample group. The size of the point is proportional
 #' to the number of total counts of isomiRs with changes.
 #' The position at `y` is the % of different isomiRs
-#' supporting the change.
+#' supporting the change. Note the position is relatively to the
+#' sequence not the miRNA.
 #'
 #'
 #' @examples
@@ -258,7 +261,7 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' You can get a table with 5' trimming isomiRS, miRBase reference and
 #' the rest by calling with `isoCounts(ids, ref=TRUE, iso5=TRUE)`.
 #' If you set up all parameters to TRUE, you will get a table for
-#' each different sequence mapping to a miRNA (i.e. all isomiRs).
+#' each different sequence mapping to a miRNA (i.e. all isomiRs). 
 #'
 #' Examples for the naming used for the isomiRs are at
 #' http://seqcluster.readthedocs.org/mirna_annotation.html#mirna-annotation.

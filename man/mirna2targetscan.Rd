@@ -4,7 +4,7 @@
 \alias{mirna2targetscan}
 \title{Find targets in targetscan database}
 \usage{
-mirna2targetscan(mirna)
+mirna2targetscan(mirna, org = NULL, keytype = NULL)
 }
 \arguments{
 \item{mirna}{Character vector with miRNA names as in
