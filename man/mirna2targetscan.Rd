@@ -9,6 +9,11 @@ mirna2targetscan(mirna, org = NULL, keytype = NULL)
 \arguments{
 \item{mirna}{Character vector with miRNA names as in
 miRBase 21.}
+
+\item{org}{\link[AnnotationDbi:AnnotationDb]{AnnotationDbi::AnnotationDb} obejct. For example:(org.Mm.eg.db)}
+
+\item{keytype}{Character mentioning the gene id to use.
+For example, \code{ENSEMBL}.}
 }
 \value{
 \link{data.frame} with 4 columns:

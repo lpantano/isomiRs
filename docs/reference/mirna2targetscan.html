@@ -86,7 +86,7 @@
 in targetscan.Hs.eg.db annotation package.</p>
     
 
-    <pre class="usage"><span class='fu'>mirna2targetscan</span>(<span class='no'>mirna</span>)</pre>
+    <pre class="usage"><span class='fu'>mirna2targetscan</span>(<span class='no'>mirna</span>, <span class='kw'>org</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>keytype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -95,6 +95,15 @@ in targetscan.Hs.eg.db annotation package.</p>
       <th>mirna</th>
       <td><p>Character vector with miRNA names as in
 miRBase 21.</p></td>
+    </tr>
+    <tr>
+      <th>org</th>
+      <td><p><a href='http://www.rdocumentation.org/packages/AnnotationDbi/topics/AnnotationDb-class'>AnnotationDbi::AnnotationDb</a> obejct. For example:(org.Mm.eg.db)</p></td>
+    </tr>
+    <tr>
+      <th>keytype</th>
+      <td><p>Character mentioning the gene id to use.
+For example, <code>ENSEMBL</code>.</p></td>
     </tr>
     </table>
     
@@ -110,258 +119,7 @@ miRBase 21.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>mirna2targetscan</span>(<span class='fu'>c</span>(<span class='st'>"hsa-miR-34c-5p"</span>))</div><div class='output co'>#&gt;                            miRFamily Seedmatch  PCT   gene
-#&gt; 1    miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.29  79719
-#&gt; 2    miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.76    215
-#&gt; 3    miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 4    miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 5    miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 6    miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 7    miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 8    miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 9    miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 10   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 11   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 12   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 13   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 14   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 15   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 16   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 17   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 18   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58   3983
-#&gt; 19   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.73     29
-#&gt; 20   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.73     29
-#&gt; 21   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.73     29
-#&gt; 22   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.73     29
-#&gt; 23   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.73     29
-#&gt; 24   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.73     29
-#&gt; 25   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.73     29
-#&gt; 26   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.73     29
-#&gt; 27   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.73     29
-#&gt; 28   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.67  64746
-#&gt; 29   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.75     40
-#&gt; 30   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.75     40
-#&gt; 31   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.75     40
-#&gt; 32   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.75     40
-#&gt; 33   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72   2180
-#&gt; 34   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.90   2182
-#&gt; 35   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.90   2182
-#&gt; 36   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.90   2182
-#&gt; 37   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.90   2182
-#&gt; 38   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.45  10121
-#&gt; 39   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.15     93
-#&gt; 40   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.82     93
-#&gt; 41   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.15     93
-#&gt; 42   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.82     93
-#&gt; 43   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.56  53616
-#&gt; 44   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.56  53616
-#&gt; 45   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.56  53616
-#&gt; 46   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.56  53616
-#&gt; 47   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.56  53616
-#&gt; 48   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.56  53616
-#&gt; 49   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.56  53616
-#&gt; 50   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.56  53616
-#&gt; 51   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.56  53616
-#&gt; 52   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.52  81794
-#&gt; 53   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.22  54507
-#&gt; 54   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58 134637
-#&gt; 55   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64    111
-#&gt; 56   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64    111
-#&gt; 57   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64    111
-#&gt; 58   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64    111
-#&gt; 59   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72    119
-#&gt; 60   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72    119
-#&gt; 61   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72    119
-#&gt; 62   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72    119
-#&gt; 63   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72    119
-#&gt; 64   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72    119
-#&gt; 65   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72    119
-#&gt; 66   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72    119
-#&gt; 67   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72    119
-#&gt; 68   miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  79602
-#&gt; 69   miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.82  84890
-#&gt; 70   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 71   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 72   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 73   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 74   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 75   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 76   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 77   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 78   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 79   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 80   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 81   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 82   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 83   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 84   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 85   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 86   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 87   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 88   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 89   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 90   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 91   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 92   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 93   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 94   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 95   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 96   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 97   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 98   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 99   miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 100  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 101  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 102  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 103  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 104  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 105  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64   2334
-#&gt; 106  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.63   3899
-#&gt; 107  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.63   3899
-#&gt; 108  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.63   3899
-#&gt; 109  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.63   3899
-#&gt; 110  miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.64  27125
-#&gt; 111  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72 116986
-#&gt; 112  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72 116986
-#&gt; 113  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72 116986
-#&gt; 114  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72 116986
-#&gt; 115  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 116  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 117  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 118  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 119  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 120  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 121  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 122  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 123  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 124  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 125  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 126  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 127  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 128  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 129  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 130  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 131  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 132  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 133  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 134  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 135  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 136  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 137  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 138  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 139  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  57085
-#&gt; 140  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 141  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 142  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 143  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 144  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 145  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 146  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 147  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 148  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 149  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 150  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 151  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 152  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 153  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 154  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 155  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72  23382
-#&gt; 156  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 157  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 158  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 159  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 160  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 161  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 162  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 163  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 164  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 165  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 166  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 167  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 168  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 169  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 170  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 171  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 172  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 173  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 174  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 175  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 176  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 177  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 178  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 179  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 180  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 181  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 182  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 183  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 184  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 185  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 186  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 187  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 188  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 189  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 190  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 191  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62  50808
-#&gt; 192  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.22    205
-#&gt; 193  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.22    205
-#&gt; 194  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.22    205
-#&gt; 195  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.22    205
-#&gt; 196  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.22    205
-#&gt; 197  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.22    205
-#&gt; 198  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.22    205
-#&gt; 199  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.22    205
-#&gt; 200  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.22    205
-#&gt; 201  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.72   9472
-#&gt; 202  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 203  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 204  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 205  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 206  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 207  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 208  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 209  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 210  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 211  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 212  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 213  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 214  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 215  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 216  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 217  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 218  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 219  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 220  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 221  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 222  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 223  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 224  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 225  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 226  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 227  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 228  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 229  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 230  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 231  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 232  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 233  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 234  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 235  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 236  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 237  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.30  56672
-#&gt; 238  miR-34ac/34bc-5p/449abc/449c-5p   7mer-m8 0.52    214
-#&gt; 239  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 240  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 241  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 242  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 243  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 244  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 245  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 246  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 247  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 248  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 249  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt; 250  miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.62    226
-#&gt;  [ reached getOption("max.print") -- omitted 4481 rows ]</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>mirna2targetscan</span>(<span class='fu'>c</span>(<span class='st'>"hsa-miR-34c-5p"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in check_valid_colnames(y): object 'map' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

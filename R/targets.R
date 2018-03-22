@@ -5,13 +5,17 @@
 pairsMatrix <- function(df){
     if (!is.data.frame(df))
         stop("Need a data.frame with 2 columns: gene, mir.")
-    if ( !(names(df) %in% c("gene","mir")) )
-        stop("The columns should be names as gene and mir.")
-    df$value <- 1
-    ma = pairs %>% .[c("gene", "mir", "value")] %>%
-        dplyr::distinct() %>% spread(mir, value, fill = 0) %>%
+    if (sum(!(names(df) %in% c("gene","mir"))) > 0){
+        message("Assuming columns names as gene and mir.")
+        names(df) <- c("gene", "mir")
+    }
+    df[["value"]] <- 1
+    ma = df %>% .[c("gene", "mir", "value")] %>%
+        dplyr::distinct() %>% spread(!!sym("mir"),
+                                     !!sym("value"),
+                                     fill = 0) %>%
         filter(!is.na(gene))
-    row.names(ma) = ma$gene
+    row.names(ma) = ma[["gene"]]
     ma
 }
 
@@ -90,8 +94,7 @@ pairsMatrix <- function(df){
 #' information. See details.
 #' @param gene_rse [SummarizedExperiment::SummarizedExperiment] with gene
 #' information. See details.
-#' @param target Matrix with miRNAs (columns) and genes (rows)
-#'   target prediction values (1 if it is a target, 0 if not).
+#' @param target Data.frame with two columns: gene and miRNA.
 #' @param summarize Character column name in colData(rse) to use to group
 #'   samples and compare betweem miRNA/gene expression.
 #' @param min_cor Numeric cutoff for correlation value that
@@ -107,12 +110,17 @@ pairsMatrix <- function(df){
 #' @export
 findTargets <- function(mirna_rse, gene_rse, target,
                          summarize="group", min_cor= -.6){
+    target = pairsMatrix(target)
     mirna = assay(mirna_rse,"norm")[, order(colData(mirna_rse)[,summarize])]
+    mirna = mirna[intersect(colnames(target), rownames(mirna)),]
     message("Number of mirnas ", nrow(mirna))
     gene = assay(gene_rse, "norm")[, order(colData(gene_rse)[,summarize])]
+    gene = gene[intersect(rownames(target), rownames(gene)),]
     message("Number of genes ", nrow(gene))
     mirna_group = colData(mirna_rse)[order(colData(mirna_rse)[,summarize]), summarize]
     gene_group = colData(gene_rse)[order(colData(gene_rse)[,summarize]), summarize]
+    stopifnot(is.factor(mirna_group))
+    stopifnot(is.factor(gene_group))
     message("Factors genes", paste(levels(gene_group)))
     message("Factors mirnas", paste(levels(mirna_group)))
     message("Order genes", paste(gene_group))
@@ -121,8 +129,21 @@ findTargets <- function(mirna_rse, gene_rse, target,
     mirna_norm <- .apply_median(as.matrix(mirna), mirna_group, minfc = 0.5)
     gene_norm <- .apply_median(as.matrix(gene), gene_group, minfc = 0.5)
     message("Calculating correlation matrix")
+   
     cor_target <- .cor_matrix(mirna_norm, gene_norm, as.matrix(target), min_cor)
     return(cor_target)
+}
+
+.predict_correlate_mirna_targets <- function(mirna_se, mrna_se, summarize,
+                                             org, gene_id){
+    stopifnot(class(org) == "OrgDb")
+    mirna_de = as.character(metadata(mirna_rse)$sign)
+    gene_de = as.character(metadata(gene_rse)$sign)
+    
+    targets = mirna2targetscan(mirna_de, org, gene_id)
+    imp_targets = targets[,c(gene_id, "mir")] %>% 
+        filter(!!sym(gene_id)  %in% mrna_de)
+    findTargets(mirna_se, mrna_se, imp_targets, summarize = summarize)
 }
 
 #' Clustering miRNAs-genes pairs in similar pattern expression
@@ -135,12 +156,15 @@ findTargets <- function(mirna_rse, gene_rse, target,
 #'   information. See details.
 #' @param target Matrix with miRNAs (columns) and genes (rows)
 #'   target prediction (1 if it is a target, 0 if not).
-#' @param org [AnnotationDbi::AnnotationDb] obejct. For example:(org.Mm.eg.db).
+#' @param org [AnnotationDbi::AnnotationDb] obejct. For example:(org.Mm.eg.db)
+#' @param enrich The output of [clusterProfiler::enricher()] of similar functions.
 #' @param summarize Character column name in `colData(rse)` to use to group
 #'   samples and compare betweem miRNA/gene expression.
 #' @param genename Character keytype of the gene
 #'   names in gene_rse object.
 #' @param min_cor Numeric cutoff to consider a miRNA to regulate a target.
+#' @param min_fc Numeric cutoff to consider as the minimum log2FoldChange
+#'   between groups to be considered in the analysis.
 #' @details
 #'
 #' This function will correlate miRNA and gene expression data using
@@ -166,29 +190,41 @@ findTargets <- function(mirna_rse, gene_rse, target,
 #' isoPlotNet(data)
 #' @return list with network information
 #' @export
-isoNetwork <- function(mirna_rse, gene_rse, target, org,
-                       summarize="group", genename="ENSEMBL",
-                       min_cor = -.6){
+isoNetwork <- function(mirna_rse, gene_rse,
+                       summarize = NULL,
+                       target = NULL, org = NULL,
+                       enrich = NULL,
+                       genename = "ENSEMBL",
+                       min_cor = -.6, min_fc = 0.5){
+    stopifnot(summarize  %in% names(colData(mirna_rse)))
     stopifnot(class(gene_rse) == "SummarizedExperiment")
     stopifnot(class(mirna_rse) == "SummarizedExperiment")
+    stopifnot("sign"  %in% names(metadata(gene_rse)))
+    stopifnot("sign"  %in% names(metadata(mirna_rse)))
     stopifnot(is.data.frame(target) | is.matrix(target))
+    mirna_de = as.character(metadata(mirna_rse)$sign)
+    gene_de = as.character(metadata(gene_rse)$sign)
+    
+    if (is.null(target))
+        target <- .predict_correlate_mirna_targets(mirna_rse, gene_rse,
+                                                   summarize,
+                                                   org, genename)
     target = as.matrix(target)
+    
     mirna = assay(mirna_rse,"norm")[,order(colData(mirna_rse)[,summarize])]
     message("Number of mirnas ", nrow(mirna), " with these columns:", paste(colnames(mirna)))
     gene = assay(gene_rse, "norm")[,order(colData(gene_rse)[,summarize])]
     message("Number of genes ", nrow(gene), " with these columns:", paste(colnames(gene)))
-    mirna_de = as.character(metadata(mirna_rse)$sign)
-    gene_de = as.character(metadata(gene_rse)$sign)
     mirna_group = colData(mirna_rse)[order(colData(mirna_rse)[,summarize]),summarize]
     gene_group = colData(gene_rse)[order(colData(gene_rse)[,summarize]),summarize]
 
     if (!all(levels(mirna_group) == levels(gene_group)))
         stop("levels in mirna and gene data are not the same")
-
-    mirna_norm <- .apply_median(mirna[mirna_de,], mirna_group, minfc = 0.5)
+    
+    mirna_norm <- .apply_median(mirna[mirna_de,], mirna_group, min_fc)
     message("Number of mirnas ", nrow(mirna_norm),
             " with these columns:", paste(colnames(mirna_norm)))
-    gene_norm <- .apply_median(gene[gene_de,], gene_group, minfc = 0.5)
+    gene_norm <- .apply_median(gene[gene_de,], gene_group, min_fc)
     message("Number of mirnas ", nrow(gene_norm),
             " with these columns:", paste(colnames(gene_norm)))
     
@@ -197,38 +233,36 @@ isoNetwork <- function(mirna_rse, gene_rse, target, org,
     is_target_and_de <- rownames(cor_target)[apply(cor_target, 1, min) != 0]
     profile <- rownames(gene)[rowSums(gene > 0) > 3]
     stopifnot(length(is_target_and_de) > 10)
+    
     res <- NULL
-    if (class(org) == "character")
+    if (is.null(enrich))
         res <- .run_enricher(is_target_and_de, profile,
                              org,
                              genename = genename)
-    if (class(org)[1] == "enrichResult")
-        res <- slot(org, "result")
+    if (class(enrich)[1] == "enrichResult")
+        res <- slot(enrich, "result")
     if (is.null(res))
         stop("No significant genes.")
+    browser()
+    cor_long <- cor_target %>%
+        as.data.frame() %>%
+        rownames_to_column("gene") %>% 
+        gather("mir", "value", -gene) %>%
+        filter(value != 0)
+    net <- res %>% separate_rows("geneID") %>% 
+        .[,c("ID", "Description", "geneID")] %>%
+        inner_join(cor_long, by = c("geneID" = "gene"))
 
-    net <- do.call(rbind, apply(res, 1, function(x){
-        .genes <- unlist(strsplit(x[8], split = "/"))
-        .idx <- which(colSums(cor_target[.genes,, drop = FALSE] != 0 ) > 0)
-        if (length(.idx) > 0 & length(.genes) > 2) {
-            .tab = data.frame(reshape::melt.array(as.matrix(cor_target[.genes, .idx]))) %>%
-            dplyr::filter(value != 0) %>%
-            dplyr::select(gene = X1, mir = X2) %>%
-            mutate(goid = x[1], go = x[2])
-            return(.tab)
-        }
-        return(data.frame())
-    }))
-
-    res_by_mir <- net %>% group_by(mir, go) %>% 
+    # browser()
+    res_by_mir <- net %>% group_by(!!sym("mir"), !!sym("ID")) %>% 
         dplyr::summarise(n()) %>%
-        group_by(go) %>% dplyr::summarise(nmir = n())
-    res <- res[res$Description %in% res_by_mir$go,]
-    res[match(res_by_mir$go, res$Description), "nmir"] <- res_by_mir$nmir
+        group_by(!!sym("ID")) %>% dplyr::summarise(nmir = n())
+    res <- res[res$Description %in% res_by_mir$Description,]
+    res[match(res_by_mir$Description, res$Description), "nmir"] <- res_by_mir$nmir
     obj = .viz_mirna_gene_enrichment(list(network = net, 
                                           summary = res),
                                      mirna_norm, gene_norm, 
-                                     mirna_group, org)
+                                     mirna_group, plot = FALSE)
     list(network = net, summary = res, analysis = obj)
 }
 
@@ -254,12 +288,13 @@ isoNetwork <- function(mirna_rse, gene_rse, target, org,
 .viz_mirna_gene_enrichment <- function(obj, mirna_norm, mrna_norm, group, org, plot=FALSE){
     net <- obj$network
     summary <- obj$summary
-
+    # browser()
     ma_g = .scale(as.data.frame(mrna_norm)[as.character(unique(net$gene)),])
     ma_m = .scale(as.data.frame(mirna_norm)[as.character(unique(net$mir)),])
     groups = .cluster_exp(mrna_norm[as.character(unique(net$gene)),])
     final_df = data.frame()
     for (x in summary$Description) {
+        message(x)
         if (plot)
             cat("## GO term:", x)
         .m = as.character(unique(net[net$go == x, "mir"]))
@@ -415,6 +450,9 @@ isoPlotNet = function(obj){
 #' 
 #' @param mirna Character vector with miRNA names as in
 #'   miRBase 21.
+#' @param org [AnnotationDbi::AnnotationDb] obejct. For example:(org.Mm.eg.db)
+#' @param keytype Character mentioning the gene id to use.
+#'   For example, `ENSEMBL`.
 #'   
 #' @return [data.frame] with 4 columns:
 #'   * miRFamily
@@ -425,12 +463,31 @@ isoPlotNet = function(obj){
 #' mirna2targetscan(c("hsa-miR-34c-5p"))
 #' @export
 mirna2targetscan <- function(mirna, org = NULL, keytype = NULL){
-    mir <- intersect(mirna, keys(targetscan.Hs.egMIRNA))
-    if (length(mir) != length(mirna))
-        message("Missing miRNAs: ", setdiff(mirna, mir))
-    fam <- mget(mir, targetscan.Hs.egMIRBASE2FAMILY)
+    
+    mirna_map <- data.frame(mir = mirna,
+                            ext = gsub("-[53]p$", "", mirna),
+                            num = gsub("-[1-9]$", "",
+                                       gsub("-[53]p$", "",mirna)),
+                            letter = gsub("[a-z]$", "",
+                                          gsub("-[1-9]$", "",
+                                               gsub("-[53]p$", "",mirna))),
+                            stringsAsFactors = FALSE)
+    mirna_map[["targetscan"]]  <- "None"
+    mirna_map[["targetscan"]][mirna_map[["mir"]] %in% keys(targetscan.Hs.egMIRNA)] <- mirna_map[["mir"]][mirna_map[["mir"]]  %in% keys(targetscan.Hs.egMIRNA)]
+    mirna_map[["targetscan"]][mirna_map[["ext"]]  %in% keys(targetscan.Hs.egMIRNA)] <- mirna_map[["ext"]][mirna_map[["ext"]]  %in% keys(targetscan.Hs.egMIRNA)]
+    mirna_map[["targetscan"]][mirna_map[["num"]]  %in% keys(targetscan.Hs.egMIRNA)] <- mirna_map[["num"]][mirna_map[["num"]]  %in% keys(targetscan.Hs.egMIRNA)]
+    mirna_map[["targetscan"]][mirna_map[["letter"]]  %in% keys(targetscan.Hs.egMIRNA)] <- mirna_map[["letter"]][mirna_map[["letter"]]  %in% keys(targetscan.Hs.egMIRNA)]
+
+    mir <- unique(mirna_map[["targetscan"]])
+    
+    if (sum(mirna_map[["targetscan"]] == "None") > 0)
+        message("Missing miRNAs: ",
+                mirna_map[["mir"]][mirna_map[["targetscan"]] == "None"])
+    
+    fam <- mget(intersect(mir, keys(targetscan.Hs.egMIRNA)),
+                targetscan.Hs.egMIRBASE2FAMILY)
     genes = mget(unlist(fam), revmap(targetscan.Hs.egTARGETS))
-    full = mget(unlist(genes), targetscan.Hs.egTARGETSFULL) 
+    full = mget(unlist(genes)[!is.na(unlist(genes))], targetscan.Hs.egTARGETSFULL) 
     df <- lapply(names(full), function(x){
         data.frame(miRFamily = full[[x]]@miRFamily, 
                    Seedmatch = full[[x]]@Seedmatch,
@@ -445,5 +502,14 @@ mirna2targetscan <- function(mirna, org = NULL, keytype = NULL){
                                      columns = keytype,
                                      keytype = "ENTREZID")
     }
-    df %>% left_join(map, by = c("gene" = "ENTREZID"))
+    
+    
+    df %>% left_join(map, by = c("gene" = "ENTREZID")) %>% 
+        left_join(data.frame(targetscan = names(fam),
+                             miRFamily = unlist(fam),
+                             stringsAsFactors = FALSE) %>% 
+                      left_join(mirna_map, by = "targetscan") %>% 
+                      filter(!is.na(!!sym("mir"))),
+                  by = "miRFamily")
+    
 }

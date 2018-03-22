@@ -85,8 +85,9 @@
     <p>Clustering miRNAs-genes pairs</p>
     
 
-    <pre class="usage"><span class='fu'>isoNetwork</span>(<span class='no'>mirna_rse</span>, <span class='no'>gene_rse</span>, <span class='no'>target</span>, <span class='no'>org</span>, <span class='kw'>summarize</span> <span class='kw'>=</span> <span class='st'>"group"</span>,
-  <span class='kw'>genename</span> <span class='kw'>=</span> <span class='st'>"ENSEMBL"</span>, <span class='kw'>min_cor</span> <span class='kw'>=</span> -<span class='fl'>0.6</span>)</pre>
+    <pre class="usage"><span class='fu'>isoNetwork</span>(<span class='no'>mirna_rse</span>, <span class='no'>gene_rse</span>, <span class='kw'>summarize</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>org</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enrich</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>genename</span> <span class='kw'>=</span> <span class='st'>"ENSEMBL"</span>, <span class='kw'>min_cor</span> <span class='kw'>=</span> -<span class='fl'>0.6</span>,
+  <span class='kw'>min_fc</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -102,18 +103,22 @@ information. See details.</p></td>
 information. See details.</p></td>
     </tr>
     <tr>
+      <th>summarize</th>
+      <td><p>Character column name in <code>colData(rse)</code> to use to group
+samples and compare betweem miRNA/gene expression.</p></td>
+    </tr>
+    <tr>
       <th>target</th>
       <td><p>Matrix with miRNAs (columns) and genes (rows)
 target prediction (1 if it is a target, 0 if not).</p></td>
     </tr>
     <tr>
       <th>org</th>
-      <td><p><a href='http://www.rdocumentation.org/packages/AnnotationDbi/topics/AnnotationDb-class'>AnnotationDbi::AnnotationDb</a> obejct. For example:(org.Mm.eg.db).</p></td>
+      <td><p><a href='http://www.rdocumentation.org/packages/AnnotationDbi/topics/AnnotationDb-class'>AnnotationDbi::AnnotationDb</a> obejct. For example:(org.Mm.eg.db)</p></td>
     </tr>
     <tr>
-      <th>summarize</th>
-      <td><p>Character column name in <code>colData(rse)</code> to use to group
-samples and compare betweem miRNA/gene expression.</p></td>
+      <th>enrich</th>
+      <td><p>The output of <code><a href='http://www.rdocumentation.org/packages/clusterProfiler/topics/enricher'>clusterProfiler::enricher()</a></code> of similar functions.</p></td>
     </tr>
     <tr>
       <th>genename</th>
@@ -123,6 +128,11 @@ names in gene_rse object.</p></td>
     <tr>
       <th>min_cor</th>
       <td><p>Numeric cutoff to consider a miRNA to regulate a target.</p></td>
+    </tr>
+    <tr>
+      <th>min_fc</th>
+      <td><p>Numeric cutoff to consider as the minimum log2FoldChange
+between groups to be considered in the analysis.</p></td>
     </tr>
     </table>
     
@@ -149,7 +159,7 @@ the list of miRNAs to be used by this function.</p>
 <span class='co'># ego &lt;- enrichGO(row.names(assay(gene_ex_rse, "norm")),</span>
 <span class='co'>#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")</span>
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>isoNetwork</span>(<span class='no'>mirna_ex_rse</span>, <span class='no'>gene_ex_rse</span>, <span class='no'>ma_ex</span>,
-                  <span class='kw'>org</span> <span class='kw'>=</span> <span class='no'>ego</span>)</div><div class='output co'>#&gt; <span class='message'>Number of mirnas 20 with these columns:A201_Day0A200_Day0A196_Day0A167_Day1A165_Day1A63_Day1A172_Day2A70_Day2A69_Day2A178_Day3A75_Day3A74_Day3A181_Day7A180_Day7A80_Day7A189_Day14A85_Day14A84_Day14</span></div><div class='output co'>#&gt; <span class='message'>Number of genes 25 with these columns:control_1control_2control_3day1_1day1_2day1_3day2_1day2_2day2_3day3_1day3_2day3_3day7_1day7_2day7_3day14_1day14_2day14_3</span></div><div class='output co'>#&gt; <span class='message'>Number of mirnas 20 with these columns:controlday1day2day3day7day14</span></div><div class='output co'>#&gt; <span class='message'>Number of mirnas 25 with these columns:controlday1day2day3day7day14</span></div><div class='output co'>#&gt; Dimmension of cor matrix: 20 25 </div><div class='input'><span class='fu'><a href='isoPlotNet.html'>isoPlotNet</a></span>(<span class='no'>data</span>)</div><div class='img'><img src='isoNetwork-6.png' alt='' width='700' height='432.632880098887' /></div></pre>
+                  <span class='kw'>org</span> <span class='kw'>=</span> <span class='no'>ego</span>)</div><div class='output co'>#&gt; <span class='error'>Error: summarize %in% names(colData(mirna_rse)) are not all TRUE</span></div><div class='input'><span class='fu'><a href='isoPlotNet.html'>isoPlotNet</a></span>(<span class='no'>data</span>)</div><div class='output co'>#&gt; <span class='error'>Error in obj$analysis: object of type 'closure' is not subsettable</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

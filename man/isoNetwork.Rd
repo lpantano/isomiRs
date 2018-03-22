@@ -4,8 +4,9 @@
 \alias{isoNetwork}
 \title{Clustering miRNAs-genes pairs in similar pattern expression}
 \usage{
-isoNetwork(mirna_rse, gene_rse, target, org, summarize = "group",
-  genename = "ENSEMBL", min_cor = -0.6)
+isoNetwork(mirna_rse, gene_rse, summarize = NULL, target = NULL,
+  org = NULL, enrich = NULL, genename = "ENSEMBL", min_cor = -0.6,
+  min_fc = 0.5)
 }
 \arguments{
 \item{mirna_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with miRNA
@@ -14,18 +15,23 @@ information. See details.}
 \item{gene_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with gene
 information. See details.}
 
+\item{summarize}{Character column name in \code{colData(rse)} to use to group
+samples and compare betweem miRNA/gene expression.}
+
 \item{target}{Matrix with miRNAs (columns) and genes (rows)
 target prediction (1 if it is a target, 0 if not).}
 
-\item{org}{\link[AnnotationDbi:AnnotationDb]{AnnotationDbi::AnnotationDb} obejct. For example:(org.Mm.eg.db).}
+\item{org}{\link[AnnotationDbi:AnnotationDb]{AnnotationDbi::AnnotationDb} obejct. For example:(org.Mm.eg.db)}
 
-\item{summarize}{Character column name in \code{colData(rse)} to use to group
-samples and compare betweem miRNA/gene expression.}
+\item{enrich}{The output of \code{\link[clusterProfiler:enricher]{clusterProfiler::enricher()}} of similar functions.}
 
 \item{genename}{Character keytype of the gene
 names in gene_rse object.}
 
 \item{min_cor}{Numeric cutoff to consider a miRNA to regulate a target.}
+
+\item{min_fc}{Numeric cutoff to consider as the minimum log2FoldChange
+between groups to be considered in the analysis.}
 }
 \value{
 list with network information

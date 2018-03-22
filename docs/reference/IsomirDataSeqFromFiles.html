@@ -90,8 +90,8 @@ characterization, differential expression and clustering. It creates an
     
 
     <pre class="usage"><span class='fu'>IsomirDataSeqFromFiles</span>(<span class='no'>files</span>, <span class='no'>coldata</span>, <span class='kw'>rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>canonicalAdd</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>uniqueMism</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='fl'>1L</span>, <span class='kw'>minHits</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>uniqueMism</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>uniqueHits</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='fl'>1L</span>, <span class='kw'>minHits</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
+  <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -117,7 +117,12 @@ contain C/G nts.</p></td>
     <tr>
       <th>uniqueMism</th>
       <td><p><code>boolean</code> only keep mutations that have
-a unique hit to one miRNA molecule</p></td>
+a unique hit to one miRNA molecule. For instance, if the sequence map
+to two different miRNAs, then it would be removed.</p></td>
+    </tr>
+    <tr>
+      <th>uniqueHits</th>
+      <td><p><code>boolean</code> whether filtering ambigous sequences or not.</p></td>
     </tr>
     <tr>
       <th>design</th>

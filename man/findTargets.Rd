@@ -14,8 +14,7 @@ information. See details.}
 \item{gene_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with gene
 information. See details.}
 
-\item{target}{Matrix with miRNAs (columns) and genes (rows)
-target prediction values (1 if it is a target, 0 if not).}
+\item{target}{Data.frame with two columns: gene and miRNA.}
 
 \item{summarize}{Character column name in colData(rse) to use to group
 samples and compare betweem miRNA/gene expression.}
