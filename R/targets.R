@@ -508,15 +508,14 @@ mirna2targetscan <- function(mirna, org = NULL, keytype = NULL){
         map <- AnnotationDbi::select(org, unique(df[["gene"]]),
                                      columns = keytype,
                                      keytype = "ENTREZID")
+        df <- df %>% left_join(map, by = c("gene" = "ENTREZID")) 
     }
     
-    
-    df %>% left_join(map, by = c("gene" = "ENTREZID")) %>% 
+    df %>% 
         left_join(data.frame(targetscan = names(fam),
                              miRFamily = unlist(fam),
                              stringsAsFactors = FALSE) %>% 
                       left_join(mirna_map, by = "targetscan") %>% 
                       filter(!is.na(!!sym("mir"))),
                   by = "miRFamily")
-    
 }
