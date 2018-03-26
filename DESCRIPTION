@@ -46,6 +46,7 @@ Imports:
     tidyr,
     S4Vectors,
     tidyr,
+    tibble,
     targetscan.Hs.eg.db
 LazyData: true
 Authors@R: c(
