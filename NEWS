@@ -2,6 +2,7 @@
 
 ## Feature
 
+* Better looking for isoPlotNet function.
 * Improve docs for mm isomiR plot. Thanks to @mshadbolt.
 * Add option to remove ambiguos reads.
 * Add option to get other gene ID when retrieving miRNA targets.
@@ -9,6 +10,7 @@
 * Add mirna prediction using targetscan annotation package in BioC.
 
 ## Fixes
+* Error in names columns for isoNetwork analysis.
 * Remove sequences with Ns in add column.
 * Move correction functions to independent package scounts.
 

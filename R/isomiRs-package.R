@@ -58,13 +58,16 @@ isoCorrection <- function()
 #' @import grDevices
 #' @import Biobase
 #' @import targetscan.Hs.eg.db
+#' @import assertive.sets
 #' @importFrom AnnotationDbi keys mget revmap
 #' @importFrom reshape melt melt.array melt.data.frame melt.list
-#' @importFrom tidyr spread
+#' @importFrom tidyr spread gather separate_rows
 #' @importFrom readr read_tsv
+#' @importFrom rlang sym
 #' @importFrom dplyr select arrange summarise rowwise mutate filter 
-#'             if_else group_by "%>%" distinct n left_join 
+#'             if_else group_by "%>%" distinct n left_join inner_join
 #'             bind_rows ungroup
+#' @importFrom tibble rownames_to_column
 #' @importFrom DiscriMiner plsDA
 #' @importFrom grDevices colorRampPalette
 #' @importFrom RColorBrewer brewer.pal

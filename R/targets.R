@@ -134,7 +134,7 @@ findTargets <- function(mirna_rse, gene_rse, target,
     return(cor_target)
 }
 
-.predict_correlate_mirna_targets <- function(mirna_se, mrna_se, summarize,
+.predict_correlate_mirna_targets <- function(mirna_rse, gene_rse, summarize,
                                              org, gene_id){
     stopifnot(class(org) == "OrgDb")
     mirna_de = as.character(metadata(mirna_rse)$sign)
@@ -201,7 +201,6 @@ isoNetwork <- function(mirna_rse, gene_rse,
     stopifnot(class(mirna_rse) == "SummarizedExperiment")
     stopifnot("sign"  %in% names(metadata(gene_rse)))
     stopifnot("sign"  %in% names(metadata(mirna_rse)))
-    stopifnot(is.data.frame(target) | is.matrix(target))
     mirna_de = as.character(metadata(mirna_rse)$sign)
     gene_de = as.character(metadata(gene_rse)$sign)
     
@@ -210,6 +209,7 @@ isoNetwork <- function(mirna_rse, gene_rse,
                                                    summarize,
                                                    org, genename)
     target = as.matrix(target)
+    stopifnot(is.data.frame(target) | is.matrix(target))
     
     mirna = assay(mirna_rse,"norm")[,order(colData(mirna_rse)[,summarize])]
     message("Number of mirnas ", nrow(mirna), " with these columns:", paste(colnames(mirna)))
@@ -243,7 +243,7 @@ isoNetwork <- function(mirna_rse, gene_rse,
         res <- slot(enrich, "result")
     if (is.null(res))
         stop("No significant genes.")
-    browser()
+    # browser()
     cor_long <- cor_target %>%
         as.data.frame() %>%
         rownames_to_column("gene") %>% 
@@ -251,14 +251,19 @@ isoNetwork <- function(mirna_rse, gene_rse,
         filter(value != 0)
     net <- res %>% separate_rows("geneID") %>% 
         .[,c("ID", "Description", "geneID")] %>%
-        inner_join(cor_long, by = c("geneID" = "gene"))
-
+        inner_join(cor_long, by = c("geneID" = "gene")) %>% 
+        mutate(go = Description, gene = geneID)
+    
+    if (!are_intersecting_sets(net[["gene"]], names(gene_rse)))
+        stop("No matching genes between enrich and gene_rse.")
+    
     # browser()
     res_by_mir <- net %>% group_by(!!sym("mir"), !!sym("ID")) %>% 
         dplyr::summarise(n()) %>%
-        group_by(!!sym("ID")) %>% dplyr::summarise(nmir = n())
-    res <- res[res$Description %in% res_by_mir$Description,]
-    res[match(res_by_mir$Description, res$Description), "nmir"] <- res_by_mir$nmir
+        group_by(!!sym("ID")) %>%
+        dplyr::summarise(nmir = n())
+    res <- res[res$ID %in% res_by_mir$ID,]
+    res[match(res_by_mir$ID, res$ID), "nmir"] <- res_by_mir$nmir
     obj = .viz_mirna_gene_enrichment(list(network = net, 
                                           summary = res),
                                      mirna_norm, gene_norm, 
@@ -295,21 +300,23 @@ isoNetwork <- function(mirna_rse, gene_rse,
     final_df = data.frame()
     for (x in summary$Description) {
         message(x)
+        # browser()
         if (plot)
             cat("## GO term:", x)
         .m = as.character(unique(net[net$go == x, "mir"]))
         .g = as.character(unique(net[net$go == x, "gene"]))
-        .df = reshape::melt.array(rbind(ma_g[.g,], ma_m[.m,]))
+        .df = reshape::melt.array(rbind(ma_g[.g,, drop = FALSE],
+                                        ma_m[.m,, drop = FALSE]))
         .groups = unique(groups[.g])
         for (c in unique(.groups)) {
             .in_g = intersect(names(groups[groups == c]), .g)
+            if (length(.in_g) < 2)
+                next
             .reg = intersect(net[net$gene %in% .in_g, "mir"], .m)
             .net = .df %>% dplyr::filter(X1 %in% c(.in_g, .reg)) %>%
                 mutate(type = "gene")
             .net[.net$X1 %in% .reg, "type"] = "miR"
             .net$X2 = factor(.net$X2, levels = levels(group))
-            if (length(.in_g) < 4)
-                next
             p = ggplot(.net, aes_string(x = "X2", y = "value",
                                         colour = "type", group = "X1")) +
                 geom_line(size = 0.1) +
@@ -367,7 +374,7 @@ isoPlotNet = function(obj){
 
     df$term_short = sapply(df$term, function(x){
         paste0(substr(x, 1, 50), "...")})
-
+    df$group = factor(df$group)
     df$term_short = factor(df$term_short,
                            levels = unique(df$term_short[order(df$term)]))
 
@@ -379,9 +386,9 @@ isoPlotNet = function(obj){
         geom_text(aes_string(label = "ngene"), size = 5) +
         theme_bw() + xlab("Gene expression profiles") + ylab("") +
         theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-        ggtitle("Number genes in each term and expression profile") +
+        ggtitle("Number genes in each term\n over expression profile") +
         theme(plot.title = element_text(size = 10)) +
-        theme(axis.text.y = element_text(size = 7)) +
+        theme(axis.text.y = element_text(size = 7, angle = 45)) +
         theme(legend.position="none")
 
     mirna_df = .summary_mirna(df)
@@ -393,8 +400,8 @@ isoPlotNet = function(obj){
     ma_temp = as.matrix(mirna_ma[,2:ncol(mirna_ma)])
     d = dist(t(ma_temp), method = "binary")
     hc = hclust(d, method = "ward.D")
+    
     mirna_df$mir = factor(mirna_df$mir, levels = hc$labels[hc$order])
-
     mirna_df$term = factor(mirna_df$term, levels = sort(unique(df$term)))
 
     terms_vs_mirnas =

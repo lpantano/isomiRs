@@ -1,6 +1,6 @@
 Package: isomiRs
 Version: 1.7.2
-Date: 2018-03-16
+Date: 2018-03-26
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
@@ -21,6 +21,7 @@ Depends:
     SummarizedExperiment
 Imports:
     AnnotationDbi,
+    assertive.sets,
     BiocGenerics (>= 0.7.5),
     Biobase,
     DESeq2,
@@ -40,7 +41,9 @@ Imports:
     RColorBrewer,
     readr,
     reshape,
+    rlang,
     stats,
+    tidyr,
     S4Vectors,
     tidyr,
     targetscan.Hs.eg.db
