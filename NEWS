@@ -10,6 +10,8 @@
 * Add mirna prediction using targetscan annotation package in BioC.
 
 ## Fixes
+
+* Fix examples for findTargets.
 * Error in names columns for isoNetwork analysis.
 * Remove sequences with Ns in add column.
 * Move correction functions to independent package scounts.
