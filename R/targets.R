@@ -166,7 +166,7 @@ findTargets <- function(mirna_rse, gene_rse, target,
 
 .convert_names <- function(org, names, keytype, columns){
     AnnotationDbi::select(org, keys = names,
-                          keytype = keytypes, columns = columns)
+                          keytype = keytype, columns = columns)
 }
 #' Clustering miRNAs-genes pairs in similar pattern expression
 #'
@@ -265,21 +265,32 @@ isoNetwork <- function(mirna_rse, gene_rse,
         res <- slot(enrich, "result")
     if (is.null(res))
         stop("No significant genes.")
-    # browser()
+
     cor_long <- cor_target %>%
         as.data.frame() %>%
         rownames_to_column("gene") %>% 
         gather("mir", "value", -gene) %>%
         filter(value != 0)
     net <- res %>% separate_rows("geneID") %>% 
-        .[,c("ID", "Description", "geneID")] %>%
+        .[,c("ID", "Description", "geneID")] 
+    # browser()
+    if (!are_intersecting_sets(net[["geneID"]], names(gene_rse))){
+        message("No matching genes between enrich and gene_rse.")
+        mapping <- .is_mapping_needed(names(gene_rse), net$geneID)
+        message(" Converting from ", mapping[[1]], " to ", mapping[[2]])
+        df_map <- .convert_names(org, net[["geneID"]],
+                                 mapping[["from"]],
+                                 mapping[["to"]])
+        net <- left_join(net, df_map,
+                         by = c("geneID" = mapping[["from"]]))
+        net[["geneID"]] <- net[[mapping[["to"]]]]
+    }
+    net <- net %>%
         inner_join(cor_long, by = c("geneID" = "gene")) %>% 
         mutate(go = Description, gene = geneID)
     
-    if (!are_intersecting_sets(net[["gene"]], names(gene_rse)))
-        stop("No matching genes between enrich and gene_rse.")
+
     
-    # browser()
     res_by_mir <- net %>% group_by(!!sym("mir"), !!sym("ID")) %>% 
         dplyr::summarise(n()) %>%
         group_by(!!sym("ID")) %>%
@@ -380,22 +391,42 @@ isoNetwork <- function(mirna_rse, gene_rse,
     }))
 }
 
+.fix_term_name <- function(term){
+    if (nchar(term) > 50)
+        term <- paste0(substr(term, 1, 50), "...")
+    words <- strsplit(term, " ")[[1]]
+    splits <- ceiling(cumsum(nchar(words)) / 20) - 1
+    temp = splits[1]
+    short = words[1]
+    if (length(words) == 1)
+        return(term)
+    for (s in 2:length(words)){
+        if (splits[s] > temp)
+            short = paste(short, words[s], sep = "\n")
+        else short = paste(short, words[s], sep = " ")
+        temp = splits[s]
+    }
+    short
+}
+
 #' Functional miRNA / gene expression profile plot
 #' 
 #' Plot analysis from [isoNetwork()]. See that function
 #' for an example of the figure.
 #' 
 #' @param obj Output from [isoNetwork()].
+#' @param minGenes Minimum number of genes per term to be kept.
 #' @return Network ggplot.
 #' @export
-isoPlotNet = function(obj){
+isoPlotNet = function(obj, minGenes = 2){
+    # browser()
     df = obj$analysis$table
+    df = df[df[["ngene"]] >= minGenes,]
     ma = as.matrix(df %>% .[,c("term", "group", "ngene")] %>% 
                        spread(group, ngene, fill=0))
-    df = df[rowSums(ma > 4) > 1,]
+    
 
-    df$term_short = sapply(df$term, function(x){
-        paste0(substr(x, 1, 50), "...")})
+    df$term_short = sapply(as.character(df$term), .fix_term_name)
     df$group = factor(df$group)
     df$term_short = factor(df$term_short,
                            levels = unique(df$term_short[order(df$term)]))
@@ -410,7 +441,7 @@ isoPlotNet = function(obj){
         theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
         ggtitle("Number genes in each term\n over expression profile") +
         theme(plot.title = element_text(size = 10)) +
-        theme(axis.text.y = element_text(size = 7, angle = 45)) +
+        theme(axis.text.y = element_text(size = 7, angle = 0)) +
         theme(legend.position="none")
 
     mirna_df = .summary_mirna(df)
@@ -461,7 +492,7 @@ isoPlotNet = function(obj){
     p = grid.arrange(top = textGrob("miRNA-gene-term interaction"),
                      arrangeGrob(
                          arrangeGrob(p1, p2, ncol = 2),
-                         arrangeGrob(pp.profiles), heights = c(2,1)
+                         arrangeGrob(pp.profiles), heights = c(3,1)
                      ))
 
     #p = grid.arrange(top=textGrob("summary"),

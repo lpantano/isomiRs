@@ -4,10 +4,12 @@
 \alias{isoPlotNet}
 \title{Functional miRNA / gene expression profile plot}
 \usage{
-isoPlotNet(obj)
+isoPlotNet(obj, minGenes = 2)
 }
 \arguments{
 \item{obj}{Output from \code{\link[=isoNetwork]{isoNetwork()}}.}
+
+\item{minGenes}{Minimum number of genes per term to be kept.}
 }
 \value{
 Network ggplot.
