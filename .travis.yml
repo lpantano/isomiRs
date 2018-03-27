@@ -3,7 +3,7 @@ sudo: false
 os:
   - linux
 cache:
-  packages: false
+  packages: true
 r: 
   - bioc-devel
 r_check_args: --no-build-vignettes

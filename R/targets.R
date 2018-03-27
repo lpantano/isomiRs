@@ -102,9 +102,8 @@ pairsMatrix <- function(df){
 #' @examples
 #'
 #' data(isoExample)
-#' mirna_ma <- matrix(rbinom(20*25, c(0, 1), 1), ncol = 20)
-#' colnames(mirna_ma) <- rownames(mirna_ex_rse)
-#' rownames(mirna_ma) <- rownames(gene_ex_rse)
+#' mirna_ma <- data.frame(gene = names(gene_ex_rse)[1:20],
+#'                        mir = names(mirna_ex_rse))
 #' corMat <- findTargets(mirna_ex_rse, gene_ex_rse, mirna_ma)
 #' @return mirna-gene matrix
 #' @export
@@ -146,6 +145,29 @@ findTargets <- function(mirna_rse, gene_rse, target,
     findTargets(mirna_se, mrna_se, imp_targets, summarize = summarize)
 }
 
+.detect_gene_symbol <- function(names){
+    names <- as.character(names)
+    if (grepl("^ENS", names[1]))
+        return("ENSEMBL")
+    if (grepl("^[0-9]*$", names[1]))
+        return("ENTREZID")
+    return("SYMBOL")
+}
+
+.is_mapping_needed <- function(names1, names2){
+    names1 <- as.character(names1)
+    names2 <- as.character(names2)
+    id1 <- .detect_gene_symbol(names1)
+    id2 <- .detect_gene_symbol(names2)
+    if (id1 != id2)
+        return(list(from = id2, to = id1))
+    return(FALSE)
+}
+
+.convert_names <- function(org, names, keytype, columns){
+    AnnotationDbi::select(org, keys = names,
+                          keytype = keytypes, columns = columns)
+}
 #' Clustering miRNAs-genes pairs in similar pattern expression
 #'
 #' Clustering miRNAs-genes pairs
