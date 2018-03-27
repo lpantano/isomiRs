@@ -1,3 +1,6 @@
+env:
+  global:
+    _R_CHECK_FORCE_SUGGESTS_=false
 language: r
 sudo: false
 os:
