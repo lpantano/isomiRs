@@ -1,6 +1,3 @@
-env:
-  global:
-    _R_CHECK_FORCE_SUGGESTS_=false
 language: r
 sudo: false
 os:
@@ -9,7 +6,6 @@ cache:
   packages: true
 r: 
   - bioc-devel
-r_check_args: --no-build-vignettes
 r_github_packages:
   - jimhester/covr
 before_install:
