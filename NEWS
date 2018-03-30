@@ -1,5 +1,11 @@
 # 1.7.2
 
+## Fix
+
+* Error in isoNetwork example code.
+
+# 1.7.2
+
 ## Feature
 
 * Better looking for isoPlotNet function.

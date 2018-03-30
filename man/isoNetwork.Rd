@@ -57,7 +57,8 @@ the list of miRNAs to be used by this function.
 data(isoExample)
 # ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
 #                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
-data <- isoNetwork(mirna_ex_rse, gene_ex_rse, ma_ex,
-                  org = ego)
-isoPlotNet(data)
+data <- isoNetwork(mirna_ex_rse, gene_ex_rse, 
+                   summarize = "group", target = ma_ex,
+                   enrich = ego)
+isoPlotNet(data, minGenes = 5)
 }
