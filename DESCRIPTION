@@ -10,7 +10,6 @@ biocViews: miRNA, RNASeq,
 Suggests:
     knitr,
     org.Mm.eg.db,
-    cluster,
     pheatmap,
     BiocStyle,
     testthat
@@ -23,6 +22,7 @@ Imports:
     assertive.sets,
     BiocGenerics (>= 0.7.5),
     Biobase,
+    cluster,
     DESeq2,
     IRanges,
     dplyr,
