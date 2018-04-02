@@ -50,24 +50,6 @@ pairsMatrix <- function(df){
     cutree(as.hclust(c), h = c$dc)
 }
 
-.run_enricher <- function(target, universe, org, genename, max_group=30){
-    cat("GO enrichment with ", length(universe), " as universe", universe[1], "\n")
-    cat("and ", length(target), " as query:", target[1], "\n")
-    if (length(universe) > length(sel_genes)*3){
-        ego <- enrichGO(sel_genes, org, genename, ont = "BP", universe = universe)
-    }else{
-        ego <- enrichGO(sel_genes, org, genename, ont = "BP")
-    }
-    if (is.null(ego))
-        return(NULL)
-    if (nrow(ego@result)==0)
-        return(NULL)
-    tab <- ego@result %>% filter(Count<max_group)
-    ego_s <- ego
-    ego_s@result <- tab
-    ego_s <- clusterProfiler::simplify(ego_s)
-    summary(ego_s)
-}
 
 .median_by_group <- function(e, g){
     sapply(levels(g), function(i){
@@ -179,7 +161,7 @@ findTargets <- function(mirna_rse, gene_rse, target,
 #' @param target Matrix with miRNAs (columns) and genes (rows)
 #'   target prediction (1 if it is a target, 0 if not).
 #' @param org [AnnotationDbi::AnnotationDb] obejct. For example:(org.Mm.eg.db)
-#' @param enrich The output of [clusterProfiler::enricher()] of similar functions.
+#' @param enrich The output of clusterProfiler of similar functions.
 #' @param summarize Character column name in `colData(rse)` to use to group
 #'   samples and compare betweem miRNA/gene expression.
 #' @param genename Character keytype of the gene
@@ -259,11 +241,11 @@ isoNetwork <- function(mirna_rse, gene_rse,
     
     res <- NULL
     if (is.null(enrich))
-        res <- .run_enricher(is_target_and_de, profile,
-                             org,
-                             genename = genename)
+        stop("Run enrich method, please. See clusterProfiler or ReactomePA.")
     if (class(enrich)[1] == "enrichResult")
         res <- slot(enrich, "result")
+    if (class(enrich) == "data.frame")
+        res <- enrich
     if (is.null(res))
         stop("No significant genes.")
 

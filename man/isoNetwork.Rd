@@ -23,7 +23,7 @@ target prediction (1 if it is a target, 0 if not).}
 
 \item{org}{\link[AnnotationDbi:AnnotationDb]{AnnotationDbi::AnnotationDb} obejct. For example:(org.Mm.eg.db)}
 
-\item{enrich}{The output of \code{\link[clusterProfiler:enricher]{clusterProfiler::enricher()}} of similar functions.}
+\item{enrich}{The output of clusterProfiler of similar functions.}
 
 \item{genename}{Character keytype of the gene
 names in gene_rse object.}
