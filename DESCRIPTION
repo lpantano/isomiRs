@@ -10,6 +10,7 @@ biocViews: miRNA, RNASeq,
 Suggests:
     knitr,
     org.Mm.eg.db,
+    targetscan.Hs.eg.db,
     pheatmap,
     BiocStyle,
     testthat
