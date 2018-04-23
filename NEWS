@@ -1,7 +1,9 @@
-# 1.7.2
+# 1.7.3
 
 ## Fix
 
+* Fix findTargets to use common groups between miRNA and mRNA data sets.
+* Fix mirna2targetscan to accept mmu species.
 * Error in isoNetwork example code.
 
 # 1.7.2

@@ -4,11 +4,13 @@
 \alias{mirna2targetscan}
 \title{Find targets in targetscan database}
 \usage{
-mirna2targetscan(mirna, org = NULL, keytype = NULL)
+mirna2targetscan(mirna, species = "hsa", org = NULL, keytype = NULL)
 }
 \arguments{
 \item{mirna}{Character vector with miRNA names as in
 miRBase 21.}
+
+\item{species}{hsa or mmu supported right now.}
 
 \item{org}{\link[AnnotationDbi:AnnotationDb]{AnnotationDbi::AnnotationDb} obejct. For example:(org.Mm.eg.db)}
 
@@ -29,5 +31,6 @@ From a list of miRNA names, find their targets
 in \link{targetscan.Hs.eg.db} annotation package.
 }
 \examples{
+library(targetscan.Hs.eg.db)
 mirna2targetscan(c("hsa-miR-34c-5p"))
 }

@@ -57,7 +57,6 @@ isoCorrection <- function()
 #' @import gtools
 #' @import grDevices
 #' @import Biobase
-#' @import targetscan.Hs.eg.db
 #' @import assertive.sets
 #' @import cluster
 #' @importFrom AnnotationDbi keys mget revmap

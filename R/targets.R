@@ -54,11 +54,11 @@ pairsMatrix <- function(df){
 .median_by_group <- function(e, g){
     sapply(levels(g), function(i){
         idx = which(g == i)
-        mean(e[idx], na.rm = TRUE)
+        median(e[idx], na.rm = TRUE)
     })
 }
 
-.apply_median <- function(ma, group, minfc=0.5){
+.apply_median <- function(ma, group, minfc = 0.5){
     new_exp = t(apply(ma, 1, function(x, g){
         .median_by_group(x, g)
     }, group))
@@ -98,8 +98,13 @@ findTargets <- function(mirna_rse, gene_rse, target,
     gene = assay(gene_rse, "norm")[, order(colData(gene_rse)[,summarize])]
     gene = gene[intersect(rownames(target), rownames(gene)),]
     message("Number of genes ", nrow(gene))
-    mirna_group = colData(mirna_rse)[order(colData(mirna_rse)[,summarize]), summarize]
-    gene_group = colData(gene_rse)[order(colData(gene_rse)[,summarize]), summarize]
+    mirna_group = droplevels(colData(mirna_rse)[order(colData(mirna_rse)[,summarize]), summarize])
+    gene_group = droplevels(colData(gene_rse)[order(colData(gene_rse)[,summarize]), summarize])
+    lvs_common_group = intersect(levels(mirna_group), levels(gene_group))
+    mirna_group = droplevels(mirna_group[mirna_group  %in%  lvs_common_group])
+    gene_group = droplevels(gene_group[gene_group  %in%  lvs_common_group])
+    mirna = mirna[,mirna_group  %in%  lvs_common_group]
+    gene = gene[,gene_group  %in%  lvs_common_group]
     stopifnot(is.factor(mirna_group))
     stopifnot(is.factor(gene_group))
     message("Factors genes", paste(levels(gene_group)))
@@ -109,8 +114,8 @@ findTargets <- function(mirna_rse, gene_rse, target,
 
     mirna_norm <- .apply_median(as.matrix(mirna), mirna_group, minfc = 0.5)
     gene_norm <- .apply_median(as.matrix(gene), gene_group, minfc = 0.5)
+    
     message("Calculating correlation matrix")
-   
     cor_target <- .cor_matrix(mirna_norm, gene_norm, as.matrix(target), min_cor)
     return(cor_target)
 }
@@ -493,6 +498,7 @@ isoPlotNet = function(obj, minGenes = 2){
 #' 
 #' @param mirna Character vector with miRNA names as in
 #'   miRBase 21.
+#' @param species hsa or mmu supported right now.
 #' @param org [AnnotationDbi::AnnotationDb] obejct. For example:(org.Mm.eg.db)
 #' @param keytype Character mentioning the gene id to use.
 #'   For example, `ENSEMBL`.
@@ -503,10 +509,10 @@ isoPlotNet = function(obj, minGenes = 2){
 #'   * PCT
 #'   * entrezGene
 #' @examples 
+#' library(targetscan.Hs.eg.db)
 #' mirna2targetscan(c("hsa-miR-34c-5p"))
 #' @export
-mirna2targetscan <- function(mirna, org = NULL, keytype = NULL){
-    
+mirna2targetscan <- function(mirna, species = "hsa", org = NULL, keytype = NULL){
     mirna_map <- data.frame(mir = mirna,
                             ext = gsub("-[53]p$", "", mirna),
                             num = gsub("-[1-9]$", "",
@@ -515,11 +521,25 @@ mirna2targetscan <- function(mirna, org = NULL, keytype = NULL){
                                           gsub("-[1-9]$", "",
                                                gsub("-[53]p$", "",mirna))),
                             stringsAsFactors = FALSE)
+    if (species == "hsa"){
+        egMIRNA <- keys(targetscan.Hs.egMIRNA)
+        egMIRBASE2FAMILY <- targetscan.Hs.egMIRBASE2FAMILY
+        egTARGETS <- revmap(targetscan.Hs.egTARGETS)
+        egTARGETSFULL <- targetscan.Hs.egTARGETSFULL
+    }else if (species == "mmu"){
+        egMIRNA <- keys(targetscan.Mm.egMIRNA)
+        egMIRBASE2FAMILY <- targetscan.Mm.egMIRBASE2FAMILY
+        egTARGETS <- revmap(targetscan.Mm.egTARGETS)
+        egTARGETSFULL <- targetscan.Mm.egTARGETSFULL
+    }else{
+        stop("Species not supported: ", species)
+    }
+
     mirna_map[["targetscan"]]  <- "None"
-    mirna_map[["targetscan"]][mirna_map[["mir"]] %in% keys(targetscan.Hs.egMIRNA)] <- mirna_map[["mir"]][mirna_map[["mir"]]  %in% keys(targetscan.Hs.egMIRNA)]
-    mirna_map[["targetscan"]][mirna_map[["ext"]]  %in% keys(targetscan.Hs.egMIRNA)] <- mirna_map[["ext"]][mirna_map[["ext"]]  %in% keys(targetscan.Hs.egMIRNA)]
-    mirna_map[["targetscan"]][mirna_map[["num"]]  %in% keys(targetscan.Hs.egMIRNA)] <- mirna_map[["num"]][mirna_map[["num"]]  %in% keys(targetscan.Hs.egMIRNA)]
-    mirna_map[["targetscan"]][mirna_map[["letter"]]  %in% keys(targetscan.Hs.egMIRNA)] <- mirna_map[["letter"]][mirna_map[["letter"]]  %in% keys(targetscan.Hs.egMIRNA)]
+    mirna_map[["targetscan"]][mirna_map[["mir"]] %in% egMIRNA] <- mirna_map[["mir"]][mirna_map[["mir"]]  %in% egMIRNA]
+    mirna_map[["targetscan"]][mirna_map[["ext"]]  %in% egMIRNA] <- mirna_map[["ext"]][mirna_map[["ext"]]  %in% egMIRNA]
+    mirna_map[["targetscan"]][mirna_map[["num"]]  %in% egMIRNA] <- mirna_map[["num"]][mirna_map[["num"]]  %in% egMIRNA]
+    mirna_map[["targetscan"]][mirna_map[["letter"]]  %in% egMIRNA] <- mirna_map[["letter"]][mirna_map[["letter"]]  %in% egMIRNA]
 
     mir <- unique(mirna_map[["targetscan"]])
     
@@ -527,10 +547,10 @@ mirna2targetscan <- function(mirna, org = NULL, keytype = NULL){
         message("Missing miRNAs: ",
                 mirna_map[["mir"]][mirna_map[["targetscan"]] == "None"])
     
-    fam <- mget(intersect(mir, keys(targetscan.Hs.egMIRNA)),
-                targetscan.Hs.egMIRBASE2FAMILY)
-    genes = mget(unlist(fam), revmap(targetscan.Hs.egTARGETS))
-    full = mget(unlist(genes)[!is.na(unlist(genes))], targetscan.Hs.egTARGETSFULL) 
+    fam <- mget(intersect(mir, egMIRNA),
+                egMIRBASE2FAMILY)
+    genes = mget(unlist(fam), egTARGETS)
+    full = mget(unlist(genes)[!is.na(unlist(genes))], egTARGETSFULL) 
     df <- lapply(names(full), function(x){
         data.frame(miRFamily = full[[x]]@miRFamily, 
                    Seedmatch = full[[x]]@Seedmatch,
