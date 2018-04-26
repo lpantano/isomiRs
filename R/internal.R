@@ -129,27 +129,38 @@
 }
 
 # do counts table considering what isomiRs take into account
-IsoCountsFromMatrix <- function(listTable, des, ref=FALSE, iso5=FALSE,
+IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
                                 iso3=FALSE, add=FALSE,
                                 subs=FALSE, seed=FALSE, minc=1){
-    table.merge <- data.frame()
-    for (sample in row.names(des)){
-        d <- listTable[[sample]]
-        d <- .collapse_mirs(d, ref=ref, iso5=iso5, iso3=iso3, add=add,
-                            subs=subs, seed=seed)
-        names(d)[ncol(d)] <- sample
-        d <- d[d[,2] >= minc, ]
-        if( nrow(table.merge) == 0){
-            table.merge <- d
-        }else{
-            table.merge <- merge( table.merge, d, by=1, all=TRUE )
-        }
-    }
-
-    row.names(table.merge) <- table.merge[ ,1]
-    table.merge <- as.matrix(table.merge[ ,2:ncol(table.merge),drop=FALSE])
-    table.merge[is.na(table.merge)] <- 0
-    dt <- as.matrix(table.merge)
+ 
+    is_subs = subs & rawData[["mism"]] != "0"
+    is_add = add & rawData[["add"]] != "0"
+    is_t5 = iso5 & rawData[["t5"]] != "0"
+    is_t3 = iso3 & rawData[["t3"]] != "0"
+    is_ref = ref & rawData[["mism"]] != "0" & rawData[["add"]] != "0" & rawData[["t5"]] != "0" & rawData[["t3"]] != "0"
+    dt <- rawData %>% 
+        mutate(uid = mir) %>% 
+        mutate(uid = ifelse(is_ref,
+                            paste0(uid, paste0(";ref")),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_subs,
+                            paste0(uid, paste0(";iso_snp:", mism)),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_add,
+                            paste0(uid, paste0(";iso_add:", add)),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_t5,
+                            paste0(uid, paste0(";iso_5p:", t5)),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_t3,
+                            paste0(uid, paste0(";iso_3p:", t3)),
+                            uid)) %>% 
+        .[,c("uid", rownames(des))] %>% 
+        group_by(!!sym("uid")) %>% 
+        summarise_all(funs(sum)) %>% 
+        as.data.frame() %>% 
+        column_to_rownames("uid") %>% 
+        as.matrix()
     if ( dim(dt)[1] == 0 )
         warning("No miRNA found. Make sure the third column of the file has the count value different than 0.")
     dt

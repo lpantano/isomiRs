@@ -278,13 +278,15 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' @export
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
                       add=FALSE, subs=FALSE, seed=FALSE, minc=1, mins=1){
-        counts <- IsoCountsFromMatrix(metadata(ids)$rawList, colData(ids), ref,
+        counts <- IsoCountsFromMatrix(metadata(ids)[["rawData"]],
+                                      colData(ids),
+                                      ref,
                                       iso5, iso3,
                                       add, subs, seed)
         counts <- counts[rowSums(counts > minc) >= mins, ]
-        se <- SummarizedExperiment(assays = SimpleList(counts=counts),
+        se <- SummarizedExperiment(assays = SimpleList(counts = counts),
                                    colData = colData(ids))
-        .IsomirDataSeq(se, metadata(ids)$rawList, metadata(ids)$isoList)
+        .IsomirDataSeq(se, metadata(ids)[["rawData"]])
 }
 
 

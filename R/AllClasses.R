@@ -102,7 +102,7 @@ setValidity("IsomirDataSeq", function(object) {
 })
 
 # Constructor
-.IsomirDataSeq <- function(se, rawList=NULL, isoList=NULL, design=~1L){
+.IsomirDataSeq <- function(se, rawData=NULL, design=~1L){
     if (!is(se, "SummarizedExperiment")) {
         if (is(se, "SummarizedExperiment0")) {
                   se <- as(se, "SummarizedExperiment")
@@ -116,7 +116,7 @@ setValidity("IsomirDataSeq", function(object) {
         }
     }
     ids <- new("IsomirDataSeq", se, design = design)
-    metadata(ids) <- list(rawList = rawList, isoList = isoList)
+    metadata(ids) <- list(rawData = rawData)
     ids
 }
 
@@ -187,14 +187,12 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
                                    design = ~1L,
                                    minHits = 1L,
                                    header = TRUE, skip = 0, quiet = TRUE, ...){
-    listSamples <- vector("list")
-    listIsomirs <- vector("list")
     n_filtered = 0
     idx <- 0
     if (header == FALSE)
       skip = 1
-    for (f in files) {
-        idx <- idx + 1
+    rawData <- lapply(files, function(f) {
+        s <- rownames(coldata)[files==f]
         d <- as.data.frame(suppressMessages(read_tsv(f, skip = skip)),
                            stringsAsFactors = FALSE)
         if (quiet == FALSE)
@@ -202,6 +200,7 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
         if (nrow(d) < 2) {
             n_filtered = n_filtered + 1
             message(paste0("This sample hasn't any lines: ", f))
+            return(NULL)
         }else{
             d <- .filter_table(d, rate = rate, canonicalAdd = canonicalAdd,
                                uniqueMism = uniqueMism, uniqueHits = uniqueHits)
@@ -209,25 +208,28 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
                 n_filtered = n_filtered + 1
                 message("Skipping sample ", f,
                         ". Low number of hits according to minHits.")
-                next
+                return(NULL)
             }
-            out <- list(summary = 0,
-                        t5sum = .isomir_position(d, 6),
-                        t3sum = .isomir_position(d, 7),
-                        subsum = .subs_position(d, 4),
-                        addsum = .isomir_position(d, 5)
-            )
-            listSamples[[row.names(coldata)[idx]]] <- d
-            listIsomirs[[row.names(coldata)[idx]]] <- out
         }
-    }
-    if (length(listSamples) == 0)
+
+        d %>% 
+            unite("uid", seq, mir, mism, add, t5, t3, sep = ":") %>% 
+            select(uid, freq) %>%
+            gather(uid, freq) %>% 
+            mutate(sample = s)
+    }) %>% bind_rows() %>% 
+        spread(sample, freq, fill = 0) %>% 
+        separate(uid,
+                 into = c("seq", "mir", "mism", "add", "t5", "t3"),
+                 sep = ":")
+    
+    if (nrow(rawData) == 0)
         stop("No samples had valids miRNA hits.")
-    coldata = coldata[names(listSamples),, drop = FALSE]
-    countData <- IsoCountsFromMatrix(listSamples, coldata)
+
+    countData <- IsoCountsFromMatrix(rawData, coldata)
     se <- SummarizedExperiment(assays = SimpleList(counts = countData),
                                colData = DataFrame(coldata), ...)
-    ids <- .IsomirDataSeq(se, listSamples, listIsomirs, design)
+    ids <- .IsomirDataSeq(se, rawData, design)
     message("Total samples filtered due to low number of hits: ", n_filtered)
     return(ids)
 }
