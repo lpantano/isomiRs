@@ -95,23 +95,41 @@ setReplaceMethod("normcounts", "IsomirDataSeq",
 #' # and with 10000 reads or more.
 #' isoSelect(mirData, mirna="hsa-let-7a-5p", minc=10000)
 isoSelect.IsomirDataSeq <- function(object, mirna,  minc=10) {
-    x <- metadata(object)$rawList
-    if ( mirna == "" )
-        stop("mirna parameter needs to have a value")
-    l <- lapply( x, function(sample){
-        sample %>% filter( mir == mirna )
-    })
-    .list_samples = lapply(row.names(colData(object)), function(sample){
-        d <- l[[sample]] %>%
-            mutate(id=paste(mir, mism, add, t5, t3, ":", seq)) %>%
-            select(id, freq) %>% mutate(sample=sample)
-        d
-    })
-    df <- bind_rows(.list_samples) %>%
-        #group_by(id, sample) %>%
-        #summarise(freq=sum(freq)) %>% ungroup() %>%
-        spread(key=sample, value=freq, fill=0)
-    DataFrame(df[ rowSums(df[,2:ncol(df)] > minc ) > 0, , drop=FALSE])
+    rawData <- metadata(object)[["rawData"]] %>% 
+        filter(mir == mirna)
+
+    des <- colData(object)
+    is_subs = rawData[["mism"]] != "0"
+    is_add = rawData[["add"]] != "0"
+    is_t5 = rawData[["t5"]] != "0"
+    is_t3 = rawData[["t3"]] != "0"
+    is_ref = rawData[["mism"]] != "0" & rawData[["add"]] != "0" & rawData[["t5"]] != "0" & rawData[["t3"]] != "0"
+    dt <- rawData %>% 
+        mutate(uid = mir) %>% 
+        mutate(uid = ifelse(is_ref,
+                            paste0(uid, paste0(";ref")),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_subs,
+                            paste0(uid, paste0(";iso_snp:", mism)),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_add,
+                            paste0(uid, paste0(";iso_add:", add)),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_t5,
+                            paste0(uid, paste0(";iso_5p:", t5)),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_t3,
+                            paste0(uid, paste0(";iso_3p:", t3)),
+                            uid)) %>% 
+        .[,c("uid", rownames(des))] %>% 
+        group_by(!!sym("uid")) %>% 
+        summarise_all(funs(sum)) %>% 
+        as.data.frame() %>% 
+        column_to_rownames("uid") %>% 
+        as.matrix()
+    
+    
+    DataFrame(dt[ rowSums(dt[,2:ncol(dt)] > minc ) > 0, , drop=FALSE])
 }
 
 design.IsomirDataSeq <- function(object) object@design

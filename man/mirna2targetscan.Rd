@@ -28,7 +28,7 @@ For example, \code{ENSEMBL}.}
 }
 \description{
 From a list of miRNA names, find their targets
-in \link{targetscan.Hs.eg.db} annotation package.
+in targetscan.Hs.eg.db annotation package.
 }
 \examples{
 library(targetscan.Hs.eg.db)

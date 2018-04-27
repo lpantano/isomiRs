@@ -90,16 +90,16 @@ pairsMatrix <- function(df){
 #' @return mirna-gene matrix
 #' @export
 findTargets <- function(mirna_rse, gene_rse, target,
-                         summarize="group", min_cor= -.6){
+                         summarize = "group", min_cor= -.6){
     target = pairsMatrix(target)
-    mirna = assay(mirna_rse,"norm")[, order(colData(mirna_rse)[,summarize])]
+    mirna = assay(mirna_rse,"norm")[, order(colData(mirna_rse)[, summarize])]
     mirna = mirna[intersect(colnames(target), rownames(mirna)),]
     message("Number of mirnas ", nrow(mirna))
-    gene = assay(gene_rse, "norm")[, order(colData(gene_rse)[,summarize])]
+    gene = assay(gene_rse, "norm")[, order(colData(gene_rse)[, summarize])]
     gene = gene[intersect(rownames(target), rownames(gene)),]
     message("Number of genes ", nrow(gene))
-    mirna_group = droplevels(colData(mirna_rse)[order(colData(mirna_rse)[,summarize]), summarize])
-    gene_group = droplevels(colData(gene_rse)[order(colData(gene_rse)[,summarize]), summarize])
+    mirna_group = droplevels(colData(mirna_rse)[order(colData(mirna_rse)[, summarize]), summarize])
+    gene_group = droplevels(colData(gene_rse)[order(colData(gene_rse)[, summarize]), summarize])
     lvs_common_group = intersect(levels(mirna_group), levels(gene_group))
     mirna_group = droplevels(mirna_group[mirna_group  %in%  lvs_common_group])
     gene_group = droplevels(gene_group[gene_group  %in%  lvs_common_group])
@@ -120,7 +120,8 @@ findTargets <- function(mirna_rse, gene_rse, target,
     return(cor_target)
 }
 
-.predict_correlate_mirna_targets <- function(mirna_rse, gene_rse, summarize,
+.predict_correlate_mirna_targets <- function(mirna_rse,
+                                             gene_rse, summarize,
                                              org, gene_id){
     stopifnot(class(org) == "OrgDb")
     mirna_de = as.character(metadata(mirna_rse)$sign)
@@ -128,8 +129,9 @@ findTargets <- function(mirna_rse, gene_rse, target,
     
     targets = mirna2targetscan(mirna_de, org, gene_id)
     imp_targets = targets[,c(gene_id, "mir")] %>% 
-        filter(!!sym(gene_id)  %in% mrna_de)
-    findTargets(mirna_se, mrna_se, imp_targets, summarize = summarize)
+        filter(!!sym(gene_id)  %in% gene_de)
+    findTargets(mirna_rse, gene_rse, imp_targets,
+                summarize = summarize)
 }
 
 .detect_gene_symbol <- function(names){
@@ -215,7 +217,8 @@ isoNetwork <- function(mirna_rse, gene_rse,
     gene_de = as.character(metadata(gene_rse)$sign)
     
     if (is.null(target))
-        target <- .predict_correlate_mirna_targets(mirna_rse, gene_rse,
+        target <- .predict_correlate_mirna_targets(mirna_rse,
+                                                   gene_rse,
                                                    summarize,
                                                    org, genename)
     target = as.matrix(target)
@@ -494,7 +497,7 @@ isoPlotNet = function(obj, minGenes = 2){
 #' Find targets in targetscan database
 #' 
 #' From a list of miRNA names, find their targets
-#' in [targetscan.Hs.eg.db] annotation package.
+#' in targetscan.Hs.eg.db annotation package.
 #' 
 #' @param mirna Character vector with miRNA names as in
 #'   miRBase 21.
@@ -558,7 +561,7 @@ mirna2targetscan <- function(mirna, species = "hsa", org = NULL, keytype = NULL)
                    gene = x,
                    stringsAsFactors = FALSE)
     }) %>% bind_rows() %>%
-        filter(miRFamily %in% unlist(fam)) %>% 
+        .[.[["miRFamily"]] %in% unlist(fam),] %>% 
         distinct()
     if (!is.null(org)){
         map <- AnnotationDbi::select(org, unique(df[["gene"]]),

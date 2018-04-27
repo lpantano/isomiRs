@@ -4,7 +4,7 @@
 \alias{isoPlot}
 \title{Plot the amount of isomiRs in different samples}
 \usage{
-isoPlot(ids, type = "iso5", column = "condition")
+isoPlot(ids, type = "iso5", column = NULL)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}
@@ -52,5 +52,5 @@ sequence not the miRNA.
 }
 \examples{
 data(mirData)
-isoPlot(mirData, column="group")
+isoPlot(mirData)
 }

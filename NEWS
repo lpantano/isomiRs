@@ -2,6 +2,7 @@
 
 ## Major
 
+* Adapt all functions to new object. Fix documentation.
 * Reduce object size and structure
 
 # 1.7.3

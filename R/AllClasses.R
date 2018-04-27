@@ -105,14 +105,14 @@ setValidity("IsomirDataSeq", function(object) {
 .IsomirDataSeq <- function(se, rawData=NULL, design=~1L){
     if (!is(se, "SummarizedExperiment")) {
         if (is(se, "SummarizedExperiment0")) {
-                  se <- as(se, "SummarizedExperiment")
+            se <- as(se, "SummarizedExperiment")
         } else if (is(se, "SummarizedExperiment")) {
-                  # only to help transition from SummarizedExperiment to new
-                  # RangedSummarizedExperiment objects,
-                  # remove once transition is complete
-                  se <- as(se, "SummarizedExperiment")
+            # only to help transition from SummarizedExperiment to new
+            # RangedSummarizedExperiment objects,
+            # remove once transition is complete
+            se <- as(se, "SummarizedExperiment")
         } else {
-                  stop("'se' must be a SummarizedExperiment object")
+            stop("'se' must be a SummarizedExperiment object")
         }
     }
     ids <- new("IsomirDataSeq", se, design = design)
@@ -218,6 +218,8 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
             gather(uid, freq) %>% 
             mutate(sample = s)
     }) %>% bind_rows() %>% 
+        group_by(uid, sample) %>% 
+        summarise(freq = sum(freq)) %>% 
         spread(sample, freq, fill = 0) %>% 
         separate(uid,
                  into = c("seq", "mir", "mism", "add", "t5", "t3"),

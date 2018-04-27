@@ -161,7 +161,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
         as.data.frame() %>% 
         column_to_rownames("uid") %>% 
         as.matrix()
-    if ( dim(dt)[1] == 0 )
+    if (dim(dt)[1] == 0)
         warning("No miRNA found. Make sure the third column of the file has the count value different than 0.")
     dt
 }
@@ -204,87 +204,101 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
 }
 
 # Do summary of different isomiRs events
-.isomir_position <- function(table, colid){
-    temp <- table
-    temp[ ,colid] <- as.character(temp[ ,colid])
-    pos <- temp[, colid, drop=FALSE]
-    row.names(pos) <- 1:nrow(pos)
-    pos$mir <- temp$mir
-    pos$freq <- temp$freq
-    pos <- pos[pos[ ,1] != 0, ]
-    if (nrow(pos)==0)
-      return(data.frame())
-    pos$size <- apply(pos, 1, function(x){
-        p <- length(unlist(strsplit(x[1], "")))
-        if (grepl("[atgcn]", x[1]))
-            p <- p * -1
+.isomir_position <- function(column){
+    size <- sapply(column, function(x){
+        if (x == "0")
+            return(0)
+        p <- nchar(x)
+        if (grepl("[atgcn]", x))
+            p <- p * -1L
         return(p)
-    })
-    pos$idfeat <- paste(pos$size, pos$mir)
-    pos <- pos[order(pos$idfeat, abs(pos$size)),]
-    return (pos[ ,c(2,3,4)])
+    }) %>% unlist() %>% 
+        as.vector()
+   size
 }
 
 # Do summary of nt substitution events
-.subs_position <- function(table, colid){
-    temp <- table
-    temp[ ,colid] <- as.character(temp[ ,colid])
-    nt <- sub("[0-9]+", "", temp[ ,colid])
-    pos <- sub("[ATGC]{2}", "", temp[,colid])
-    pos <- data.frame(nt=as.character(nt), size=pos,
-                      mir=temp$mir, freq=temp$freq)
-    pos$nt <- as.character(pos$nt)
-    if (length(unique(pos$nt)) == 1)
-      return(data.frame())
-    pos <- pos[pos[,1] != "", ]
-    nt.2 <- as.data.frame(t(as.data.frame((strsplit(pos$nt, "", fixed=2)))))
-    names(nt.2) <- c("current","reference")
-    names(nt.2$current) <- ""
-    names(nt.2$reference) <- ""
-    pos <- cbind(pos, nt.2)
-    pos$size <- factor(pos$size, levels=1:25)
-    return (pos[ ,c(3,4,2,5,6)])
+.subs_position <- function(column){
+    column
+    nt <- sub("[0-9]+", "", column)
+    pos <- sub("[ATGC]{2}", "", column)
+    pos <- data.frame(nt = as.character(nt), size = pos,
+                      stringsAsFactors = FALSE) %>% 
+        separate(nt, sep = 1, into = c("isomir", "reference")) %>% 
+        unite(change, reference, isomir, sep = "->")
+    return(pos)
 }
 
 # function to plot isomiR summary
 .plot_all_iso <- function(ids, column){
-    rawList <- metadata(ids)[[1]]
-    metadata <- as.data.frame(colData(ids))
-    metadata$sample <- as.character(row.names(metadata))
-    metadata$condition <- metadata[,column]
-    .l <- lapply(row.names(colData(ids)), function(sample){
-        .d <- rawList[[sample]] %>%
-            mutate(mismtag=ifelse(mism != "0", "Yes", "No")) %>%
-            mutate(addtag=ifelse(add != "0", "Yes", "No")) %>%
-            mutate(t5tag=ifelse(t5 != "0", "Yes", "No")) %>%
-            mutate(t3tag=ifelse(t3 != "0", "Yes", "No"))
-        .s <- data.frame(sample=sample,
-                   type=c("mism","add","t5","t3","ref"),
-                   method="freq",
-                   freq=c(sum(.d$freq[.d$mismtag=="Yes"], na.rm=TRUE),
-                     sum(.d$freq[.d$addtag=="Yes"], na.rm=TRUE),
-                     sum(.d$freq[.d$t5tag=="Yes"], na.rm=TRUE),
-                     sum(.d$freq[.d$t3tag=="Yes"], na.rm=TRUE),
-                     sum(.d$freq[.d$mismtag!="Yes" & .d$addtag!="Yes"  & .d$t5tag!="Yes" & .d$t3tag!="Yes"])),
-                     stringsAsFactors = FALSE
-        )
-        .s$freq <- .s$freq/sum(.s$freq) * 100
-        .u <- data.frame(sample=sample,
-                         type=c("mism","add","t5","t3","ref"),
-                         method="unique",
-                         freq=c(sum(.d$mismtag=="Yes"),
-                                sum(.d$addtag=="Yes"),
-                                sum(.d$t5tag=="Yes"),
-                                sum(.d$t3tag=="Yes"),
-                                sum(.d$mismtag!="Yes" & .d$addtag!="Yes"  & .d$t5tag!="Yes" & .d$t3tag!="Yes")),
-                         stringsAsFactors = FALSE
-        )
-        .u$freq <- .u$freq/sum(.u$freq) * 100
-        rbind(.s, .u)
-    })
-    do.call(rbind, .l) %>% arrange(type) %>%
-        left_join(metadata, by="sample") %>%
-        ggplot(aes_string(x="type", y="freq", group="sample", color="condition")) +
+    
+    des <- colData(ids) %>% 
+        as.data.frame() %>% 
+        rownames_to_column("sample")
+    
+    stopifnot(column  %in% colnames(des))
+    
+    rawData <- metadata(ids)[["rawData"]]
+    is_subs <- rawData[["mism"]] != "0"
+    is_add <- rawData[["add"]] != "0"
+    is_t5 <- rawData[["t5"]] != "0"
+    is_t3 <- rawData[["t3"]] != "0"
+    is_ref <- rawData[["mism"]] != "0" & rawData[["add"]] != "0" & rawData[["t5"]] != "0" & rawData[["t3"]] != "0"
+    
+    iso_data <- rawData %>% 
+        mutate(uid = "") %>% 
+        mutate(uid = ifelse(is_ref,
+                            paste0(uid, ";ref"),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_subs,
+                            paste0(uid, ";iso_snp"),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_add,
+                            paste0(uid, ";iso_add"),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_t5,
+                            paste0(uid, ";iso_5p"),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_t3,
+                            paste0(uid, ";iso_3p"),
+                            uid)) %>% 
+        .[,c("uid", des[["sample"]])] %>% 
+        separate_rows(!!sym("uid"), sep = ";") %>% 
+        filter(!!sym("uid") != "")
+    
+    freq_data <- iso_data %>% 
+        group_by(!!sym("uid")) %>% 
+        summarise_all(funs(sum)) %>% 
+        ungroup() %>% 
+        gather("sample", "sum", -!!sym("uid"))
+    
+    n_data <- iso_data %>%
+        group_by(!!sym("uid")) %>% 
+        summarise_all(funs(sum(. > 0))) %>% 
+        ungroup() %>% 
+        gather("sample", "sum", -!!sym("uid"))
+    
+    freq_pct <- freq_data %>% 
+        group_by(!!sym("sample")) %>% 
+        summarise(total_sum = sum(sum)) %>%
+        left_join(freq_data, by = "sample") %>% 
+        mutate(pct_abundance = sum / total_sum * 100L,
+               method = "isomiRs abundance") %>% 
+        .[,c("sample", "method", "uid", "pct_abundance")]
+    
+    n_pct <- n_data %>% 
+        group_by(!!sym("sample")) %>% 
+        summarise(total_sum = sum(sum)) %>%
+        left_join(n_data, by = "sample") %>% 
+        mutate(pct_abundance = sum / total_sum *100L,
+               method = "isomiRs") %>% 
+        .[,c("sample", "method", "uid", "pct_abundance")]
+    
+    bind_rows(freq_pct, n_pct) %>%
+        left_join(des, by ="sample") %>% 
+        arrange(uid) %>%
+        ggplot(aes_string(x="uid", y="pct_abundance",
+                          group="sample", color = column)) +
         geom_polygon(fill=NA) +
         coord_polar(start=-pi) +
         scale_color_brewer(palette = "Set1") +
