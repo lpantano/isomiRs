@@ -29,21 +29,16 @@ count matrix creation,
 differential expression and \code{\link[isomiRs:isoPLSDA]{isomiRs::isoPLSDA()}} for clustering.
 \code{\link[isomiRs:isoPlot]{isomiRs::isoPlot()}} helps with basic expression plot.
 
-\code{metadata} contains two lists: \code{rawList} is a list with same
-length than number of samples and stores the input files
-for each sample; \code{isoList} is a list with same length than
-number of samples and stores information for each isomiR type summarizing
-the different changes for the different isomiRs (trimming at 3',
-trimming a 5', addition and substitution). For instance, you can get
-the data stored in \code{isoList} for sample 1 and 5' changes
-with this code \code{metadata(ids)[['isoList']][[1]]$t5sum}.
+\code{metadata} contains two lists: \code{rawData} is a \link{data.frame}
+with the information of each sequence found in the data
+and the counts for each sample.
 
 The naming of isomiRs follows these rules:
 \itemize{
 \item miRNA name
 \item type:ref if the sequence is the same than the miRNA reference.
 \code{iso} if the sequence has variations.
-\item \code{t5 tag}:indicates variations at 5 position.
+\item \code{iso_5p tag}:indicates variations at 5 position.
 The naming contains two words: \code{direction - nucleotides},
 where direction can be UPPER CASE NT
 (changes upstream of the 5 reference position) or
@@ -52,7 +47,7 @@ LOWER CASE NT (changes downstream of the 5 reference position).
 the same than the reference. After \code{direction},
 it follows the nucleotide/s that are added (for upstream changes)
 or deleted (for downstream changes).
-\item \code{t3 tag}:indicates variations at 3 position.
+\item \code{iso_3p tag}:indicates variations at 3 position.
 The naming contains two words: \code{direction - nucleotides},
 where direction can be LOWER CASE NT
 (upstream of the 3 reference position) or
@@ -61,26 +56,23 @@ UPPER CASE NT (downstream of the 3 reference position).
 the same than the reference. After \code{direction},
 it follows the nucleotide/s that are added (for downstream changes)
 or deleted (for upstream chanes).
-\item \code{ad tag}:indicates nucleotides additions at 3 position.
+\item \code{iso_add tag}:indicates nucleotides additions at 3 position.
 The naming contains two words: \code{direction - nucleotides},
 where direction is UPPER CASE NT
 (upstream of the 5 reference position).
 \code{0} indicates no variation, meaning the 3 position
 has no additions. After \code{direction},
 it follows the nucleotide/s that are added.
-\item \code{mm tag}: indicates nucleotides substitutions along
+\item \code{iso_snp tag}: indicates nucleotides substitutions along
 the sequences. The naming contains three words:
 \code{position-nucleotideATsequence-nucleotideATreference}.
-\item \code{seed tag}: same than \code{mm} tag,
+\item \code{iso_snp_seed tag}: same than \code{iso_snp} tag,
 but only if the change happens between nucleotide 2 and 8.
 }
 
 In general nucleotides in UPPER case mean insertions respect
 to the reference sequence, and nucleotides in LOWER case
 mean deletions respect to the reference sequence.
-
-[['isoList']: R:['isoList'
-[1]: R:1
 }
 \examples{
 path <- system.file("extra", package="isomiRs")

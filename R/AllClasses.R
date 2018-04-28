@@ -22,21 +22,16 @@
 #' differential expression and [isomiRs::isoPLSDA()] for clustering.
 #' [isomiRs::isoPlot()] helps with basic expression plot.
 #'
-#' `metadata` contains two lists: `rawList` is a list with same
-#' length than number of samples and stores the input files
-#' for each sample; `isoList` is a list with same length than
-#' number of samples and stores information for each isomiR type summarizing
-#' the different changes for the different isomiRs (trimming at 3',
-#' trimming a 5', addition and substitution). For instance, you can get
-#' the data stored in `isoList` for sample 1 and 5' changes
-#' with this code `metadata(ids)[['isoList']][[1]]$t5sum`.
-#'
+#' `metadata` contains two lists: `rawData` is a [data.frame]
+#' with the information of each sequence found in the data
+#' and the counts for each sample.
+#' 
 #' The naming of isomiRs follows these rules:
 #'
 #' * miRNA name
 #' * type:ref if the sequence is the same than the miRNA reference.
 #' `iso` if the sequence has variations.
-#' * `t5 tag`:indicates variations at 5 position.
+#' * `iso_5p tag`:indicates variations at 5 position.
 #' The naming contains two words: `direction - nucleotides`,
 #' where direction can be UPPER CASE NT
 #' (changes upstream of the 5 reference position) or
@@ -45,7 +40,7 @@
 #' the same than the reference. After `direction`,
 #' it follows the nucleotide/s that are added (for upstream changes)
 #'  or deleted (for downstream changes).
-#' * `t3 tag`:indicates variations at 3 position.
+#' * `iso_3p tag`:indicates variations at 3 position.
 #' The naming contains two words: `direction - nucleotides`,
 #' where direction can be LOWER CASE NT
 #' (upstream of the 3 reference position) or
@@ -54,17 +49,17 @@
 #' the same than the reference. After `direction`,
 #' it follows the nucleotide/s that are added (for downstream changes)
 #' or deleted (for upstream chanes).
-#' * `ad tag`:indicates nucleotides additions at 3 position.
+#' * `iso_add tag`:indicates nucleotides additions at 3 position.
 #' The naming contains two words: `direction - nucleotides`,
 #' where direction is UPPER CASE NT
 #' (upstream of the 5 reference position).
 #' `0` indicates no variation, meaning the 3 position
 #' has no additions. After `direction`,
 #' it follows the nucleotide/s that are added.
-#' * `mm tag`: indicates nucleotides substitutions along
+#' * `iso_snp tag`: indicates nucleotides substitutions along
 #' the sequences. The naming contains three words:
 #' `position-nucleotideATsequence-nucleotideATreference`.
-#' * `seed tag`: same than `mm` tag,
+#' * `iso_snp_seed tag`: same than `iso_snp` tag,
 #' but only if the change happens between nucleotide 2 and 8.
 #'
 #' In general nucleotides in UPPER case mean insertions respect
@@ -91,15 +86,58 @@ IsomirDataSeq <- setClass("IsomirDataSeq",
 
 setValidity("IsomirDataSeq", function(object) {
     if (!("counts" %in% names(assays(object))))
-        return("the assays slot must contain a matrix named 'counts'")
+        stop("the assays slot must contain a matrix named 'counts'")
     if (!is.numeric(counts(object)))
-        return("the count data is not numeric")
+        stop("the count data is not numeric")
     if (any(is.na(counts(object))))
-        return("NA values are not allowed in the count matrix" )
+        stop("NA values are not allowed in the count matrix" )
     if (any( counts(object) < 0L))
-        return("the count data contains negative values")
+        stop("the count data contains negative values")
+    if (!("rawData" %in%  names(metadata(object)))){
+        stop("rawData is not in metadata.",
+                "Probably the object is from version < 1.7.*, ",
+                "use updateIsomir to update the object.")
+    }
     TRUE
 })
+
+#' Update [IsomirDataSeq] object from version < 1.7
+#' 
+#' In version 1.9 IsomirDataSeq object changed their
+#' internal structure to save space and speed up 
+#' loading and downstream functions.
+#' 
+#' This function will update to the current structure.
+#' 
+#' @export
+updateIsomirDataSeq <- function(object){
+    coldata <- colData(object)
+    rawList <- metadata(object)[["rawList"]]
+    rawData <- lapply(names(rawList), function(s) {
+        d <- rawList[[s]]
+        d %>% 
+            unite("uid", seq, mir, mism, add, t5, t3, sep = ":") %>% 
+            select(uid, freq) %>%
+            gather(uid, freq) %>% 
+            mutate(sample = s)
+    }) %>% bind_rows() %>% 
+        group_by(uid, sample) %>% 
+        summarise(freq = sum(freq)) %>% 
+        spread(sample, freq, fill = 0) %>% 
+        separate(uid,
+                 into = c("seq", "mir", "mism", "add", "t5", "t3"),
+                 sep = ":")
+    
+    if (nrow(rawData) == 0)
+        stop("No samples had valids miRNA hits.")
+    
+    countData <- IsoCountsFromMatrix(rawData, coldata)
+    se <- SummarizedExperiment(assays = SimpleList(counts = countData),
+                               colData = DataFrame(coldata))
+    ids <- .IsomirDataSeq(se, rawData, design(object))
+    return(ids)
+}
+
 
 # Constructor
 .IsomirDataSeq <- function(se, rawData=NULL, design=~1L){
@@ -115,8 +153,8 @@ setValidity("IsomirDataSeq", function(object) {
             stop("'se' must be a SummarizedExperiment object")
         }
     }
+    metadata(se)[["rawData"]] = rawData
     ids <- new("IsomirDataSeq", se, design = design)
-    metadata(ids) <- list(rawData = rawData)
     ids
 }
 

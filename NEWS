@@ -2,6 +2,7 @@
 
 ## Major
 
+* Add updateIsomirDataSeq to be compatible with previous versions.
 * Adapt all functions to new object. Fix documentation.
 * Reduce object size and structure
 
