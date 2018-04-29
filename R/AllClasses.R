@@ -109,6 +109,7 @@ setValidity("IsomirDataSeq", function(object) {
 #' 
 #' This function will update to the current structure.
 #' 
+#' @param object [IsomirDataSeq].
 #' @export
 updateIsomirDataSeq <- function(object){
     coldata <- colData(object)

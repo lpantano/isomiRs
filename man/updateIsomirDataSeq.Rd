@@ -6,6 +6,9 @@
 \usage{
 updateIsomirDataSeq(object)
 }
+\arguments{
+\item{object}{\link{IsomirDataSeq}.}
+}
 \description{
 In version 1.9 IsomirDataSeq object changed their
 internal structure to save space and speed up
