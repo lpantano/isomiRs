@@ -4,7 +4,7 @@
 \alias{isoPlotPosition}
 \title{Plot nucleotides changes at a given position}
 \usage{
-isoPlotPosition(ids, position = 1, column = "condition")
+isoPlotPosition(ids, position = 1L, column = NULL)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}
@@ -33,5 +33,5 @@ sequence not the miRNA.
 }
 \examples{
 data(mirData)
-isoPlotPosition(mirData, column="group")
+isoPlotPosition(mirData)
 }

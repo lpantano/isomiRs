@@ -30,7 +30,7 @@
 #' @examples
 #' data(mirData)
 #' ids <- isoCounts(mirData, minc=10, mins=6)
-#' dds <- isoDE(mirData, formula=~group)
+#' dds <- isoDE(mirData, formula=~condition)
 #' @export
 isoDE <- function(ids, formula=NULL, ...){
     if (is.null(formula)){
@@ -111,53 +111,72 @@ isoTop <- function(ids, top=20){
 #'
 #' @examples
 #' data(mirData)
-#' isoPlot(mirData, column="group")
+#' isoPlot(mirData)
 #' @export
-isoPlot <- function(ids, type="iso5", column="condition"){
-    if (type == "all"){return(.plot_all_iso(ids, column))}
+isoPlot <- function(ids, type="iso5", column=NULL){
+    
     if (is.null(column)){
         column <-  names(colData(ids))[1]
     }
+    if (type == "all"){return(.plot_all_iso(ids, column))}
+    
     freq <- size <- group <- abundance <- NULL
-    codevn <- 2:5
-    names(codevn) <- c("iso5", "iso3", "subs", "add")
-    ratiov <- c(1 / 6, 1 / 6, 1 / 23, 1 / 3)
-    names(ratiov) <- names(codevn)
+    codevn <- 3:6
+    names(codevn) <- c("subs", "add", "iso5", "iso3")
     coden <- codevn[type]
-    ratio <- ratiov[type]
-    des <- colData(ids)
-    table <- data.frame()
-    isoList <- metadata(ids)$isoList
-    for (sample in row.names(des)){
-        if (nrow(isoList[[sample]][[coden]]) > 0 ){
-          temp <- as.data.frame( isoList[[sample]][[coden]] %>%
-                                   distinct() %>%
-                                   group_by(size) %>%
-                                   summarise( freq=sum(freq), n=n() )
-          )
-          total <- sum(counts(ids)[,sample])
-          Total <- sum(temp$n)
-          temp$pct_abundance <- temp$freq / total
-          temp$unique <- temp$n / Total
-          table <- rbind( table,
-                          data.frame( size=temp$size,
-                                      pct_abundance=temp$pct_abundance*100,
-                                      unique=temp$unique,
-                                      sample=rep(sample, nrow(temp)),
-                                      group=rep(des[sample, column],
-                                                nrow(temp)) ) )
-        }
+    des <- colData(ids) %>% 
+        as.data.frame() %>% 
+        rownames_to_column("sample")
+    rawData <- metadata(ids)[["rawData"]]
+
+    if (type == "subs"){
+        rawData[["size"]] <- as.factor(as.numeric(.subs_position(rawData[[coden]])[["size"]]))
+        xaxis <- "position of the isomiR"
+    }else{
+        rawData[["size"]] <- as.factor(.isomir_position(rawData[[coden]]))
+        xaxis <- "position respect to the reference"
     }
-    ggplot(table) +
-        geom_jitter(aes_string(x="size",y="unique",colour="group",
+    freq_data <- rawData[,c("size", des[["sample"]])] %>% 
+        group_by(!!sym("size")) %>% 
+        summarise_all(funs(sum)) %>% 
+        ungroup() %>% 
+        gather("sample", "sum", -!!sym("size"))
+    
+    n_data <- rawData[,c("size", des[["sample"]])] %>%
+        group_by(!!sym("size")) %>% 
+        summarise_all(funs(sum(. > 0))) %>% 
+        ungroup() %>% 
+        gather("sample", "sum", -!!sym("size"))
+    
+    freq_pct <- freq_data %>% 
+        group_by(!!sym("sample")) %>% 
+        summarise(total_sum = sum(sum)) %>%
+        left_join(freq_data, by = "sample") %>% 
+        mutate(pct_abundance = sum / total_sum * 100L,
+               id = paste(sample, size)) %>% 
+        .[,c("id", "sample", "size", "pct_abundance")]
+    
+    n_pct <- n_data %>% 
+        group_by(!!sym("sample")) %>% 
+        summarise(total_sum = sum(sum)) %>%
+        left_join(n_data, by = "sample") %>% 
+        mutate(unique = sum / total_sum *100L,
+               id = paste(sample, size)) %>% 
+        .[,c("id", "unique")]
+    
+    inner_join(freq_pct, n_pct) %>%
+        left_join(des, by ="sample") %>% 
+        ggplot() +
+        geom_jitter(aes_string(x="size",y="unique", colour=column,
                         size="pct_abundance")) +
         scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
         labs(list(title=paste(type,"distribution"),
                   y="pct of isomiRs",
-                x="position respect to the reference"))
+                x=xaxis))
 }
+
 #' Plot nucleotides changes at a given position
 #'
 #' This function plot different isomiRs proportion for each sample at a given
@@ -181,50 +200,61 @@ isoPlot <- function(ids, type="iso5", column="condition"){
 #'
 #' @examples
 #' data(mirData)
-#' isoPlotPosition(mirData, column="group")
+#' isoPlotPosition(mirData)
 #' @export
-isoPlotPosition <- function(ids, position=1, column="condition"){
+isoPlotPosition <- function(ids, position = 1L, column = NULL){
     if (is.null(column)){
-        column <- names(colData(ids))[1]
-    }
-    freq <- size <- change <- reference <- current <- NULL
-    codevn <- 2:5
-    type <- "subs"
-    names(codevn) <- c("iso5", "iso3", "subs", "add")
-    ratiov <- c(1 / 6, 1 / 6, 1 / 23, 1 / 3)
-    names(ratiov) <- names(codevn)
-    coden <- codevn[type]
-    ratio <- ratiov[type]
-    des <- colData(ids)
-    table <- data.frame()
-    isoList <- metadata(ids)$isoList
-    for (sample in row.names(des)){
-        temp <- as.data.frame( isoList[[sample]][[coden]] %>%
-                                mutate(change=paste0(reference, ">", current)) %>%
-                                filter(size==1) %>%
-                                group_by(change) %>%
-                                summarise( freq=sum(freq), times=n() )
-                              )
-        total <- sum(counts(ids)[,sample])
-        Total <- sum(temp$times)
-        temp$abundance <- temp$freq / total
-        temp$unique <- temp$times / Total
-        table <- rbind( table,
-                        data.frame( change=temp$change,
-                                    pct_abundance=temp$abundance*100,
-                                    unique=temp$unique,
-                                    sample=rep(sample, nrow(temp)),
-                                    group=rep(des[sample, column],
-                                              nrow(temp)) ) )
+        column <-  names(colData(ids))[1]
     }
 
-    ggplot(table) +
-        geom_jitter(aes_string(x="change",y="unique",colour="group",
+    des <- colData(ids) %>% 
+        as.data.frame() %>% 
+        rownames_to_column("sample")
+    rawData <- metadata(ids)[["rawData"]]
+    
+    parsed_change <- .subs_position(rawData[["mism"]])
+    rawData[["change"]] <- as.factor(parsed_change[["change"]])
+    rawData[["pos"]] <- as.character(parsed_change[["size"]])
+
+    freq_data <- rawData[,c("change", "pos", des[["sample"]])] %>% 
+        group_by(!!sym("change"), !!sym("pos")) %>% 
+        summarise_all(funs(sum)) %>% 
+        ungroup() %>% 
+        gather(sample, sum, -change, -pos)
+    
+    n_data <- rawData[,c("change", "pos", des[["sample"]])] %>%
+        group_by(!!sym("change"), !!sym("pos")) %>% 
+        summarise_all(funs(sum(. > 0))) %>% 
+        ungroup() %>% 
+        gather(sample, sum, -change, -pos)
+    
+    freq_pct <- freq_data %>% 
+        group_by(!!sym("sample")) %>% 
+        summarise(total_sum = sum(sum)) %>%
+        left_join(freq_data, by = "sample", suffix = c("", "_tmp")) %>% 
+        mutate(pct_abundance = sum / total_sum * 100L,
+               id = paste(sample, change)) %>% 
+        .[.[["pos"]] == position,] %>% 
+        .[,c("id", "sample", "change", "pct_abundance")]
+    
+    n_pct <- n_data %>% 
+        group_by(!!sym("sample")) %>% 
+        summarise(total_sum = sum(sum)) %>%
+        left_join(n_data, by = "sample") %>% 
+        mutate(unique = sum / total_sum *100L,
+               id = paste(sample, change)) %>% 
+        .[.[["pos"]] == position,] %>% 
+        .[,c("id", "unique")]
+    
+    inner_join(freq_pct, n_pct) %>%
+        left_join(des, by ="sample") %>%
+        ggplot() +
+        geom_jitter(aes_string(x="change",y="unique",colour=column,
                         size="pct_abundance")) +
         scale_colour_brewer("Groups",palette="Set1") +
-        theme_bw(base_size = 14, base_family = "") +
+        theme_bw(base_size = 11, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
-        labs(list(title=paste(type,"distribution"),
+        labs(list(title=paste("Change distribution"),
                   y="pct of isomiRs",
                 x=paste0("changes at postiion ",
                          position, 
@@ -278,13 +308,15 @@ isoPlotPosition <- function(ids, position=1, column="condition"){
 #' @export
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
                       add=FALSE, subs=FALSE, seed=FALSE, minc=1, mins=1){
-        counts <- IsoCountsFromMatrix(metadata(ids)$rawList, colData(ids), ref,
+        counts <- IsoCountsFromMatrix(metadata(ids)[["rawData"]],
+                                      colData(ids),
+                                      ref,
                                       iso5, iso3,
                                       add, subs, seed)
         counts <- counts[rowSums(counts > minc) >= mins, ]
-        se <- SummarizedExperiment(assays = SimpleList(counts=counts),
+        se <- SummarizedExperiment(assays = SimpleList(counts = counts),
                                    colData = colData(ids))
-        .IsomirDataSeq(se, metadata(ids)$rawList, metadata(ids)$isoList)
+        .IsomirDataSeq(se, metadata(ids)[["rawData"]])
 }
 
 
@@ -304,7 +336,7 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 #' @examples
 #' data(mirData)
 #' ids <- isoCounts(mirData, minc=10, mins=6)
-#' ids <- isoNorm(mirData, formula=~group)
+#' ids <- isoNorm(mirData, formula=~condition)
 #' head(counts(ids, norm=TRUE))
 #' @export
 isoNorm <- function(ids, formula=NULL, maxSamples = 50){

@@ -39,7 +39,7 @@ for the plot.
 data(mirData)
 # Only miRNAs with > 10 reads in all samples.
 ids <- isoCounts(mirData, minc=10, mins=6)
-ids <- isoNorm(ids, formula=~group)
-pls.ids <- isoPLSDA(ids, "group", nperm = 2)
+ids <- isoNorm(ids, formula=~condition)
+pls.ids <- isoPLSDA(ids, "condition", nperm = 2)
 isoPLSDAplot(pls.ids)
 }

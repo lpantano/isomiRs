@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 1.9.0
-Date: 2018-03-30
+Version: 1.9.1
+Date: 2018-04-27
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
@@ -45,8 +45,7 @@ Imports:
     stats,
     S4Vectors,
     tidyr,
-    tibble,
-    targetscan.Hs.eg.db
+    tibble
 LazyData: true
 Authors@R: c(
     person("Lorena", "Pantano",

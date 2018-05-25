@@ -1,48 +1,3 @@
-#' Deprecated functions in package isomiRs
-#' 
-#' 
-#' @rdname isomiRs-deprecated
-#' 
-#' @details
-#' The following functions are deprecated and will be made defunct; 
-#' use the replacement indicated below:
-#' * isoCorrection dLQNO qLQNO pLQNO rLQNOLQNO isoLQNO
-
-dLQNO <- function()
-{
-    .Deprecated("scounts::dLQNO")
-}
-
-qLQNO <- function()
-{
-    .Deprecated("scounts::qLQNO")
-}
-
-pLQNO <- function()
-{
-    .Deprecated("scounts::pLQNO")
-}
-
-rLQNO <- function()
-{
-    .Deprecated("scounts::rLQNO")
-}
-
-LQNO <- function()
-{
-    .Deprecated("scounts::LQNO")
-}
-
-isoLQN <- function()
-{
-    .Deprecated("scounts::isoLQN")
-}
-
-isoCorrection <- function()
-{
-    .Deprecated("scounts::isoCorrection")
-}
-
 #' isomiRs
 #'
 #' @import BiocGenerics
@@ -61,13 +16,13 @@ isoCorrection <- function()
 #' @import cluster
 #' @importFrom AnnotationDbi keys mget revmap
 #' @importFrom reshape melt melt.array melt.data.frame melt.list
-#' @importFrom tidyr spread gather separate_rows
+#' @importFrom tidyr spread gather separate_rows unite separate unite
 #' @importFrom readr read_tsv
 #' @importFrom rlang sym
 #' @importFrom dplyr select arrange summarise rowwise mutate filter 
 #'             if_else group_by "%>%" distinct n left_join inner_join
-#'             bind_rows ungroup
-#' @importFrom tibble rownames_to_column
+#'             bind_rows ungroup summarise_all funs
+#' @importFrom tibble rownames_to_column column_to_rownames
 #' @importFrom DiscriMiner plsDA
 #' @importFrom grDevices colorRampPalette
 #' @importFrom RColorBrewer brewer.pal

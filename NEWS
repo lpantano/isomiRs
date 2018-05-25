@@ -1,3 +1,11 @@
+# 1.9.1
+
+## Major
+
+* Add updateIsomirDataSeq to be compatible with previous versions.
+* Adapt all functions to new object. Fix documentation.
+* Reduce object size and structure
+
 # 1.7.3
 
 ## Fix

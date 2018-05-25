@@ -157,7 +157,7 @@ trimming (iso5 and iso3), addition (add) or substitution (subs) changes.
 
 ```{r package-plot-iso-t5,message=FALSE}
 ids <- isoCounts(mirData)
-isoPlot(ids, type="all", column = "group")
+isoPlot(ids, type="all")
 ```
 
 ## Count data
@@ -177,7 +177,7 @@ allows quick integration to another analyses like heatmap, clustering or PCA.
 
 ```{r package-norm,message=FALSE}
 library(pheatmap)
-ids = isoNorm(ids, formula = ~ group)
+ids = isoNorm(ids, formula = ~ condition)
 pheatmap(counts(ids, norm=TRUE)[1:100,], 
          annotation_col = data.frame(colData(ids)[,1,drop=FALSE]),
          show_rownames = FALSE, scale="row")
@@ -194,7 +194,7 @@ will be a DESeqDataSet object, allowing to generate any plot or table
 explained in DESeq2 package vignette.
 
 ```{r package-de,message=FALSE}
-dds <- isoDE(ids, formula=~group)
+dds <- isoDE(ids, formula=~condition)
 library(DESeq2)
 plotMA(dds)
 head(results(dds, format="DataFrame"))
@@ -204,7 +204,7 @@ You can differentiate between reference sequences and isomiRs at 5' end
 with this command:
 
 ```{r package-de-iso5,message=FALSE}
-dds = isoDE(ids, formula=~group, ref=TRUE, iso5=TRUE)
+dds = isoDE(ids, formula=~condition, ref=TRUE, iso5=TRUE)
 head(results(dds, tidy=TRUE))
 ```
 
@@ -215,7 +215,7 @@ directly `r Biocpkg("DESeq2")` package feeding it with the output of
 
 ```{r package-de-with-deseq2}
 dds = DESeqDataSetFromMatrix(counts(ids),
-                             colData(ids), design = ~ group)
+                             colData(ids), design = ~ condition)
 ```
 
 
@@ -243,8 +243,8 @@ samples distribution along the components.
 
 ```{r package-pls}
 ids = isoCounts(ids, iso5=TRUE, minc=10, mins=6)
-ids = isoNorm(ids, formula = ~ group)
-pls.ids = isoPLSDA(ids, "group", nperm = 2)
+ids = isoNorm(ids, formula = ~ condition)
+pls.ids = isoPLSDA(ids, "condition", nperm = 2)
 df = isoPLSDAplot(pls.ids)
 ```
 
@@ -257,7 +257,7 @@ variability on the predictors.
 
 
 ```{r package-plsplot, message=FALSE, eval=FALSE}
-pls.ids = isoPLSDA(ids,"group", refinment = FALSE, vip = 0.8)
+pls.ids = isoPLSDA(ids,"condition", refinment = FALSE, vip = 0.8)
 ```
 
 

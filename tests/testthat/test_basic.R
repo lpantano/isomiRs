@@ -2,24 +2,24 @@ data(mirData)
 data(isoExample)
 
 test_that("plots", {
-    expect_true(class(isoPlot(mirData, type = "all", column = "group"))[2] == "ggplot")
-    expect_true(class(isoPlot(mirData, type = "iso5", column = "group"))[2] == "ggplot")
-    expect_true(class(isoPlot(mirData, type = "iso3", column = "group"))[2] == "ggplot")
-    expect_true(class(isoPlot(mirData, type = "add", column = "group"))[2] == "ggplot")
-    expect_true(class(isoPlotPosition(mirData, column = "group"))[2] == "ggplot")
+    expect_true(class(isoPlot(mirData, type = "all", column = "condition"))[2] == "ggplot")
+    expect_true(class(isoPlot(mirData, type = "iso5", column = "condition"))[2] == "ggplot")
+    expect_true(class(isoPlot(mirData, type = "iso3", column = "condition"))[2] == "ggplot")
+    expect_true(class(isoPlot(mirData, type = "add", column = "condition"))[2] == "ggplot")
+    expect_true(class(isoPlotPosition(mirData, column = "condition"))[2] == "ggplot")
 })
 
 test_that("counts", {
     obj <- isoCounts(mirData, ref = TRUE)
     expect_true(class(counts(obj))[1] == "matrix")
-    obj <- isoNorm(obj, formula = ~group)
+    obj <- isoNorm(obj, formula = ~condition)
     expect_true(class(counts(obj, norm = TRUE))[1] == "matrix")
 })  
 
 test_that("psl-da", {
-    expect_error(isoPLSDA(mirData, "group", nperm = 2),
+    expect_error(isoPLSDA(mirData, "condition", nperm = 2),
                  "please, run first isoNorm")
-    pls.ids = isoPLSDA(isoNorm(mirData), "group", nperm = 2)
+    pls.ids = isoPLSDA(isoNorm(mirData), "condition", nperm = 2)
     expect_output(str(pls.ids), "List of 6")
     expect_true(class(isoPLSDAplot(pls.ids)) == "data.frame")
 })
