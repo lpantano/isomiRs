@@ -347,7 +347,7 @@ isoNorm <- function(ids, formula=NULL, maxSamples = 50){
         dds <- DESeqDataSetFromMatrix(countData = counts(ids),
                                       colData = colData(ids),
                                       design = formula)
-        rld <- rlog(dds, blind=FALSE)
+        rld <- varianceStabilizingTransformation(dds, blind=FALSE)
         normcounts(ids) <- assay(rld)
     }else{
         d <- colData(ids)
