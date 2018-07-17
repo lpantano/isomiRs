@@ -23,8 +23,8 @@ This is an [R][] package.
 ### [Bioconductor][] stable version
 
 ```r
-source("https://bioconductor.org/biocLite.R")
-biocLite("isomiRs")
+install.packages("BiocManager")
+BiocManager::install("isomiRs")
 ```
 
 ### [Bioconductor][] latest version
