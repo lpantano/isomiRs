@@ -2,6 +2,7 @@
 
 ## Major
 
+* Improve clustering in isoNetwork plot.
 * Use varianceStabilizingTransformation to normalize counts.
 * Use a less common column as ID for samples in isoPLot fns.
 * Add updateIsomirDataSeq to be compatible with previous versions.

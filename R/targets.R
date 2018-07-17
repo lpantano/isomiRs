@@ -42,12 +42,13 @@ pairsMatrix <- function(df){
 }
 
 .cluster_exp <- function(ma){
-    m = (1-cor(t(ma), method = "kendall"))
-    m[m < 0] = 0
-    d = as.dist(m^2)
-    c = cluster::diana(d, diss = TRUE, stand = FALSE)
-
-    cutree(as.hclust(c), h = c$dc)
+    meta <- data.frame(row.names = colnames(ma),
+                      xaxis = colnames(ma))
+    r <- degPatterns(ma,
+                    meta, time = "xaxis", minc = 1, plot = FALSE)
+    groups <- r$df$cluster
+    names(groups) <- r$df$genes
+    groups
 }
 
 
@@ -304,8 +305,10 @@ isoNetwork <- function(mirna_rse, gene_rse,
                                gtools::mixedsort(levels(ma_long$group)))
         n = round(length(unique(ma_long$group)) / 2L)
         ggplot(ma_long, aes_string(x = "group", y = "average")) +
-            stat_smooth(data = ma_long, size = 0.5,
-                        aes_string(x = "group", y = "average", group = 1L),
+            stat_smooth(data = ma_long, size = 1,
+                        aes_string(x = "group", y = "average",
+                                   group = 1L),
+                        color = "black",
                         method = "lm",formula = y~poly(x,n)) +
             theme_bw(base_size = 11L) + xlab(NULL) + ylab(NULL) +
             theme(axis.text.x = element_blank()) +
@@ -317,14 +320,12 @@ isoNetwork <- function(mirna_rse, gene_rse,
 .viz_mirna_gene_enrichment <- function(obj, mirna_norm, mrna_norm, group, org, plot=FALSE){
     net <- obj$network
     summary <- obj$summary
-    # browser()
     ma_g = .scale(as.data.frame(mrna_norm)[as.character(unique(net$gene)),])
     ma_m = .scale(as.data.frame(mirna_norm)[as.character(unique(net$mir)),])
     groups = .cluster_exp(mrna_norm[as.character(unique(net$gene)),])
     final_df = data.frame()
     for (x in summary$Description) {
         message(x)
-        # browser()
         if (plot)
             cat("## GO term:", x)
         .m = as.character(unique(net[net$go == x, "mir"]))
@@ -480,16 +481,10 @@ isoPlotNet = function(obj, minGenes = 2){
     maxWidth = unit.pmax(p1$heights[c(2, 7)], p2$heights[c(2, 7)])
     p1$heights[c(2, 7)] <- maxWidth
     p2$heights[c(2, 7)] <- maxWidth
-    p = grid.arrange(top = textGrob("miRNA-gene-term interaction"),
-                     arrangeGrob(
-                         arrangeGrob(p1, p2, ncol = 2),
-                         arrangeGrob(pp.profiles), heights = c(3,1)
-                     ))
-
-    #p = grid.arrange(top=textGrob("summary"),
-    #                 arrangeGrob(pp.terms,pp.mirs, widths=c(2,1), ncol=2),
-    #                 arrangeGrob(profiles, ncol=3),
-    #                 nrow=2, heights=c(2,2))
+    p <- plot_grid(plot_grid(p1,p2, align = "h"),
+              pp.profiles, rel_widths = c(1,2),
+              nrow=2, rel_heights = c(3,1))
+    show(p)
     invisible(p)
 }
 
