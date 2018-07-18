@@ -24,6 +24,7 @@ Imports:
     BiocGenerics (>= 0.7.5),
     Biobase,
     cluster,
+    DEGreport,
     DESeq2,
     IRanges,
     dplyr,
