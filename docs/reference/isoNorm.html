@@ -18,13 +18,26 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Normalize count matrix — isoNorm" />
+
+<meta property="og:description" content="This function normalizes raw count matrix using
+DESeq2::rlog() function from DESeq2::DESeq2-package." />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +60,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">isomiRs</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">isomiRs</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -58,7 +75,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/isomiRs.html">Get Started</a>
+  <a href="../articles/isomiRs.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -68,6 +85,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -75,20 +93,24 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Normalize count matrix</h1>
+    
+    <div class="hidden name"><code>isoNorm.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>This function normalizes raw count matrix using
 <code><a href='http://www.rdocumentation.org/packages/DESeq2/topics/rlog'>DESeq2::rlog()</a></code> function from <a href='http://www.rdocumentation.org/packages/DESeq2/topics/DESeq2-package'>DESeq2::DESeq2-package</a>.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>isoNorm</span>(<span class='no'>ids</span>, <span class='kw'>formula</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>maxSamples</span> <span class='kw'>=</span> <span class='fl'>50</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -116,13 +138,27 @@ can be access with <code><a href='counts.html'>counts(ids, norm=TRUE)</a></code>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mirData</span>)
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoCounts.html'>isoCounts</a></span>(<span class='no'>mirData</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mins</span><span class='kw'>=</span><span class='fl'>6</span>)
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>isoNorm</span>(<span class='no'>mirData</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>group</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='input'><span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>, <span class='kw'>norm</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;                    cc1    cc2    cc3    ct2    ct3    ct4
-#&gt; hsa-let-7a-2-3p  2.535  3.112  2.576  2.563  2.523  2.899
-#&gt; hsa-let-7a-3p    9.013  9.725  9.213  8.939  8.957  9.231
-#&gt; hsa-let-7a-5p   17.644 18.203 17.619 17.639 17.662 17.490
-#&gt; hsa-let-7b-3p    9.558 10.978  9.553  9.778  9.559 10.044
-#&gt; hsa-let-7b-5p   15.452 16.198 15.376 15.374 15.304 15.361
-#&gt; hsa-let-7c-3p    4.628  4.646  4.658  4.726  4.921  4.686</div></pre>
+<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>isoNorm</span>(<span class='no'>mirData</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='input'><span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>, <span class='kw'>norm</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;                       cc1       cc2       cc3       cc4       cc5       cc6
+#&gt; hsa-let-7a-2-3p  3.839601  4.957497  3.922124  4.193259  4.628226  4.320035
+#&gt; hsa-let-7a-3p    8.879601  9.912472  9.176845  8.724699  9.618614  8.956595
+#&gt; hsa-let-7a-5p   17.525920 18.324970 17.476047 17.414170 17.977366 17.531085
+#&gt; hsa-let-7b-3p    9.302408 11.360555  9.282133  9.880369 10.966973  9.778082
+#&gt; hsa-let-7b-5p   15.337173 16.405251 15.209072 15.416528 15.967481 15.401889
+#&gt; hsa-let-7c-3p    5.139525  5.142833  5.180661  5.353235  5.376354  5.413695
+#&gt;                       cc7       ct1       ct2       ct3       ct4       ct5
+#&gt; hsa-let-7a-2-3p  4.105121  2.962755  3.902490  3.760060  4.596809  4.575671
+#&gt; hsa-let-7a-3p    9.012313  9.240612  8.782446  8.762586  9.237900  9.168467
+#&gt; hsa-let-7a-5p   17.307877 18.861768 17.537454 17.523249 17.311227 17.382079
+#&gt; hsa-let-7b-3p   10.126881  9.621536  9.667146  9.273210 10.076855 10.090628
+#&gt; hsa-let-7b-5p   15.352952 15.631647 15.237137 15.078033 15.221224 15.242910
+#&gt; hsa-let-7c-3p    5.315057  4.270253  5.313314  5.600878  5.251115  5.149116
+#&gt;                       ct6       ct7
+#&gt; hsa-let-7a-2-3p  4.315946  3.852617
+#&gt; hsa-let-7a-3p    8.755656  9.090321
+#&gt; hsa-let-7a-5p   17.698660 17.638359
+#&gt; hsa-let-7b-3p   10.382666  9.999589
+#&gt; hsa-let-7b-5p   15.785968 15.537679
+#&gt; hsa-let-7c-3p    5.091500  4.953140</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -143,11 +179,14 @@ can be access with <code><a href='counts.html'>counts(ids, norm=TRUE)</a></code>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

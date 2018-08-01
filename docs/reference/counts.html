@@ -18,13 +18,28 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Accessors for the count matrix of a IsomirDataSeq object. — counts" />
+
+<meta property="og:description" content="The counts slot holds the count data as a matrix of non-negative integer
+count values, one row for each isomiR, and one
+column for each sample. The normalized matrix
+can be obtained by using the parameter norm=TRUE." />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +62,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">isomiRs</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">isomiRs</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -58,7 +77,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/isomiRs.html">Get Started</a>
+  <a href="../articles/isomiRs.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -68,6 +87,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -75,18 +95,22 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Accessors for the count matrix of a IsomirDataSeq object.</h1>
+    
+    <div class="hidden name"><code>counts.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>The counts slot holds the count data as a matrix of non-negative integer
 count values, one row for each isomiR, and one
 column for each sample. The normalized matrix
 can be obtained by using the parameter <code>norm=TRUE</code>.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>counts.IsomirDataSeq</span>(<span class='no'>object</span>, <span class='kw'>norm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
@@ -96,7 +120,7 @@ can be obtained by using the parameter <code>norm=TRUE</code>.</p>
 <span class='co'># S4 method for IsomirDataSeq,matrix</span>
 <span class='fu'>counts</span>(<span class='no'>object</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span></pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -120,13 +144,20 @@ can be obtained by using the parameter <code>norm=TRUE</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mirData</span>)
-<span class='fu'>head</span>(<span class='fu'>counts</span>(<span class='no'>mirData</span>))</div><div class='output co'>#&gt;                    cc1    cc2    cc3    ct2    ct3    ct4
-#&gt; hsa-let-7a-2-3p      5     13      4      4      2     12
-#&gt; hsa-let-7a-3p      767    707    630    496    343    635
-#&gt; hsa-let-7a-5p   317730 244832 203888 222066 154246 175523
-#&gt; hsa-let-7b-3p     1037   1949    679    931    494   1149
-#&gt; hsa-let-7b-5p    69671  64702  42347  45071  28312  41214
-#&gt; hsa-let-7c-3p       36     16     25     30     28     26</div></pre>
+<span class='fu'>head</span>(<span class='fu'>counts</span>(<span class='no'>mirData</span>))</div><div class='output co'>#&gt;                    cc1    cc2    cc3    cc4    cc5    cc6    cc7    ct1    ct2
+#&gt; hsa-let-7a-2-3p      5     13      4      9     11      6      7      0      4
+#&gt; hsa-let-7a-3p      767    707    630    609    731    389    681    258    496
+#&gt; hsa-let-7a-5p   317730 244832 203888 260931 244784 153049 220563 208511 222066
+#&gt; hsa-let-7b-3p     1037   1949    679   1385   1884    697   1499    338    931
+#&gt; hsa-let-7b-5p    69671  64702  42347  65322  60767  34975  56875  22215  45069
+#&gt; hsa-let-7c-3p       36     16     25     40     26     23     35      3     30
+#&gt;                    ct3    ct4    ct5    ct6    ct7
+#&gt; hsa-let-7a-2-3p      2     12     12      8      3
+#&gt; hsa-let-7a-3p      343    635    622    452    519
+#&gt; hsa-let-7a-5p   154246 175523 189733 230690 199923
+#&gt; hsa-let-7b-3p      494   1149   1194   1431    988
+#&gt; hsa-let-7b-5p    28312  41214  43058  61258  46600
+#&gt; hsa-let-7c-3p       28     26     24     22     17</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -151,11 +182,14 @@ Lorena Pantano
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

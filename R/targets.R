@@ -379,7 +379,8 @@ isoNetwork <- function(mirna_rse, gene_rse,
     do.call(rbind, apply(df, 1, function(r){
         exp = unlist(strsplit(r[2], split = ","))
         exp = .reduce_mirna(exp)
-        data.frame(term = r[5], mir = exp, row.names = NULL)
+        data.frame(term = r[5], group = r[4],
+                   mir = exp, row.names = NULL)
     }))
 }
 
@@ -428,7 +429,7 @@ isoPlotNet = function(obj, minGenes = 2){
                               y = "term_short",
                               size = "ngene")) +
         geom_point(color = "grey75") +
-        geom_text(aes_string(label = "ngene"), size = 5) +
+        geom_text(aes_string(label = "ngene"), size = 3) +
         theme_bw() + xlab("Gene expression profiles") + ylab("") +
         theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
         ggtitle("Number genes in each term\n over expression profile") +
@@ -448,10 +449,11 @@ isoPlotNet = function(obj, minGenes = 2){
     
     mirna_df$mir = factor(mirna_df$mir, levels = hc$labels[hc$order])
     mirna_df$term = factor(mirna_df$term, levels = sort(unique(df$term)))
-
+    # browser()
     terms_vs_mirnas =
         ggplot(mirna_df, aes_string(x = "mir", y = "term")) +
-        geom_point() + ggtitle("miRNAs targeting that term") +
+        geom_text(aes_string(label = "group"), size = 3) +
+        ggtitle("miRNAs targeting that term") +
         theme_bw() + ylab("") + xlab("") +
         theme(axis.text.x = element_text(size = 7, angle = 90,
                                          hjust = 1, vjust = 0.5)) +

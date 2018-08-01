@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Method to select specific miRNAs from an IsomirDataSeq object. — isoSelect • isomiRs</title>
+<title>Update <a href='IsomirDataSeq.html'>IsomirDataSeq</a> object from version &lt; 1.7 — updateIsomirDataSeq • isomiRs</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="Method to select specific miRNAs from an IsomirDataSeq object. — isoSelect" />
+<meta property="og:title" content="Update <a href='IsomirDataSeq.html'>IsomirDataSeq</a> object from version &lt; 1.7 — updateIsomirDataSeq" />
 
-<meta property="og:description" content="This method allows to select a miRNA and all its isomiRs
-from the count matrix." />
+<meta property="og:description" content="In version 1.9 IsomirDataSeq object changed their
+internal structure to save space and speed up
+loading and downstream functions." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -96,91 +97,43 @@ from the count matrix." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Method to select specific miRNAs from an IsomirDataSeq object.</h1>
+    <h1>Update <a href='IsomirDataSeq.html'>IsomirDataSeq</a> object from version &lt; 1.7</h1>
     
-    <div class="hidden name"><code>isoSelect.Rd</code></div>
+    <div class="hidden name"><code>updateIsomirDataSeq.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This method allows to select a miRNA and all its isomiRs
-from the count matrix.</p>
+    <p>In version 1.9 IsomirDataSeq object changed their
+internal structure to save space and speed up
+loading and downstream functions.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>isoSelect.IsomirDataSeq</span>(<span class='no'>object</span>, <span class='no'>mirna</span>, <span class='kw'>minc</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-
-<span class='co'># S4 method for IsomirDataSeq</span>
-<span class='fu'>isoSelect</span>(<span class='no'>object</span>, <span class='no'>mirna</span>, <span class='kw'>minc</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>updateIsomirDataSeq</span>(<span class='no'>object</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>A <a href='IsomirDataSeq.html'>IsomirDataSeq</a> object.</p></td>
-    </tr>
-    <tr>
-      <th>mirna</th>
-      <td><p>String referring to the miRNA to show.</p></td>
-    </tr>
-    <tr>
-      <th>minc</th>
-      <td><p>Minimum number of isomiR reads needed
-to be included in the table.</p></td>
+      <td><p><a href='IsomirDataSeq.html'>IsomirDataSeq</a>.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><a href='http://www.rdocumentation.org/packages/S4Vectors/topics/DataFrame-class'>S4Vectors::DataFrame</a> with count
-information. The <code>row.names</code>
-show the isomiR names, and each of the columns shows the counts
-for this isomiR in that sample. Mainly, it will return the count
-matrix only for isomiRs belonging to the miRNA family given by
-the <code>mirna</code> parameter. IsomiRs need to have counts bigger than
-<code>minc</code> parameter at least in one sample to be included in the output.
-Annotation of isomiRs follows these rules:</p><ul>
-<li><p>miRNA name</p></li>
-<li><p>mismatches</p></li>
-<li><p>additions</p></li>
-<li><p>5 trimming events</p></li>
-<li><p>3 trimming events</p></li>
-</ul>
-
+    <p>This function will update to the current structure.</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mirData</span>)
-<span class='co'># To select isomiRs from let-7a-5p miRNA</span>
-<span class='co'># and with 10000 reads or more.</span>
-<span class='fu'>isoSelect</span>(<span class='no'>mirData</span>, <span class='kw'>mirna</span><span class='kw'>=</span><span class='st'>"hsa-let-7a-5p"</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10000</span>)</div><div class='output co'>#&gt; DataFrame with 2 rows and 14 columns
-#&gt;                              cc1       cc2       cc3       cc4       cc5
-#&gt;                        &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-#&gt; hsa-let-7a-5p             235825    171354    149541    180654    168884
-#&gt; hsa-let-7a-5p;iso_3p:t     50920     52403     35525     53213     51499
-#&gt;                              cc6       cc7       ct1       ct2       ct3
-#&gt;                        &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-#&gt; hsa-let-7a-5p             107430    153061    143030    163569    114028
-#&gt; hsa-let-7a-5p;iso_3p:t     30659     45492     42878     35795     24993
-#&gt;                              ct4       ct5       ct6       ct7
-#&gt;                        &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-#&gt; hsa-let-7a-5p             123454    133092    158909    140272
-#&gt; hsa-let-7a-5p;iso_3p:t     34512     36973     47873     39585</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    
-Lorena Pantano
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>

@@ -18,13 +18,29 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Partial Least Squares Discriminant Analysis for <code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code> — isoPLSDA" />
+
+<meta property="og:description" content="Use PLS-DA method with the normalized count data to detect the most
+important features (miRNAs/isomiRs) that explain better
+the group of samples given by the experimental design. It is a supervised
+clustering method with permutations to calculate the significance
+of the analysis." />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +63,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">isomiRs</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">isomiRs</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -58,7 +78,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/isomiRs.html">Get Started</a>
+  <a href="../articles/isomiRs.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -68,6 +88,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -75,12 +96,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Partial Least Squares Discriminant Analysis for <code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code></h1>
+    
+    <div class="hidden name"><code>isoPLSDA.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Use PLS-DA method with the normalized count data to detect the most
 important features (miRNAs/isomiRs) that explain better
@@ -88,11 +112,12 @@ the group of samples given by the experimental design. It is a supervised
 clustering method with permutations to calculate the significance
 of the analysis.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>isoPLSDA</span>(<span class='no'>ids</span>, <span class='no'>group</span>, <span class='kw'>validation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
  <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>nperm</span> <span class='kw'>=</span> <span class='fl'>400</span>, <span class='kw'>refinment</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vip</span> <span class='kw'>=</span> <span class='fl'>1.2</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -193,10 +218,8 @@ pathways from metabolomic data using MetaboAnalyst. Nature Protocols. 2011.</p>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mirData</span>)
 <span class='co'># Only miRNAs with &gt; 10 reads in all samples.</span>
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoCounts.html'>isoCounts</a></span>(<span class='no'>mirData</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mins</span><span class='kw'>=</span><span class='fl'>6</span>)
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoNorm.html'>isoNorm</a></span>(<span class='no'>ids</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>group</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='output co'>#&gt; <span class='message'>-- note: fitType='parametric', but the dispersion trend was not well captured by the</span>
-#&gt; <span class='message'>   function: y = a/x + b, and a local regression fit was automatically substituted.</span>
-#&gt; <span class='message'>   specify fitType='local' or 'mean' to avoid this message next time.</span></div><div class='input'><span class='no'>pls.ids</span> <span class='kw'>=</span> <span class='fu'>isoPLSDA</span>(<span class='no'>ids</span>, <span class='st'>"group"</span>, <span class='kw'>nperm</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'>cat</span>(<span class='fu'>paste0</span>(<span class='st'>"pval:"</span>,<span class='no'>pls.ids</span>$<span class='no'>p.val</span>))</div><div class='output co'>#&gt; pval:0.5</div><div class='input'><span class='fu'>cat</span>(<span class='fu'>paste0</span>(<span class='st'>"components:"</span>,<span class='no'>pls.ids</span>$<span class='no'>components</span>))</div><div class='output co'>#&gt; components:2.26176836886327 components:21.0544809371789 components:4.82913224361242 components:-8.09136370797731 components:-8.77835318684671 components:-11.2756646548306 components:15.1728136520458 components:-12.4321017446132 components:13.8938784710137 components:-6.20352771908986 components:-2.99261064987036 components:-7.4384520094859 components:2.33149005358021 components:0.397770684760909 components:-0.063186089342203 components:-6.28960875880129 components:-9.36077403013135 components:12.9843081399338</div></pre>
+<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoNorm.html'>isoNorm</a></span>(<span class='no'>ids</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='input'><span class='no'>pls.ids</span> <span class='kw'>=</span> <span class='fu'>isoPLSDA</span>(<span class='no'>ids</span>, <span class='st'>"condition"</span>, <span class='kw'>nperm</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='fu'>cat</span>(<span class='fu'>paste0</span>(<span class='st'>"pval:"</span>,<span class='no'>pls.ids</span>$<span class='no'>p.val</span>))</div><div class='output co'>#&gt; pval:1</div><div class='input'><span class='fu'>cat</span>(<span class='fu'>paste0</span>(<span class='st'>"components:"</span>,<span class='no'>pls.ids</span>$<span class='no'>components</span>))</div><div class='output co'>#&gt; components:14.3066366361985 components:-11.76927567062 components:14.4142252427394 components:6.9158409610585 components:-5.94561492551998 components:7.83823308619104 components:6.37965375808312 components:0.770507005119016 components:-3.48191038598088 components:-2.58943669983855 components:-6.46919365801227 components:-6.47670533056536 components:-8.7476621770196 components:-5.14529784183292 components:0.0105721634718636 components:16.8857951387221 components:0.973658919092283 components:-2.28604793052447 components:6.91225644808857 components:-2.7637813863646 components:-3.37469851222244 components:32.0166888703228 components:-6.71679573377505 components:-7.75125734144394 components:-12.4100891867135 components:-9.53754160723886 components:-3.59032659166325 components:-8.3684332497515 components:0.820586539895829 components:1.51482587885364 components:-3.40290150429687 components:3.67527063642309 components:4.21555882608403 components:-2.77960362499496 components:1.95740375627186 components:-1.27070905183756 components:5.24841830967773 components:4.80078945240899 components:4.8854437350528 components:0.0463901068743711 components:-7.28792845151067 components:-12.4235446089023 components:-7.29470420845995 components:-8.27652061849203 components:-9.45331298875878 components:6.61286418208011 components:5.61781625740843 components:8.04113181774385 components:7.51141145080473 components:4.30707971172336 components:-6.54176560987081 components:-2.82335019627297 components:4.38827706025239 components:-3.97939488805987 components:0.313543609283786 components:1.57692442061777 components:4.48980054184539 components:0.269204174738415 components:-4.79706093257499 components:-1.68513498652605 components:2.72461776639589 components:1.11188072353706 components:-0.872083818411135 components:-1.78912107548238 components:0.523022027610943 components:8.85472938196647 components:-4.49574088568728 components:-8.47441129109108 components:1.04271279247261 components:3.09758558120614</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -221,11 +244,14 @@ pathways from metabolomic data using MetaboAnalyst. Nature Protocols. 2011.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
