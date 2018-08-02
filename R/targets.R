@@ -45,7 +45,7 @@ pairsMatrix <- function(df){
     meta <- data.frame(row.names = colnames(ma),
                       xaxis = colnames(ma))
     r <- degPatterns(ma,
-                    meta, time = "xaxis", minc = 1, plot = FALSE)
+                    meta, time = "xaxis", minc = 0, plot = FALSE)
     groups <- r$df$cluster
     names(groups) <- r$df$genes
     groups
