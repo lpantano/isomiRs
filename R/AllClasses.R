@@ -22,7 +22,9 @@
 #' differential expression and [isomiRs::isoPLSDA()] for clustering.
 #' [isomiRs::isoPlot()] helps with basic expression plot.
 #'
-#' `metadata` contains two lists: `rawData` is a [data.frame]
+#' `metadata` contains one list: 
+#' 
+#' * `rawData` is a [data.frame]
 #' with the information of each sequence found in the data
 #' and the counts for each sample.
 #' 

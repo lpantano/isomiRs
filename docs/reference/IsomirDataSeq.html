@@ -134,10 +134,12 @@ count matrix creation,
 <code><a href='isoDE.html'>isomiRs::isoDE()</a></code> for
 differential expression and <code><a href='isoPLSDA.html'>isomiRs::isoPLSDA()</a></code> for clustering.
 <code><a href='isoPlot.html'>isomiRs::isoPlot()</a></code> helps with basic expression plot.</p>
-<p><code>metadata</code> contains two lists: <code>rawData</code> is a data.frame
+<p><code>metadata</code> contains one list:</p><ul>
+<li><p><code>rawData</code> is a data.frame
 with the information of each sequence found in the data
-and the counts for each sample.</p>
-<p>The naming of isomiRs follows these rules:</p><ul>
+and the counts for each sample.</p></li>
+</ul>
+    <p>The naming of isomiRs follows these rules:</p><ul>
 <li><p>miRNA name</p></li>
 <li><p>type:ref if the sequence is the same than the miRNA reference.
 <code>iso</code> if the sequence has variations.</p></li>

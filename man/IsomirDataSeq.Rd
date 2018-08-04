@@ -29,9 +29,12 @@ count matrix creation,
 differential expression and \code{\link[isomiRs:isoPLSDA]{isomiRs::isoPLSDA()}} for clustering.
 \code{\link[isomiRs:isoPlot]{isomiRs::isoPlot()}} helps with basic expression plot.
 
-\code{metadata} contains two lists: \code{rawData} is a \link{data.frame}
+\code{metadata} contains one list:
+\itemize{
+\item \code{rawData} is a \link{data.frame}
 with the information of each sequence found in the data
 and the counts for each sample.
+}
 
 The naming of isomiRs follows these rules:
 \itemize{
