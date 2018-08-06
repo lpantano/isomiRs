@@ -124,6 +124,7 @@ findTargets <- function(mirna_rse, gene_rse, target,
 .predict_correlate_mirna_targets <- function(mirna_rse,
                                              gene_rse, summarize,
                                              org, gene_id){
+    message("Predict miRNA targets with mirna2targetscan")
     stopifnot(class(org) == "OrgDb")
     mirna_de = as.character(metadata(mirna_rse)$sign)
     gene_de = as.character(metadata(gene_rse)$sign)
@@ -216,7 +217,6 @@ isoNetwork <- function(mirna_rse, gene_rse,
     stopifnot("sign"  %in% names(metadata(mirna_rse)))
     mirna_de = as.character(metadata(mirna_rse)$sign)
     gene_de = as.character(metadata(gene_rse)$sign)
-    
     if (is.null(target))
         target <- .predict_correlate_mirna_targets(mirna_rse,
                                                    gene_rse,
@@ -230,10 +230,18 @@ isoNetwork <- function(mirna_rse, gene_rse,
     gene = assay(gene_rse, "norm")[,order(colData(gene_rse)[,summarize])]
     message("Number of genes ", nrow(gene), " with these columns:", paste(colnames(gene)))
     mirna_group = colData(mirna_rse)[order(colData(mirna_rse)[,summarize]),summarize]
+    mirna_group = droplevels(mirna_group)
     gene_group = colData(gene_rse)[order(colData(gene_rse)[,summarize]),summarize]
+    gene_group = droplevels(gene_group)
 
-    if (!all(levels(mirna_group) == levels(gene_group)))
-        stop("levels in mirna and gene data are not the same")
+    if (!all(levels(mirna_group) == levels(gene_group))){
+        message("levels in mirna and gene data are not the same.")
+        message("Reducing data to common levels.")
+        common = intersect(as.character(gene_group), 
+                           as.character(mirna_group))
+        mirna_group = droplevels(mirna_group[mirna_group  %in% common])
+        gene_group = droplevels(gene_group[gene_group  %in% common])
+    }
     
     mirna_norm <- .apply_median(mirna[mirna_de,], mirna_group, min_fc)
     message("Number of mirnas ", nrow(mirna_norm),
