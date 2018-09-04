@@ -9,10 +9,10 @@ isoNetwork(mirna_rse, gene_rse, summarize = NULL, target = NULL,
   min_fc = 0.5)
 }
 \arguments{
-\item{mirna_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with miRNA
+\item{mirna_rse}{\code{SummarizedExperiment} with miRNA
 information. See details.}
 
-\item{gene_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with gene
+\item{gene_rse}{\code{SummarizedExperiment} with gene
 information. See details.}
 
 \item{summarize}{Character column name in \code{colData(rse)} to use to group
@@ -21,7 +21,7 @@ samples and compare betweem miRNA/gene expression.}
 \item{target}{Matrix with miRNAs (columns) and genes (rows)
 target prediction (1 if it is a target, 0 if not).}
 
-\item{org}{\link[AnnotationDbi:AnnotationDb]{AnnotationDbi::AnnotationDb} obejct. For example:(org.Mm.eg.db)}
+\item{org}{\code{AnnotationDb} obejct. For example:(org.Mm.eg.db)}
 
 \item{enrich}{The output of clusterProfiler of similar functions.}
 

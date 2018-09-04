@@ -7,7 +7,14 @@
 \title{isomiRs}
 \description{
 Characterization of miRNAs and isomiRs, clustering and
-differential expression.
+   differential expression.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item Report bugs at \url{https://github.com/lpantano/isomiRs/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Lorena Pantano \email{lorena.pantano@gmail.com}

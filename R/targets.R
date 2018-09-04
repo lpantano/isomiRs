@@ -73,9 +73,9 @@ pairsMatrix <- function(df){
 #' pair is target according putative targets and negative
 #' correlation of the expression of both molecules.
 #'
-#' @param mirna_rse [SummarizedExperiment::SummarizedExperiment] with miRNA
+#' @param mirna_rse \code{SummarizedExperiment} with miRNA
 #' information. See details.
-#' @param gene_rse [SummarizedExperiment::SummarizedExperiment] with gene
+#' @param gene_rse \code{SummarizedExperiment} with gene
 #' information. See details.
 #' @param target Data.frame with two columns: gene and miRNA.
 #' @param summarize Character column name in colData(rse) to use to group
@@ -163,13 +163,13 @@ findTargets <- function(mirna_rse, gene_rse, target,
 #'
 #' Clustering miRNAs-genes pairs
 #'
-#' @param mirna_rse [SummarizedExperiment::SummarizedExperiment] with miRNA
+#' @param mirna_rse \code{SummarizedExperiment} with miRNA
 #'   information. See details.
-#' @param gene_rse [SummarizedExperiment::SummarizedExperiment] with gene
+#' @param gene_rse \code{SummarizedExperiment} with gene
 #'   information. See details.
 #' @param target Matrix with miRNAs (columns) and genes (rows)
 #'   target prediction (1 if it is a target, 0 if not).
-#' @param org [AnnotationDbi::AnnotationDb] obejct. For example:(org.Mm.eg.db)
+#' @param org \code{AnnotationDb} obejct. For example:(org.Mm.eg.db)
 #' @param enrich The output of clusterProfiler of similar functions.
 #' @param summarize Character column name in `colData(rse)` to use to group
 #'   samples and compare betweem miRNA/gene expression.
@@ -507,7 +507,7 @@ isoPlotNet = function(obj, minGenes = 2){
 #' @param mirna Character vector with miRNA names as in
 #'   miRBase 21.
 #' @param species hsa or mmu supported right now.
-#' @param org [AnnotationDbi::AnnotationDb] obejct. For example:(org.Mm.eg.db)
+#' @param org \code{AnnotationDb} obejct. For example:(org.Mm.eg.db)
 #' @param keytype Character mentioning the gene id to use.
 #'   For example, `ENSEMBL`.
 #'   

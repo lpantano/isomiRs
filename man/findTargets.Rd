@@ -8,10 +8,10 @@ findTargets(mirna_rse, gene_rse, target, summarize = "group",
   min_cor = -0.6)
 }
 \arguments{
-\item{mirna_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with miRNA
+\item{mirna_rse}{\code{SummarizedExperiment} with miRNA
 information. See details.}
 
-\item{gene_rse}{\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment} with gene
+\item{gene_rse}{\code{SummarizedExperiment} with gene
 information. See details.}
 
 \item{target}{Data.frame with two columns: gene and miRNA.}

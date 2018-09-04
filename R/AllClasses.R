@@ -1,7 +1,7 @@
 #' Class that contains all isomiRs annotation for all samples
 #'
 #' The [IsomirDataSeq] is a subclass of
-#' [SummarizedExperiment::SummarizedExperiment]
+#' \code{SummarizedExperiment}.
 #' used to store the raw data, intermediate calculations and results of an
 #' miRNA/isomiR analysis. This class stores all raw isomiRs
 #' data for each sample, processed information,
@@ -188,7 +188,7 @@ updateIsomirDataSeq <- function(object){
 #' @param quiet boolean indicating to print messages
 #'   while reading files. Default `FALSE`.
 #' @param ... arguments provided to
-#'  [SummarizedExperiment::SummarizedExperiment]
+#'  \code{SummarizedExperiment}.
 #'   including rowData.
 #' @details
 #' This function parses the output of

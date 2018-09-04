@@ -1,8 +1,15 @@
+# 1.9.3
+
+* Fix warnings in dosc.
+
+# 1.9.2
+
+* Fix bug that quantify wrongly the reference sequence.
+
 # 1.9.1
 
 ## Major
 
-* Fix bug that quantify wrongly the reference sequence.
 * Improve clustering in isoNetwork plot.
 * Use varianceStabilizingTransformation to normalize counts.
 * Use a less common column as ID for samples in isoPLot fns.

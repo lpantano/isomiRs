@@ -7,7 +7,7 @@
 \title{Class that contains all isomiRs annotation for all samples}
 \description{
 The \link{IsomirDataSeq} is a subclass of
-\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment}
+\code{SummarizedExperiment}.
 used to store the raw data, intermediate calculations and results of an
 miRNA/isomiR analysis. This class stores all raw isomiRs
 data for each sample, processed information,
