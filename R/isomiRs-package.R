@@ -10,7 +10,6 @@
 #' @importFrom limma voom
 #' @import GGally
 #' @import gtools
-#' @import grDevices
 #' @import Biobase
 #' @import assertive.sets
 #' @import cluster
