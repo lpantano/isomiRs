@@ -137,7 +137,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     is_add = add & rawData[["add"]] != "0"
     is_t5 = iso5 & rawData[["t5"]] != "0"
     is_t3 = iso3 & rawData[["t3"]] != "0"
-    is_ref = ref & rawData[["mism"]] != "0" & rawData[["add"]] != "0" & rawData[["t5"]] != "0" & rawData[["t3"]] != "0"
+    is_ref = ref & rawData[["mism"]] == "0" & rawData[["add"]] == "0" & rawData[["t5"]] == "0" & rawData[["t3"]] == "0"
     dt <- rawData %>% 
         mutate(uid = mir) %>% 
         mutate(uid = ifelse(is_ref,
@@ -231,7 +231,6 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
 
 # function to plot isomiR summary
 .plot_all_iso <- function(ids, column){
-    
     des <- colData(ids) %>% 
         as.data.frame() %>% 
         rownames_to_column("iso_sample")
@@ -243,7 +242,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     is_add <- rawData[["add"]] != "0"
     is_t5 <- rawData[["t5"]] != "0"
     is_t3 <- rawData[["t3"]] != "0"
-    is_ref <- rawData[["mism"]] != "0" & rawData[["add"]] != "0" & rawData[["t5"]] != "0" & rawData[["t3"]] != "0"
+    is_ref <- rawData[["mism"]] == "0" & rawData[["add"]] == "0" & rawData[["t5"]] == "0" & rawData[["t3"]] == "0"
     
     iso_data <- rawData %>% 
         mutate(uid = "") %>% 
