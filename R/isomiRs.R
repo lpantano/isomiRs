@@ -126,7 +126,7 @@ isoPlot <- function(ids, type="iso5", column=NULL){
     coden <- codevn[type]
     des <- colData(ids) %>% 
         as.data.frame() %>% 
-        rownames_to_column("sample")
+        rownames_to_column("iso_sample")
     rawData <- metadata(ids)[["rawData"]]
 
     if (type == "subs"){
@@ -136,36 +136,36 @@ isoPlot <- function(ids, type="iso5", column=NULL){
         rawData[["size"]] <- as.factor(.isomir_position(rawData[[coden]]))
         xaxis <- "position respect to the reference"
     }
-    freq_data <- rawData[,c("size", des[["sample"]])] %>% 
+    freq_data <- rawData[,c("size", des[["iso_sample"]])] %>% 
         group_by(!!sym("size")) %>% 
         summarise_all(funs(sum)) %>% 
         ungroup() %>% 
-        gather("sample", "sum", -!!sym("size"))
+        gather("iso_sample", "sum", -!!sym("size"))
     
-    n_data <- rawData[,c("size", des[["sample"]])] %>%
+    n_data <- rawData[,c("size", des[["iso_sample"]])] %>%
         group_by(!!sym("size")) %>% 
         summarise_all(funs(sum(. > 0))) %>% 
         ungroup() %>% 
-        gather("sample", "sum", -!!sym("size"))
+        gather("iso_sample", "sum", -!!sym("size"))
     
     freq_pct <- freq_data %>% 
-        group_by(!!sym("sample")) %>% 
+        group_by(!!sym("iso_sample")) %>% 
         summarise(total_sum = sum(sum)) %>%
-        left_join(freq_data, by = "sample") %>% 
+        left_join(freq_data, by = "iso_sample") %>% 
         mutate(pct_abundance = sum / total_sum * 100L,
-               id = paste(sample, size)) %>% 
-        .[,c("id", "sample", "size", "pct_abundance")]
+               id = paste(iso_sample, size)) %>% 
+        .[,c("id", "iso_sample", "size", "pct_abundance")]
     
     n_pct <- n_data %>% 
-        group_by(!!sym("sample")) %>% 
+        group_by(!!sym("iso_sample")) %>% 
         summarise(total_sum = sum(sum)) %>%
-        left_join(n_data, by = "sample") %>% 
+        left_join(n_data, by = "iso_sample") %>% 
         mutate(unique = sum / total_sum *100L,
-               id = paste(sample, size)) %>% 
+               id = paste(iso_sample, size)) %>% 
         .[,c("id", "unique")]
     
     inner_join(freq_pct, n_pct) %>%
-        left_join(des, by ="sample") %>% 
+        left_join(des, by ="iso_sample") %>% 
         ggplot() +
         geom_jitter(aes_string(x="size",y="unique", colour=column,
                         size="pct_abundance")) +
@@ -209,45 +209,45 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 
     des <- colData(ids) %>% 
         as.data.frame() %>% 
-        rownames_to_column("sample")
+        rownames_to_column("iso_sample")
     rawData <- metadata(ids)[["rawData"]]
     
     parsed_change <- .subs_position(rawData[["mism"]])
     rawData[["change"]] <- as.factor(parsed_change[["change"]])
     rawData[["pos"]] <- as.character(parsed_change[["size"]])
 
-    freq_data <- rawData[,c("change", "pos", des[["sample"]])] %>% 
+    freq_data <- rawData[,c("change", "pos", des[["iso_sample"]])] %>% 
         group_by(!!sym("change"), !!sym("pos")) %>% 
         summarise_all(funs(sum)) %>% 
         ungroup() %>% 
-        gather(sample, sum, -change, -pos)
+        gather(iso_sample, sum, -change, -pos)
     
-    n_data <- rawData[,c("change", "pos", des[["sample"]])] %>%
+    n_data <- rawData[,c("change", "pos", des[["iso_sample"]])] %>%
         group_by(!!sym("change"), !!sym("pos")) %>% 
         summarise_all(funs(sum(. > 0))) %>% 
         ungroup() %>% 
-        gather(sample, sum, -change, -pos)
+        gather(iso_sample, sum, -change, -pos)
     
     freq_pct <- freq_data %>% 
-        group_by(!!sym("sample")) %>% 
+        group_by(!!sym("iso_sample")) %>% 
         summarise(total_sum = sum(sum)) %>%
-        left_join(freq_data, by = "sample", suffix = c("", "_tmp")) %>% 
+        left_join(freq_data, by = "iso_sample", suffix = c("", "_tmp")) %>% 
         mutate(pct_abundance = sum / total_sum * 100L,
-               id = paste(sample, change)) %>% 
+               id = paste(iso_sample, change)) %>% 
         .[.[["pos"]] == position,] %>% 
-        .[,c("id", "sample", "change", "pct_abundance")]
+        .[,c("id", "iso_sample", "change", "pct_abundance")]
     
     n_pct <- n_data %>% 
-        group_by(!!sym("sample")) %>% 
+        group_by(!!sym("iso_sample")) %>% 
         summarise(total_sum = sum(sum)) %>%
-        left_join(n_data, by = "sample") %>% 
+        left_join(n_data, by = "iso_sample") %>% 
         mutate(unique = sum / total_sum *100L,
-               id = paste(sample, change)) %>% 
+               id = paste(iso_sample, change)) %>% 
         .[.[["pos"]] == position,] %>% 
         .[,c("id", "unique")]
     
     inner_join(freq_pct, n_pct) %>%
-        left_join(des, by ="sample") %>%
+        left_join(des, by ="iso_sample") %>%
         ggplot() +
         geom_jitter(aes_string(x="change",y="unique",colour=column,
                         size="pct_abundance")) +
@@ -347,7 +347,7 @@ isoNorm <- function(ids, formula=NULL, maxSamples = 50){
         dds <- DESeqDataSetFromMatrix(countData = counts(ids),
                                       colData = colData(ids),
                                       design = formula)
-        rld <- rlog(dds, blind=FALSE)
+        rld <- varianceStabilizingTransformation(dds, blind=FALSE)
         normcounts(ids) <- assay(rld)
     }else{
         d <- colData(ids)

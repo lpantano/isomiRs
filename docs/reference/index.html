@@ -18,13 +18,22 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Function reference" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">isomiRs</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">isomiRs</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -58,7 +71,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/isomiRs.html">Get Started</a>
+  <a href="../articles/isomiRs.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -68,6 +81,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -75,190 +89,186 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;1.7.2</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="counts.html">counts.IsomirDataSeq</a></code> <code><a href="counts.html">counts</a></code> <code><a href="counts.html">counts<-</a></code> </p>
-          </td>
-          <td><p>Accessors for the count matrix of a IsomirDataSeq object.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="dat286.long.html">dat286.long</a></code> </p>
-          </td>
-          <td><p>Data frame containing mirna from Argyropoulos's paper</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="design.html">design</a></code> <code><a href="design.html">design<-</a></code> </p>
-          </td>
-          <td><p>Accessors for the 'design' slot of a IsomirDataSeq object.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ego.html">ego</a></code> </p>
-          </td>
-          <td><p>enrichResult class</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="findTargets.html">findTargets</a></code> </p>
-          </td>
-          <td><p>Find miRNAs target using mRNA/miRNA expression</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="gene_ex_rse.html">gene_ex_rse</a></code> </p>
-          </td>
-          <td><p>Data frame containing gene expression data</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoCounts.html">isoCounts</a></code> </p>
-          </td>
-          <td><p>Create count matrix with different summarizing options</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoDE.html">isoDE</a></code> </p>
-          </td>
-          <td><p>Differential expression analysis with DESeq2</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="IsomirDataSeq.html">IsomirDataSeq-class</a></code> </p>
-          </td>
-          <td><p>Class that contains all isomiRs annotation for all samples</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="IsomirDataSeqFromFiles.html">IsomirDataSeqFromFiles</a></code> </p>
-          </td>
-          <td><p>`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isomiRs-deprecated.html">dLQNO</a></code> </p>
-          </td>
-          <td><p>Deprecated functions in package isomiRs</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isomiRs-package.html">isomiRs-package</a></code> </p>
-          </td>
-          <td><p>isomiRs</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoNetwork.html">isoNetwork</a></code> </p>
-          </td>
-          <td><p>Clustering miRNAs-genes pairs in similar pattern expression</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoNorm.html">isoNorm</a></code> </p>
-          </td>
-          <td><p>Normalize count matrix</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoPlot.html">isoPlot</a></code> </p>
-          </td>
-          <td><p>Plot the amount of isomiRs in different samples</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoPlotNet.html">isoPlotNet</a></code> </p>
-          </td>
-          <td><p>Functional miRNA / gene expression profile plot</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoPlotPosition.html">isoPlotPosition</a></code> </p>
-          </td>
-          <td><p>Plot nucleotides changes at a given position</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoPLSDA.html">isoPLSDA</a></code> </p>
-          </td>
-          <td><p>Partial Least Squares Discriminant Analysis for <code><a href='reference/IsomirDataSeq.html'>IsomirDataSeq</a></code></p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoPLSDAplot.html">isoPLSDAplot</a></code> </p>
-          </td>
-          <td><p>Plot components from isoPLSDA analysis (pairs plot)</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoSelect.html">isoSelect.IsomirDataSeq</a></code> <code><a href="isoSelect.html">isoSelect</a></code> </p>
-          </td>
-          <td><p>Method to select specific miRNAs from an IsomirDataSeq object.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="isoTop.html">isoTop</a></code> </p>
-          </td>
-          <td><p>Heatmap of the top expressed isomiRs</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="ma_ex.html">ma_ex</a></code> </p>
-          </td>
-          <td><p>Data frame containing gene-mirna relationship</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mirData.html">data</a></code> </p>
-          </td>
-          <td><p>Example of IsomirDataSeq with human brain miRNA counts data</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mirna_ex_rse.html">mirna_ex_rse</a></code> </p>
-          </td>
-          <td><p>Data frame containing mirna expression data</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mirna2targetscan.html">mirna2targetscan</a></code> </p>
-          </td>
-          <td><p>Find targets in targetscan database</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="mirTritation.html">mirTritation</a></code> </p>
-          </td>
-          <td><p>Data frame containing mirna from Argyropoulos's paper</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="IsomirDataSeq.html">IsomirDataSeq-class</a></code> </p>
+        </td>
+        <td><p>Class that contains all isomiRs annotation for all samples</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="IsomirDataSeqFromFiles.html">IsomirDataSeqFromFiles()</a></code> </p>
+        </td>
+        <td><p>`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="counts.html">counts.IsomirDataSeq()</a></code> <code><a href="counts.html">counts(<i>&lt;IsomirDataSeq&gt;</i>)</a></code> <code><a href="counts.html">`counts<-`(<i>&lt;IsomirDataSeq&gt;</i>,<i>&lt;matrix&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Accessors for the count matrix of a IsomirDataSeq object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dat286.long.html">dat286.long</a></code> </p>
+        </td>
+        <td><p>Data frame containing mirna from Argyropoulos's paper</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="design.html">design(<i>&lt;IsomirDataSeq&gt;</i>)</a></code> <code><a href="design.html">`design<-`(<i>&lt;IsomirDataSeq&gt;</i>,<i>&lt;formula&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Accessors for the 'design' slot of a IsomirDataSeq object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ego.html">ego</a></code> </p>
+        </td>
+        <td><p>enrichResult class</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="findTargets.html">findTargets()</a></code> </p>
+        </td>
+        <td><p>Find miRNAs target using mRNA/miRNA expression</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gene_ex_rse.html">gene_ex_rse</a></code> </p>
+        </td>
+        <td><p>Data frame containing gene expression data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoCounts.html">isoCounts()</a></code> </p>
+        </td>
+        <td><p>Create count matrix with different summarizing options</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoDE.html">isoDE()</a></code> </p>
+        </td>
+        <td><p>Differential expression analysis with DESeq2</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoNetwork.html">isoNetwork()</a></code> </p>
+        </td>
+        <td><p>Clustering miRNAs-genes pairs in similar pattern expression</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoNorm.html">isoNorm()</a></code> </p>
+        </td>
+        <td><p>Normalize count matrix</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoPLSDA.html">isoPLSDA()</a></code> </p>
+        </td>
+        <td><p>Partial Least Squares Discriminant Analysis for <code>IsomirDataSeq</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoPLSDAplot.html">isoPLSDAplot()</a></code> </p>
+        </td>
+        <td><p>Plot components from isoPLSDA analysis (pairs plot)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoPlot.html">isoPlot()</a></code> </p>
+        </td>
+        <td><p>Plot the amount of isomiRs in different samples</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoPlotNet.html">isoPlotNet()</a></code> </p>
+        </td>
+        <td><p>Functional miRNA / gene expression profile plot</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoPlotPosition.html">isoPlotPosition()</a></code> </p>
+        </td>
+        <td><p>Plot nucleotides changes at a given position</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoSelect.html">isoSelect.IsomirDataSeq()</a></code> <code><a href="isoSelect.html">isoSelect(<i>&lt;IsomirDataSeq&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Method to select specific miRNAs from an IsomirDataSeq object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isoTop.html">isoTop()</a></code> </p>
+        </td>
+        <td><p>Heatmap of the top expressed isomiRs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="isomiRs-package.html">isomiRs-package</a></code> </p>
+        </td>
+        <td><p>isomiRs</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ma_ex.html">ma_ex</a></code> </p>
+        </td>
+        <td><p>Data frame containing gene-mirna relationship</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mirData.html">mirData</a></code> </p>
+        </td>
+        <td><p>Example of IsomirDataSeq with human brain miRNA counts data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mirTritation.html">mirTritation</a></code> </p>
+        </td>
+        <td><p>Data frame containing mirna from Argyropoulos's paper</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mirna2targetscan.html">mirna2targetscan()</a></code> </p>
+        </td>
+        <td><p>Find targets in targetscan database</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mirna_ex_rse.html">mirna_ex_rse</a></code> </p>
+        </td>
+        <td><p>Data frame containing mirna expression data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="updateIsomirDataSeq.html">updateIsomirDataSeq()</a></code> </p>
+        </td>
+        <td><p>Update IsomirDataSeq object from version &lt; 1.7</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -275,11 +285,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

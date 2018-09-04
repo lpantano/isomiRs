@@ -25,6 +25,7 @@ This is an [R][] package.
 ```r
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
+install.packages("BiocManager")
 BiocManager::install("isomiRs")
 ```
 

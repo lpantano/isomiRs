@@ -42,12 +42,13 @@ pairsMatrix <- function(df){
 }
 
 .cluster_exp <- function(ma){
-    m = (1-cor(t(ma), method = "kendall"))
-    m[m < 0] = 0
-    d = as.dist(m^2)
-    c = cluster::diana(d, diss = TRUE, stand = FALSE)
-
-    cutree(as.hclust(c), h = c$dc)
+    meta <- data.frame(row.names = colnames(ma),
+                      xaxis = colnames(ma))
+    r <- degPatterns(ma,
+                    meta, time = "xaxis", minc = 0, plot = FALSE)
+    groups <- r$df$cluster
+    names(groups) <- r$df$genes
+    groups
 }
 
 
@@ -72,9 +73,9 @@ pairsMatrix <- function(df){
 #' pair is target according putative targets and negative
 #' correlation of the expression of both molecules.
 #'
-#' @param mirna_rse [SummarizedExperiment::SummarizedExperiment] with miRNA
+#' @param mirna_rse \code{SummarizedExperiment} with miRNA
 #' information. See details.
-#' @param gene_rse [SummarizedExperiment::SummarizedExperiment] with gene
+#' @param gene_rse \code{SummarizedExperiment} with gene
 #' information. See details.
 #' @param target Data.frame with two columns: gene and miRNA.
 #' @param summarize Character column name in colData(rse) to use to group
@@ -123,6 +124,7 @@ findTargets <- function(mirna_rse, gene_rse, target,
 .predict_correlate_mirna_targets <- function(mirna_rse,
                                              gene_rse, summarize,
                                              org, gene_id){
+    message("Predict miRNA targets with mirna2targetscan")
     stopifnot(class(org) == "OrgDb")
     mirna_de = as.character(metadata(mirna_rse)$sign)
     gene_de = as.character(metadata(gene_rse)$sign)
@@ -161,13 +163,13 @@ findTargets <- function(mirna_rse, gene_rse, target,
 #'
 #' Clustering miRNAs-genes pairs
 #'
-#' @param mirna_rse [SummarizedExperiment::SummarizedExperiment] with miRNA
+#' @param mirna_rse \code{SummarizedExperiment} with miRNA
 #'   information. See details.
-#' @param gene_rse [SummarizedExperiment::SummarizedExperiment] with gene
+#' @param gene_rse \code{SummarizedExperiment} with gene
 #'   information. See details.
 #' @param target Matrix with miRNAs (columns) and genes (rows)
 #'   target prediction (1 if it is a target, 0 if not).
-#' @param org [AnnotationDbi::AnnotationDb] obejct. For example:(org.Mm.eg.db)
+#' @param org \code{AnnotationDb} obejct. For example:(org.Mm.eg.db)
 #' @param enrich The output of clusterProfiler of similar functions.
 #' @param summarize Character column name in `colData(rse)` to use to group
 #'   samples and compare betweem miRNA/gene expression.
@@ -215,7 +217,6 @@ isoNetwork <- function(mirna_rse, gene_rse,
     stopifnot("sign"  %in% names(metadata(mirna_rse)))
     mirna_de = as.character(metadata(mirna_rse)$sign)
     gene_de = as.character(metadata(gene_rse)$sign)
-    
     if (is.null(target))
         target <- .predict_correlate_mirna_targets(mirna_rse,
                                                    gene_rse,
@@ -229,10 +230,18 @@ isoNetwork <- function(mirna_rse, gene_rse,
     gene = assay(gene_rse, "norm")[,order(colData(gene_rse)[,summarize])]
     message("Number of genes ", nrow(gene), " with these columns:", paste(colnames(gene)))
     mirna_group = colData(mirna_rse)[order(colData(mirna_rse)[,summarize]),summarize]
+    mirna_group = droplevels(mirna_group)
     gene_group = colData(gene_rse)[order(colData(gene_rse)[,summarize]),summarize]
+    gene_group = droplevels(gene_group)
 
-    if (!all(levels(mirna_group) == levels(gene_group)))
-        stop("levels in mirna and gene data are not the same")
+    if (!all(levels(mirna_group) == levels(gene_group))){
+        message("levels in mirna and gene data are not the same.")
+        message("Reducing data to common levels.")
+        common = intersect(as.character(gene_group), 
+                           as.character(mirna_group))
+        mirna_group = droplevels(mirna_group[mirna_group  %in% common])
+        gene_group = droplevels(gene_group[gene_group  %in% common])
+    }
     
     mirna_norm <- .apply_median(mirna[mirna_de,], mirna_group, min_fc)
     message("Number of mirnas ", nrow(mirna_norm),
@@ -304,8 +313,10 @@ isoNetwork <- function(mirna_rse, gene_rse,
                                gtools::mixedsort(levels(ma_long$group)))
         n = round(length(unique(ma_long$group)) / 2L)
         ggplot(ma_long, aes_string(x = "group", y = "average")) +
-            stat_smooth(data = ma_long, size = 0.5,
-                        aes_string(x = "group", y = "average", group = 1L),
+            stat_smooth(data = ma_long, size = 1,
+                        aes_string(x = "group", y = "average",
+                                   group = 1L),
+                        color = "black",
                         method = "lm",formula = y~poly(x,n)) +
             theme_bw(base_size = 11L) + xlab(NULL) + ylab(NULL) +
             theme(axis.text.x = element_blank()) +
@@ -317,14 +328,12 @@ isoNetwork <- function(mirna_rse, gene_rse,
 .viz_mirna_gene_enrichment <- function(obj, mirna_norm, mrna_norm, group, org, plot=FALSE){
     net <- obj$network
     summary <- obj$summary
-    # browser()
     ma_g = .scale(as.data.frame(mrna_norm)[as.character(unique(net$gene)),])
     ma_m = .scale(as.data.frame(mirna_norm)[as.character(unique(net$mir)),])
     groups = .cluster_exp(mrna_norm[as.character(unique(net$gene)),])
     final_df = data.frame()
     for (x in summary$Description) {
         message(x)
-        # browser()
         if (plot)
             cat("## GO term:", x)
         .m = as.character(unique(net[net$go == x, "mir"]))
@@ -378,7 +387,8 @@ isoNetwork <- function(mirna_rse, gene_rse,
     do.call(rbind, apply(df, 1, function(r){
         exp = unlist(strsplit(r[2], split = ","))
         exp = .reduce_mirna(exp)
-        data.frame(term = r[5], mir = exp, row.names = NULL)
+        data.frame(term = r[5], group = r[4],
+                   mir = exp, row.names = NULL)
     }))
 }
 
@@ -427,7 +437,7 @@ isoPlotNet = function(obj, minGenes = 2){
                               y = "term_short",
                               size = "ngene")) +
         geom_point(color = "grey75") +
-        geom_text(aes_string(label = "ngene"), size = 5) +
+        geom_text(aes_string(label = "ngene"), size = 3) +
         theme_bw() + xlab("Gene expression profiles") + ylab("") +
         theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
         ggtitle("Number genes in each term\n over expression profile") +
@@ -447,10 +457,11 @@ isoPlotNet = function(obj, minGenes = 2){
     
     mirna_df$mir = factor(mirna_df$mir, levels = hc$labels[hc$order])
     mirna_df$term = factor(mirna_df$term, levels = sort(unique(df$term)))
-
+    # browser()
     terms_vs_mirnas =
         ggplot(mirna_df, aes_string(x = "mir", y = "term")) +
-        geom_point() + ggtitle("miRNAs targeting that term") +
+        geom_text(aes_string(label = "group"), size = 3) +
+        ggtitle("miRNAs targeting that term") +
         theme_bw() + ylab("") + xlab("") +
         theme(axis.text.x = element_text(size = 7, angle = 90,
                                          hjust = 1, vjust = 0.5)) +
@@ -480,16 +491,10 @@ isoPlotNet = function(obj, minGenes = 2){
     maxWidth = unit.pmax(p1$heights[c(2, 7)], p2$heights[c(2, 7)])
     p1$heights[c(2, 7)] <- maxWidth
     p2$heights[c(2, 7)] <- maxWidth
-    p = grid.arrange(top = textGrob("miRNA-gene-term interaction"),
-                     arrangeGrob(
-                         arrangeGrob(p1, p2, ncol = 2),
-                         arrangeGrob(pp.profiles), heights = c(3,1)
-                     ))
-
-    #p = grid.arrange(top=textGrob("summary"),
-    #                 arrangeGrob(pp.terms,pp.mirs, widths=c(2,1), ncol=2),
-    #                 arrangeGrob(profiles, ncol=3),
-    #                 nrow=2, heights=c(2,2))
+    p <- plot_grid(plot_grid(p1,p2, align = "h"),
+              pp.profiles, rel_widths = c(1,2),
+              nrow=2, rel_heights = c(3,1))
+    show(p)
     invisible(p)
 }
 
@@ -502,7 +507,7 @@ isoPlotNet = function(obj, minGenes = 2){
 #' @param mirna Character vector with miRNA names as in
 #'   miRBase 21.
 #' @param species hsa or mmu supported right now.
-#' @param org [AnnotationDbi::AnnotationDb] obejct. For example:(org.Mm.eg.db)
+#' @param org \code{AnnotationDb} obejct. For example:(org.Mm.eg.db)
 #' @param keytype Character mentioning the gene id to use.
 #'   For example, `ENSEMBL`.
 #'   

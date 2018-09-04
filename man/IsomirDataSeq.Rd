@@ -7,7 +7,7 @@
 \title{Class that contains all isomiRs annotation for all samples}
 \description{
 The \link{IsomirDataSeq} is a subclass of
-\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment}
+\code{SummarizedExperiment}.
 used to store the raw data, intermediate calculations and results of an
 miRNA/isomiR analysis. This class stores all raw isomiRs
 data for each sample, processed information,
@@ -29,9 +29,12 @@ count matrix creation,
 differential expression and \code{\link[isomiRs:isoPLSDA]{isomiRs::isoPLSDA()}} for clustering.
 \code{\link[isomiRs:isoPlot]{isomiRs::isoPlot()}} helps with basic expression plot.
 
-\code{metadata} contains two lists: \code{rawData} is a \link{data.frame}
+\code{metadata} contains one list:
+\itemize{
+\item \code{rawData} is a \link{data.frame}
 with the information of each sequence found in the data
 and the counts for each sample.
+}
 
 The naming of isomiRs follows these rules:
 \itemize{

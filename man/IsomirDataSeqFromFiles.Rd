@@ -5,8 +5,8 @@
 \title{`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool}
 \usage{
 IsomirDataSeqFromFiles(files, coldata, rate = 0.2, canonicalAdd = TRUE,
-  uniqueMism = TRUE, uniqueHits = FALSE, design = ~1L, minHits = 1L,
-  header = TRUE, skip = 0, quiet = TRUE, ...)
+  uniqueMism = TRUE, uniqueHits = FALSE, design = ~1L,
+  minHits = 1L, header = TRUE, skip = 0, quiet = TRUE, ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
@@ -38,7 +38,7 @@ in the final matrix.}
 while reading files. Default \code{FALSE}.}
 
 \item{...}{arguments provided to
-\link[SummarizedExperiment:SummarizedExperiment]{SummarizedExperiment::SummarizedExperiment}
+\code{SummarizedExperiment}.
 including rowData.}
 }
 \value{

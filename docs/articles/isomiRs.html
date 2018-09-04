@@ -8,14 +8,17 @@
 <title>Characterization of miRNA and isomiR molecules • isomiRs</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Characterization of miRNA and isomiR molecules">
+<meta property="og:description" content="">
+<meta name="twitter:card" content="summary">
+<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -24,8 +27,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">isomiRs</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">isomiRs</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -35,7 +42,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/isomiRs.html">Get Started</a>
+  <a href="../articles/isomiRs.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -51,21 +58,24 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Characterization of miRNA and isomiR molecules</h1>
                         <h4 class="author">Lorena Pantano</h4>
             
-            <h4 class="date">22 March 2018</h4>
-          </div>
+            <h4 class="date">1 August 2018</h4>
+      
+      
+      <div class="hidden name"><code>isomiRs.Rmd</code></div>
+
+    </div>
 
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      <p>isomiRs package version: 1.7.2</p>
+      <p>isomiRs package version: 1.9.1</p>
     </div>
     
-<div class="contents">
 <p><a href="lorena.pantano@gmail.com">Lorena Pantano</a> Harvard TH Chan School of Public Health, Boston, US</p>
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
@@ -104,23 +114,31 @@ TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1   hsa-miR-192-5p  25  47   8GT     0  
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(isomiRs)
 <span class="kw">data</span>(mirData)
 <span class="kw">head</span>(<span class="kw"><a href="../reference/isoSelect.html">isoSelect</a></span>(mirData, <span class="dt">mirna=</span><span class="st">"hsa-let-7a-5p"</span>, <span class="dv">1000</span>))</code></pre></div>
-<pre><code>## DataFrame with 6 rows and 7 columns
-##                                                id       cc1       cc2
-##                                       &lt;character&gt; &lt;numeric&gt; &lt;numeric&gt;
-## 1  hsa-let-7a-5p 0 0 0 0 : TGAGGTAGTAGGTTGTATAGTT    235825    171354
-## 2   hsa-let-7a-5p 0 0 0 gtt : TGAGGTAGTAGGTTGTATA      1173       884
-## 3   hsa-let-7a-5p 0 0 0 t : TGAGGTAGTAGGTTGTATAGT     50920     52403
-## 4 hsa-let-7a-5p 0 0 0 T : TGAGGTAGTAGGTTGTATAGTTT      8806      5478
-## 5   hsa-let-7a-5p 0 0 0 tt : TGAGGTAGTAGGTTGTATAG      6041      5467
-## 6 hsa-let-7a-5p 0 A 0 0 : TGAGGTAGTAGGTTGTATAGTTA      9616      4742
-##         cc3       ct2       ct3       ct4
-##   &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-## 1    149541    163569    114028    123454
-## 2       751       756       495       719
-## 3     35525     35795     24993     34512
-## 4      5427      6045      4626      4181
-## 5      3817      4828      2858      5087
-## 6      5437      7326      4790      4430</code></pre>
+<pre><code>## DataFrame with 6 rows and 14 columns
+##                                cc1       cc2       cc3       cc4       cc5
+##                          &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+## hsa-let-7a-5p               235825    171354    149541    180654    168884
+## hsa-let-7a-5p;iso_3p:gtt      1173       884       751      1010       963
+## hsa-let-7a-5p;iso_3p:t       50920     52403     35525     53213     51499
+## hsa-let-7a-5p;iso_3p:T        8806      5478      5427      6249      5538
+## hsa-let-7a-5p;iso_3p:tt       6041      5467      3817      7491      6394
+## hsa-let-7a-5p;iso_add:A       9616      4742      5437      6714      5846
+##                                cc6       cc7       ct1       ct2       ct3
+##                          &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+## hsa-let-7a-5p               107430    153061    143030    163569    114028
+## hsa-let-7a-5p;iso_3p:gtt       580       863       927       756       495
+## hsa-let-7a-5p;iso_3p:t       30659     45492     42878     35795     24993
+## hsa-let-7a-5p;iso_3p:T        3734      5482      4825      6045      4626
+## hsa-let-7a-5p;iso_3p:tt       3984      5940      7107      4828      2858
+## hsa-let-7a-5p;iso_add:A       3799      5532      5214      7326      4790
+##                                ct4       ct5       ct6       ct7
+##                          &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+## hsa-let-7a-5p               123454    133092    158909    140272
+## hsa-let-7a-5p;iso_3p:gtt       719       682      1048       860
+## hsa-let-7a-5p;iso_3p:t       34512     36973     47873     39585
+## hsa-let-7a-5p;iso_3p:T        4181      4505      5134      4670
+## hsa-let-7a-5p;iso_3p:tt       5087      5652      6589      5447
+## hsa-let-7a-5p;iso_add:A       4430      5010      6034      5081</code></pre>
 <p><code>metadata(mirData)</code> contains two lists: <code>rawList</code> is a list with same length than number of samples and stores the input files for each sample; <code>isoList</code> is a list with same length than number of samples and stores information for each isomiR type summarizing the different changes for the different isomiRs (trimming at 3’, trimming a 5’, addition and substitution). For instance, you can get the data stored in <code>isoList</code> for sample 1 and 5’ changes with this code <code>metadata(ids)[["isoList"]][[1]]["t5sum"]</code>.</p>
 </div>
 <div id="isomirs-annotation" class="section level3">
@@ -150,76 +168,83 @@ TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1   hsa-miR-192-5p  25  47   8GT     0  
 <a href="#descriptive-analysis" class="anchor"></a>Descriptive analysis</h2>
 <p>You can plot isomiRs expression with <code>isoPlot</code>. In this figure you will see how abundant is each type of isomiRs at different positions considering the total abundance and the total number of sequences. The <code>type</code> parameter controls what type of isomiRs to show. It can be trimming (iso5 and iso3), addition (add) or substitution (subs) changes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ids &lt;-<span class="st"> </span><span class="kw"><a href="../reference/isoCounts.html">isoCounts</a></span>(mirData)
-<span class="kw"><a href="../reference/isoPlot.html">isoPlot</a></span>(ids, <span class="dt">type=</span><span class="st">"all"</span>, <span class="dt">column =</span> <span class="st">"group"</span>)</code></pre></div>
-<p><img src="isomiRs_files/figure-html/package-plot-iso-t5-1.png" width="672"></p>
+<span class="kw"><a href="../reference/isoPlot.html">isoPlot</a></span>(ids, <span class="dt">type=</span><span class="st">"all"</span>)</code></pre></div>
+<p><img src="isomiRs_files/figure-html/package-plot-iso-t5-1.png" width="700"></p>
 </div>
 <div id="count-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#count-data" class="anchor"></a>Count data</h2>
 <p><code>isoCounts</code> gets the count matrix that can be used for many different downstream analyses changing the way isomiRs are collapsed. The following command will merge all isomiRs into one feature: the reference miRNA.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids))</code></pre></div>
-<pre><code>##                    cc1    cc2    cc3    ct2    ct3    ct4
-## hsa-let-7a-2-3p      5     13      4      4      2     12
-## hsa-let-7a-3p      767    707    630    496    343    635
-## hsa-let-7a-5p   317730 244832 203888 222066 154246 175523
-## hsa-let-7b-3p     1037   1949    679    931    494   1149
-## hsa-let-7b-5p    69671  64702  42347  45071  28312  41214
-## hsa-let-7c-3p       36     16     25     30     28     26</code></pre>
+<pre><code>##                    cc1    cc2    cc3    cc4    cc5    cc6    cc7    ct1
+## hsa-let-7a-2-3p      5     13      4      9     11      6      7      0
+## hsa-let-7a-3p      767    707    630    609    731    389    681    258
+## hsa-let-7a-5p   317730 244832 203888 260931 244784 153049 220563 208511
+## hsa-let-7b-3p     1037   1949    679   1385   1884    697   1499    338
+## hsa-let-7b-5p    69671  64702  42347  65322  60767  34975  56875  22215
+## hsa-let-7c-3p       36     16     25     40     26     23     35      3
+##                    ct2    ct3    ct4    ct5    ct6    ct7
+## hsa-let-7a-2-3p      4      2     12     12      8      3
+## hsa-let-7a-3p      496    343    635    622    452    519
+## hsa-let-7a-5p   222066 154246 175523 189733 230690 199923
+## hsa-let-7b-3p      931    494   1149   1194   1431    988
+## hsa-let-7b-5p    45069  28312  41214  43058  61258  46600
+## hsa-let-7c-3p       30     28     26     24     22     17</code></pre>
 <p>The normalization uses <code>rlog</code> from <em><a href="http://bioconductor.org/packages/DESeq2">DESeq2</a></em> package and allows quick integration to another analyses like heatmap, clustering or PCA.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pheatmap)
-ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.html">isoNorm</a></span>(ids, <span class="dt">formula =</span> <span class="op">~</span><span class="st"> </span>group)
+ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.html">isoNorm</a></span>(ids, <span class="dt">formula =</span> <span class="op">~</span><span class="st"> </span>condition)
 <span class="kw"><a href="http://www.rdocumentation.org/packages/pheatmap/topics/pheatmap">pheatmap</a></span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids, <span class="dt">norm=</span><span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>,], 
          <span class="dt">annotation_col =</span> <span class="kw">data.frame</span>(<span class="kw">colData</span>(ids)[,<span class="dv">1</span>,<span class="dt">drop=</span><span class="ot">FALSE</span>]),
          <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>, <span class="dt">scale=</span><span class="st">"row"</span>)</code></pre></div>
-<p><img src="isomiRs_files/figure-html/package-norm-1.png" width="672"></p>
+<p><img src="isomiRs_files/figure-html/package-norm-1.png" width="700"></p>
 <div id="differential-expression-analysis" class="section level3">
 <h3 class="hasAnchor">
 <a href="#differential-expression-analysis" class="anchor"></a>Differential expression analysis</h3>
 <p>The <code>isoDE</code> uses functions from <em><a href="http://bioconductor.org/packages/DESeq2">DESeq2</a></em> package. This function has parameters to create a matrix using only the reference miRNAs, all isomiRs, or some of them. This matrix and the design matrix are the inputs for DESeq2. The output will be a DESeqDataSet object, allowing to generate any plot or table explained in DESeq2 package vignette.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/isoDE.html">isoDE</a></span>(ids, <span class="dt">formula=</span><span class="op">~</span>group)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/isoDE.html">isoDE</a></span>(ids, <span class="dt">formula=</span><span class="op">~</span>condition)
 <span class="kw">library</span>(DESeq2)
 <span class="kw"><a href="http://www.rdocumentation.org/packages/DESeq2/topics/plotMA">plotMA</a></span>(dds)</code></pre></div>
-<p><img src="isomiRs_files/figure-html/package-de-1.png" width="672"></p>
+<p><img src="isomiRs_files/figure-html/package-de-1.png" width="700"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/DESeq2/topics/results">results</a></span>(dds, <span class="dt">format=</span><span class="st">"DataFrame"</span>))</code></pre></div>
-<pre><code>## log2 fold change (MLE): group ct vs cc 
-## Wald test p-value: group ct vs cc 
+<pre><code>## log2 fold change (MLE): condition ct vs cc 
+## Wald test p-value: condition ct vs cc 
 ## DataFrame with 6 rows and 6 columns
 ##                     baseMean log2FoldChange     lfcSE       stat    pvalue
 ##                    &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt;  &lt;numeric&gt; &lt;numeric&gt;
-## hsa-let-7a-2-3p 7.280132e+00     -0.4810538 1.1938136 -0.4029555 0.6869810
-## hsa-let-7a-3p   6.037792e+02     -0.4826551 0.4335156 -1.1133513 0.2655576
-## hsa-let-7a-5p   2.204578e+05     -0.3924390 0.3990463 -0.9834423 0.3253898
-## hsa-let-7b-3p   1.121845e+03     -0.6713768 0.5885204 -1.1407876 0.2539583
-## hsa-let-7b-5p   4.932097e+04     -0.6020825 0.4364083 -1.3796311 0.1677003
-## hsa-let-7c-3p   2.645655e+01      0.3445930 0.6119527  0.5631040 0.5733640
+## hsa-let-7a-2-3p 6.600052e+00     -0.3917997 0.6094666 -0.6428568 0.5203170
+## hsa-let-7a-3p   5.468055e+02     -0.2256857 0.2247883 -1.0039923 0.3153823
+## hsa-let-7a-5p   2.206256e+05      0.1134702 0.2705028  0.4194789 0.6748662
+## hsa-let-7b-3p   1.096787e+03     -0.3912745 0.3294638 -1.1876099 0.2349871
+## hsa-let-7b-5p   4.741597e+04     -0.2352147 0.2260572 -1.0405099 0.2981030
+## hsa-let-7c-3p   2.311776e+01     -0.1744332 0.3027031 -0.5762517 0.5644450
 ##                      padj
 ##                 &lt;numeric&gt;
-## hsa-let-7a-2-3p  0.955863
-## hsa-let-7a-3p    0.955863
-## hsa-let-7a-5p    0.955863
-## hsa-let-7b-3p    0.955863
-## hsa-let-7b-5p    0.955863
-## hsa-let-7c-3p    0.955863</code></pre>
+## hsa-let-7a-2-3p 0.9895233
+## hsa-let-7a-3p   0.9895233
+## hsa-let-7a-5p   0.9895233
+## hsa-let-7b-3p   0.9895233
+## hsa-let-7b-5p   0.9895233
+## hsa-let-7c-3p   0.9895233</code></pre>
 <p>You can differentiate between reference sequences and isomiRs at 5’ end with this command:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dds =<span class="st"> </span><span class="kw"><a href="../reference/isoDE.html">isoDE</a></span>(ids, <span class="dt">formula=</span><span class="op">~</span>group, <span class="dt">ref=</span><span class="ot">TRUE</span>, <span class="dt">iso5=</span><span class="ot">TRUE</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dds =<span class="st"> </span><span class="kw"><a href="../reference/isoDE.html">isoDE</a></span>(ids, <span class="dt">formula=</span><span class="op">~</span>condition, <span class="dt">ref=</span><span class="ot">TRUE</span>, <span class="dt">iso5=</span><span class="ot">TRUE</span>)
 <span class="kw">head</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/DESeq2/topics/results">results</a></span>(dds, <span class="dt">tidy=</span><span class="ot">TRUE</span>))</code></pre></div>
-<pre><code>##                        row    baseMean log2FoldChange     lfcSE       stat
-## 1 hsa-let-7a-2-3p.iso.t5:0   3.5706434     -0.5907229 1.5874311 -0.3721251
-## 2 hsa-let-7a-2-3p.ref.t5:0   3.6094368     -0.3092342 1.5174726 -0.2037824
-## 3   hsa-let-7a-3p.iso.t5:0 419.6204486     -0.3906909 0.4241191 -0.9211821
-## 4   hsa-let-7a-3p.iso.t5:A   0.3029715      1.8405090 4.0509840  0.4543363
-## 5   hsa-let-7a-3p.iso.t5:c  95.2721196     -0.3703600 0.5018339 -0.7380131
-## 6  hsa-let-7a-3p.iso.t5:ct   4.6224205     -1.2606914 1.2513812 -1.0074399
-##      pvalue      padj
-## 1 0.7097997 0.9832495
-## 2 0.8385236 0.9928199
-## 3 0.3569554 0.9832495
-## 4 0.6495868 0.9832495
-## 5 0.4605065 0.9832495
-## 6 0.3137234 0.9832495</code></pre>
+<pre><code>##                          row    baseMean log2FoldChange     lfcSE
+## 1            hsa-let-7a-2-3p   6.4387637     -0.4437940 0.5881691
+## 2 hsa-let-7a-2-3p;iso_5p:TAA   0.1280730      1.1129483 3.0845751
+## 3              hsa-let-7a-3p 454.5689202     -0.2068281 0.2164444
+## 4     hsa-let-7a-3p;iso_5p:A   0.6517906      1.0184266 1.7906776
+## 5     hsa-let-7a-3p;iso_5p:c  84.3104219     -0.3077734 0.2536067
+## 6    hsa-let-7a-3p;iso_5p:ct   5.1044706     -0.5479279 0.5474512
+##         stat    pvalue     padj
+## 1 -0.7545346 0.4505283 0.988809
+## 2  0.3608109 0.7182408 0.988809
+## 3 -0.9555714 0.3392888 0.988809
+## 4  0.5687381 0.5695339 0.988809
+## 5 -1.2135854 0.2249061 0.988809
+## 6 -1.0008707 0.3168893 0.988809</code></pre>
 <p>Alternative, for more complicated cases or if you want to control more the differential expression analysis paramters you can use directly <em><a href="http://bioconductor.org/packages/DESeq2">DESeq2</a></em> package feeding it with the output of <code><a href="../reference/counts.html">counts(ids)</a></code> and <code>colData(ids)</code> like this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dds =<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/DESeq2/topics/DESeqDataSet">DESeqDataSetFromMatrix</a></span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids),
-                             <span class="kw">colData</span>(ids), <span class="dt">design =</span> <span class="op">~</span><span class="st"> </span>group)</code></pre></div>
+                             <span class="kw">colData</span>(ids), <span class="dt">design =</span> <span class="op">~</span><span class="st"> </span>condition)</code></pre></div>
 </div>
 </div>
 <div id="supervised-classification" class="section level2">
@@ -227,12 +252,12 @@ ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.htm
 <a href="#supervised-classification" class="anchor"></a>Supervised classification</h2>
 <p>Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically appropriate for analysis of high dimensionality data sets and multicollineality <span class="citation">(Pérez-Enciso and Tenenhaus 2003)</span>. PLS-DA is a supervised method (i.e. makes use of class labels) with the aim to provide a dimension reduction strategy in a situation where we want to relate a binary response variable (in our case young or old status) to a set of predictor variables. Dimensionality reduction procedure is based on orthogonal transformations of the original variables (isomiRs) into a set of linearly uncorrelated latent variables (usually termed as components) such that maximizes the separation between the different classes in the first few components <span class="citation">(Xia and Wishart 2011)</span>. We used sum of squares captured by the model (R2) as a goodness of fit measure. We implemented this method using the <code>DiscriMiner</code> into <code>isoPLSDA</code> function. The output p-value of this function will tell about the statistical significant of the group separation using miRNA expression data. Moreover, the function <code>isoPLSDAplot</code> helps to visualize the results. It will plot the samples using the significant components (t1, t2, t3 …) from the PLS-DA analysis and the samples distribution along the components.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ids =<span class="st"> </span><span class="kw"><a href="../reference/isoCounts.html">isoCounts</a></span>(ids, <span class="dt">iso5=</span><span class="ot">TRUE</span>, <span class="dt">minc=</span><span class="dv">10</span>, <span class="dt">mins=</span><span class="dv">6</span>)
-ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.html">isoNorm</a></span>(ids, <span class="dt">formula =</span> <span class="op">~</span><span class="st"> </span>group)
-pls.ids =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDA.html">isoPLSDA</a></span>(ids, <span class="st">"group"</span>, <span class="dt">nperm =</span> <span class="dv">2</span>)
+ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.html">isoNorm</a></span>(ids, <span class="dt">formula =</span> <span class="op">~</span><span class="st"> </span>condition)
+pls.ids =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDA.html">isoPLSDA</a></span>(ids, <span class="st">"condition"</span>, <span class="dt">nperm =</span> <span class="dv">2</span>)
 df =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDAplot.html">isoPLSDAplot</a></span>(pls.ids)</code></pre></div>
-<p><img src="isomiRs_files/figure-html/package-pls-1.png" width="672"></p>
+<p><img src="isomiRs_files/figure-html/package-pls-1.png" width="700"></p>
 <p>The analysis can be done again using only the most important discriminant isomiRS from the PLS-DA models based on the analysis. We used Variable Importance for the Projection (VIP) criterion to select the most important features, since takes into account the contribution of a specific predictor for both the explained variability on the response and the explained variability on the predictors.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pls.ids =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDA.html">isoPLSDA</a></span>(ids,<span class="st">"group"</span>, <span class="dt">refinment =</span> <span class="ot">FALSE</span>, <span class="dt">vip =</span> <span class="fl">0.8</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pls.ids =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDA.html">isoPLSDA</a></span>(ids,<span class="st">"condition"</span>, <span class="dt">refinment =</span> <span class="ot">FALSE</span>, <span class="dt">vip =</span> <span class="fl">0.8</span>)</code></pre></div>
 </div>
 <div id="gene---mirna-integration" class="section level2">
 <h2 class="hasAnchor">
@@ -244,52 +269,59 @@ df =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDAplot
 
 <span class="co"># ego &lt;- enrichGO(row.names(assay(gene_ex_rse, "norm")),</span>
 <span class="co">#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")</span>
-data =<span class="st"> </span><span class="kw"><a href="../reference/isoNetwork.html">isoNetwork</a></span>(mirna_ex_rse, gene_ex_rse, ma_ex,
-                  <span class="dt">org =</span> ego)</code></pre></div>
+data =<span class="st"> </span><span class="kw"><a href="../reference/isoNetwork.html">isoNetwork</a></span>(mirna_ex_rse, gene_ex_rse, <span class="dt">target =</span> ma_ex,
+                  <span class="dt">enrich =</span> ego, <span class="dt">summarize =</span> <span class="st">"group"</span>)</code></pre></div>
 <pre><code>## Dimmension of cor matrix: 20 25</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/isoPlotNet.html">isoPlotNet</a></span>(data)</code></pre></div>
 <p><img src="isomiRs_files/figure-html/isonetwork-1.png" width="672"></p>
 <p>As an option, <code>org</code> can be <code>org.Mm.eg.db</code> and <code>genename</code> can be <code>ENSEMBL</code> and it will run <code>enrcihGO</code> internally.</p>
 <p>To create the ma_ex matrix, the user can use <code>findTargets</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mirna_ma &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rbinom</span>(<span class="dv">20</span> <span class="op">*</span><span class="st"> </span><span class="dv">25</span>, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">20</span>)
-<span class="kw">colnames</span>(mirna_ma) &lt;-<span class="st"> </span><span class="kw">rownames</span>(mirna_ex_rse)
-<span class="kw">rownames</span>(mirna_ma) &lt;-<span class="st"> </span><span class="kw">rownames</span>(gene_ex_rse)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mirna_ma &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">gene =</span> <span class="kw">names</span>(gene_ex_rse)[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>],
+                       <span class="dt">mir =</span> <span class="kw">names</span>(mirna_ex_rse))
 ma_ex &lt;-<span class="st"> </span><span class="kw"><a href="../reference/findTargets.html">findTargets</a></span>(mirna_ex_rse, gene_ex_rse, mirna_ma)</code></pre></div>
-<pre><code>## Dimmension of cor matrix: 20 25</code></pre>
+<pre><code>## Dimmension of cor matrix: 20 20</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ma_ex[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</code></pre></div>
-<pre><code>##                    mmu-miR-181c-5p mmu-miR-181a-5p mmu-miR-221-3p
-## ENSMUSG00000021822       0.0000000      -0.7333333      0.0000000
-## ENSMUSG00000062960       0.0000000       0.0000000     -0.7333333
-## ENSMUSG00000032462       0.0000000       0.0000000      0.0000000
-## ENSMUSG00000004530      -0.7333333       0.0000000      0.0000000
-## ENSMUSG00000026193       0.0000000       0.0000000      0.0000000
-## ENSMUSG00000059049       0.0000000       0.0000000      0.0000000
-##                    mmu-miR-204-5p
-## ENSMUSG00000021822            0.0
-## ENSMUSG00000062960            0.0
-## ENSMUSG00000032462           -0.6
-## ENSMUSG00000004530            0.0
-## ENSMUSG00000026193            0.0
-## ENSMUSG00000059049            0.0</code></pre>
+<pre><code>##                    mmu-miR-101a-3p mmu-miR-107-3p mmu-miR-142a-3p
+## ENSMUSG00000004530               0              0               0
+## ENSMUSG00000005397               0              0               0
+## ENSMUSG00000006386               0              0               0
+## ENSMUSG00000016494               0              0               0
+## ENSMUSG00000019997               0              0               0
+## ENSMUSG00000021822               0              0               0
+##                    mmu-miR-144-3p
+## ENSMUSG00000004530              0
+## ENSMUSG00000005397              0
+## ENSMUSG00000006386              0
+## ENSMUSG00000016494              0
+## ENSMUSG00000019997              0
+## ENSMUSG00000021822              0</code></pre>
 <p>And to get the <code>mirna_ma</code> data.frame with the miRNA-target information, the user can use <code>mirna2targetscan</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mirna_ma &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mirna2targetscan.html">mirna2targetscan</a></span>(<span class="kw">c</span>(<span class="st">"hsa-miR-34c-5p"</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(targetscan.Hs.eg.db)
+mirna_ma &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mirna2targetscan.html">mirna2targetscan</a></span>(<span class="kw">c</span>(<span class="st">"hsa-miR-34c-5p"</span>))
 <span class="kw">head</span>(mirna_ma)</code></pre></div>
-<pre><code>##                         miRFamily Seedmatch  PCT  gene
-## 1 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.29 79719
-## 2 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.76   215
-## 3 miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58  3983
-## 4 miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58  3983
-## 5 miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58  3983
-## 6 miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58  3983</code></pre>
+<pre><code>##                         miRFamily Seedmatch  PCT  gene     targetscan
+## 1 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.29 79719 hsa-miR-34c-5p
+## 2 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.76   215 hsa-miR-34c-5p
+## 3 miR-34ac/34bc-5p/449abc/449c-5p   7mer-1a 0.58  3983 hsa-miR-34c-5p
+## 4 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.73    29 hsa-miR-34c-5p
+## 5 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.67 64746 hsa-miR-34c-5p
+## 6 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.75    40 hsa-miR-34c-5p
+##              mir         ext         num     letter
+## 1 hsa-miR-34c-5p hsa-miR-34c hsa-miR-34c hsa-miR-34
+## 2 hsa-miR-34c-5p hsa-miR-34c hsa-miR-34c hsa-miR-34
+## 3 hsa-miR-34c-5p hsa-miR-34c hsa-miR-34c hsa-miR-34
+## 4 hsa-miR-34c-5p hsa-miR-34c hsa-miR-34c hsa-miR-34
+## 5 hsa-miR-34c-5p hsa-miR-34c hsa-miR-34c hsa-miR-34
+## 6 hsa-miR-34c-5p hsa-miR-34c hsa-miR-34c hsa-miR-34</code></pre>
 </div>
 <div id="session-info" class="section level2">
 <h2 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h2>
 <p>Here is the output of <code>sessionInfo</code> on the system on which this document was compiled:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R version 3.4.3 (2017-11-30)
+<pre><code>## R version 3.4.4 (2018-03-15)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
-## Running under: macOS High Sierra 10.13
+## Running under: macOS High Sierra 10.13.3
 ## 
 ## Matrix products: default
 ## BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
@@ -303,59 +335,74 @@ ma_ex &lt;-<span class="st"> </span><span class="kw"><a href="../reference/findT
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] DESeq2_1.19.29             pheatmap_1.0.8            
-##  [3] bindrcpp_0.2.0.9000        isomiRs_1.7.2             
-##  [5] SummarizedExperiment_1.8.1 DelayedArray_0.4.1        
-##  [7] matrixStats_0.52.2         Biobase_2.38.0            
-##  [9] GenomicRanges_1.30.1       GenomeInfoDb_1.14.0       
-## [11] IRanges_2.12.0             S4Vectors_0.16.0          
-## [13] BiocGenerics_0.24.0        DiscriMiner_0.1-29        
-## [15] BiocStyle_2.5.41          
+##  [1] targetscan.Hs.eg.db_0.6.1  AnnotationDbi_1.40.0      
+##  [3] DESeq2_1.18.1              pheatmap_1.0.10           
+##  [5] bindrcpp_0.2.2.9000        isomiRs_1.9.1             
+##  [7] SummarizedExperiment_1.8.1 DelayedArray_0.4.1        
+##  [9] matrixStats_0.53.1         Biobase_2.38.0            
+## [11] GenomicRanges_1.30.3       GenomeInfoDb_1.14.0       
+## [13] IRanges_2.12.0             S4Vectors_0.16.0          
+## [15] BiocGenerics_0.24.0        DiscriMiner_0.1-29        
+## [17] BiocStyle_2.6.1           
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bitops_1.0-6              bit64_0.9-7              
-##  [3] RColorBrewer_1.1-2        rprojroot_1.2            
-##  [5] tools_3.4.3               backports_1.1.2          
-##  [7] R6_2.2.2                  rpart_4.1-11             
-##  [9] KernSmooth_2.23-15        Hmisc_4.1-1              
-## [11] DBI_0.7                   lazyeval_0.2.1           
-## [13] colorspace_1.3-2          nnet_7.3-12              
-## [15] tidyselect_0.2.3          gridExtra_2.3            
-## [17] GGally_1.3.2              bit_1.1-12               
-## [19] compiler_3.4.3            htmlTable_1.11.2         
-## [21] labeling_0.3              caTools_1.17.1           
-## [23] scales_0.5.0              checkmate_1.8.5          
-## [25] readr_1.1.1               genefilter_1.60.0        
-## [27] stringr_1.2.0             digest_0.6.13            
-## [29] foreign_0.8-69            rmarkdown_1.6.0.9008     
-## [31] XVector_0.18.0            base64enc_0.1-3          
-## [33] pkgconfig_2.0.1           htmltools_0.3.6          
-## [35] limma_3.34.7              htmlwidgets_1.0          
-## [37] rlang_0.1.6.9003          rstudioapi_0.7           
-## [39] RSQLite_2.0               bindr_0.1.0.9000         
-## [41] BiocParallel_1.12.0       gtools_3.5.0             
-## [43] acepack_1.4.1             dplyr_0.7.4.9000         
-## [45] RCurl_1.95-4.8            magrittr_1.5             
-## [47] GenomeInfoDbData_0.99.1   Formula_1.2-2            
-## [49] Matrix_1.2-12             Rcpp_0.12.15             
-## [51] munsell_0.4.3             stringi_1.1.6            
-## [53] yaml_2.1.16               zlibbioc_1.24.0          
-## [55] gplots_3.0.1              plyr_1.8.4               
-## [57] grid_3.4.3                blob_1.1.0               
-## [59] gdata_2.18.0              lattice_0.20-35          
-## [61] splines_3.4.3             annotate_1.56.0          
-## [63] hms_0.3                   locfit_1.5-9.1           
-## [65] knitr_1.19                pillar_1.1.0             
-## [67] codetools_0.2-15          geneplotter_1.56.0       
-## [69] XML_3.98-1.9              glue_1.2.0               
-## [71] evaluate_0.10.1           latticeExtra_0.6-28      
-## [73] data.table_1.10.4-3       tidyr_0.8.0              
-## [75] gtable_0.2.0              purrr_0.2.4              
-## [77] reshape_0.8.7             assertthat_0.2.0         
-## [79] ggplot2_2.2.1             xtable_1.8-2             
-## [81] survival_2.41-3           tibble_1.4.2             
-## [83] targetscan.Hs.eg.db_0.6.1 AnnotationDbi_1.40.0     
-## [85] memoise_1.1.0             cluster_2.0.6</code></pre>
+##   [1] assertive.base_0.0-7        colorspace_1.3-2           
+##   [3] rjson_0.2.20                rprojroot_1.3-2            
+##   [5] circlize_0.4.4              htmlTable_1.12             
+##   [7] XVector_0.18.0              ggdendro_0.1-20            
+##   [9] GlobalOptions_0.1.0         base64enc_0.1-3            
+##  [11] fs_1.2.2                    rstudioapi_0.7             
+##  [13] roxygen2_6.0.1.9000         assertive.sets_0.0-3       
+##  [15] ggrepel_0.8.0               bit64_0.9-7                
+##  [17] xml2_1.2.0                  codetools_0.2-15           
+##  [19] splines_3.4.4               logging_0.7-103            
+##  [21] mnormt_1.5-5                geneplotter_1.56.0         
+##  [23] knitr_1.20                  Formula_1.2-3              
+##  [25] Nozzle.R1_1.1-1             annotate_1.56.2            
+##  [27] cluster_2.0.7-1             readr_1.1.1                
+##  [29] compiler_3.4.4              backports_1.1.2            
+##  [31] assertthat_0.2.0            Matrix_1.2-14              
+##  [33] lazyeval_0.2.1              limma_3.34.9               
+##  [35] acepack_1.4.1               htmltools_0.3.6            
+##  [37] tools_3.4.4                 gtable_0.2.0               
+##  [39] glue_1.2.0                  GenomeInfoDbData_1.0.0     
+##  [41] reshape2_1.4.3              dplyr_0.7.6                
+##  [43] Rcpp_0.12.17                pkgdown_1.1.0              
+##  [45] gdata_2.18.0                nlme_3.1-137               
+##  [47] psych_1.8.4                 stringr_1.3.1              
+##  [49] DEGreport_1.17.3            gtools_3.8.1               
+##  [51] XML_3.98-1.11               edgeR_3.20.9               
+##  [53] zlibbioc_1.24.0             MASS_7.3-50                
+##  [55] scales_0.5.0                hms_0.4.2                  
+##  [57] RColorBrewer_1.1-2          ComplexHeatmap_1.17.1      
+##  [59] yaml_2.1.19                 memoise_1.1.0              
+##  [61] gridExtra_2.3               ggplot2_3.0.0              
+##  [63] rpart_4.1-13                reshape_0.8.7              
+##  [65] latticeExtra_0.6-28         stringi_1.2.3              
+##  [67] RSQLite_2.1.1               genefilter_1.60.0          
+##  [69] desc_1.2.0                  checkmate_1.8.5            
+##  [71] caTools_1.17.1              BiocParallel_1.12.0        
+##  [73] shape_1.4.4                 rlang_0.2.1                
+##  [75] pkgconfig_2.0.1             commonmark_1.5             
+##  [77] bitops_1.0-6                evaluate_0.10.1            
+##  [79] lattice_0.20-35             purrr_0.2.5                
+##  [81] bindr_0.1.1.9000            labeling_0.3               
+##  [83] htmlwidgets_1.2             cowplot_0.9.2              
+##  [85] bit_1.1-14                  tidyselect_0.2.4           
+##  [87] GGally_1.4.0                plyr_1.8.4                 
+##  [89] magrittr_1.5                R6_2.2.2                   
+##  [91] gplots_3.0.1                Hmisc_4.1-1                
+##  [93] DBI_1.0.0                   withr_2.1.2                
+##  [95] pillar_1.2.3                foreign_0.8-70             
+##  [97] survival_2.42-3             RCurl_1.95-4.10            
+##  [99] nnet_7.3-12                 tibble_1.4.2               
+## [101] crayon_1.3.4                KernSmooth_2.23-15         
+## [103] rmarkdown_1.10              GetoptLong_0.1.7           
+## [105] locfit_1.5-9.1              grid_3.4.4                 
+## [107] data.table_1.11.4           blob_1.1.1                 
+## [109] ConsensusClusterPlus_1.42.0 digest_0.6.15              
+## [111] xtable_1.8-2                tidyr_0.8.1                
+## [113] munsell_0.5.0</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
@@ -378,7 +425,6 @@ ma_ex &lt;-<span class="st"> </span><span class="kw"><a href="../reference/findT
 </div>
 <div id="ref-xia">
 <p>Xia, Jianguo, and David S Wishart. 2011. “Web-based inference of biological patterns, functions and pathways from metabolomic data using MetaboAnalyst.” <em>Nature Protocols</em> 6: 743–60. doi:<a href="https://doi.org/10.1038/nprot.2011.319">10.1038/nprot.2011.319</a>.</p>
-</div>
 </div>
 </div>
 </div>
@@ -412,11 +458,13 @@ ma_ex &lt;-<span class="st"> </span><span class="kw"><a href="../reference/findT
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>

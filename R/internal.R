@@ -137,7 +137,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     is_add = add & rawData[["add"]] != "0"
     is_t5 = iso5 & rawData[["t5"]] != "0"
     is_t3 = iso3 & rawData[["t3"]] != "0"
-    is_ref = ref & rawData[["mism"]] != "0" & rawData[["add"]] != "0" & rawData[["t5"]] != "0" & rawData[["t3"]] != "0"
+    is_ref = ref & rawData[["mism"]] == "0" & rawData[["add"]] == "0" & rawData[["t5"]] == "0" & rawData[["t3"]] == "0"
     dt <- rawData %>% 
         mutate(uid = mir) %>% 
         mutate(uid = ifelse(is_ref,
@@ -231,10 +231,9 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
 
 # function to plot isomiR summary
 .plot_all_iso <- function(ids, column){
-    
     des <- colData(ids) %>% 
         as.data.frame() %>% 
-        rownames_to_column("sample")
+        rownames_to_column("iso_sample")
     
     stopifnot(column  %in% colnames(des))
     
@@ -243,7 +242,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     is_add <- rawData[["add"]] != "0"
     is_t5 <- rawData[["t5"]] != "0"
     is_t3 <- rawData[["t3"]] != "0"
-    is_ref <- rawData[["mism"]] != "0" & rawData[["add"]] != "0" & rawData[["t5"]] != "0" & rawData[["t3"]] != "0"
+    is_ref <- rawData[["mism"]] == "0" & rawData[["add"]] == "0" & rawData[["t5"]] == "0" & rawData[["t3"]] == "0"
     
     iso_data <- rawData %>% 
         mutate(uid = "") %>% 
@@ -262,7 +261,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
         mutate(uid = ifelse(is_t3,
                             paste0(uid, ";iso_3p"),
                             uid)) %>% 
-        .[,c("uid", des[["sample"]])] %>% 
+        .[,c("uid", des[["iso_sample"]])] %>% 
         separate_rows(!!sym("uid"), sep = ";") %>% 
         filter(!!sym("uid") != "")
     
@@ -270,35 +269,35 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
         group_by(!!sym("uid")) %>% 
         summarise_all(funs(sum)) %>% 
         ungroup() %>% 
-        gather("sample", "sum", -!!sym("uid"))
+        gather("iso_sample", "sum", -!!sym("uid"))
     
     n_data <- iso_data %>%
         group_by(!!sym("uid")) %>% 
         summarise_all(funs(sum(. > 0))) %>% 
         ungroup() %>% 
-        gather("sample", "sum", -!!sym("uid"))
+        gather("iso_sample", "sum", -!!sym("uid"))
     
     freq_pct <- freq_data %>% 
-        group_by(!!sym("sample")) %>% 
+        group_by(!!sym("iso_sample")) %>% 
         summarise(total_sum = sum(sum)) %>%
-        left_join(freq_data, by = "sample") %>% 
+        left_join(freq_data, by = "iso_sample") %>% 
         mutate(pct_abundance = sum / total_sum * 100L,
                method = "isomiRs abundance") %>% 
-        .[,c("sample", "method", "uid", "pct_abundance")]
+        .[,c("iso_sample", "method", "uid", "pct_abundance")]
     
     n_pct <- n_data %>% 
-        group_by(!!sym("sample")) %>% 
+        group_by(!!sym("iso_sample")) %>% 
         summarise(total_sum = sum(sum)) %>%
-        left_join(n_data, by = "sample") %>% 
+        left_join(n_data, by = "iso_sample") %>% 
         mutate(pct_abundance = sum / total_sum *100L,
                method = "isomiRs") %>% 
-        .[,c("sample", "method", "uid", "pct_abundance")]
+        .[,c("iso_sample", "method", "uid", "pct_abundance")]
     
     bind_rows(freq_pct, n_pct) %>%
-        left_join(des, by ="sample") %>% 
+        left_join(des, by ="iso_sample") %>% 
         arrange(uid) %>%
         ggplot(aes_string(x="uid", y="pct_abundance",
-                          group="sample", color = column)) +
+                          group="iso_sample", color = column)) +
         geom_polygon(fill=NA) +
         coord_polar(start=-pi) +
         scale_color_brewer(palette = "Set1") +

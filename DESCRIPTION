@@ -1,12 +1,13 @@
 Package: isomiRs
-Version: 1.9.2
-Date: 2018-04-27
+Version: 1.9.3
+Date: 2018-09-04
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
    differential expression.
 biocViews: miRNA, RNASeq,
     DifferentialExpression, Clustering
+BugReports: https://github.com/lpantano/isomiRs/issues
 Suggests:
     knitr,
     org.Mm.eg.db,
@@ -15,15 +16,17 @@ Suggests:
     BiocStyle,
     testthat
 Depends:
-    R (>= 3.4),
+    R (>= 3.5),
     DiscriMiner,
     SummarizedExperiment
 Imports:
     AnnotationDbi,
     assertive.sets,
-    BiocGenerics (>= 0.7.5),
+    BiocGenerics,
     Biobase,
     cluster,
+    cowplot,
+    DEGreport,
     DESeq2,
     IRanges,
     dplyr,
@@ -56,6 +59,6 @@ Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.0
 NeedsCompilation: yes
 Encoding: UTF-8

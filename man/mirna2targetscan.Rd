@@ -12,7 +12,7 @@ miRBase 21.}
 
 \item{species}{hsa or mmu supported right now.}
 
-\item{org}{\link[AnnotationDbi:AnnotationDb]{AnnotationDbi::AnnotationDb} obejct. For example:(org.Mm.eg.db)}
+\item{org}{\code{AnnotationDb} obejct. For example:(org.Mm.eg.db)}
 
 \item{keytype}{Character mentioning the gene id to use.
 For example, \code{ENSEMBL}.}

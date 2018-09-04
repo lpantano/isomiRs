@@ -4,8 +4,8 @@
 \alias{isoCounts}
 \title{Create count matrix with different summarizing options}
 \usage{
-isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE, add = FALSE,
-  subs = FALSE, seed = FALSE, minc = 1, mins = 1)
+isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
+  add = FALSE, subs = FALSE, seed = FALSE, minc = 1, mins = 1)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}

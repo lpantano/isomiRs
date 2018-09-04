@@ -10,7 +10,6 @@
 #' @importFrom limma voom
 #' @import GGally
 #' @import gtools
-#' @import grDevices
 #' @import Biobase
 #' @import assertive.sets
 #' @import cluster
@@ -19,6 +18,7 @@
 #' @importFrom tidyr spread gather separate_rows unite separate unite
 #' @importFrom readr read_tsv
 #' @importFrom rlang sym
+#' @importFrom DEGreport degPatterns
 #' @importFrom dplyr select arrange summarise rowwise mutate filter 
 #'             if_else group_by "%>%" distinct n left_join inner_join
 #'             bind_rows ungroup summarise_all funs
@@ -34,6 +34,7 @@
 #'             stat_smooth coord_polar element_blank
 #'             ggplot_gtable ggplot_build
 #'             geom_text geom_line geom_point ggplotGrob geom_polygon
+#' @importFrom cowplot plot_grid
 #' @importFrom gridExtra grid.arrange arrangeGrob
 #' @importFrom grid textGrob unit unit.pmax
 #' @importFrom graphics pairs
