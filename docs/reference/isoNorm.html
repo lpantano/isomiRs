@@ -62,7 +62,7 @@ DESeq2::rlog() function from DESeq2::DESeq2-package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">isomiRs</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.4</span>
       </span>
     </div>
 
@@ -139,26 +139,26 @@ can be access with <code><a href='counts.html'>counts(ids, norm=TRUE)</a></code>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mirData</span>)
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoCounts.html'>isoCounts</a></span>(<span class='no'>mirData</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mins</span><span class='kw'>=</span><span class='fl'>6</span>)
 <span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>isoNorm</span>(<span class='no'>mirData</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='input'><span class='fu'>head</span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>, <span class='kw'>norm</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;                       cc1       cc2       cc3       cc4       cc5       cc6
-#&gt; hsa-let-7a-2-3p  3.839601  4.957497  3.922124  4.193259  4.628226  4.320035
-#&gt; hsa-let-7a-3p    8.879601  9.912472  9.176845  8.724699  9.618614  8.956595
+#&gt; hsa-let-7a-2-3p  3.839715  4.957562  3.922234  4.193356  4.628304  4.320126
+#&gt; hsa-let-7a-3p    8.879606  9.912474  9.176849  8.724705  9.618618  8.956600
 #&gt; hsa-let-7a-5p   17.525920 18.324970 17.476047 17.414170 17.977366 17.531085
-#&gt; hsa-let-7b-3p    9.302408 11.360555  9.282133  9.880369 10.966973  9.778082
+#&gt; hsa-let-7b-3p    9.302412 11.360556  9.282137  9.880371 10.966974  9.778085
 #&gt; hsa-let-7b-5p   15.337173 16.405251 15.209072 15.416528 15.967481 15.401889
-#&gt; hsa-let-7c-3p    5.139525  5.142833  5.180661  5.353235  5.376354  5.413695
+#&gt; hsa-let-7c-3p    5.139584  5.142892  5.180718  5.353287  5.376405  5.413745
 #&gt;                       cc7       ct1       ct2       ct3       ct4       ct5
-#&gt; hsa-let-7a-2-3p  4.105121  2.962755  3.902490  3.760060  4.596809  4.575671
-#&gt; hsa-let-7a-3p    9.012313  9.240612  8.782446  8.762586  9.237900  9.168467
+#&gt; hsa-let-7a-2-3p  4.105222  2.962917  3.902602  3.760179  4.596888  4.575751
+#&gt; hsa-let-7a-3p    9.012317  9.240616  8.782452  8.762592  9.237904  9.168472
 #&gt; hsa-let-7a-5p   17.307877 18.861768 17.537454 17.523249 17.311227 17.382079
-#&gt; hsa-let-7b-3p   10.126881  9.621536  9.667146  9.273210 10.076855 10.090628
+#&gt; hsa-let-7b-3p   10.126883  9.621539  9.667149  9.273214 10.076857 10.090630
 #&gt; hsa-let-7b-5p   15.352952 15.631647 15.237137 15.078033 15.221224 15.242910
-#&gt; hsa-let-7c-3p    5.315057  4.270253  5.313314  5.600878  5.251115  5.149116
+#&gt; hsa-let-7c-3p    5.315111  4.270346  5.313367  5.600923  5.251170  5.149174
 #&gt;                       ct6       ct7
-#&gt; hsa-let-7a-2-3p  4.315946  3.852617
-#&gt; hsa-let-7a-3p    8.755656  9.090321
+#&gt; hsa-let-7a-2-3p  4.316038  3.852731
+#&gt; hsa-let-7a-3p    8.755662  9.090326
 #&gt; hsa-let-7a-5p   17.698660 17.638359
-#&gt; hsa-let-7b-3p   10.382666  9.999589
+#&gt; hsa-let-7b-3p   10.382668  9.999591
 #&gt; hsa-let-7b-5p   15.785968 15.537679
-#&gt; hsa-let-7c-3p    5.091500  4.953140</div></pre>
+#&gt; hsa-let-7c-3p    5.091561  4.953205</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

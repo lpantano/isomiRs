@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">isomiRs</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.4</span>
       </span>
     </div>
 
@@ -73,7 +73,9 @@
 <div id="bioconductor-stable-version" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bioconductor-stable-version" class="anchor"></a><a href="https://bioconductor.org">Bioconductor</a> stable version</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="dt">quietly=</span><span class="ot">TRUE</span>))
+    <span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)
+<span class="kw">install.packages</span>(<span class="st">"BiocManager"</span>)
 BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">"isomiRs"</span>)</code></pre></div>
 </div>
 <div id="bioconductor-latest-version" class="section level3">
@@ -97,7 +99,7 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <ul class="list-unstyled">
 <li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/isomiRs">https://​www.bioconductor.org/​packages/​isomiRs</a>
 </li>
-<li>Report a bug at <br><a href="NA">NA</a>
+<li>Report a bug at <br><a href="https://github.com/lpantano/isomiRs/issues">https://​github.com/​lpantano/​isomiRs/​issues</a>
 </li>
 </ul>
 </div>

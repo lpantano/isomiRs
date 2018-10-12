@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool — IsomirDataSeqFromFiles • isomiRs</title>
+<title>Loads miRNA annotation from seqbuster tool or pre-processed data. — IsomirDataSeqFromFiles • isomiRs</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool — IsomirDataSeqFromFiles" />
+<meta property="og:title" content="Loads miRNA annotation from seqbuster tool or pre-processed data. — IsomirDataSeqFromFiles" />
 
 <meta property="og:description" content="This function parses
 output of seqbuster tool to allow isomiRs/miRNAs analysis of samples
@@ -65,7 +65,7 @@ isomiRs::IsomirDataSeq object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">isomiRs</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.9.4</span>
       </span>
     </div>
 
@@ -99,7 +99,7 @@ isomiRs::IsomirDataSeq object." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool</h1>
+    <h1>Loads miRNA annotation from seqbuster tool or pre-processed data.</h1>
     
     <div class="hidden name"><code>IsomirDataSeqFromFiles.Rd</code></div>
     </div>
@@ -115,8 +115,10 @@ characterization, differential expression and clustering. It creates an
     </div>
 
     <pre class="usage"><span class='fu'>IsomirDataSeqFromFiles</span>(<span class='no'>files</span>, <span class='no'>coldata</span>, <span class='kw'>rate</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>canonicalAdd</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>uniqueMism</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>uniqueHits</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='fl'>1L</span>, <span class='kw'>minHits</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
-  <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>uniqueMism</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>uniqueHits</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='fl'>1L</span>,
+  <span class='kw'>minHits</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>skip</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+
+<span class='fu'>IsomirDataSeqFromRawData</span>(<span class='no'>rawdata</span>, <span class='no'>coldata</span>, <span class='kw'>design</span> <span class='kw'>=</span> ~<span class='fl'>1L</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,8 +176,12 @@ while reading files. Default <code>FALSE</code>.</p></td>
     <tr>
       <th>...</th>
       <td><p>arguments provided to
-<a href='http://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment::SummarizedExperiment</a>
+<code>SummarizedExperiment</code>.
 including rowData.</p></td>
+    </tr>
+    <tr>
+      <th>rawdata</th>
+      <td><p>data.frame stored in metadata slot of <a href='IsomirDataSeq.html'>IsomirDataSeq</a> object.</p></td>
     </tr>
     </table>
     
@@ -215,8 +221,15 @@ visualize general isomiRs distribution.</p>
 #&gt; hsa-let-7c-5p  0 61
 #&gt; hsa-let-7f-5p  8  7
 #&gt; hsa-let-7g-5p 74  3
-#&gt; hsa-let-7i-5p  0  2</div><div class='input'>
-</div></pre>
+#&gt; hsa-let-7i-5p  0  2</div><div class='input'><span class='fu'>IsomirDataSeqFromRawData</span>(<span class='fu'>metadata</span>(<span class='no'>ids</span>)<span class='kw'>[[</span><span class='st'>"rawData"</span>]], <span class='no'>de</span>)</div><div class='output co'>#&gt; class: IsomirDataSeq 
+#&gt; dim: 74 2 
+#&gt; metadata(1): rawData
+#&gt; assays(1): counts
+#&gt; rownames(74): hsa-let-7a-5p hsa-let-7b-5p ... hsa-miR-99a-5p
+#&gt;   hsa-miR-99b-5p
+#&gt; rowData names(0):
+#&gt; colnames(2): f1 f2
+#&gt; colData names(1): condition</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

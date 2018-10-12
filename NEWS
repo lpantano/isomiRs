@@ -1,3 +1,7 @@
+# 1.9.4
+
+* Support object creation from rawData of a current IsomirDataSeq object.
+
 # 1.9.3
 
 * Fix warnings in dosc.

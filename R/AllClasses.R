@@ -162,7 +162,7 @@ updateIsomirDataSeq <- function(object){
 }
 
 
-#' `IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool
+#' Loads miRNA annotation from seqbuster tool or pre-processed data.
 #'
 #' This function parses
 #' output of seqbuster tool to allow isomiRs/miRNAs analysis of samples
@@ -220,7 +220,7 @@ updateIsomirDataSeq <- function(object){
 #' ids <- IsomirDataSeqFromFiles(fn_list, coldata=de)
 #'
 #' head(counts(ids))
-#'
+#' IsomirDataSeqFromRawData(metadata(ids)[["rawData"]], de)
 #' @export
 IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
                                    canonicalAdd = TRUE, uniqueMism = TRUE,
@@ -274,5 +274,20 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
                                colData = DataFrame(coldata), ...)
     ids <- .IsomirDataSeq(se, rawData, design)
     message("Total samples filtered due to low number of hits: ", n_filtered)
+    return(ids)
+}
+
+#' @rdname IsomirDataSeqFromFiles
+#' @inheritParams IsomirDataSeqFromFiles
+#' @param rawdata data.frame stored in metadata slot of [IsomirDataSeq] object.
+#' @export
+IsomirDataSeqFromRawData <- function(rawdata, coldata, design = ~1L, ...){
+    if (nrow(rawdata) == 0)
+        stop("No samples had valids miRNA hits.")
+    
+    countData <- IsoCountsFromMatrix(rawdata, coldata)
+    se <- SummarizedExperiment(assays = SimpleList(counts = countData),
+                               colData = DataFrame(coldata), ...)
+    ids <- .IsomirDataSeq(se, rawdata, design)
     return(ids)
 }

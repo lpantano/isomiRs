@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 1.9.3
-Date: 2018-09-04
+Version: 1.9.4
+Date: 2018-09-27
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
@@ -60,5 +60,4 @@ License: MIT + file LICENSE
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0
-NeedsCompilation: yes
 Encoding: UTF-8

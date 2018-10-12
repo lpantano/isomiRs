@@ -2,11 +2,14 @@
 % Please edit documentation in R/AllClasses.R
 \name{IsomirDataSeqFromFiles}
 \alias{IsomirDataSeqFromFiles}
-\title{`IsomirDataSeqFromFiles`` loads miRNA annotation from seqbuster tool}
+\alias{IsomirDataSeqFromRawData}
+\title{Loads miRNA annotation from seqbuster tool or pre-processed data.}
 \usage{
 IsomirDataSeqFromFiles(files, coldata, rate = 0.2, canonicalAdd = TRUE,
   uniqueMism = TRUE, uniqueHits = FALSE, design = ~1L,
   minHits = 1L, header = TRUE, skip = 0, quiet = TRUE, ...)
+
+IsomirDataSeqFromRawData(rawdata, coldata, design = ~1L, ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
@@ -40,6 +43,8 @@ while reading files. Default \code{FALSE}.}
 \item{...}{arguments provided to
 \code{SummarizedExperiment}.
 including rowData.}
+
+\item{rawdata}{data.frame stored in metadata slot of \link{IsomirDataSeq} object.}
 }
 \value{
 \link{IsomirDataSeq} class object.
@@ -77,5 +82,5 @@ de <- data.frame(row.names=c("f1" , "f2"),
 ids <- IsomirDataSeqFromFiles(fn_list, coldata=de)
 
 head(counts(ids))
-
+IsomirDataSeqFromRawData(metadata(ids)[["rawData"]], de)
 }
