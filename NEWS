@@ -1,18 +1,24 @@
-# 1.9.4
+Changes in version  1.9.5
+
+FIX
+
+* Fix NEWS format
+
+Changes in version 1.9.4
 
 * Support object creation from rawData of a current IsomirDataSeq object.
 
-# 1.9.3
+Changes in version 1.9.3
 
 * Fix warnings in dosc.
 
-# 1.9.2
+Changes in version 1.9.2
 
 * Fix bug that quantify wrongly the reference sequence.
 
-# 1.9.1
+Changes in version 1.9.1
 
-## Major
+MAJOR
 
 * Improve clustering in isoNetwork plot.
 * Use varianceStabilizingTransformation to normalize counts.
@@ -21,17 +27,17 @@
 * Adapt all functions to new object. Fix documentation.
 * Reduce object size and structure
 
-# 1.7.3
+Changes in version 1.7.3
 
-## Fix
+FIX
 
 * Fix findTargets to use common groups between miRNA and mRNA data sets.
 * Fix mirna2targetscan to accept mmu species.
 * Error in isoNetwork example code.
 
-# 1.7.2
+Changes in version 1.7.2
 
-## Feature
+Feature
 
 * Better looking for isoPlotNet function.
 * Improve docs for mm isomiR plot. Thanks to @mshadbolt.
@@ -40,22 +46,22 @@
 * Improve docs to explain better isoPlot figures. Thanks @mshadbolt.
 * Add mirna prediction using targetscan annotation package in BioC.
 
-## Fixes
+FIX
 
 * Fix examples for findTargets.
 * Error in names columns for isoNetwork analysis.
 * Remove sequences with Ns in add column.
 * Move correction functions to independent package scounts.
 
-# 1.7.1
+Changes in version 1.7.1
 
-## Fixes
+FIX
 
 * Use limma::voom when number of samples is high. Set up by user.
 * Fix error when table is empty after filtering bad hits.
 
 
-# 1.5.5
+Changes in version 1.5.5
 
 
 FIX
@@ -65,7 +71,7 @@ FIX
     o Use parameter not integer number
     o Using testthat for unit test
 
-# 1.5.4
+Changes in version 1.5.4
 
 
 FEATURES
@@ -74,7 +80,7 @@ FEATURES
       proper authors and citation.
 
 
-# 1.5.3
+Changes in version 1.5.3
 
 
 FEATURES
@@ -85,13 +91,13 @@ FIX
     o Fix notes during R CHECK for variables inside dplyr/ggplot functions
     o Use roxygen2 for NAMESPACE
 
-# 1.5.2
+Changes in version 1.5.2
 
 
 FIX
     o Remove TMB dependency
 
-# 1.5.1
+Changes in version 1.5.1
 
 
 FEATURES
@@ -102,7 +108,7 @@ FEATURES
     o Improve data documentation
 
 
-# 1.3.5
+Changes in version 1.3.5
 
 
 FEATURES
@@ -112,7 +118,7 @@ FEATURES
     o Remove non-template addition with C/G nucleotides by default (canonicalAdd)
     o Remove sequences with mutations and more than one miRNA hit
 
-# 1.3.4
+Changes in version 1.3.4
 
 
 FIXES
@@ -125,21 +131,21 @@ FEATURES
     o Improve code to remove error sequencing from raw data
     o Improve code to show the raw data with isoSelect
 
-# 1.3.3
+Changes in version 1.3.3
 
 
 FIXES
 
     o Fix data with correct headers name
 
-# 1.3.2
+Changes in version 1.3.2
 
 
 OTHERS
 
     o Preparing migration to new isomiRs naming using mirTOP naming system
 
-# 1.3.1
+Changes in version 1.3.1
 
 
 OTHERS
@@ -147,7 +153,7 @@ OTHERS
     o Add option to IsomirDataSeqFromFiles to decide
     when to consider mutations as reals
 
-# 1.1.5
+Changes in version 1.1.5
 
 
 OTHERS
@@ -155,28 +161,28 @@ OTHERS
     o Suppress message from readr when reading
     o Add instruction of how to create DESeq2 object from ids one.
 
-# 1.1.4
+Changes in version 1.1.4
 
 
 OTHERS
 
     o Add mRNA-miRNA integration
 
-# 1.1.2
+Changes in version 1.1.2
 
 
 OTHERS
 
     o Update version dependecy for packages
 
-# 0.99.18
+Changes in version 0.99.18
 
 
 BUG FIXES
 
     o Avoid removing isomiRs with mutation and reference non-detected
 
-# 0.99.13
+Changes in version 0.99.13
 
 
 NEW FEATURES
