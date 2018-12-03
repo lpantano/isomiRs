@@ -187,6 +187,9 @@ updateIsomirDataSeq <- function(object){
 #' @param skip skip first line when reading files
 #' @param quiet boolean indicating to print messages
 #'   while reading files. Default `FALSE`.
+#' @param pct numeric used to remove isomiRs with an importance lower than
+#'   this value. Importance is calculated by dividing the isomiR count
+#'   by the total counts of the miRNA to which it maps.
 #' @param ... arguments provided to
 #'  \code{SummarizedExperiment}.
 #'   including rowData.

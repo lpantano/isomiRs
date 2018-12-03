@@ -46,6 +46,10 @@ while reading files. Default \code{FALSE}.}
 including rowData.}
 
 \item{rawdata}{data.frame stored in metadata slot of \link{IsomirDataSeq} object.}
+
+\item{pct}{numeric used to remove isomiRs with an importance lower than
+this value. Importance is calculated by dividing the isomiR count
+by the total counts of the miRNA to which it maps.}
 }
 \value{
 \link{IsomirDataSeq} class object.
