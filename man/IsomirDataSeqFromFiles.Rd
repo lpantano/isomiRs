@@ -9,7 +9,8 @@ IsomirDataSeqFromFiles(files, coldata, rate = 0.2, canonicalAdd = TRUE,
   uniqueMism = TRUE, uniqueHits = FALSE, design = ~1L,
   minHits = 1L, header = TRUE, skip = 0, quiet = TRUE, ...)
 
-IsomirDataSeqFromRawData(rawdata, coldata, design = ~1L, ...)
+IsomirDataSeqFromRawData(rawdata, coldata, design = ~1L, pct = 0.1,
+  ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
@@ -45,6 +46,10 @@ while reading files. Default \code{FALSE}.}
 including rowData.}
 
 \item{rawdata}{data.frame stored in metadata slot of \link{IsomirDataSeq} object.}
+
+\item{pct}{numeric used to remove isomiRs with an importance lower than
+this value. Importance is calculated by dividing the isomiR count
+by the total counts of the miRNA to which it maps.}
 }
 \value{
 \link{IsomirDataSeq} class object.

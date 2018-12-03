@@ -1,8 +1,21 @@
-Changes in version  1.9.5
+Changes in version  1.9.6
+
+FEATURES
+
+* Support filtering isomiRs with low % of importance.
+* Support isoPLot to use only certain isomiRs.
+
+Changes in version  1.11.1
 
 FIX
 
-* Fix NEWS format
+* Fix NEWS format.
+* Fix documentation typos.
+
+FEATURES
+
+* Filter isomiRs by importance ratio.
+* Allow to plot selected isomiRs with isoPlot function.
 
 Changes in version 1.9.4
 

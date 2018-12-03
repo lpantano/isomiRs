@@ -1,3 +1,56 @@
+.make_uid <- function(rawData){
+    is_subs = rawData[["mism"]] != "0"
+    is_add = rawData[["add"]] != "0"
+    is_t5 = rawData[["t5"]] != "0"
+    is_t3 = rawData[["t3"]] != "0"
+    is_ref = rawData[["mism"]] == "0" & rawData[["add"]] == "0" & rawData[["t5"]] == "0" & rawData[["t3"]] == "0"
+    rawData %>% 
+        mutate(uid = mir) %>% 
+        mutate(uid = ifelse(is_ref,
+                            paste0(uid, paste0(";ref")),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_subs,
+                            paste0(uid, paste0(";iso_snp:", mism)),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_add,
+                            paste0(uid, paste0(";iso_add:", add)),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_t5,
+                            paste0(uid, paste0(";iso_5p:", t5)),
+                            uid)) %>% 
+        mutate(uid = ifelse(is_t3,
+                            paste0(uid, paste0(";iso_3p:", t3)),
+                            uid)) 
+}
+
+.clean_noise <- function(iso, pctco){
+
+    keep <- iso %>%  # calculate pct
+        .[,c(1:2,7:ncol(.))] %>%
+        gather("sample", "value", -mir, -seq) %>% 
+        group_by(sample, mir) %>% 
+        filter(value > 0) %>% 
+        arrange(sample, mir, desc(value)) %>%
+        mutate(rank = 1:n(),
+               total = sum(value),
+               pct = value / total * 100) %>% # statistically calculate if pct  > 10%
+        filter(pct > pctco * 100) %>%
+        rowwise %>% 
+        mutate(prop = list(tidy(prop.test(value,
+                                          total, pctco, 
+                                          alternative = "greater")))) %>% 
+        unnest(prop) %>%
+        group_by(seq, sample) %>%
+        mutate(hits = n()) %>% # remove pct < 10% after p.adjust correction
+        ungroup() %>% 
+        filter(hits == 1) %>% # only uniquely mapped reads
+        mutate(fdr = p.adjust(p.value, method = "BH")) %>% 
+        filter(fdr < 0.05) %>% .[["seq"]] %>% unique()
+    
+    iso[iso[["seq"]]  %in%  keep,]
+}
+
+
 # put header to input files
 .put_header <- function(table){
     if ( sum(colnames(table) == "seq")==0 ){
@@ -230,7 +283,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
 }
 
 # function to plot isomiR summary
-.plot_all_iso <- function(ids, column){
+.plot_all_iso <- function(ids, column, use){
     des <- colData(ids) %>% 
         as.data.frame() %>% 
         rownames_to_column("iso_sample")
@@ -238,6 +291,14 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     stopifnot(column  %in% colnames(des))
     
     rawData <- metadata(ids)[["rawData"]]
+    if (!is.null(use)){
+        rawData <- .make_uid(rawData)
+        rawData <- rawData[rawData[["uid"]]  %in% use,]
+    }
+    message("Ussing ", nrow(rawData), " isomiRs.")
+    if (nrow(rawData) == 0)
+        stop("Any of the `use` elements is in the data set.")
+    
     is_subs <- rawData[["mism"]] != "0"
     is_add <- rawData[["add"]] != "0"
     is_t5 <- rawData[["t5"]] != "0"

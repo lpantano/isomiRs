@@ -81,6 +81,9 @@ isoTop <- function(ids, top=20){
 #'   to use for the plot. See details for explanation.
 #' @param column String indicating the column in
 #'   `colData` to color samples.
+#' @param use Character vector to only use these isomiRs for
+#'   the plot. The id used is the rownames that comes from using
+#'   isoCounts with all the arguments on TRUE.
 #' @return [ggplot2::ggplot()] Object showing different isomiRs changes at
 #' different positions.
 #' @details
@@ -113,12 +116,12 @@ isoTop <- function(ids, top=20){
 #' data(mirData)
 #' isoPlot(mirData)
 #' @export
-isoPlot <- function(ids, type="iso5", column=NULL){
+isoPlot <- function(ids, type="iso5", column=NULL, use = NULL){
     
     if (is.null(column)){
         column <-  names(colData(ids))[1]
     }
-    if (type == "all"){return(.plot_all_iso(ids, column))}
+    if (type == "all"){return(.plot_all_iso(ids, column, use))}
     
     freq <- size <- group <- abundance <- NULL
     codevn <- 3:6
@@ -128,6 +131,13 @@ isoPlot <- function(ids, type="iso5", column=NULL){
         as.data.frame() %>% 
         rownames_to_column("iso_sample")
     rawData <- metadata(ids)[["rawData"]]
+    if (!is.null(use)){
+        rawData <- .make_uid(rawData)
+        rawData <- rawData[rawData[["uid"]]  %in% use,]
+    }
+    message("Ussing ", nrow(rawData), " isomiRs.")
+    if (nrow(rawData) == 0)
+        stop("Any of the `use` elements is in the data set.")
 
     if (type == "subs"){
         rawData[["size"]] <- as.factor(as.numeric(.subs_position(rawData[[coden]])[["size"]]))
