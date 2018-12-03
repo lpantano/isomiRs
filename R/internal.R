@@ -23,7 +23,8 @@
                             uid)) 
 }
 
-.clean_noise <- function(iso, pct){
+.clean_noise <- function(iso, pctco){
+
     keep <- iso %>%  # calculate pct
         .[,c(1:2,7:ncol(.))] %>%
         gather("sample", "value", -mir, -seq) %>% 
@@ -33,10 +34,10 @@
         mutate(rank = 1:n(),
                total = sum(value),
                pct = value / total * 100) %>% # statistically calculate if pct  > 10%
-        filter(pct > pct * 100) %>%
+        filter(pct > pctco * 100) %>%
         rowwise %>% 
         mutate(prop = list(tidy(prop.test(value,
-                                          total, pct, 
+                                          total, pctco, 
                                           alternative = "greater")))) %>% 
         unnest(prop) %>%
         group_by(seq, sample) %>%

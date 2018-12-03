@@ -15,7 +15,7 @@
 #' @import cluster
 #' @importFrom AnnotationDbi keys mget revmap
 #' @importFrom reshape melt melt.array melt.data.frame melt.list
-#' @importFrom tidyr spread gather separate_rows unite separate unite
+#' @importFrom tidyr spread gather separate_rows unite separate unite unnest
 #' @importFrom broom tidy
 #' @importFrom readr read_tsv
 #' @importFrom rlang sym
