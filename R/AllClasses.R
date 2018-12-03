@@ -281,10 +281,12 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
 #' @inheritParams IsomirDataSeqFromFiles
 #' @param rawdata data.frame stored in metadata slot of [IsomirDataSeq] object.
 #' @export
-IsomirDataSeqFromRawData <- function(rawdata, coldata, design = ~1L, ...){
+IsomirDataSeqFromRawData <- function(rawdata, coldata,
+                                     design = ~1L,
+                                     pct = 0.1, ...){
     if (nrow(rawdata) == 0)
         stop("No samples had valids miRNA hits.")
-    
+    rawdata <- .clean_noise(rawdata, pct)
     countData <- IsoCountsFromMatrix(rawdata, coldata)
     se <- SummarizedExperiment(assays = SimpleList(counts = countData),
                                colData = DataFrame(coldata), ...)

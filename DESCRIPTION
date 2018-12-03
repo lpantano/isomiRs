@@ -1,12 +1,12 @@
 Package: isomiRs
-Version: 1.9.5
-Date: 2018-10-23
+Version: 1.9.6
+Date: 2018-12-03
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
    differential expression.
 biocViews: miRNA, RNASeq,
-    DifferentialExpression, Clustering
+    DifferentialExpression, Clustering, ImmunoOncology
 BugReports: https://github.com/lpantano/isomiRs/issues
 Suggests:
     knitr,
@@ -24,6 +24,7 @@ Imports:
     assertive.sets,
     BiocGenerics,
     Biobase,
+    broom,
     cluster,
     cowplot,
     DEGreport,

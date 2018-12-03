@@ -1,3 +1,10 @@
+Changes in version  1.9.6
+
+FEATURES
+
+* Support filtering isomiRs with low % of importance.
+* Support isoPLot to use only certain isomiRs.
+
 Changes in version  1.9.5
 
 FIX

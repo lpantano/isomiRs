@@ -9,7 +9,8 @@ IsomirDataSeqFromFiles(files, coldata, rate = 0.2, canonicalAdd = TRUE,
   uniqueMism = TRUE, uniqueHits = FALSE, design = ~1L,
   minHits = 1L, header = TRUE, skip = 0, quiet = TRUE, ...)
 
-IsomirDataSeqFromRawData(rawdata, coldata, design = ~1L, ...)
+IsomirDataSeqFromRawData(rawdata, coldata, design = ~1L, pct = 0.1,
+  ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}

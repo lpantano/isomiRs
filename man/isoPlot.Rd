@@ -4,7 +4,7 @@
 \alias{isoPlot}
 \title{Plot the amount of isomiRs in different samples}
 \usage{
-isoPlot(ids, type = "iso5", column = NULL)
+isoPlot(ids, type = "iso5", column = NULL, use = NULL)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}
@@ -14,6 +14,10 @@ to use for the plot. See details for explanation.}
 
 \item{column}{String indicating the column in
 \code{colData} to color samples.}
+
+\item{use}{Character vector to only use these isomiRs for
+the plot. The id used is the rownames that comes from using
+isoCounts with all the arguments on TRUE.}
 }
 \value{
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} Object showing different isomiRs changes at
