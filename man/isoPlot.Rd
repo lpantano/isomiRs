@@ -4,12 +4,12 @@
 \alias{isoPlot}
 \title{Plot the amount of isomiRs in different samples}
 \usage{
-isoPlot(ids, type = "iso5", column = NULL, use = NULL)
+isoPlot(ids, type = "iso5", column = NULL, use = NULL, nts = FALSE)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}
 
-\item{type}{String (iso5, iso3, add, subs, all) to indicate what isomiRs
+\item{type}{String (iso5, iso3, add, snv, all) to indicate what isomiRs
 to use for the plot. See details for explanation.}
 
 \item{column}{String indicating the column in
@@ -18,6 +18,9 @@ to use for the plot. See details for explanation.}
 \item{use}{Character vector to only use these isomiRs for
 the plot. The id used is the rownames that comes from using
 isoCounts with all the arguments on TRUE.}
+
+\item{nts}{Boolean to indicate whether plot positions of nucleotides
+changes when showing single nucleotides variants.}
 }
 \value{
 \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} Object showing different isomiRs changes at

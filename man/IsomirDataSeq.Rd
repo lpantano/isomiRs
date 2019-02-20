@@ -66,10 +66,10 @@ where direction is UPPER CASE NT
 \code{0} indicates no variation, meaning the 3 position
 has no additions. After \code{direction},
 it follows the nucleotide/s that are added.
-\item \code{iso_snp tag}: indicates nucleotides substitutions along
+\item \code{iso_snv tag}: indicates nucleotides substitutions along
 the sequences. The naming contains three words:
-\code{position-nucleotideATsequence-nucleotideATreference}.
-\item \code{iso_snp_seed tag}: same than \code{iso_snp} tag,
+\code{position-nucleotide@isomiR-nucleotide@reference}.
+\item \code{iso_snv_seed tag}: same than \code{iso_snv} tag,
 but only if the change happens between nucleotide 2 and 8.
 }
 

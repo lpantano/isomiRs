@@ -2,6 +2,7 @@ Changes in version  1.9.6
 
 FEATURES
 
+* Remove reference sequences from isoPlot figures.
 * Support filtering isomiRs with low % of importance.
 * Support isoPLot to use only certain isomiRs.
 

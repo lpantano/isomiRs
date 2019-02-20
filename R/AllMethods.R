@@ -110,10 +110,10 @@ isoSelect.IsomirDataSeq <- function(object, mirna,  minc=10) {
                             paste0(uid, paste0(";ref")),
                             uid)) %>% 
         mutate(uid = ifelse(is_subs,
-                            paste0(uid, paste0(";iso_snp:", mism)),
+                            paste0(uid, paste0(";iso_snv:", mism)),
                             uid)) %>% 
         mutate(uid = ifelse(is_add,
-                            paste0(uid, paste0(";iso_add:", add)),
+                            paste0(uid, paste0(";iso_add3p:", add)),
                             uid)) %>% 
         mutate(uid = ifelse(is_t5,
                             paste0(uid, paste0(";iso_5p:", t5)),

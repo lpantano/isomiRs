@@ -58,10 +58,10 @@
 #' `0` indicates no variation, meaning the 3 position
 #' has no additions. After `direction`,
 #' it follows the nucleotide/s that are added.
-#' * `iso_snp tag`: indicates nucleotides substitutions along
+#' * `iso_snv tag`: indicates nucleotides substitutions along
 #' the sequences. The naming contains three words:
-#' `position-nucleotideATsequence-nucleotideATreference`.
-#' * `iso_snp_seed tag`: same than `iso_snp` tag,
+#' `position-nucleotide@isomiR-nucleotide@reference`.
+#' * `iso_snv_seed tag`: same than `iso_snv` tag,
 #' but only if the change happens between nucleotide 2 and 8.
 #'
 #' In general nucleotides in UPPER case mean insertions respect

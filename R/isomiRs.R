@@ -59,15 +59,12 @@ isoDE <- function(ids, formula=NULL, ...){
 #' @examples
 #' data(mirData)
 #' isoTop(mirData)
-#' @return heatmap with top expressed miRNAs
+#' @return PCA of the top expressed miRNAs
 #' @export
 isoTop <- function(ids, top=20){
     select <- order(rowMeans(counts(ids)),
                     decreasing=TRUE)[1:top]
-    hmcol <- colorRampPalette(brewer.pal(9, "RdYlBu"))(100)
-    heatmap.2(counts(ids)[select,], col = hmcol,
-            scale="none",
-            dendrogram="none", trace="none")
+    degPCA(counts(ids)[select,])
 }
 
 #' Plot the amount of isomiRs in different samples
@@ -77,13 +74,15 @@ isoTop <- function(ids, top=20){
 #' changes.
 #'
 #' @param ids Object of class [IsomirDataSeq].
-#' @param type String (iso5, iso3, add, subs, all) to indicate what isomiRs
+#' @param type String (iso5, iso3, add, snv, all) to indicate what isomiRs
 #'   to use for the plot. See details for explanation.
 #' @param column String indicating the column in
 #'   `colData` to color samples.
 #' @param use Character vector to only use these isomiRs for
 #'   the plot. The id used is the rownames that comes from using
 #'   isoCounts with all the arguments on TRUE.
+#' @param nts Boolean to indicate whether plot positions of nucleotides
+#'   changes when showing single nucleotides variants.
 #' @return [ggplot2::ggplot()] Object showing different isomiRs changes at
 #' different positions.
 #' @details
@@ -116,16 +115,23 @@ isoTop <- function(ids, top=20){
 #' data(mirData)
 #' isoPlot(mirData)
 #' @export
-isoPlot <- function(ids, type="iso5", column=NULL, use = NULL){
+isoPlot <- function(ids, type="iso5", column=NULL,
+                    use = NULL, nts = FALSE){
     
     if (is.null(column)){
         column <-  names(colData(ids))[1]
     }
+    supported <- c("snv", "add", "iso5", "iso3")
     if (type == "all"){return(.plot_all_iso(ids, column, use))}
+    if (type=="subs"){
+        type <- "snv"
+    }
+    stopifnot(type  %in% c("snv", "add", "iso5", "iso3"))
     
     freq <- size <- group <- abundance <- NULL
     codevn <- 3:6
-    names(codevn) <- c("subs", "add", "iso5", "iso3")
+
+    names(codevn) <- supported
     coden <- codevn[type]
     des <- colData(ids) %>% 
         as.data.frame() %>% 
@@ -139,9 +145,15 @@ isoPlot <- function(ids, type="iso5", column=NULL, use = NULL){
     if (nrow(rawData) == 0)
         stop("Any of the `use` elements is in the data set.")
 
-    if (type == "subs"){
-        rawData[["size"]] <- as.factor(as.numeric(.subs_position(rawData[[coden]])[["size"]]))
+    if (type == "snv"){
+        get_column <- "size"
         xaxis <- "position of the isomiR"
+        if (nts){
+            get_column <- "change"
+            xaxis <- "nucleotide change"
+        }
+        rawData[["size"]] <- .subs_position(rawData[[coden]])[[get_column]]
+
     }else{
         rawData[["size"]] <- as.factor(.isomir_position(rawData[[coden]]))
         xaxis <- "position respect to the reference"
@@ -175,6 +187,7 @@ isoPlot <- function(ids, type="iso5", column=NULL, use = NULL){
         .[,c("id", "unique")]
     
     inner_join(freq_pct, n_pct) %>%
+        filter(size!="0") %>% 
         left_join(des, by ="iso_sample") %>% 
         ggplot() +
         geom_jitter(aes_string(x="size",y="unique", colour=column,
@@ -286,7 +299,7 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 #' @param iso5 Differentiate trimming at 5 miRNA from rest.
 #' @param iso3 Differentiate trimming at 3 miRNA from rest.
 #' @param add Differentiate additions miRNA from rest.
-#' @param subs Differentiate nt substitution miRNA from rest.
+#' @param snv Differentiate nt substitution miRNA from rest.
 #' @param seed Differentiate changes in 2-7 nts from rest.
 #' @param minc Int minimum number of isomiR sequences to be included.
 #' @param mins Int minimum number of samples with number of
@@ -317,12 +330,12 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 #' head(counts(ids))
 #' @export
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
-                      add=FALSE, subs=FALSE, seed=FALSE, minc=1, mins=1){
+                      add=FALSE, snv=FALSE, seed=FALSE, minc=1, mins=1){
         counts <- IsoCountsFromMatrix(metadata(ids)[["rawData"]],
                                       colData(ids),
                                       ref,
                                       iso5, iso3,
-                                      add, subs, seed)
+                                      add, snv, seed)
         counts <- counts[rowSums(counts > minc) >= mins, ]
         se <- SummarizedExperiment(assays = SimpleList(counts = counts),
                                    colData = colData(ids))

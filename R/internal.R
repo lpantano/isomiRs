@@ -184,9 +184,9 @@
 # do counts table considering what isomiRs take into account
 IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
                                 iso3=FALSE, add=FALSE,
-                                subs=FALSE, seed=FALSE, minc=1){
+                                snv=FALSE, seed=FALSE, minc=1){
  
-    is_subs = subs & rawData[["mism"]] != "0"
+    is_subs = snv & rawData[["mism"]] != "0"
     is_add = add & rawData[["add"]] != "0"
     is_t5 = iso5 & rawData[["t5"]] != "0"
     is_t3 = iso3 & rawData[["t3"]] != "0"
@@ -221,7 +221,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
 
 # Collapse isomiRs in miRNAs
 .collapse_mirs <- function(table, ref=FALSE, iso5=FALSE, iso3=FALSE,
-                        add=FALSE, subs=FALSE, seed=FALSE){
+                        add=FALSE, snv=FALSE, seed=FALSE){
     label <- table$mir
     freq <- id <- NULL
     if (ref == TRUE){
@@ -245,7 +245,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     if (add == TRUE){
         label <- paste(label, table[,"add"], sep=".ad:")
     }
-    if (subs == TRUE){
+    if (snv == TRUE){
         label <- paste(label, table[,"mism"], sep=".mm:")
     }
 
@@ -279,6 +279,9 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
                       stringsAsFactors = FALSE) %>% 
         separate(nt, sep = 1, into = c("isomir", "reference")) %>% 
         unite(change, reference, isomir, sep = "->")
+    pos[["change"]][pos[["size"]] == "0"] <- "0"
+    pos[["size"]] <- factor(pos[["size"]],
+                            levels = sort(as.numeric(unique(pos[["size"]]))))
     return(pos)
 }
 
@@ -326,11 +329,19 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
         separate_rows(!!sym("uid"), sep = ";") %>% 
         filter(!!sym("uid") != "")
     
+    freq_total <- data.frame(total_sum = colSums(rawData[, setdiff(colnames(iso_data), "uid")]),
+                             iso_sample = colnames(ids),
+                             stringsAsFactors = F)
+        
     freq_data <- iso_data %>% 
         group_by(!!sym("uid")) %>% 
         summarise_all(funs(sum)) %>% 
         ungroup() %>% 
         gather("iso_sample", "sum", -!!sym("uid"))
+    
+    n_total <- data.frame(total_sum = colSums(rawData[, setdiff(colnames(iso_data), "uid")]>0),
+                          iso_sample = colnames(ids),
+                          stringsAsFactors = F)
     
     n_data <- iso_data %>%
         group_by(!!sym("uid")) %>% 
@@ -338,18 +349,14 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
         ungroup() %>% 
         gather("iso_sample", "sum", -!!sym("uid"))
     
-    freq_pct <- freq_data %>% 
-        group_by(!!sym("iso_sample")) %>% 
-        summarise(total_sum = sum(sum)) %>%
-        left_join(freq_data, by = "iso_sample") %>% 
+    freq_pct <- 
+        left_join(freq_total, freq_data, by = "iso_sample") %>% 
         mutate(pct_abundance = sum / total_sum * 100L,
                method = "isomiRs abundance") %>% 
         .[,c("iso_sample", "method", "uid", "pct_abundance")]
     
-    n_pct <- n_data %>% 
-        group_by(!!sym("iso_sample")) %>% 
-        summarise(total_sum = sum(sum)) %>%
-        left_join(n_data, by = "iso_sample") %>% 
+    n_pct <- 
+        left_join(n_total, n_data, by = "iso_sample") %>% 
         mutate(pct_abundance = sum / total_sum *100L,
                method = "isomiRs") %>% 
         .[,c("iso_sample", "method", "uid", "pct_abundance")]

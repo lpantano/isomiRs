@@ -12,7 +12,7 @@ isoTop(ids, top = 20)
 \item{top}{Number of isomiRs/miRNAs used.}
 }
 \value{
-heatmap with top expressed miRNAs
+PCA of the top expressed miRNAs
 }
 \description{
 This function creates a heatmap with the top N

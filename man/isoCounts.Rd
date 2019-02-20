@@ -5,7 +5,7 @@
 \title{Create count matrix with different summarizing options}
 \usage{
 isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
-  add = FALSE, subs = FALSE, seed = FALSE, minc = 1, mins = 1)
+  add = FALSE, snv = FALSE, seed = FALSE, minc = 1, mins = 1)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}
@@ -18,7 +18,7 @@ isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
 
 \item{add}{Differentiate additions miRNA from rest.}
 
-\item{subs}{Differentiate nt substitution miRNA from rest.}
+\item{snv}{Differentiate nt substitution miRNA from rest.}
 
 \item{seed}{Differentiate changes in 2-7 nts from rest.}
 

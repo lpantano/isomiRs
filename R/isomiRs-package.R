@@ -19,7 +19,7 @@
 #' @importFrom broom tidy
 #' @importFrom readr read_tsv
 #' @importFrom rlang sym
-#' @importFrom DEGreport degPatterns
+#' @importFrom DEGreport degPatterns degPCA
 #' @importFrom dplyr select arrange summarise rowwise mutate filter 
 #'             if_else group_by "%>%" distinct n left_join inner_join
 #'             bind_rows ungroup summarise_all funs
