@@ -156,8 +156,7 @@ updateIsomirDataSeq <- function(object){
             stop("'se' must be a SummarizedExperiment object")
         }
     }
-    if (!("isomir"  %in% colnames(rawData)))
-        rawData <- .make_isomir_naming(rawData)
+    metadata(se)[["sequences"]] <- .make_isomir_naming(rawData)
     metadata(se)[["rawData"]] = rawData
     ids <- new("IsomirDataSeq", se, design = design)
     ids
@@ -274,8 +273,6 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
     if (nrow(rawData) == 0)
         stop("No samples had valids miRNA hits.")
     
-    if (!("isomir"  %in% colnames(rawData)))
-        rawData <- .make_isomir_naming(rawData)
     countData <- IsoCountsFromMatrix(rawData, coldata)
     se <- SummarizedExperiment(assays = SimpleList(counts = countData),
                                colData = DataFrame(coldata), ...)
@@ -291,9 +288,7 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
 IsomirDataSeqFromRawData <- function(rawdata, coldata,
                                      design = ~1L,
                                      pct = 0.1, ...){
-    if (!("isomir"  %in% colnames(rawdata)))
-        rawdata <- .make_isomir_naming(rawdata)
-    
+
     if (nrow(rawdata) == 0)
         stop("No samples had valids miRNA hits.")
     rawdata <- .clean_noise(rawdata, pct)

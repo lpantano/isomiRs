@@ -243,7 +243,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
         mutate(isomir = ifelse(is_t3,
                             paste0(isomir, paste0(";iso_3p:", t3)),
                             isomir))
-    return(dt)
+    return(dt[,c("seq", "isomir")])
 }
 
 # Collapse isomiRs in miRNAs
