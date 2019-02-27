@@ -219,6 +219,33 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     dt
 }
 
+# get isomir name and sequence table
+.make_isomir_naming <- function(rawData){
+    is_subs = rawData[["mism"]] != "0"
+    is_add = rawData[["add"]] != "0"
+    is_t5 = rawData[["t5"]] != "0"
+    is_t3 = rawData[["t3"]] != "0"
+    is_ref = rawData[["mism"]] == "0" & rawData[["add"]] == "0" & rawData[["t5"]] == "0" & rawData[["t3"]] == "0"
+    dt <- rawData %>% 
+        mutate(isomir = mir) %>% 
+        mutate(isomir = ifelse(is_ref,
+                            paste0(isomir, paste0(";ref")),
+                            isomir)) %>% 
+        mutate(isomir = ifelse(is_subs,
+                            paste0(isomir, paste0(";iso_snp:", mism)),
+                            isomir)) %>% 
+        mutate(isomir = ifelse(is_add,
+                            paste0(isomir, paste0(";iso_add:", add)),
+                            isomir)) %>% 
+        mutate(isomir = ifelse(is_t5,
+                            paste0(isomir, paste0(";iso_5p:", t5)),
+                            isomir)) %>% 
+        mutate(isomir = ifelse(is_t3,
+                            paste0(isomir, paste0(";iso_3p:", t3)),
+                            isomir))
+    return(dt)
+}
+
 # Collapse isomiRs in miRNAs
 .collapse_mirs <- function(table, ref=FALSE, iso5=FALSE, iso3=FALSE,
                         add=FALSE, snv=FALSE, seed=FALSE){

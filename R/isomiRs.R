@@ -336,6 +336,7 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
                                       ref,
                                       iso5, iso3,
                                       add, snv, seed)
+
         counts <- counts[rowSums(counts > minc) >= mins, ]
         se <- SummarizedExperiment(assays = SimpleList(counts = counts),
                                    colData = colData(ids))
