@@ -4,7 +4,7 @@ FEATURES
 
 * Add isomiR naming and sequences table in metadata of object.
 * Remove reference sequences from isoPlot figures.
-* Support filtering isomiRs with low % of importance.
+* Support filtering isomiRs with low % of importance (statistically supported).
 * Support isoPLot to use only certain isomiRs.
 
 Changes in version  1.11.2

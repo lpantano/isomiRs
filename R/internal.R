@@ -30,17 +30,19 @@
         gather("sample", "value", -mir, -seq) %>% 
         group_by(sample, mir) %>% 
         filter(value > 0) %>% 
-        arrange(sample, mir, desc(value)) %>%
+        group_by(mir, seq) %>% 
+        summarise(value=sum(value)) %>% 
+        arrange(mir, desc(value)) %>%
         mutate(rank = 1:n(),
                total = sum(value),
                pct = value / total * 100) %>% # statistically calculate if pct  > 10%
-        filter(pct > pctco * 100) %>%
+        # filter(pct > pctco * 100) %>%
         rowwise %>% 
         mutate(prop = list(tidy(prop.test(value,
                                           total, pctco, 
                                           alternative = "greater")))) %>% 
         unnest(prop) %>%
-        group_by(seq, sample) %>%
+        group_by(seq) %>%
         mutate(hits = n()) %>% # remove pct < 10% after p.adjust correction
         ungroup() %>% 
         filter(hits == 1) %>% # only uniquely mapped reads

@@ -272,11 +272,11 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
     
     if (nrow(rawData) == 0)
         stop("No samples had valids miRNA hits.")
-    
-    countData <- IsoCountsFromMatrix(rawData, coldata)
-    se <- SummarizedExperiment(assays = SimpleList(counts = countData),
-                               colData = DataFrame(coldata), ...)
-    ids <- .IsomirDataSeq(se, rawData, design)
+    ids <- IsomirDataSeqFromRawData(rawData, coldata)
+    # countData <- IsoCountsFromMatrix(rawData, coldata)
+    # se <- SummarizedExperiment(assays = SimpleList(counts = countData),
+    #                            colData = DataFrame(coldata), ...)
+    # ids <- .IsomirDataSeq(se, rawData, design)
     message("Total samples filtered due to low number of hits: ", n_filtered)
     return(ids)
 }

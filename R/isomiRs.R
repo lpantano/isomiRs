@@ -300,6 +300,7 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 #' @param iso3 Differentiate trimming at 3 miRNA from rest.
 #' @param add Differentiate additions miRNA from rest.
 #' @param snv Differentiate nt substitution miRNA from rest.
+#' @param all Differentiate all isomiRs.
 #' @param seed Differentiate changes in 2-7 nts from rest.
 #' @param minc Int minimum number of isomiR sequences to be included.
 #' @param mins Int minimum number of samples with number of
@@ -330,7 +331,8 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 #' head(counts(ids))
 #' @export
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
-                      add=FALSE, snv=FALSE, seed=FALSE, minc=1, mins=1){
+                      add=FALSE, snv=FALSE, seed=FALSE, 
+                      all = FALSE,minc=1, mins=1){
         counts <- IsoCountsFromMatrix(metadata(ids)[["rawData"]],
                                       colData(ids),
                                       ref,
