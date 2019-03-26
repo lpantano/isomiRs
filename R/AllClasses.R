@@ -191,6 +191,9 @@ updateIsomirDataSeq <- function(object){
 #' @param pct numeric used to remove isomiRs with an importance lower than
 #'   this value. Importance is calculated by dividing the isomiR count
 #'   by the total counts of the miRNA to which it maps.
+#' @param whitelist character vector with sequences to keep even
+#'   if the filtering step would have removed them. They have to match
+#'   the `seq` column in the table.
 #' @param ... arguments provided to
 #'  \code{SummarizedExperiment}.
 #'   including rowData.
@@ -272,7 +275,7 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
     
     if (nrow(rawData) == 0)
         stop("No samples had valids miRNA hits.")
-    ids <- IsomirDataSeqFromRawData(rawData, coldata)
+    ids <- IsomirDataSeqFromRawData(rawData, coldata, ...)
     # countData <- IsoCountsFromMatrix(rawData, coldata)
     # se <- SummarizedExperiment(assays = SimpleList(counts = countData),
     #                            colData = DataFrame(coldata), ...)
@@ -287,11 +290,11 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
 #' @export
 IsomirDataSeqFromRawData <- function(rawdata, coldata,
                                      design = ~1L,
-                                     pct = 0.1, ...){
+                                     pct = 0.1, whitelist = NULL, ...){
 
     if (nrow(rawdata) == 0)
         stop("No samples had valids miRNA hits.")
-    rawdata <- .clean_noise(rawdata, pct)
+    rawdata <- .clean_noise(rawdata, pct, whitelist)
     countData <- IsoCountsFromMatrix(rawdata, coldata)
     se <- SummarizedExperiment(assays = SimpleList(counts = countData),
                                colData = DataFrame(coldata), ...)

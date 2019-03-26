@@ -22,7 +22,7 @@ vignette: >
 
 ```{r setup, echo=FALSE, results="hide"}
 library(BiocStyle)
-knitr::opts_chunk$set(tidy=FALSE, cache=TRUE,
+knitr::opts_chunk$set(tidy=FALSE, cache=FALSE,
                       dev="png",
                       message=FALSE, error=FALSE,
                       warning=TRUE)
@@ -146,8 +146,9 @@ be the names for each sample in the same order than the list of files.
 ids <- IsomirDataSeqFromFiles(fn_list, design=de)
 ```
 
+## Manipulation
 
-## Descriptive analysis
+### Descriptive analysis
 
 You can plot isomiRs expression with `isoPlot`. In this figure you
 will see how abundant is each type of isomiRs at different positions
@@ -160,7 +161,7 @@ ids <- isoCounts(mirData)
 isoPlot(ids, type="all")
 ```
 
-## Count data
+### Count data
 
 `isoCounts` gets the count matrix that can be used for many
 different downstream analyses changing the way isomiRs are collapsed. The
@@ -183,6 +184,30 @@ pheatmap(counts(ids, norm=TRUE)[1:100,],
          show_rownames = FALSE, scale="row")
 ```
 
+### Annotation
+
+To get a detail description for each isomiR, the function
+`isoAnnotate` can return the naming, sequence and
+importance value for each sample and isomiR. The importance
+is calculated by:
+
+$$importance = \frac{isomiR\_reads}{miRNA\_reads}$$
+
+The columns are:
+
+* seq: sequence of the isomiR
+* uid: isomiR name
+* edit_mature_position: showing the position at the mature
+  sequence where the nucleotide change happened: 
+  `position:nt_ref:nt_isomiR`.
+* one column for each sample with the importance value
+
+```{r package-isoannotation}
+head(isoAnnotate(ids))
+```
+
+
+## Classification
 
 ### Differential expression analysis
 
@@ -219,7 +244,7 @@ dds = DESeqDataSetFromMatrix(counts(ids),
 ```
 
 
-## Supervised classification
+### Supervised classification
 
 Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
 appropriate for analysis of high dimensionality data sets and multicollineality
@@ -261,7 +286,7 @@ pls.ids = isoPLSDA(ids,"condition", refinment = FALSE, vip = 0.8)
 ```
 
 
-## Gene - miRNA integration
+### Gene - miRNA integration
 
 The package offers a correlation analysis of miRNA and gene expression data.
 Having two SummarizedExperiments objects with their expression, the target
@@ -269,7 +294,7 @@ prediction for each miRNA, the function `isoNetwork` and `isoPlotNetwork` can
 generate a summarized figure showing the relationship between expression
 profile, miRNA repression and enrichment analysis:
 
-```{r isonetwork, message=FALSE, error=FALSE, fig.width=7}
+```{r isonetwork, message=FALSE, error=FALSE, fig.height=12, fig.width=7}
 # library(org.Mm.eg.db)
 # library(clusterProfiler)
 data(isoExample)
@@ -278,7 +303,7 @@ data(isoExample)
 #                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
 data = isoNetwork(mirna_ex_rse, gene_ex_rse, target = ma_ex,
                   enrich = ego, summarize = "group")
-isoPlotNet(data)
+isoPlotNet(data,  minGenes = 4)
 ```
 
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Normalize count matrix — isoNorm • isomiRs</title>
+<title>Annotate the rawData of the <a href='IsomirDataSeq.html'>IsomirDataSeq</a> object — isoAnnotate • isomiRs</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="Normalize count matrix — isoNorm" />
+<meta property="og:title" content="Annotate the rawData of the <a href='IsomirDataSeq.html'>IsomirDataSeq</a> object — isoAnnotate" />
 
-<meta property="og:description" content="This function normalizes raw count matrix using
-DESeq2::rlog() function from DESeq2::DESeq2-package." />
+<meta property="og:description" content="Get the sequence and the name information for each isomiR,
+and the importance value (isomir_reads/mirna_reads) for
+each  sample." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,19 +99,20 @@ DESeq2::rlog() function from DESeq2::DESeq2-package." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Normalize count matrix</h1>
+    <h1>Annotate the rawData of the <a href='IsomirDataSeq.html'>IsomirDataSeq</a> object</h1>
     
-    <div class="hidden name"><code>isoNorm.Rd</code></div>
+    <div class="hidden name"><code>isoAnnotate.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function normalizes raw count matrix using
-<code><a href='https://www.rdocumentation.org/packages/DESeq2/topics/rlog'>DESeq2::rlog()</a></code> function from <a href='https://www.rdocumentation.org/packages/DESeq2/topics/DESeq2-package'>DESeq2::DESeq2-package</a>.</p>
+    <p>Get the sequence and the name information for each isomiR,
+and the importance value (<code>isomir_reads/mirna_reads</code>) for
+each  sample.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>isoNorm</span>(<span class='no'>ids</span>, <span class='kw'>formula</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>maxSamples</span> <span class='kw'>=</span> <span class='fl'>50</span>)</pre>
+    <pre class="usage"><span class='fu'>isoAnnotate</span>(<span class='no'>ids</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -119,48 +121,49 @@ DESeq2::rlog() function from DESeq2::DESeq2-package." />
       <th>ids</th>
       <td><p>Object of class <a href='IsomirDataSeq.html'>IsomirDataSeq</a>.</p></td>
     </tr>
-    <tr>
-      <th>formula</th>
-      <td><p>Formula that will be used for normalization.</p></td>
-    </tr>
-    <tr>
-      <th>maxSamples</th>
-      <td><p>Maximum number of samples to use with
-<code><a href='https://www.rdocumentation.org/packages/DESeq2/topics/rlog'>DESeq2::rlog()</a></code>, if not <code><a href='https://www.rdocumentation.org/packages/limma/topics/voom'>limma::voom()</a></code> is used.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><a href='IsomirDataSeq.html'>IsomirDataSeq</a> object with the normalized
-count matrix in a slot. The normalized matrix
-can be access with <code><a href='counts.html'>counts(ids, norm=TRUE)</a></code>.</p>
+    <p><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a> with the sequence, isomir name,
+and importance for each sample and isomiR.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p><code>edit_mature_position</code> represents the position at the mature
+sequence + nucleotide at reference + nucleotide at isomiR.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>mirData</span>)
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoCounts.html'>isoCounts</a></span>(<span class='no'>mirData</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mins</span><span class='kw'>=</span><span class='fl'>6</span>)
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'>isoNorm</span>(<span class='no'>mirData</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>, <span class='kw'>norm</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;                       cc1       cc2       cc3       cc4       cc5       cc6
-#&gt; hsa-let-7a-2-3p  3.839715  4.957562  3.922234  4.193356  4.628304  4.320126
-#&gt; hsa-let-7a-3p    8.879606  9.912474  9.176849  8.724705  9.618618  8.956600
-#&gt; hsa-let-7a-5p   17.525920 18.324970 17.476047 17.414170 17.977366 17.531085
-#&gt; hsa-let-7b-3p    9.302412 11.360556  9.282137  9.880371 10.966974  9.778085
-#&gt; hsa-let-7b-5p   15.337173 16.405251 15.209072 15.416528 15.967481 15.401889
-#&gt; hsa-let-7c-3p    5.139584  5.142892  5.180718  5.353287  5.376405  5.413745
-#&gt;                       cc7       ct1       ct2       ct3       ct4       ct5
-#&gt; hsa-let-7a-2-3p  4.105222  2.962917  3.902602  3.760179  4.596888  4.575751
-#&gt; hsa-let-7a-3p    9.012317  9.240616  8.782452  8.762592  9.237904  9.168472
-#&gt; hsa-let-7a-5p   17.307877 18.861768 17.537454 17.523249 17.311227 17.382079
-#&gt; hsa-let-7b-3p   10.126883  9.621539  9.667149  9.273214 10.076857 10.090630
-#&gt; hsa-let-7b-5p   15.352952 15.631647 15.237137 15.078033 15.221224 15.242910
-#&gt; hsa-let-7c-3p    5.315111  4.270346  5.313367  5.600923  5.251170  5.149174
-#&gt;                       ct6       ct7
-#&gt; hsa-let-7a-2-3p  4.316038  3.852731
-#&gt; hsa-let-7a-3p    8.755662  9.090326
-#&gt; hsa-let-7a-5p   17.698660 17.638359
-#&gt; hsa-let-7b-3p   10.382668  9.999591
-#&gt; hsa-let-7b-5p   15.785968 15.537679
-#&gt; hsa-let-7c-3p    5.091561  4.953205</div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'>isoAnnotate</span>(<span class='no'>mirData</span>))</div><div class='output co'>#&gt;                       seq
+#&gt; 1 AAAAACCGTAGTTACTTTTGCAT
+#&gt; 2    AAAAACTGAGACTACTTTTG
+#&gt; 3   AAAAACTGAGACTACTTTTGC
+#&gt; 4  AAAAACTGAGACTACTTTTGCA
+#&gt; 5 AAAAACTGAGACTACTTTTGCAA
+#&gt; 6   AAAAACTGCAGTTACTTTTGC
+#&gt;                                                        uid    cc1      cc2
+#&gt; 1 hsa-miR-548bb-3p;iso_snp:8GA;iso_add:T;iso_5p:c;iso_3p:A     NA       NA
+#&gt; 2                                hsa-miR-548e-3p;iso_3p:ca  9.375 10.71429
+#&gt; 3                                 hsa-miR-548e-3p;iso_3p:a 34.375 10.71429
+#&gt; 4                                      hsa-miR-548e-3p;ref 21.875 64.28571
+#&gt; 5                                hsa-miR-548e-3p;iso_add:A 34.375       NA
+#&gt; 6                                hsa-miR-548ah-3p;iso_5p:c 15.000 11.76471
+#&gt;        cc3        cc4 cc5      cc6 cc7      ct1      ct2       ct3 ct4
+#&gt; 1       NA 100.000000  NA       NA  NA       NA       NA        NA  NA
+#&gt; 2 15.15152   6.896552  NA       NA  NA 19.04762       NA  8.333333  20
+#&gt; 3 30.30303  41.379310  28 66.66667  25 19.04762 47.61905 29.166667  20
+#&gt; 4 27.27273  17.241379  44 33.33333  60 38.09524 23.80952 16.666667  30
+#&gt; 5 21.21212  13.793103  12       NA  15 23.80952 19.04762 25.000000  30
+#&gt; 6 23.07692         NA  NA       NA  NA       NA       NA        NA  NA
+#&gt;         ct5      ct6      ct7 edit_mature_position
+#&gt; 1        NA       NA       NA                 9:AG
+#&gt; 2  8.695652       NA       NA                   NA
+#&gt; 3 30.434783 13.04348 46.15385                   NA
+#&gt; 4 30.434783 34.78261 30.76923                   NA
+#&gt; 5 17.391304 43.47826 23.07692                   NA
+#&gt; 6        NA       NA       NA                   NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -168,6 +171,8 @@ can be access with <code><a href='counts.html'>counts(ids, norm=TRUE)</a></code>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

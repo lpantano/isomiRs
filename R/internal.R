@@ -23,8 +23,10 @@
                             uid)) 
 }
 
-.clean_noise <- function(iso, pctco){
-
+.clean_noise <- function(iso, pctco, whitelist=NULL){
+    sample <- mir <- value <- seq <- NULL
+    prop <- fdr <- p.value <- NULL
+    whitelist <- intersect(iso[["seq"]], whitelist)
     keep <- iso %>%  # calculate pct
         .[,c(1:2,7:ncol(.))] %>%
         gather("sample", "value", -mir, -seq) %>% 
@@ -49,7 +51,7 @@
         mutate(fdr = p.adjust(p.value, method = "BH")) %>% 
         filter(fdr < 0.05) %>% .[["seq"]] %>% unique()
     
-    iso[iso[["seq"]]  %in%  keep,]
+    iso[iso[["seq"]]  %in%  unique(c(keep, whitelist)),]
 }
 
 

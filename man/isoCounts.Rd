@@ -5,7 +5,8 @@
 \title{Create count matrix with different summarizing options}
 \usage{
 isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
-  add = FALSE, snv = FALSE, seed = FALSE, minc = 1, mins = 1)
+  add = FALSE, snv = FALSE, seed = FALSE, all = FALSE, minc = 1,
+  mins = 1)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}
@@ -21,6 +22,8 @@ isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
 \item{snv}{Differentiate nt substitution miRNA from rest.}
 
 \item{seed}{Differentiate changes in 2-7 nts from rest.}
+
+\item{all}{Differentiate all isomiRs.}
 
 \item{minc}{Int minimum number of isomiR sequences to be included.}
 

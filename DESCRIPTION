@@ -47,6 +47,7 @@ Imports:
     reshape,
     rlang,
     stats,
+    stringr,
     S4Vectors,
     tidyr,
     tibble

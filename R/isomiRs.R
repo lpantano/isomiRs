@@ -345,6 +345,53 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
         .IsomirDataSeq(se, metadata(ids)[["rawData"]])
 }
 
+#' Annotate the rawData of the [IsomirDataSeq] object
+#' 
+#' Get the sequence and the name information for each isomiR,
+#' and the importance value (`isomir_reads/mirna_reads`) for
+#' each  sample.
+#' 
+#' @param ids Object of class [IsomirDataSeq].
+#' 
+#' @details 
+#' `edit_mature_position` represents the position at the mature
+#'  sequence + nucleotide at reference + nucleotide at isomiR.
+#' @return [data.frame] with the sequence, isomir name,
+#'   and importance for each sample and isomiR.
+#' 
+#' @examples
+#' data(mirData)
+#' head(isoAnnotate(mirData))
+#' @export
+isoAnnotate <- function(ids){
+    sample <- mir <- value <- uid <- seq <- NULL
+    rawData <- metadata(ids)[["rawData"]]
+    rawData <- .make_uid(rawData)
+    dt <- rawData %>%  # calculate pct
+        .[,c(1:2,7:ncol(.))] %>%
+        gather("sample", "value", -mir, -seq, -uid) %>%
+        group_by(sample, mir) %>% 
+        filter(value > 0) %>%
+        group_by(mir, sample, seq, uid) %>% 
+        summarise(value=sum(value)) %>% 
+        group_by(mir, sample) %>% 
+        arrange(sample, mir, desc(value)) %>%
+        mutate(pct = value / sum(value) * 100) %>%
+        ungroup() %>% 
+        select(-value, -mir) %>% 
+        spread(sample, pct) %>% 
+        as.data.frame()
+    
+    lift <- ((grepl("[A-Z]", rawData[["t5"]]) * -1) + (grepl("[a-z]", rawData[["t5"]]) * 1)) * nchar(rawData[["t5"]])
+    pos <- as.numeric(str_extract(rawData[["mism"]], "[0-9]*")) + lift
+    pos <- ifelse(pos==0, -1, pos)
+    change <- reverse(str_extract(rawData[["mism"]], "[ACTG]+"))
+    mature_pos <- ifelse(grepl("NA", change), "NA", paste0(pos, ":", change))
+    
+    dt[["edit_mature_position"]] = mature_pos
+    dt
+}
+
 
 #' Normalize count matrix
 #'
