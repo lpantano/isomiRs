@@ -240,7 +240,7 @@ directly `r Biocpkg("DESeq2")` package feeding it with the output of
 
 ```{r package-de-with-deseq2}
 dds = DESeqDataSetFromMatrix(counts(ids),
-                             colData(ids), design = ~ condition)
+                             colData(ids), design = ~condition)
 ```
 
 
