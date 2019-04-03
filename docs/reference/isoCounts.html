@@ -122,7 +122,7 @@ or analysis having the following naming
 
     <pre class="usage"><span class='fu'>isoCounts</span>(<span class='no'>ids</span>, <span class='kw'>ref</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>iso5</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>iso3</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>snv</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>minc</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>mins</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+  <span class='kw'>mins</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>merge_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,6 +167,11 @@ or analysis having the following naming
       <th>mins</th>
       <td><p>Int minimum number of samples with number of
 sequences bigger than <code>minc</code> counts.</p></td>
+    </tr>
+    <tr>
+      <th>merge_by</th>
+      <td><p>Column in coldata to merge samples into a single
+column in counts. Useful to combine technical replicates.</p></td>
     </tr>
     </table>
     
