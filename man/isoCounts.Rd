@@ -6,7 +6,7 @@
 \usage{
 isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
   add = FALSE, snv = FALSE, seed = FALSE, all = FALSE, minc = 1,
-  mins = 1)
+  mins = 1, merge_by = NULL)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}
@@ -29,6 +29,9 @@ isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
 
 \item{mins}{Int minimum number of samples with number of
 sequences bigger than \code{minc} counts.}
+
+\item{merge_by}{Column in coldata to merge samples into a single
+column in counts. Useful to combine technical replicates.}
 }
 \value{
 \link{IsomirDataSeq} object with new count table.

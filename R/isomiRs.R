@@ -305,6 +305,8 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 #' @param minc Int minimum number of isomiR sequences to be included.
 #' @param mins Int minimum number of samples with number of
 #'   sequences bigger than `minc` counts.
+#' @param merge_by Column in coldata to merge samples into a single
+#'   column in counts. Useful to combine technical replicates.
 #'
 #' @details
 #'
@@ -332,17 +334,31 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 #' @export
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
                       add=FALSE, snv=FALSE, seed=FALSE, 
-                      all = FALSE,minc=1, mins=1){
-        counts <- IsoCountsFromMatrix(metadata(ids)[["rawData"]],
-                                      colData(ids),
-                                      ref,
-                                      iso5, iso3,
-                                      add, snv, seed)
+                      all = FALSE,minc=1, mins=1,
+                      merge_by=NULL){
+    coldata <- colData(ids)
+    rawdata <- metadata(ids)[["rawData"]]
+    counts <- IsoCountsFromMatrix(metadata(ids)[["rawData"]],
+                                  colData(ids),
+                                  ref,
+                                  iso5, iso3,
+                                  add, snv, seed)
+    if (!is.null(merge_by)){
+        stopifnot(merge_by  %in% colnames(colData(ids)))
+        combined <- .merge_counts_by(counts, colData(ids), merge_by)
+        counts <- combined[["counts"]]
+        coldata <-  combined[["coldata"]]
+        
+        raw_counts <- rawdata[,7:ncol(rawdata)] %>% as.matrix()
+        new <- .merge_counts_by(raw_counts, colData(ids), merge_by)
+        rawdata <- as.tibble(cbind(rawdata[,1:6], new[["counts"]]))
+        
+    }
 
-        counts <- counts[rowSums(counts > minc) >= mins, ]
-        se <- SummarizedExperiment(assays = SimpleList(counts = counts),
-                                   colData = colData(ids))
-        .IsomirDataSeq(se, metadata(ids)[["rawData"]])
+    counts <- counts[rowSums(counts > minc) >= mins, ]
+    se <- SummarizedExperiment(assays = SimpleList(counts = counts),
+                               colData = coldata)
+    .IsomirDataSeq(se, rawdata)
 }
 
 #' Annotate the rawData of the [IsomirDataSeq] object

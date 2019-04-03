@@ -2,6 +2,7 @@ Changes in version  1.11.3
 
 FEATURES
 
+* Combined samples and create new object. Useful for technical replicates.
 * Add isoAnnotate function to get more information for each isomiR.
 * Add isomiR naming and sequences table in metadata of object.
 * Remove reference sequences from isoPlot figures.

@@ -223,6 +223,25 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     dt
 }
 
+# merge matrix by column in metadata
+.merge_counts_by <- function(counts, coldata, merge_by){
+    uni_counts <-lapply(unique(as.character(coldata[[merge_by]])),
+                       function(s){
+        one <- as.character(rownames(coldata)[coldata[[merge_by]]==s])
+        round(rowMeans(counts[,one, drop=FALSE]))
+    }) %>% unlist() %>%
+        matrix(.,
+               ncol=length(unique(as.character(coldata[[merge_by]]))))
+    colnames(uni_counts) <- unique(as.character(coldata[[merge_by]]))
+    rownames(uni_counts) <- rownames(counts)
+    coldata = coldata %>%
+        as.data.frame() %>% 
+        distinct(!!!sym(merge_by), .keep_all=TRUE) %>% 
+        DataFrame()
+    rownames(coldata) <- coldata[[merge_by]]
+    list(counts=uni_counts, coldata=coldata)
+}
+
 # get isomir name and sequence table
 .make_isomir_naming <- function(rawData){
     is_subs = rawData[["mism"]] != "0"
