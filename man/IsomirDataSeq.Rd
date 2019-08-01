@@ -79,7 +79,7 @@ mean deletions respect to the reference sequence.
 }
 \examples{
 path <- system.file("extra", package="isomiRs")
-fn_list <- list.files(path, full.names = TRUE)
+fn_list <- list.files(path, pattern="mirna", full.names = TRUE)
 de <- data.frame(row.names=c("f1" , "f2"),
                  condition = c("newborn", "newborn"))
 ids <- IsomirDataSeqFromFiles(fn_list, coldata=de)
