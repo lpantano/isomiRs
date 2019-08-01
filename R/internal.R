@@ -23,6 +23,15 @@
                             uid)) 
 }
 
+
+.remove_gt_n_changes <- function(iso, n=1){
+    iso %>% 
+        mutate(changes = sapply(mism,
+                                function(x) str_count(x, "[0-9]+"))) %>% 
+        mutate(changes = ifelse(mism == "0", 0, changes)) %>%
+        filter(changes <= n)
+}
+
 .clean_noise <- function(iso, pctco, whitelist=NULL){
     sample <- mir <- value <- seq <- NULL
     prop <- fdr <- p.value <- NULL
@@ -189,7 +198,6 @@
 IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
                                 iso3=FALSE, add=FALSE,
                                 snv=FALSE, seed=FALSE, minc=1){
- 
     is_subs = snv & rawData[["mism"]] != "0"
     is_add = add & rawData[["add"]] != "0"
     is_t5 = iso5 & rawData[["t5"]] != "0"

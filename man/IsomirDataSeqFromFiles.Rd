@@ -10,7 +10,7 @@ IsomirDataSeqFromFiles(files, coldata, rate = 0.2, canonicalAdd = TRUE,
   minHits = 1L, header = TRUE, skip = 0, quiet = TRUE, ...)
 
 IsomirDataSeqFromRawData(rawdata, coldata, design = ~1L, pct = 0.1,
-  whitelist = NULL, ...)
+  n_snv = 1, whitelist = NULL, ...)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
@@ -50,6 +50,9 @@ including rowData.}
 \item{pct}{numeric used to remove isomiRs with an importance lower than
 this value. Importance is calculated by dividing the isomiR count
 by the total counts of the miRNA to which it maps.}
+
+\item{n_snv}{numeric used to remove isomiRs with more than this number of
+single nucleotide variants (indels are counted here).}
 
 \item{whitelist}{character vector with sequences to keep even
 if the filtering step would have removed them. They have to match

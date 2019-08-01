@@ -42,7 +42,7 @@
 #' @importFrom stats as.dist as.hclust cutree dist hclust
 #'             dnorm pnorm predict qnorm rnorm deviance
 #'             model.matrix nlminb p.adjust prop.test
-#' @importFrom stringr str_extract
+#' @importFrom stringr str_extract str_count
 
 #' 
 "_PACKAGE"

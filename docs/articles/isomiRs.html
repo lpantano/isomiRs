@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">isomiRs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.4</span>
       </span>
     </div>
 
@@ -64,7 +64,7 @@
       <h1>Characterization of miRNA and isomiR molecules</h1>
                         <h4 class="author">Lorena Pantano</h4>
             
-            <h4 class="date">26 March 2019</h4>
+            <h4 class="date">1 August 2019</h4>
       
       
       <div class="hidden name"><code>isomiRs.Rmd</code></div>
@@ -74,7 +74,7 @@
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      <p>isomiRs package version: 1.11.3</p>
+      isomiRs package version: 1.12.0
     </div>
     
 <p><a href="lorena.pantano@gmail.com">Lorena Pantano</a> Harvard TH Chan School of Public Health, Boston, US</p>
@@ -82,8 +82,8 @@
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>miRNAs are small RNA fragments (18-23 nt long) that influence gene expression during development and cell stability. Morin et al <span class="citation">(Morin et al. 2008)</span>, discovered isomiRs first time after sequencing human stem cells.</p>
-<p>IsomiRs are miRNAs that vary slightly in sequence, which result from variations in the cleavage site during miRNA biogenesis (5’-trimming and 3’-trimming variants), nucleotide additions to the 3’-end of the mature miRNA (3’-addition variants) and nucleotide modifications (substitution variants)<span class="citation">(Martí et al. 2010)</span>.</p>
-<p>There are many tools designed for isomiR detection, however the majority are web application where user can not control the analysis. The two main command tools for isomiRs mapping are SeqBuster and sRNAbench <span class="citation">(Guillermo et al. 2014)</span>. <em><a href="https://bioconductor.org/packages/3.8/isomiRs">isomiRs</a></em>. package is designed to analyze the output of SeqBuster tool or any other tool after converting to the desire format.</p>
+<p>IsomiRs are miRNAs that vary slightly in sequence, which result from variations in the cleavage site during miRNA biogenesis (5’-trimming and 3’-trimming variants), nucleotide additions to the 3’-end of the mature miRNA (3’-addition variants) and nucleotide modifications (substitution variants)<span class="citation">(Martı' et al. 2010)</span>.</p>
+<p>There are many tools designed for isomiR detection, however the majority are web application where user can not control the analysis. The two main command tools for isomiRs mapping are SeqBuster and sRNAbench <span class="citation">(Guillermo et al. 2014)</span>. <em><a href="https://bioconductor.org/packages/3.9/isomiRs">isomiRs</a></em>. package is designed to analyze the output of SeqBuster tool or any other tool after converting to the desire format.</p>
 </div>
 <div id="citing-isomirs" class="section level2">
 <h2 class="hasAnchor">
@@ -112,9 +112,9 @@ TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1   hsa-miR-192-5p  25  47   8GT     0  
 <a href="#access-data" class="anchor"></a>Access data</h3>
 <p>The user can access the normalized count matrix with <code><a href="../reference/counts.html">counts(object, norm=TRUE)</a></code>.</p>
 <p>You can browse for the same miRNA or isomiRs in all samples with <code>isoSelect</code> method.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(isomiRs)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(mirData)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="../reference/isoSelect.html">isoSelect</a></span>(mirData, <span class="dt">mirna=</span><span class="st">"hsa-let-7a-5p"</span>, <span class="dv">1000</span>))</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(isomiRs)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(mirData)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="../reference/isoSelect.html">isoSelect</a></span>(mirData, <span class="dt">mirna=</span><span class="st">"hsa-let-7a-5p"</span>, <span class="dv">1000</span>))</a></code></pre></div>
 <pre><code>## DataFrame with 6 rows and 14 columns
 ##                                 cc1       cc2       cc3       cc4
 ##                           &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
@@ -167,10 +167,10 @@ TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1   hsa-miR-192-5p  25  47   8GT     0  
 <p>We are going to use a small RNAseq data from human brain samples <span class="citation">(Pantano et al. 2015)</span> to give some basic examples of isomiRs analyses.</p>
 <p>In this data set we will find two groups:</p>
 <p><em>pc: 7 control individuals </em>pt: 7 patients with Parkinson’s Disease in early stage.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(isomiRs)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(mirData)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(isomiRs)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(mirData)</a></code></pre></div>
 <p>The function <code>IsomirDataSeqFromFiles</code> needs a vector with the paths for each file and a data frame with the design experiment similar to the one used for a mRNA differential expression analysis. Row names of the data frame should be the names for each sample in the same order than the list of files.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ids &lt;-<span class="st"> </span><span class="kw"><a href="../reference/IsomirDataSeqFromFiles.html">IsomirDataSeqFromFiles</a></span>(fn_list, <span class="dt">design=</span>de)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">ids &lt;-<span class="st"> </span><span class="kw"><a href="../reference/IsomirDataSeqFromFiles.html">IsomirDataSeqFromFiles</a></span>(fn_list, <span class="dt">design=</span>de)</a></code></pre></div>
 </div>
 <div id="manipulation" class="section level2">
 <h2 class="hasAnchor">
@@ -179,15 +179,15 @@ TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1   hsa-miR-192-5p  25  47   8GT     0  
 <h3 class="hasAnchor">
 <a href="#descriptive-analysis" class="anchor"></a>Descriptive analysis</h3>
 <p>You can plot isomiRs expression with <code>isoPlot</code>. In this figure you will see how abundant is each type of isomiRs at different positions considering the total abundance and the total number of sequences. The <code>type</code> parameter controls what type of isomiRs to show. It can be trimming (iso5 and iso3), addition (add) or substitution (subs) changes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ids &lt;-<span class="st"> </span><span class="kw"><a href="../reference/isoCounts.html">isoCounts</a></span>(mirData)
-<span class="kw"><a href="../reference/isoPlot.html">isoPlot</a></span>(ids, <span class="dt">type=</span><span class="st">"all"</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">ids &lt;-<span class="st"> </span><span class="kw"><a href="../reference/isoCounts.html">isoCounts</a></span>(mirData)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/isoPlot.html">isoPlot</a></span>(ids, <span class="dt">type=</span><span class="st">"all"</span>)</a></code></pre></div>
 <p><img src="isomiRs_files/figure-html/package-plot-iso-t5-1.png" width="700"></p>
 </div>
 <div id="count-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#count-data" class="anchor"></a>Count data</h3>
 <p><code>isoCounts</code> gets the count matrix that can be used for many different downstream analyses changing the way isomiRs are collapsed. The following command will merge all isomiRs into one feature: the reference miRNA.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids))</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids))</a></code></pre></div>
 <pre><code>##                    cc1    cc2    cc3    cc4    cc5    cc6    cc7    ct1
 ## hsa-let-7a-2-3p      5     13      4      9     11      6      7      0
 ## hsa-let-7a-3p      767    707    630    609    731    389    681    258
@@ -202,12 +202,12 @@ TGACCTAGGAATTGACAGCCAGT seq_100060_x1   1   hsa-miR-192-5p  25  47   8GT     0  
 ## hsa-let-7b-3p      931    494   1149   1194   1431    988
 ## hsa-let-7b-5p    45069  28312  41214  43058  61258  46600
 ## hsa-let-7c-3p       30     28     26     24     22     17</code></pre>
-<p>The normalization uses <code>rlog</code> from <em><a href="https://bioconductor.org/packages/3.8/DESeq2">DESeq2</a></em> package and allows quick integration to another analyses like heatmap, clustering or PCA.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pheatmap)
-ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.html">isoNorm</a></span>(ids, <span class="dt">formula =</span> <span class="op">~</span><span class="st"> </span>condition)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/pheatmap/topics/pheatmap">pheatmap</a></span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids, <span class="dt">norm=</span><span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>,], 
-         <span class="dt">annotation_col =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="kw">colData</span>(ids)[,<span class="dv">1</span>,<span class="dt">drop=</span><span class="ot">FALSE</span>]),
-         <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>, <span class="dt">scale=</span><span class="st">"row"</span>)</code></pre></div>
+<p>The normalization uses <code>rlog</code> from <em><a href="https://bioconductor.org/packages/3.9/DESeq2">DESeq2</a></em> package and allows quick integration to another analyses like heatmap, clustering or PCA.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(pheatmap)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.html">isoNorm</a></span>(ids, <span class="dt">formula =</span> <span class="op">~</span><span class="st"> </span>condition)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/pheatmap/topics/pheatmap">pheatmap</a></span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids, <span class="dt">norm=</span><span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>,], </a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">         <span class="dt">annotation_col =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="kw">colData</span>(ids)[,<span class="dv">1</span>,<span class="dt">drop=</span><span class="ot">FALSE</span>]),</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">         <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>, <span class="dt">scale=</span><span class="st">"row"</span>)</a></code></pre></div>
 <p><img src="isomiRs_files/figure-html/package-norm-1.png" width="700"></p>
 </div>
 <div id="annotation" class="section level3">
@@ -222,7 +222,7 @@ ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.htm
 <li>edit_mature_position: showing the position at the mature sequence where the nucleotide change happened: <code>position:nt_ref:nt_isomiR</code>.</li>
 <li>one column for each sample with the importance value</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="../reference/isoAnnotate.html">isoAnnotate</a></span>(ids))</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="../reference/isoAnnotate.html">isoAnnotate</a></span>(ids))</a></code></pre></div>
 <pre><code>##                       seq
 ## 1 AAAAACCGTAGTTACTTTTGCAT
 ## 2    AAAAACTGAGACTACTTTTG
@@ -259,12 +259,12 @@ ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.htm
 <div id="differential-expression-analysis" class="section level3">
 <h3 class="hasAnchor">
 <a href="#differential-expression-analysis" class="anchor"></a>Differential expression analysis</h3>
-<p>The <code>isoDE</code> uses functions from <em><a href="https://bioconductor.org/packages/3.8/DESeq2">DESeq2</a></em> package. This function has parameters to create a matrix using only the reference miRNAs, all isomiRs, or some of them. This matrix and the design matrix are the inputs for DESeq2. The output will be a DESeqDataSet object, allowing to generate any plot or table explained in DESeq2 package vignette.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/isoDE.html">isoDE</a></span>(ids, <span class="dt">formula=</span><span class="op">~</span>condition)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(DESeq2)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/DESeq2/topics/plotMA">plotMA</a></span>(dds)</code></pre></div>
+<p>The <code>isoDE</code> uses functions from <em><a href="https://bioconductor.org/packages/3.9/DESeq2">DESeq2</a></em> package. This function has parameters to create a matrix using only the reference miRNAs, all isomiRs, or some of them. This matrix and the design matrix are the inputs for DESeq2. The output will be a DESeqDataSet object, allowing to generate any plot or table explained in DESeq2 package vignette.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">dds &lt;-<span class="st"> </span><span class="kw"><a href="../reference/isoDE.html">isoDE</a></span>(ids, <span class="dt">formula=</span><span class="op">~</span>condition)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(DESeq2)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/DESeq2/topics/plotMA">plotMA</a></span>(dds)</a></code></pre></div>
 <p><img src="isomiRs_files/figure-html/package-de-1.png" width="700"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/DESeq2/topics/results">results</a></span>(dds, <span class="dt">format=</span><span class="st">"DataFrame"</span>))</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/DESeq2/topics/results">results</a></span>(dds, <span class="dt">format=</span><span class="st">"DataFrame"</span>))</a></code></pre></div>
 <pre><code>## log2 fold change (MLE): condition ct vs cc 
 ## Wald test p-value: condition ct vs cc 
 ## DataFrame with 6 rows and 6 columns
@@ -285,8 +285,8 @@ ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.htm
 ## hsa-let-7b-5p    -1.04047599221861 0.298118812264406 0.989527585749852
 ## hsa-let-7c-3p   -0.576212317761602 0.564471680375386 0.989527585749852</code></pre>
 <p>You can differentiate between reference sequences and isomiRs at 5’ end with this command:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dds =<span class="st"> </span><span class="kw"><a href="../reference/isoDE.html">isoDE</a></span>(ids, <span class="dt">formula=</span><span class="op">~</span>condition, <span class="dt">ref=</span><span class="ot">TRUE</span>, <span class="dt">iso5=</span><span class="ot">TRUE</span>)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/DESeq2/topics/results">results</a></span>(dds, <span class="dt">tidy=</span><span class="ot">TRUE</span>))</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">dds =<span class="st"> </span><span class="kw"><a href="../reference/isoDE.html">isoDE</a></span>(ids, <span class="dt">formula=</span><span class="op">~</span>condition, <span class="dt">ref=</span><span class="ot">TRUE</span>, <span class="dt">iso5=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/DESeq2/topics/results">results</a></span>(dds, <span class="dt">tidy=</span><span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>##                          row    baseMean log2FoldChange     lfcSE
 ## 1            hsa-let-7a-2-3p   2.4059793     -0.8425278 1.0440442
 ## 2 hsa-let-7a-2-3p;iso_5p:TAA   0.1285419      1.1051761 3.0845751
@@ -301,44 +301,44 @@ ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.htm
 ## 4 -0.8205135 0.4119234 0.9865695
 ## 5  0.5770972 0.5638738 0.9865695
 ## 6 -1.2471289 0.2123502 0.9865695</code></pre>
-<p>Alternative, for more complicated cases or if you want to control more the differential expression analysis paramters you can use directly <em><a href="https://bioconductor.org/packages/3.8/DESeq2">DESeq2</a></em> package feeding it with the output of <code><a href="../reference/counts.html">counts(ids)</a></code> and <code>colData(ids)</code> like this:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dds =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/DESeq2/topics/DESeqDataSet">DESeqDataSetFromMatrix</a></span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids),
-                             <span class="kw">colData</span>(ids), <span class="dt">design =</span> <span class="op">~</span><span class="st"> </span>condition)</code></pre></div>
+<p>Alternative, for more complicated cases or if you want to control more the differential expression analysis paramters you can use directly <em><a href="https://bioconductor.org/packages/3.9/DESeq2">DESeq2</a></em> package feeding it with the output of <code><a href="../reference/counts.html">counts(ids)</a></code> and <code>colData(ids)</code> like this:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">dds =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/DESeq2/topics/DESeqDataSet">DESeqDataSetFromMatrix</a></span>(<span class="kw"><a href="../reference/counts.html">counts</a></span>(ids),</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">                             <span class="kw">colData</span>(ids), <span class="dt">design =</span> <span class="op">~</span>condition)</a></code></pre></div>
 </div>
 <div id="supervised-classification" class="section level3">
 <h3 class="hasAnchor">
 <a href="#supervised-classification" class="anchor"></a>Supervised classification</h3>
 <p>Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically appropriate for analysis of high dimensionality data sets and multicollineality <span class="citation">(Pérez-Enciso and Tenenhaus 2003)</span>. PLS-DA is a supervised method (i.e. makes use of class labels) with the aim to provide a dimension reduction strategy in a situation where we want to relate a binary response variable (in our case young or old status) to a set of predictor variables. Dimensionality reduction procedure is based on orthogonal transformations of the original variables (isomiRs) into a set of linearly uncorrelated latent variables (usually termed as components) such that maximizes the separation between the different classes in the first few components <span class="citation">(Xia and Wishart 2011)</span>. We used sum of squares captured by the model (R2) as a goodness of fit measure. We implemented this method using the <code>DiscriMiner</code> into <code>isoPLSDA</code> function. The output p-value of this function will tell about the statistical significant of the group separation using miRNA expression data. Moreover, the function <code>isoPLSDAplot</code> helps to visualize the results. It will plot the samples using the significant components (t1, t2, t3 …) from the PLS-DA analysis and the samples distribution along the components.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ids =<span class="st"> </span><span class="kw"><a href="../reference/isoCounts.html">isoCounts</a></span>(ids, <span class="dt">iso5=</span><span class="ot">TRUE</span>, <span class="dt">minc=</span><span class="dv">10</span>, <span class="dt">mins=</span><span class="dv">6</span>)
-ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.html">isoNorm</a></span>(ids, <span class="dt">formula =</span> <span class="op">~</span><span class="st"> </span>condition)
-pls.ids =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDA.html">isoPLSDA</a></span>(ids, <span class="st">"condition"</span>, <span class="dt">nperm =</span> <span class="dv">2</span>)
-df =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDAplot.html">isoPLSDAplot</a></span>(pls.ids)</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">ids =<span class="st"> </span><span class="kw"><a href="../reference/isoCounts.html">isoCounts</a></span>(ids, <span class="dt">iso5=</span><span class="ot">TRUE</span>, <span class="dt">minc=</span><span class="dv">10</span>, <span class="dt">mins=</span><span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">ids =<span class="st"> </span><span class="kw"><a href="../reference/isoNorm.html">isoNorm</a></span>(ids, <span class="dt">formula =</span> <span class="op">~</span><span class="st"> </span>condition)</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">pls.ids =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDA.html">isoPLSDA</a></span>(ids, <span class="st">"condition"</span>, <span class="dt">nperm =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">df =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDAplot.html">isoPLSDAplot</a></span>(pls.ids)</a></code></pre></div>
 <p><img src="isomiRs_files/figure-html/package-pls-1.png" width="700"></p>
 <p>The analysis can be done again using only the most important discriminant isomiRS from the PLS-DA models based on the analysis. We used Variable Importance for the Projection (VIP) criterion to select the most important features, since takes into account the contribution of a specific predictor for both the explained variability on the response and the explained variability on the predictors.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pls.ids =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDA.html">isoPLSDA</a></span>(ids,<span class="st">"condition"</span>, <span class="dt">refinment =</span> <span class="ot">FALSE</span>, <span class="dt">vip =</span> <span class="fl">0.8</span>)</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">pls.ids =<span class="st"> </span><span class="kw"><a href="../reference/isoPLSDA.html">isoPLSDA</a></span>(ids,<span class="st">"condition"</span>, <span class="dt">refinment =</span> <span class="ot">FALSE</span>, <span class="dt">vip =</span> <span class="fl">0.8</span>)</a></code></pre></div>
 </div>
 <div id="gene---mirna-integration" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gene---mirna-integration" class="anchor"></a>Gene - miRNA integration</h3>
 <p>The package offers a correlation analysis of miRNA and gene expression data. Having two SummarizedExperiments objects with their expression, the target prediction for each miRNA, the function <code>isoNetwork</code> and <code>isoPlotNetwork</code> can generate a summarized figure showing the relationship between expression profile, miRNA repression and enrichment analysis:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library(org.Mm.eg.db)</span>
-<span class="co"># library(clusterProfiler)</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(isoExample)
-
-<span class="co"># ego &lt;- enrichGO(row.names(assay(gene_ex_rse, "norm")),</span>
-<span class="co">#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")</span>
-data =<span class="st"> </span><span class="kw"><a href="../reference/isoNetwork.html">isoNetwork</a></span>(mirna_ex_rse, gene_ex_rse, <span class="dt">target =</span> ma_ex,
-                  <span class="dt">enrich =</span> ego, <span class="dt">summarize =</span> <span class="st">"group"</span>)</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># library(org.Mm.eg.db)</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="co"># library(clusterProfiler)</span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(isoExample)</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co"># ego &lt;- enrichGO(row.names(assay(gene_ex_rse, "norm")),</span></a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="co">#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")</span></a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">data =<span class="st"> </span><span class="kw"><a href="../reference/isoNetwork.html">isoNetwork</a></span>(mirna_ex_rse, gene_ex_rse, <span class="dt">target =</span> ma_ex,</a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">                  <span class="dt">enrich =</span> ego, <span class="dt">summarize =</span> <span class="st">"group"</span>)</a></code></pre></div>
 <pre><code>## Dimmension of cor matrix: 20 25</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/isoPlotNet.html">isoPlotNet</a></span>(data,  <span class="dt">minGenes =</span> <span class="dv">4</span>)</code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="../reference/isoPlotNet.html">isoPlotNet</a></span>(data,  <span class="dt">minGenes =</span> <span class="dv">4</span>)</a></code></pre></div>
 <p><img src="isomiRs_files/figure-html/isonetwork-1.png" width="672"></p>
 <p>As an option, <code>org</code> can be <code>org.Mm.eg.db</code> and <code>genename</code> can be <code>ENSEMBL</code> and it will run <code>enrcihGO</code> internally.</p>
 <p>To create the ma_ex matrix, the user can use <code>findTargets</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mirna_ma &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">gene =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gene_ex_rse)[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>],
-                       <span class="dt">mir =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(mirna_ex_rse))
-ma_ex &lt;-<span class="st"> </span><span class="kw"><a href="../reference/findTargets.html">findTargets</a></span>(mirna_ex_rse, gene_ex_rse, mirna_ma)</code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">mirna_ma &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">gene =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(gene_ex_rse)[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>],</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">                       <span class="dt">mir =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(mirna_ex_rse))</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">ma_ex &lt;-<span class="st"> </span><span class="kw"><a href="../reference/findTargets.html">findTargets</a></span>(mirna_ex_rse, gene_ex_rse, mirna_ma)</a></code></pre></div>
 <pre><code>## Dimmension of cor matrix: 20 20</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(ma_ex[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(ma_ex[,<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</a></code></pre></div>
 <pre><code>##                    mmu-miR-101a-3p mmu-miR-107-3p mmu-miR-142a-3p
 ## ENSMUSG00000004530               0              0               0
 ## ENSMUSG00000005397               0              0               0
@@ -354,9 +354,9 @@ ma_ex &lt;-<span class="st"> </span><span class="kw"><a href="../reference/findT
 ## ENSMUSG00000019997              0
 ## ENSMUSG00000021822              0</code></pre>
 <p>And to get the <code>mirna_ma</code> data.frame with the miRNA-target information, the user can use <code>mirna2targetscan</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(targetscan.Hs.eg.db)
-mirna_ma &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mirna2targetscan.html">mirna2targetscan</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"hsa-miR-34c-5p"</span>))
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mirna_ma)</code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(targetscan.Hs.eg.db)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">mirna_ma &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mirna2targetscan.html">mirna2targetscan</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"hsa-miR-34c-5p"</span>))</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mirna_ma)</a></code></pre></div>
 <pre><code>##                         miRFamily Seedmatch  PCT  gene     targetscan
 ## 1 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.29 79719 hsa-miR-34c-5p
 ## 2 miR-34ac/34bc-5p/449abc/449c-5p      8mer 0.76   215 hsa-miR-34c-5p
@@ -377,14 +377,14 @@ mirna_ma &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mi
 <h2 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h2>
 <p>Here is the output of <code>sessionInfo</code> on the system on which this document was compiled:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</code></pre></div>
-<pre><code>## R version 3.5.2 (2018-12-20)
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</a></code></pre></div>
+<pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-apple-darwin15.6.0 (64-bit)
-## Running under: macOS Mojave 10.14.1
+## Running under: macOS Mojave 10.14.3
 ## 
 ## Matrix products: default
-## BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
-## LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -394,99 +394,101 @@ mirna_ma &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mi
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] targetscan.Hs.eg.db_0.6.1   AnnotationDbi_1.44.0       
-##  [3] DESeq2_1.22.2               pheatmap_1.0.12            
-##  [5] isomiRs_1.11.3              SummarizedExperiment_1.12.0
-##  [7] DelayedArray_0.8.0          BiocParallel_1.16.6        
-##  [9] matrixStats_0.54.0          Biobase_2.42.0             
-## [11] GenomicRanges_1.34.0        GenomeInfoDb_1.18.2        
-## [13] IRanges_2.16.0              S4Vectors_0.20.1           
-## [15] BiocGenerics_0.28.0         DiscriMiner_0.1-29         
-## [17] BiocStyle_2.10.0           
+##  [1] targetscan.Hs.eg.db_0.6.1   AnnotationDbi_1.46.0       
+##  [3] DESeq2_1.24.0               pheatmap_1.0.12            
+##  [5] isomiRs_1.12.0              SummarizedExperiment_1.14.0
+##  [7] DelayedArray_0.10.0         BiocParallel_1.18.0        
+##  [9] matrixStats_0.54.0          Biobase_2.44.0             
+## [11] GenomicRanges_1.36.0        GenomeInfoDb_1.20.0        
+## [13] IRanges_2.18.1              S4Vectors_0.22.0           
+## [15] BiocGenerics_0.30.0         DiscriMiner_0.1-29         
+## [17] BiocStyle_2.12.0           
 ## 
 ## loaded via a namespace (and not attached):
-##   [1] assertive.base_0.0-7        colorspace_1.4-0           
-##   [3] rjson_0.2.20                rprojroot_1.3-2            
-##   [5] circlize_0.4.5              htmlTable_1.13.1           
-##   [7] XVector_0.22.0              ggdendro_0.1-20            
-##   [9] GlobalOptions_0.1.0         base64enc_0.1-3            
-##  [11] fs_1.2.6                    rstudioapi_0.9.0           
-##  [13] roxygen2_6.1.1              assertive.sets_0.0-3       
-##  [15] ggrepel_0.8.0               bit64_0.9-7                
-##  [17] xml2_1.2.0                  splines_3.5.2              
-##  [19] logging_0.9-107             mnormt_1.5-5               
-##  [21] geneplotter_1.60.0          knitr_1.22                 
-##  [23] Formula_1.2-3               Nozzle.R1_1.1-1            
-##  [25] broom_0.5.1                 annotate_1.60.0            
-##  [27] cluster_2.0.7-1             readr_1.3.1                
-##  [29] BiocManager_1.30.4          compiler_3.5.2             
-##  [31] backports_1.1.3             assertthat_0.2.0           
-##  [33] Matrix_1.2-15               lazyeval_0.2.1             
-##  [35] limma_3.38.3                lasso2_1.2-20              
-##  [37] acepack_1.4.1               htmltools_0.3.6            
-##  [39] tools_3.5.2                 gtable_0.2.0               
-##  [41] glue_1.3.0                  GenomeInfoDbData_1.2.0     
-##  [43] reshape2_1.4.3              dplyr_0.8.0.1              
-##  [45] Rcpp_1.0.0                  pkgdown_1.3.0              
-##  [47] gdata_2.18.0                nlme_3.1-137               
-##  [49] psych_1.8.12                xfun_0.5                   
-##  [51] stringr_1.4.0               DEGreport_1.19.2           
-##  [53] gtools_3.8.1                XML_3.98-1.19              
-##  [55] edgeR_3.24.3                zlibbioc_1.28.0            
-##  [57] MASS_7.3-51.1               scales_1.0.0               
-##  [59] hms_0.4.2                   RColorBrewer_1.1-2         
-##  [61] ComplexHeatmap_1.20.0       yaml_2.2.0                 
-##  [63] memoise_1.1.0               gridExtra_2.3              
-##  [65] ggplot2_3.1.0               rpart_4.1-13               
-##  [67] reshape_0.8.8               latticeExtra_0.6-28        
-##  [69] stringi_1.3.1               RSQLite_2.1.1              
-##  [71] genefilter_1.64.0           desc_1.2.0                 
-##  [73] checkmate_1.9.1             caTools_1.17.1.2           
-##  [75] shape_1.4.4                 rlang_0.3.1                
-##  [77] pkgconfig_2.0.2             commonmark_1.7             
-##  [79] bitops_1.0-6                evaluate_0.13              
-##  [81] lattice_0.20-38             purrr_0.3.1                
-##  [83] labeling_0.3                htmlwidgets_1.3            
-##  [85] cowplot_0.9.4               bit_1.1-14                 
-##  [87] tidyselect_0.2.5            GGally_1.4.0               
-##  [89] plyr_1.8.4                  magrittr_1.5               
-##  [91] R6_2.4.0                    gplots_3.0.1.1             
-##  [93] generics_0.0.2              Hmisc_4.2-0                
-##  [95] DBI_1.0.0                   pillar_1.3.1               
-##  [97] foreign_0.8-71              survival_2.43-3            
-##  [99] RCurl_1.95-4.12             nnet_7.3-12                
-## [101] tibble_2.0.1                crayon_1.3.4               
-## [103] KernSmooth_2.23-15          rmarkdown_1.11             
-## [105] GetoptLong_0.1.7            locfit_1.5-9.1             
-## [107] grid_3.5.2                  data.table_1.12.0          
-## [109] blob_1.1.1                  ConsensusClusterPlus_1.46.0
-## [111] digest_0.6.18               xtable_1.8-3               
-## [113] tidyr_0.8.3                 munsell_0.5.0</code></pre>
+##   [1] backports_1.1.4             circlize_0.4.6             
+##   [3] Hmisc_4.2-0                 plyr_1.8.4                 
+##   [5] ConsensusClusterPlus_1.48.0 lazyeval_0.2.2             
+##   [7] splines_3.6.1               ggplot2_3.2.0              
+##   [9] digest_0.6.20               htmltools_0.3.6            
+##  [11] gdata_2.18.0                magrittr_1.5               
+##  [13] checkmate_1.9.4             memoise_1.1.0              
+##  [15] cluster_2.1.0               limma_3.40.2               
+##  [17] ComplexHeatmap_2.0.0        readr_1.3.1                
+##  [19] annotate_1.62.0             Nozzle.R1_1.1-1            
+##  [21] pkgdown_1.3.0               colorspace_1.4-1           
+##  [23] blob_1.2.0                  ggrepel_0.8.1              
+##  [25] xfun_0.8                    dplyr_0.8.3                
+##  [27] crayon_1.3.4                RCurl_1.95-4.12            
+##  [29] DEGreport_1.20.0            roxygen2_6.1.1             
+##  [31] genefilter_1.66.0           zeallot_0.1.0              
+##  [33] survival_2.44-1.1           glue_1.3.1                 
+##  [35] gtable_0.3.0                zlibbioc_1.30.0            
+##  [37] XVector_0.24.0              GetoptLong_0.1.7           
+##  [39] shape_1.4.4                 scales_1.0.0               
+##  [41] DBI_1.0.0                   GGally_1.4.0               
+##  [43] edgeR_3.26.5                Rcpp_1.0.1                 
+##  [45] xtable_1.8-4                lasso2_1.2-20              
+##  [47] htmlTable_1.13.1            clue_0.3-57                
+##  [49] foreign_0.8-71              bit_1.1-14                 
+##  [51] Formula_1.2-3               htmlwidgets_1.3            
+##  [53] gplots_3.0.1.1              RColorBrewer_1.1-2         
+##  [55] acepack_1.4.1               pkgconfig_2.0.2            
+##  [57] reshape_0.8.8               XML_3.98-1.20              
+##  [59] nnet_7.3-12                 locfit_1.5-9.1             
+##  [61] tidyselect_0.2.5            labeling_0.3               
+##  [63] rlang_0.4.0                 reshape2_1.4.3             
+##  [65] munsell_0.5.0               tools_3.6.1                
+##  [67] generics_0.0.2              RSQLite_2.1.1              
+##  [69] broom_0.5.2                 evaluate_0.14              
+##  [71] stringr_1.4.0               ggdendro_0.1-20            
+##  [73] yaml_2.2.0                  knitr_1.23                 
+##  [75] bit64_0.9-7                 fs_1.3.1                   
+##  [77] caTools_1.17.1.2            purrr_0.3.2                
+##  [79] assertive.sets_0.0-3        nlme_3.1-140               
+##  [81] xml2_1.2.0                  compiler_3.6.1             
+##  [83] rstudioapi_0.10             png_0.1-7                  
+##  [85] tibble_2.1.3                geneplotter_1.62.0         
+##  [87] stringi_1.4.3               desc_1.2.0                 
+##  [89] lattice_0.20-38             assertive.base_0.0-7       
+##  [91] Matrix_1.2-17               commonmark_1.7             
+##  [93] psych_1.8.12                vctrs_0.2.0                
+##  [95] pillar_1.4.2                BiocManager_1.30.4         
+##  [97] GlobalOptions_0.1.0         data.table_1.12.2          
+##  [99] cowplot_1.0.0               bitops_1.0-6               
+## [101] R6_2.4.0                    latticeExtra_0.6-28        
+## [103] KernSmooth_2.23-15          gridExtra_2.3              
+## [105] MASS_7.3-51.4               gtools_3.8.1               
+## [107] assertthat_0.2.1            rprojroot_1.3-2            
+## [109] rjson_0.2.20                mnormt_1.5-5               
+## [111] GenomeInfoDbData_1.2.1      hms_0.5.0                  
+## [113] grid_3.6.1                  rpart_4.1-15               
+## [115] tidyr_0.8.3                 rmarkdown_1.14             
+## [117] logging_0.10-108            base64enc_0.1-3</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
 <div id="ref-barturen2014">
-<p>Guillermo, Barturen, Rueda Antonio, Hamberg Maarten, Alganza Angel, Lebron Ricardo, Kotsyfakis Michalis, Shi BuJun, KoppersLalic Danijela, and Hackenberg Michael. 2014. “sRNAbench: profiling of small RNAs and its sequence variants in single or multi-species high-throughput experiments.” <em>Methods in Next Generation Sequencing</em> 1 (1): 2084–7173. doi:<a href="https://doi.org/10.2478/mngs-2014-0001">10.2478/mngs-2014-0001</a>.</p>
+<p>Guillermo, Barturen, Rueda Antonio, Hamberg Maarten, Alganza Angel, Lebron Ricardo, Kotsyfakis Michalis, Shi BuJun, KoppersLalic Danijela, and Hackenberg Michael. 2014. “sRNAbench: profiling of small RNAs and its sequence variants in single or multi-species high-throughput experiments.” <em>Methods in Next Generation Sequencing</em> 1 (1): 2084–7173. <a href="https://doi.org/10.2478/mngs-2014-0001">https://doi.org/10.2478/mngs-2014-0001</a>.</p>
 </div>
 <div id="ref-emarti">
-<p>Martí, Eulàlia, Lorena Pantano, Mónica Bañez-Coronel, Franc Llorens, Elena Miñones-Moyano, Sílvia Porta, Lauro Sumoy, Isidre Ferrer, and Xavier Estivill. 2010. “A myriad of miRNA variants in control and Huntington’s disease brain regions detected by massively parallel sequencing.” <em>Nucleic Acids Res.</em> 38: 7219–35. doi:<a href="https://doi.org/10.1093/nar/gkq575">10.1093/nar/gkq575</a>.</p>
+<p>Martı', Eulàlia, Lorena Pantano, Mónica Bañez-Coronel, Franc Llorens, Elena Miñones-Moyano, Sı'lvia Porta, Lauro Sumoy, Isidre Ferrer, and Xavier Estivill. 2010. “A myriad of miRNA variants in control and Huntington’s disease brain regions detected by massively parallel sequencing.” <em>Nucleic Acids Res.</em> 38: 7219–35. <a href="https://doi.org/10.1093/nar/gkq575">https://doi.org/10.1093/nar/gkq575</a>.</p>
 </div>
 <div id="ref-morin">
-<p>Morin, R. D., M. D. O’Connor, M. Griffith, F. Kuchenbauer, A. Delaney, A.-L. Prabhu, Y. Zhao, et al. 2008. “Application of massively parallel sequencing to microRNA profiling and discovery in human embryonic stem cells.” <em>Genome Res.</em> 18: 610–21. doi:<a href="https://doi.org/10.1101/gr.7179508">10.1101/gr.7179508</a>.</p>
-</div>
-<div id="ref-isomirs">
-<p>Pantano L, Estivil X, Marti E. 2010. “SeqBuster.” <em>Nucleic Acids Res.</em> 38: e34. doi:<a href="https://doi.org/10.1093/nar/gkp1127">10.1093/nar/gkp1127</a>.</p>
+<p>Morin, R. D., M. D. O’Connor, M. Griffith, F. Kuchenbauer, A. Delaney, A.-L. Prabhu, Y. Zhao, et al. 2008. “Application of massively parallel sequencing to microRNA profiling and discovery in human embryonic stem cells.” <em>Genome Res.</em> 18: 610–21. <a href="https://doi.org/10.1101/gr.7179508">https://doi.org/10.1101/gr.7179508</a>.</p>
 </div>
 <div id="ref-pantano2016">
-<p>Pantano, Lorena, Marc R Friedlander, Georgia Escaramis, Esther Lizano, Joan Pallares-Albanell, Isidre Ferrer, Xavier Estivill, and Eulalia Marti. 2015. “Specific small-RNA signatures in the amygdala at premotor and motor stages of Parkinson’s disease revealed by deep sequencing analysis.” <em>Bioinformatics (Oxford, England)</em>, November. doi:<a href="https://doi.org/10.1093/bioinformatics/btv632">10.1093/bioinformatics/btv632</a>.</p>
+<p>Pantano, Lorena, Marc R Friedlander, Georgia Escaramis, Esther Lizano, Joan Pallares-Albanell, Isidre Ferrer, Xavier Estivill, and Eulalia Marti. 2015. “Specific small-RNA signatures in the amygdala at premotor and motor stages of Parkinson’s disease revealed by deep sequencing analysis.” <em>Bioinformatics (Oxford, England)</em>, November. <a href="https://doi.org/10.1093/bioinformatics/btv632">https://doi.org/10.1093/bioinformatics/btv632</a>.</p>
+</div>
+<div id="ref-isomirs">
+<p>Pantano L, Estivil X, Marti E. 2010. “SeqBuster.” <em>Nucleic Acids Res.</em> 38: e34. <a href="https://doi.org/10.1093/nar/gkp1127">https://doi.org/10.1093/nar/gkp1127</a>.</p>
 </div>
 <div id="ref-perezenciso">
-<p>Pérez-Enciso, Miguel, and Michel Tenenhaus. 2003. “Prediction of clinical outcome with microarray data: a partial least squares discriminant analysis (PLS-DA) approach.” <em>Human Genetics</em> 112: 581–92. doi:<a href="https://doi.org/10.1007/s00439-003-0921-9">10.1007/s00439-003-0921-9</a>.</p>
+<p>Pérez-Enciso, Miguel, and Michel Tenenhaus. 2003. “Prediction of clinical outcome with microarray data: a partial least squares discriminant analysis (PLS-DA) approach.” <em>Human Genetics</em> 112: 581–92. <a href="https://doi.org/10.1007/s00439-003-0921-9">https://doi.org/10.1007/s00439-003-0921-9</a>.</p>
 </div>
 <div id="ref-xia">
-<p>Xia, Jianguo, and David S Wishart. 2011. “Web-based inference of biological patterns, functions and pathways from metabolomic data using MetaboAnalyst.” <em>Nature Protocols</em> 6: 743–60. doi:<a href="https://doi.org/10.1038/nprot.2011.319">10.1038/nprot.2011.319</a>.</p>
+<p>Xia, Jianguo, and David S Wishart. 2011. “Web-based inference of biological patterns, functions and pathways from metabolomic data using MetaboAnalyst.” <em>Nature Protocols</em> 6: 743–60. <a href="https://doi.org/10.1038/nprot.2011.319">https://doi.org/10.1038/nprot.2011.319</a>.</p>
 </div>
 </div>
 </div>

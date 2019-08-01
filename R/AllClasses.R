@@ -191,6 +191,8 @@ updateIsomirDataSeq <- function(object){
 #' @param pct numeric used to remove isomiRs with an importance lower than
 #'   this value. Importance is calculated by dividing the isomiR count
 #'   by the total counts of the miRNA to which it maps.
+#' @param n_snv numeric used to remove isomiRs with more than this number of
+#'   single nucleotide variants (indels are counted here).
 #' @param whitelist character vector with sequences to keep even
 #'   if the filtering step would have removed them. They have to match
 #'   the `seq` column in the table.
@@ -284,17 +286,52 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
     return(ids)
 }
 
+#' Import `mirtop` output into `IsomirDataSeq`
+#' 
+#' 
+#' The tabular output of [mirtop]() is compatible with [IsomirDataSeq]. This
+#' function allows to import the data and filter low confidence isomiRs for
+#' downstream analysis.
+#' 
+#' The output is generated with `mirtop export --format isomir`.
+#' 
+#' @param mirtop data.frame with the output of `mirtop export`
+#' @param coldata data.frame with the metadata of the samples
+#' @param ... It supports the same parameters as in [IsomirDataSeqFromRawData].
+#' 
+#' @return
+#' [IsomirDataSeq] class object.
+#' @examples
+#' library(readr)
+#' path <- system.file("extra", "mirtop", package="isomiRs")
+#' fn <- list.files(path, full.names = TRUE)
+#' de <- data.frame(row.names=c("sample1" , "sample2"),
+#'                  condition = c("cc", "cc"))
+#' # mirtop export --format isomir ....
+#' IsomirDataSeqFromMirtop(read_tsv(fn), de)
+#' @export
+IsomirDataSeqFromMirtop <- function(mirtop, coldata, ...){
+  # check mirtop table and convert to rawdata
+  # remove more than X snv
+  ids <- IsomirDataSeqFromRawData(mirtop, coldata, ...)
+  return(ids)
+}
+
 #' @rdname IsomirDataSeqFromFiles
 #' @inheritParams IsomirDataSeqFromFiles
 #' @param rawdata data.frame stored in metadata slot of [IsomirDataSeq] object.
 #' @export
 IsomirDataSeqFromRawData <- function(rawdata, coldata,
                                      design = ~1L,
-                                     pct = 0.1, whitelist = NULL, ...){
+                                     pct = 0.1,
+                                     n_snv = 1,
+                                     whitelist = NULL, ...){
 
     if (nrow(rawdata) == 0)
         stop("No samples had valids miRNA hits.")
+
     rawdata <- .clean_noise(rawdata, pct, whitelist)
+    rawdata <- .remove_gt_n_changes(rawdata, n_snv)
     countData <- IsoCountsFromMatrix(rawdata, coldata)
     se <- SummarizedExperiment(assays = SimpleList(counts = countData),
                                colData = DataFrame(coldata), ...)
