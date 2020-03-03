@@ -2,18 +2,18 @@ data(mirData)
 data(isoExample)
 
 test_that("plots", {
-    expect_true(class(isoPlot(mirData, type = "all", column = "condition"))[2] == "ggplot")
-    expect_true(class(isoPlot(mirData, type = "iso5", column = "condition"))[2] == "ggplot")
-    expect_true(class(isoPlot(mirData, type = "iso3", column = "condition"))[2] == "ggplot")
-    expect_true(class(isoPlot(mirData, type = "add", column = "condition"))[2] == "ggplot")
-    expect_true(class(isoPlotPosition(mirData, column = "condition"))[2] == "ggplot")
+    expect_s3_class(isoPlot(mirData, type = "all", column = "condition"), "ggplot")
+    expect_s3_class(isoPlot(mirData, type = "iso5", column = "condition"), "ggplot")
+    expect_s3_class(isoPlot(mirData, type = "iso3", column = "condition"), "ggplot")
+    expect_s3_class(isoPlot(mirData, type = "add", column = "condition"), "ggplot")
+    expect_s3_class(isoPlotPosition(mirData, column = "condition"), "ggplot")
 })
 
 test_that("counts", {
     obj <- isoCounts(mirData, ref = TRUE)
-    expect_true(class(counts(obj))[1] == "matrix")
+    expect_s3_class(counts(obj),"matrix")
     obj <- isoNorm(obj, formula = ~condition)
-    expect_true(class(counts(obj, norm = TRUE))[1] == "matrix")
+    expect_s3_class(counts(obj, norm = TRUE), "matrix")
 })  
 
 test_that("psl-da", {
@@ -21,7 +21,7 @@ test_that("psl-da", {
                  "please, run first isoNorm")
     pls.ids = isoPLSDA(isoNorm(mirData), "condition", nperm = 2)
     expect_output(str(pls.ids), "List of 6")
-    expect_true(class(isoPLSDAplot(pls.ids)) == "data.frame")
+    expect_s3_class(isoPLSDAplot(pls.ids), "data.frame")
 })
 
 test_that("target", {
@@ -37,6 +37,6 @@ test_that("target", {
 
 test_that("accesor", {
     expect_output(str(design(mirData)), "formula")
-    expect_true(class(counts(mirData)) == "matrix")
+    expect_s3_class(counts(mirData), "matrix")
     expect_equal(nrow(isoSelect(mirData, "hsa-let-7a-5p")), 37)
 })

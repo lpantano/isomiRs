@@ -125,7 +125,7 @@ findTargets <- function(mirna_rse, gene_rse, target,
                                              gene_rse, summarize,
                                              org, gene_id){
     message("Predict miRNA targets with mirna2targetscan")
-    stopifnot(class(org) == "OrgDb")
+    stopifnot(is(org, "OrgDb"))
     mirna_de = as.character(metadata(mirna_rse)$sign)
     gene_de = as.character(metadata(gene_rse)$sign)
     
@@ -211,8 +211,8 @@ isoNetwork <- function(mirna_rse, gene_rse,
                        genename = "ENSEMBL",
                        min_cor = -.6, min_fc = 0.5){
     stopifnot(summarize  %in% names(colData(mirna_rse)))
-    stopifnot(class(gene_rse) == "SummarizedExperiment")
-    stopifnot(class(mirna_rse) == "SummarizedExperiment")
+    stopifnot(is(gene_rse, "SummarizedExperiment"))
+    stopifnot(is(mirna_rse, "SummarizedExperiment"))
     stopifnot("sign"  %in% names(metadata(gene_rse)))
     stopifnot("sign"  %in% names(metadata(mirna_rse)))
     mirna_de = as.character(metadata(mirna_rse)$sign)
@@ -259,9 +259,9 @@ isoNetwork <- function(mirna_rse, gene_rse,
     res <- NULL
     if (is.null(enrich))
         stop("Run enrich method, please. See clusterProfiler or ReactomePA.")
-    if (class(enrich)[1] == "enrichResult")
+    if (is(enrich, "enrichResult"))
         res <- slot(enrich, "result")
-    if (class(enrich) == "data.frame")
+    if (is(enrich, "data.frame"))
         res <- enrich
     if (is.null(res))
         stop("No significant genes.")
