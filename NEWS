@@ -3,6 +3,7 @@ Changes in version  1.15.1
 FIX
 
 * Fix bug when dataframe is empty at isoSelect: Thanks to @DrHogart. https://github.com/miRTop/mirtop/issues/65#issuecomment-593845084
+* Fix class error: using is now.
 
 
 Changes in version  1.11.4
