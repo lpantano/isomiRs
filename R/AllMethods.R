@@ -128,7 +128,7 @@ isoSelect.IsomirDataSeq <- function(object, mirna,  minc=10) {
         column_to_rownames("uid") %>% 
         as.matrix()
     
-    DataFrame(dt[ rowSums(dt[,2:ncol(dt), drop=FALSE] > minc) > 0, , drop=FALSE])
+    DataFrame(dt[ rowSums(dt[,1:ncol(dt), drop=FALSE] > minc) > 0, , drop=FALSE])
 }
 
 design.IsomirDataSeq <- function(object) object@design
