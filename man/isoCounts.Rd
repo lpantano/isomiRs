@@ -4,9 +4,19 @@
 \alias{isoCounts}
 \title{Create count matrix with different summarizing options}
 \usage{
-isoCounts(ids, ref = FALSE, iso5 = FALSE, iso3 = FALSE,
-  add = FALSE, snv = FALSE, seed = FALSE, all = FALSE, minc = 1,
-  mins = 1, merge_by = NULL)
+isoCounts(
+  ids,
+  ref = FALSE,
+  iso5 = FALSE,
+  iso3 = FALSE,
+  add = FALSE,
+  snv = FALSE,
+  seed = FALSE,
+  all = FALSE,
+  minc = 1,
+  mins = 1,
+  merge_by = NULL
+)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}
@@ -44,7 +54,7 @@ different changes can be put together into a single miRNA variant.
 For instance all sequences with variants at 3' end can be
 considered as different elements in the table
 or analysis having the following naming
-\code{hsa-miR-124a-5p.iso.t3:AAA}.
+\verb{hsa-miR-124a-5p.iso.t3:AAA}.
 }
 \details{
 You can merge all isomiRs into miRNAs by calling the function only

@@ -35,11 +35,11 @@ changes.
 There are four different values for \code{type} parameter. To plot
 trimming at 5' or 3' end, use \code{type="iso5"} or \code{type="iso3"}. Get a summary of all using \code{type="all"}.
 In this case, it will plot 3 positions at both side of the reference
-position described at miRBase site. Each position refers to the % of
+position described at miRBase site. Each position refers to the \% of
 sequences that start/end before or after the miRBase reference. The
 color indicates the sample group. The size of the point is proportional
 to the abundance considering the total as all the sequences in the sample.
-The position at \code{y} is the % of
+The position at \code{y} is the \% of
 different sequences considering the total as all sequences with changes
 for the specific
 isomiR showed.

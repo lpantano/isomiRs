@@ -4,9 +4,17 @@
 \alias{isoNetwork}
 \title{Clustering miRNAs-genes pairs in similar pattern expression}
 \usage{
-isoNetwork(mirna_rse, gene_rse, summarize = NULL, target = NULL,
-  org = NULL, enrich = NULL, genename = "ENSEMBL", min_cor = -0.6,
-  min_fc = 0.5)
+isoNetwork(
+  mirna_rse,
+  gene_rse,
+  summarize = NULL,
+  target = NULL,
+  org = NULL,
+  enrich = NULL,
+  genename = "ENSEMBL",
+  min_cor = -0.6,
+  min_fc = 0.5
+)
 }
 \arguments{
 \item{mirna_rse}{\code{SummarizedExperiment} with miRNA

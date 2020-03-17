@@ -41,7 +41,7 @@ The naming of isomiRs follows these rules:
 \item miRNA name
 \item type:ref if the sequence is the same than the miRNA reference.
 \code{iso} if the sequence has variations.
-\item \code{iso_5p tag}:indicates variations at 5 position.
+\item \verb{iso_5p tag}:indicates variations at 5 position.
 The naming contains two words: \code{direction - nucleotides},
 where direction can be UPPER CASE NT
 (changes upstream of the 5 reference position) or
@@ -50,7 +50,7 @@ LOWER CASE NT (changes downstream of the 5 reference position).
 the same than the reference. After \code{direction},
 it follows the nucleotide/s that are added (for upstream changes)
 or deleted (for downstream changes).
-\item \code{iso_3p tag}:indicates variations at 3 position.
+\item \verb{iso_3p tag}:indicates variations at 3 position.
 The naming contains two words: \code{direction - nucleotides},
 where direction can be LOWER CASE NT
 (upstream of the 3 reference position) or
@@ -59,17 +59,17 @@ UPPER CASE NT (downstream of the 3 reference position).
 the same than the reference. After \code{direction},
 it follows the nucleotide/s that are added (for downstream changes)
 or deleted (for upstream chanes).
-\item \code{iso_add tag}:indicates nucleotides additions at 3 position.
+\item \verb{iso_add tag}:indicates nucleotides additions at 3 position.
 The naming contains two words: \code{direction - nucleotides},
 where direction is UPPER CASE NT
 (upstream of the 5 reference position).
 \code{0} indicates no variation, meaning the 3 position
 has no additions. After \code{direction},
 it follows the nucleotide/s that are added.
-\item \code{iso_snv tag}: indicates nucleotides substitutions along
+\item \verb{iso_snv tag}: indicates nucleotides substitutions along
 the sequences. The naming contains three words:
 \code{position-nucleotide@isomiR-nucleotide@reference}.
-\item \code{iso_snv_seed tag}: same than \code{iso_snv} tag,
+\item \verb{iso_snv_seed tag}: same than \code{iso_snv} tag,
 but only if the change happens between nucleotide 2 and 8.
 }
 

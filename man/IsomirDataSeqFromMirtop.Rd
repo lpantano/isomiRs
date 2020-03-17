@@ -7,7 +7,7 @@
 IsomirDataSeqFromMirtop(mirtop, coldata, ...)
 }
 \arguments{
-\item{mirtop}{data.frame with the output of \code{mirtop export}}
+\item{mirtop}{data.frame with the output of \verb{mirtop export}}
 
 \item{coldata}{data.frame with the metadata of the samples}
 
@@ -22,7 +22,7 @@ function allows to import the data and filter low confidence isomiRs for
 downstream analysis.
 }
 \details{
-The output is generated with \code{mirtop export --format isomir}.
+The output is generated with \verb{mirtop export --format isomir}.
 }
 \examples{
 library(readr)

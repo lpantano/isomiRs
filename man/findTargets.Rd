@@ -4,8 +4,7 @@
 \alias{findTargets}
 \title{Find miRNAs target using mRNA/miRNA expression}
 \usage{
-findTargets(mirna_rse, gene_rse, target, summarize = "group",
-  min_cor = -0.6)
+findTargets(mirna_rse, gene_rse, target, summarize = "group", min_cor = -0.6)
 }
 \arguments{
 \item{mirna_rse}{\code{SummarizedExperiment} with miRNA

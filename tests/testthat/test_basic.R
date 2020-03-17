@@ -11,9 +11,9 @@ test_that("plots", {
 
 test_that("counts", {
     obj <- isoCounts(mirData, ref = TRUE)
-    expect_s3_class(counts(obj),"matrix")
+    expect_is(counts(obj),"matrix")
     obj <- isoNorm(obj, formula = ~condition)
-    expect_s3_class(counts(obj, norm = TRUE), "matrix")
+    expect_is(counts(obj, norm = TRUE), "matrix")
 })  
 
 test_that("psl-da", {
@@ -21,7 +21,7 @@ test_that("psl-da", {
                  "please, run first isoNorm")
     pls.ids = isoPLSDA(isoNorm(mirData), "condition", nperm = 2)
     expect_output(str(pls.ids), "List of 6")
-    expect_s3_class(isoPLSDAplot(pls.ids), "data.frame")
+    expect_is(isoPLSDAplot(pls.ids), "data.frame")
 })
 
 test_that("target", {
@@ -37,6 +37,6 @@ test_that("target", {
 
 test_that("accesor", {
     expect_output(str(design(mirData)), "formula")
-    expect_s3_class(counts(mirData), "matrix")
+    expect_is(counts(mirData), "matrix")
     expect_equal(nrow(isoSelect(mirData, "hsa-let-7a-5p")), 37)
 })

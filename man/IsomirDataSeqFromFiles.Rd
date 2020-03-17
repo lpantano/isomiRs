@@ -2,15 +2,22 @@
 % Please edit documentation in R/AllClasses.R
 \name{IsomirDataSeqFromFiles}
 \alias{IsomirDataSeqFromFiles}
-\alias{IsomirDataSeqFromRawData}
 \title{Loads miRNA annotation from seqbuster tool or pre-processed data.}
 \usage{
-IsomirDataSeqFromFiles(files, coldata, rate = 0.2, canonicalAdd = TRUE,
-  uniqueMism = TRUE, uniqueHits = FALSE, design = ~1L,
-  minHits = 1L, header = TRUE, skip = 0, quiet = TRUE, ...)
-
-IsomirDataSeqFromRawData(rawdata, coldata, design = ~1L, pct = 0.1,
-  n_snv = 1, whitelist = NULL, ...)
+IsomirDataSeqFromFiles(
+  files,
+  coldata,
+  rate = 0.2,
+  canonicalAdd = TRUE,
+  uniqueMism = TRUE,
+  uniqueHits = FALSE,
+  design = ~1L,
+  minHits = 1L,
+  header = TRUE,
+  skip = 0,
+  quiet = TRUE,
+  ...
+)
 }
 \arguments{
 \item{files}{files with the output of seqbuster tool}
@@ -42,21 +49,8 @@ in the final matrix.}
 while reading files. Default \code{FALSE}.}
 
 \item{...}{arguments provided to
-\code{SummarizedExperiment}.
+\code{SummarizedExperiment} and \link{IsomirDataSeqFromRawData}.
 including rowData.}
-
-\item{rawdata}{data.frame stored in metadata slot of \link{IsomirDataSeq} object.}
-
-\item{pct}{numeric used to remove isomiRs with an importance lower than
-this value. Importance is calculated by dividing the isomiR count
-by the total counts of the miRNA to which it maps.}
-
-\item{n_snv}{numeric used to remove isomiRs with more than this number of
-single nucleotide variants (indels are counted here).}
-
-\item{whitelist}{character vector with sequences to keep even
-if the filtering step would have removed them. They have to match
-the \code{seq} column in the table.}
 }
 \value{
 \link{IsomirDataSeq} class object.

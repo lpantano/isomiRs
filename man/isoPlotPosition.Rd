@@ -27,7 +27,7 @@ It shows the nucleotides changes at the given position for each
 sample in each group.
 The color indicates the sample group. The size of the point is proportional
 to the number of total counts of isomiRs with changes.
-The position at \code{y} is the % of different isomiRs
+The position at \code{y} is the \% of different isomiRs
 supporting the change. Note the position is relatively to the
 sequence not the miRNA.
 }

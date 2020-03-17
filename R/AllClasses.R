@@ -188,16 +188,8 @@ updateIsomirDataSeq <- function(object){
 #' @param skip skip first line when reading files
 #' @param quiet boolean indicating to print messages
 #'   while reading files. Default `FALSE`.
-#' @param pct numeric used to remove isomiRs with an importance lower than
-#'   this value. Importance is calculated by dividing the isomiR count
-#'   by the total counts of the miRNA to which it maps.
-#' @param n_snv numeric used to remove isomiRs with more than this number of
-#'   single nucleotide variants (indels are counted here).
-#' @param whitelist character vector with sequences to keep even
-#'   if the filtering step would have removed them. They have to match
-#'   the `seq` column in the table.
 #' @param ... arguments provided to
-#'  \code{SummarizedExperiment}.
+#'  \code{SummarizedExperiment} and [IsomirDataSeqFromRawData].
 #'   including rowData.
 #' @details
 #' This function parses the output of
@@ -317,9 +309,35 @@ IsomirDataSeqFromMirtop <- function(mirtop, coldata, ...){
   return(ids)
 }
 
-#' @rdname IsomirDataSeqFromFiles
-#' @inheritParams IsomirDataSeqFromFiles
+#' Loads miRNA annotation from seqbuster tool or pre-processed data.
+#' 
+#' Process raw data like tables to speed up filtering steps.
+#' 
 #' @param rawdata data.frame stored in metadata slot of [IsomirDataSeq] object.
+#' @param coldata data frame containing groups for each sample
+#' @param design a `formula` to pass to [DESeq2::DESeqDataSet]
+#' @param pct numeric used to remove isomiRs with an importance lower than
+#'   this value. Importance is calculated by dividing the isomiR count
+#'   by the total counts of the miRNA to which it maps.
+#' @param n_snv numeric used to remove isomiRs with more than this number of
+#'   single nucleotide variants (indels are counted here).
+#' @param whitelist character vector with sequences to keep even
+#'   if the filtering step would have removed them. They have to match
+#'   the `seq` column in the table.
+#' @param ... arguments provided to
+#'  \code{SummarizedExperiment}.
+#'   including rowData.
+#' @return
+#' [IsomirDataSeq] class object.
+#' @examples
+#' path <- system.file("extra", package="isomiRs")
+#' fn_list <- list.files(path, pattern="mirna", full.names = TRUE)
+#' de <- data.frame(row.names=c("f1" , "f2"),
+#'                  condition = c("newborn", "newborn"))
+#' ids <- IsomirDataSeqFromFiles(fn_list, coldata=de)
+#'
+#' head(counts(ids))
+#' IsomirDataSeqFromRawData(metadata(ids)[["rawData"]], de)
 #' @export
 IsomirDataSeqFromRawData <- function(rawdata, coldata,
                                      design = ~1L,
