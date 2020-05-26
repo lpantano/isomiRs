@@ -4,8 +4,10 @@
 \name{mirTritation}
 \alias{mirTritation}
 \title{Data frame containing mirna from Argyropoulos's paper}
-\format{mirna expression data in long format.
-Train and test data to use with isoCorrect}
+\format{
+mirna expression data in long format.
+Train and test data to use with isoCorrect
+}
 \usage{
 mirTritation
 }

@@ -4,8 +4,10 @@
 \name{mirna_ex_rse}
 \alias{mirna_ex_rse}
 \title{Data frame containing mirna expression data}
-\format{mirna expression data with 18 samples:
-example of a time series data}
+\format{
+mirna expression data with 18 samples:
+example of a time series data
+}
 \usage{
 mirna_ex_rse
 }

@@ -4,8 +4,10 @@
 \name{gene_ex_rse}
 \alias{gene_ex_rse}
 \title{Data frame containing gene expression data}
-\format{gene expression data with 18 samples:
-example of a time series data}
+\format{
+gene expression data with 18 samples:
+example of a time series data
+}
 \usage{
 gene_ex_rse
 }
