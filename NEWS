@@ -1,3 +1,9 @@
+Changes in version  1.16.1
+
+FIX
+
+* Fix error when selecting a column from a tibble object.
+
 Changes in version  1.15.2
 
 FIX
