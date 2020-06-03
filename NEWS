@@ -1,3 +1,9 @@
+Changes in version  1.17.2
+
+FIX
+
+* Fix n() error from dplyr. Now importing in NAMESPACE.
+
 Changes in version  1.17.1
 
 FIX
