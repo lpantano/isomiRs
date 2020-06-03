@@ -1,0 +1,8 @@
+INFO - Run export of GFF into other format.
+INFO - INFO Writing TSV file to directory mirtop
+INFO - INFO Reading GFF file mirtop/mirtop.gff
+INFO - Missing Parents in hairpin file: 0
+INFO - Missing MiRNAs in GFF file: 0
+INFO - Non valid UID: 0
+INFO - Output file is at mirtop/mirtop_rawData.tsv
+INFO - It took 0.002 minutes

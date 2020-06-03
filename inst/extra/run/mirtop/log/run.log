@@ -1,0 +1,8 @@
+07/05/2019 04:30:45 INFO-mirtop.libs.logger(44): Run export of GFF into other format.
+07/05/2019 04:30:45 INFO-mirtop.libs.logger(32): INFO Writing TSV file to directory mirtop
+07/05/2019 04:30:45 INFO-mirtop.libs.logger(34): INFO Reading GFF file mirtop/mirtop.gff
+07/05/2019 04:30:45 INFO-mirtop.libs.logger(94): Missing Parents in hairpin file: 0
+07/05/2019 04:30:45 INFO-mirtop.libs.logger(95): Missing MiRNAs in GFF file: 0
+07/05/2019 04:30:45 INFO-mirtop.libs.logger(96): Non valid UID: 0
+07/05/2019 04:30:45 INFO-mirtop.libs.logger(97): Output file is at mirtop/mirtop_rawData.tsv
+07/05/2019 04:30:45 INFO-mirtop.libs.logger(57): It took 0.002 minutes
