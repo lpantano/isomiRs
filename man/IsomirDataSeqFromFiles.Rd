@@ -60,7 +60,7 @@ This function parses
 output of seqbuster tool to allow isomiRs/miRNAs analysis of samples
 in different groups such as
 characterization, differential expression and clustering. It creates an
-\link[isomiRs:IsomirDataSeq]{isomiRs::IsomirDataSeq} object.
+\link{IsomirDataSeq} object.
 }
 \details{
 This function parses the output of
@@ -69,11 +69,11 @@ for each sample to create a count matrix for isomiRs, miRNAs or
 isomiRs grouped in
 types (i.e all sequences with variations at 5' but ignoring any other type).
 It creates
-\link[isomiRs:IsomirDataSeq]{isomiRs::IsomirDataSeq} object (see link to example usage of
+\link{IsomirDataSeq} object (see link to example usage of
 this class)
 to allow visualization, queries, differential
 expression analysis and clustering.
-To create the \link[isomiRs:IsomirDataSeq]{isomiRs::IsomirDataSeq}, it parses the isomiRs
+To create the \link{IsomirDataSeq}, it parses the isomiRs
 files, and generates
 an initial matrix having all isomiRs detected among samples. As well,
 it creates

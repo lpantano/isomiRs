@@ -4,7 +4,9 @@
 \name{dat286.long}
 \alias{dat286.long}
 \title{Data frame containing mirna from Argyropoulos's paper}
-\format{mirna expression data in long format.}
+\format{
+mirna expression data in long format.
+}
 \usage{
 dat286.long
 }

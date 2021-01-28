@@ -4,7 +4,9 @@
 \name{mirData}
 \alias{mirData}
 \title{Example of IsomirDataSeq with human brain miRNA counts data}
-\format{a \code{\link{IsomirDataSeq}} class.}
+\format{
+a \code{\link{IsomirDataSeq}} class.
+}
 \source{
 Data is available from GEO dataset under accession number GSE97285
 

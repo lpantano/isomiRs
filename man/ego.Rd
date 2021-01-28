@@ -4,9 +4,11 @@
 \name{ego}
 \alias{ego}
 \title{enrichResult class}
-\format{enrichResult class with the output of:
+\format{
+enrichResult class with the output of:
 ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
-org.Mm.eg.db, "ENSEMBL", ont = "BP")}
+org.Mm.eg.db, "ENSEMBL", ont = "BP")
+}
 \usage{
 ego
 }

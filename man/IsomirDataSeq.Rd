@@ -19,15 +19,15 @@ experimental information for each sample.
 \link{IsomirDataSeqFromFiles} creates this object using seqbuster
 output files.
 
-Methods for this objects are \code{\link[isomiRs:counts]{isomiRs::counts()}} to get
-count matrix and \code{\link[isomiRs:isoSelect]{isomiRs::isoSelect()}}
+Methods for this objects are \code{\link[=counts]{counts()}} to get
+count matrix and \code{\link[=isoSelect]{isoSelect()}}
 for miRNA/isomiR selection. Functions
-available for this object are \code{\link[isomiRs:isoCounts]{isomiRs::isoCounts()}} for
+available for this object are \code{\link[=isoCounts]{isoCounts()}} for
 count matrix creation,
-\code{\link[isomiRs:isoNorm]{isomiRs::isoNorm()}} for normalization,
-\code{\link[isomiRs:isoDE]{isomiRs::isoDE()}} for
-differential expression and \code{\link[isomiRs:isoPLSDA]{isomiRs::isoPLSDA()}} for clustering.
-\code{\link[isomiRs:isoPlot]{isomiRs::isoPlot()}} helps with basic expression plot.
+\code{\link[=isoNorm]{isoNorm()}} for normalization,
+\code{\link[=isoDE]{isoDE()}} for
+differential expression and \code{\link[=isoPLSDA]{isoPLSDA()}} for clustering.
+\code{\link[=isoPlot]{isoPlot()}} helps with basic expression plot.
 
 \code{metadata} contains one list:
 \itemize{

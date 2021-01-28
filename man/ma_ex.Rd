@@ -4,8 +4,10 @@
 \name{ma_ex}
 \alias{ma_ex}
 \title{Data frame containing gene-mirna relationship}
-\format{A data frame with rows sames as gene_ex_rse and
-columns same as mirna_ex_rse.}
+\format{
+A data frame with rows sames as gene_ex_rse and
+columns same as mirna_ex_rse.
+}
 \usage{
 ma_ex
 }
