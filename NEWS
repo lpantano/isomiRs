@@ -1,7 +1,8 @@
-Changes in version  1.19.1
+Changes in version  1.19.2
 
 FIX
 
+* Remove funs from dplyr to avoid future errors
 * Fix column_to_names error when there are rownames
 
 Changes in version  1.17.2

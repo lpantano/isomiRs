@@ -4,30 +4,30 @@
     is_t5 = rawData[["t5"]] != "0"
     is_t3 = rawData[["t3"]] != "0"
     is_ref = rawData[["mism"]] == "0" & rawData[["add"]] == "0" & rawData[["t5"]] == "0" & rawData[["t3"]] == "0"
-    rawData %>% 
-        mutate(uid = mir) %>% 
+    rawData %>%
+        mutate(uid = mir) %>%
         mutate(uid = ifelse(is_ref,
                             paste0(uid, paste0(";ref")),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_subs,
                             paste0(uid, paste0(";iso_snp:", mism)),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_add,
                             paste0(uid, paste0(";iso_add:", add)),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_t5,
                             paste0(uid, paste0(";iso_5p:", t5)),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_t3,
                             paste0(uid, paste0(";iso_3p:", t3)),
-                            uid)) 
+                            uid))
 }
 
 
 .remove_gt_n_changes <- function(iso, n=1){
-    iso %>% 
+    iso %>%
         mutate(changes = sapply(mism,
-                                function(x) str_count(x, "[0-9]+"))) %>% 
+                                function(x) str_count(x, "[0-9]+"))) %>%
         mutate(changes = ifelse(mism == "0", 0, changes)) %>%
         filter(changes <= n)
 }
@@ -38,28 +38,28 @@
     whitelist <- intersect(iso[["seq"]], whitelist)
     keep <- iso %>%  # calculate pct
         .[,c(1:2,7:ncol(.))] %>%
-        gather("sample", "value", -mir, -seq) %>% 
-        group_by(sample, mir) %>% 
-        filter(value > 0) %>% 
-        group_by(mir, seq) %>% 
-        summarise(value=sum(value)) %>% 
+        gather("sample", "value", -mir, -seq) %>%
+        group_by(sample, mir) %>%
+        filter(value > 0) %>%
+        group_by(mir, seq) %>%
+        summarise(value=sum(value)) %>%
         arrange(mir, desc(value)) %>%
         mutate(rank = 1:n(),
                total = sum(value),
                pct = value / total * 100) %>% # statistically calculate if pct  > 10%
         # filter(pct > pctco * 100) %>%
-        rowwise %>% 
+        rowwise %>%
         mutate(prop = list(tidy(prop.test(value,
-                                          total, pctco, 
-                                          alternative = "greater")))) %>% 
+                                          total, pctco,
+                                          alternative = "greater")))) %>%
         unnest(prop) %>%
         group_by(seq) %>%
         mutate(hits = n()) %>% # remove pct < 10% after p.adjust correction
-        ungroup() %>% 
+        ungroup() %>%
         filter(hits == 1) %>% # only uniquely mapped reads
-        mutate(fdr = p.adjust(p.value, method = "BH")) %>% 
+        mutate(fdr = p.adjust(p.value, method = "BH")) %>%
         filter(fdr < 0.05) %>% .[["seq"]] %>% unique()
-    
+
     iso[iso[["seq"]]  %in%  unique(c(keep, whitelist)),]
 }
 
@@ -125,18 +125,18 @@
                                    summarise(mir_f=sum(freq)+1,
                                              mir_n=n()+1))
     tab.fil <- tab.fil %>%
-        left_join(tab.fil.out, by="mir") 
-    tab.mism <- tab.fil %>% filter(mism!=0) 
+        left_join(tab.fil.out, by="mir")
+    tab.mism <- tab.fil %>% filter(mism!=0)
     if (nrow(tab.mism) == 0)
         return(tab.fil)
-    
-    tab.mism <- tab.mism %>% 
+
+    tab.mism <- tab.mism %>%
         group_by(mir, mism, mir_n, mir_f) %>%
         summarise(mism_n=n(), mism_f=sum(freq))  %>%
-        mutate(enrich=mism_n/mir_n, af=mism_f/mir_f, bias=af/enrich) %>% 
-        ungroup() %>% 
+        mutate(enrich=mism_n/mir_n, af=mism_f/mir_f, bias=af/enrich) %>%
+        ungroup() %>%
         select(-mir_n, -mir_f)
-       
+
     tab.fil <- left_join(tab.fil %>% mutate(id=paste(mir,mism)),
                      tab.mism %>% mutate(id=paste(mir,mism)) %>%
                          select(-mism, -mir),
@@ -145,8 +145,8 @@
     tab.fil <- .clean_low_rate_changes(tab.fil, rate, uniqueMism)
 
     tab.fil <- tab.fil %>%
-        left_join(tab.fil.out, by="mir") %>% 
-        mutate(id=paste(mir,mism)) %>% 
+        left_join(tab.fil.out, by="mir") %>%
+        mutate(id=paste(mir,mism)) %>%
         left_join(tab.mism %>% mutate(id=paste(mir,mism)) %>%
                       select(-mism, -mir),
                   by="id") %>% select(-id)
@@ -203,29 +203,29 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     is_t5 = iso5 & rawData[["t5"]] != "0"
     is_t3 = iso3 & rawData[["t3"]] != "0"
     is_ref = ref & rawData[["mism"]] == "0" & rawData[["add"]] == "0" & rawData[["t5"]] == "0" & rawData[["t3"]] == "0"
-    dt <- rawData %>% 
-        mutate(uid = mir) %>% 
+    dt <- rawData %>%
+        mutate(uid = mir) %>%
         mutate(uid = ifelse(is_ref,
                             paste0(uid, paste0(";ref")),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_subs,
                             paste0(uid, paste0(";iso_snp:", mism)),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_add,
                             paste0(uid, paste0(";iso_add:", add)),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_t5,
                             paste0(uid, paste0(";iso_5p:", t5)),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_t3,
                             paste0(uid, paste0(";iso_3p:", t3)),
-                            uid)) %>% 
-        .[,c("uid", rownames(des))] %>% 
-        group_by(!!sym("uid")) %>% 
-        summarise_all(funs(sum)) %>% 
-        as.data.frame() %>% 
+                            uid)) %>%
+        .[,c("uid", rownames(des))] %>%
+        group_by(!!sym("uid")) %>%
+        summarise_all(sum) %>%
+        as.data.frame() %>%
         remove_rownames() %>%
-        column_to_rownames("uid") %>% 
+        column_to_rownames("uid") %>%
         as.matrix()
     if (dim(dt)[1] == 0)
         warning("No miRNA found. Make sure the third column of the file has the count value different than 0.")
@@ -244,8 +244,8 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     colnames(uni_counts) <- unique(as.character(coldata[[merge_by]]))
     rownames(uni_counts) <- rownames(counts)
     coldata = coldata %>%
-        as.data.frame() %>% 
-        distinct(!!!sym(merge_by), .keep_all=TRUE) %>% 
+        as.data.frame() %>%
+        distinct(!!!sym(merge_by), .keep_all=TRUE) %>%
         DataFrame()
     rownames(coldata) <- coldata[[merge_by]]
     list(counts=uni_counts, coldata=coldata)
@@ -258,20 +258,20 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     is_t5 = rawData[["t5"]] != "0"
     is_t3 = rawData[["t3"]] != "0"
     is_ref = rawData[["mism"]] == "0" & rawData[["add"]] == "0" & rawData[["t5"]] == "0" & rawData[["t3"]] == "0"
-    dt <- rawData %>% 
-        mutate(isomir = mir) %>% 
+    dt <- rawData %>%
+        mutate(isomir = mir) %>%
         mutate(isomir = ifelse(is_ref,
                             paste0(isomir, paste0(";ref")),
-                            isomir)) %>% 
+                            isomir)) %>%
         mutate(isomir = ifelse(is_subs,
                             paste0(isomir, paste0(";iso_snp:", mism)),
-                            isomir)) %>% 
+                            isomir)) %>%
         mutate(isomir = ifelse(is_add,
                             paste0(isomir, paste0(";iso_add:", add)),
-                            isomir)) %>% 
+                            isomir)) %>%
         mutate(isomir = ifelse(is_t5,
                             paste0(isomir, paste0(";iso_5p:", t5)),
-                            isomir)) %>% 
+                            isomir)) %>%
         mutate(isomir = ifelse(is_t3,
                             paste0(isomir, paste0(";iso_3p:", t3)),
                             isomir))
@@ -324,7 +324,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
         if (grepl("[atgcn]", x))
             p <- p * -1L
         return(p)
-    }) %>% unlist() %>% 
+    }) %>% unlist() %>%
         as.vector()
    size
 }
@@ -335,8 +335,8 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     nt <- sub("[0-9]+", "", column)
     pos <- sub("[ATGC]{2}", "", column)
     pos <- data.frame(nt = as.character(nt), size = pos,
-                      stringsAsFactors = FALSE) %>% 
-        separate(nt, sep = 1, into = c("isomir", "reference")) %>% 
+                      stringsAsFactors = FALSE) %>%
+        separate(nt, sep = 1, into = c("isomir", "reference")) %>%
         unite(change, reference, isomir, sep = "->")
     pos[["change"]][pos[["size"]] == "0"] <- "0"
     pos[["size"]] <- factor(pos[["size"]],
@@ -346,12 +346,12 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
 
 # function to plot isomiR summary
 .plot_all_iso <- function(ids, column, use){
-    des <- colData(ids) %>% 
-        as.data.frame() %>% 
+    des <- colData(ids) %>%
+        as.data.frame() %>%
         rownames_to_column("iso_sample")
-    
+
     stopifnot(column  %in% colnames(des))
-    
+
     rawData <- metadata(ids)[["rawData"]]
     if (!is.null(use)){
         rawData <- .make_uid(rawData)
@@ -360,68 +360,68 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     message("Ussing ", nrow(rawData), " isomiRs.")
     if (nrow(rawData) == 0)
         stop("Any of the `use` elements is in the data set.")
-    
+
     is_subs <- rawData[["mism"]] != "0"
     is_add <- rawData[["add"]] != "0"
     is_t5 <- rawData[["t5"]] != "0"
     is_t3 <- rawData[["t3"]] != "0"
     is_ref <- rawData[["mism"]] == "0" & rawData[["add"]] == "0" & rawData[["t5"]] == "0" & rawData[["t3"]] == "0"
-    
-    iso_data <- rawData %>% 
-        mutate(uid = "") %>% 
+
+    iso_data <- rawData %>%
+        mutate(uid = "") %>%
         mutate(uid = ifelse(is_ref,
                             paste0(uid, ";ref"),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_subs,
                             paste0(uid, ";iso_snp"),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_add,
                             paste0(uid, ";iso_add"),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_t5,
                             paste0(uid, ";iso_5p"),
-                            uid)) %>% 
+                            uid)) %>%
         mutate(uid = ifelse(is_t3,
                             paste0(uid, ";iso_3p"),
-                            uid)) %>% 
-        .[,c("uid", des[["iso_sample"]])] %>% 
-        separate_rows(!!sym("uid"), sep = ";") %>% 
+                            uid)) %>%
+        .[,c("uid", des[["iso_sample"]])] %>%
+        separate_rows(!!sym("uid"), sep = ";") %>%
         filter(!!sym("uid") != "")
-    
+
     freq_total <- data.frame(total_sum = colSums(rawData[, setdiff(colnames(iso_data), "uid")]),
                              iso_sample = colnames(ids),
                              stringsAsFactors = F)
-        
-    freq_data <- iso_data %>% 
-        group_by(!!sym("uid")) %>% 
-        summarise_all(funs(sum)) %>% 
-        ungroup() %>% 
+
+    freq_data <- iso_data %>%
+        group_by(!!sym("uid")) %>%
+        summarise_all(sum) %>%
+        ungroup() %>%
         gather("iso_sample", "sum", -!!sym("uid"))
-    
+
     n_total <- data.frame(total_sum = colSums(rawData[, setdiff(colnames(iso_data), "uid")]>0),
                           iso_sample = colnames(ids),
                           stringsAsFactors = F)
-    
+
     n_data <- iso_data %>%
-        group_by(!!sym("uid")) %>% 
-        summarise_all(funs(sum(. > 0))) %>% 
-        ungroup() %>% 
+        group_by(!!sym("uid")) %>%
+        summarise_all(list(~sum(. > 0))) %>%
+        ungroup() %>%
         gather("iso_sample", "sum", -!!sym("uid"))
-    
-    freq_pct <- 
-        left_join(freq_total, freq_data, by = "iso_sample") %>% 
+
+    freq_pct <-
+        left_join(freq_total, freq_data, by = "iso_sample") %>%
         mutate(pct_abundance = sum / total_sum * 100L,
-               method = "isomiRs abundance") %>% 
+               method = "isomiRs abundance") %>%
         .[,c("iso_sample", "method", "uid", "pct_abundance")]
-    
-    n_pct <- 
-        left_join(n_total, n_data, by = "iso_sample") %>% 
+
+    n_pct <-
+        left_join(n_total, n_data, by = "iso_sample") %>%
         mutate(pct_abundance = sum / total_sum *100L,
-               method = "isomiRs") %>% 
+               method = "isomiRs") %>%
         .[,c("iso_sample", "method", "uid", "pct_abundance")]
-    
+
     bind_rows(freq_pct, n_pct) %>%
-        left_join(des, by ="iso_sample") %>% 
+        left_join(des, by ="iso_sample") %>%
         arrange(uid) %>%
         ggplot(aes_string(x="uid", y="pct_abundance",
                           group="iso_sample", color = column)) +
