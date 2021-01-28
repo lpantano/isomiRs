@@ -224,6 +224,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
         group_by(!!sym("uid")) %>% 
         summarise_all(funs(sum)) %>% 
         as.data.frame() %>% 
+        remove_rownames() %>%
         column_to_rownames("uid") %>% 
         as.matrix()
     if (dim(dt)[1] == 0)
