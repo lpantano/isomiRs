@@ -259,12 +259,13 @@ isoNetwork <- function(mirna_rse, gene_rse,
     res <- NULL
     if (is.null(enrich))
         stop("Run enrich method, please. See clusterProfiler or ReactomePA.")
-    if (is(enrich, "enrichResult"))
+    if (is(enrich, "enrichResult")){
         res <- slot(enrich, "result")
-    if (is(enrich, "data.frame"))
+    }else if (is(enrich, "data.frame")){
         res <- enrich
-    if (is.null(res))
+    }else{
         stop("No significant genes.")
+    }
 
     cor_long <- cor_target %>%
         as.data.frame() %>%
@@ -297,10 +298,11 @@ isoNetwork <- function(mirna_rse, gene_rse,
         dplyr::summarise(nmir = n())
     res <- res[res$ID %in% res_by_mir$ID,]
     res[match(res_by_mir$ID, res$ID), "nmir"] <- res_by_mir$nmir
+    
     obj = .viz_mirna_gene_enrichment(list(network = net, 
                                           summary = res),
                                      mirna_norm, gene_norm, 
-                                     mirna_group, plot = FALSE)
+                                     mirna_group, org, plot = FALSE)
     list(network = net, summary = res, analysis = obj)
 }
 
@@ -336,8 +338,8 @@ isoNetwork <- function(mirna_rse, gene_rse,
         message(x)
         if (plot)
             cat("## GO term:", x)
-        .m = as.character(unique(net[net$go == x, "mir"]))
-        .g = as.character(unique(net[net$go == x, "gene"]))
+        .m = as.character(unique(unlist(net[net$go == x, "mir"])))
+        .g = as.character(unique(unlist(net[net$go == x, "gene"])))
         .df = reshape::melt.array(rbind(ma_g[.g,, drop = FALSE],
                                         ma_m[.m,, drop = FALSE]))
         .groups = unique(groups[.g])
@@ -345,7 +347,7 @@ isoNetwork <- function(mirna_rse, gene_rse,
             .in_g = intersect(names(groups[groups == c]), .g)
             if (length(.in_g) < 2)
                 next
-            .reg = intersect(net[net$gene %in% .in_g, "mir"], .m)
+            .reg = intersect(unlist(net[net$gene %in% .in_g, "mir"]), .m)
             .net = .df %>% dplyr::filter(X1 %in% c(.in_g, .reg)) %>%
                 mutate(type = "gene")
             .net[.net$X1 %in% .reg, "type"] = "miR"

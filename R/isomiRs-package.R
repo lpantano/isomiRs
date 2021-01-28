@@ -20,7 +20,7 @@
 #' @importFrom readr read_tsv
 #' @importFrom rlang sym
 #' @importFrom DEGreport degPatterns degPCA
-#' @importFrom dplyr select arrange summarise rowwise mutate filter 
+#' @importFrom dplyr select arrange summarise rowwise mutate filter n
 #'             if_else group_by "%>%" distinct n left_join inner_join
 #'             bind_rows ungroup summarise_all funs
 #' @importFrom tibble rownames_to_column column_to_rownames remove_rownames
