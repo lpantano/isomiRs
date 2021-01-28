@@ -328,7 +328,7 @@ isoNetwork <- function(mirna_rse, gene_rse,
 }
 
 .viz_mirna_gene_enrichment <- function(obj, mirna_norm, mrna_norm, group, org, plot=FALSE){
-    net <- obj$network
+    net <- as.data.frame(obj$network)
     summary <- obj$summary
     ma_g = .scale(as.data.frame(mrna_norm)[as.character(unique(net$gene)),])
     ma_m = .scale(as.data.frame(mirna_norm)[as.character(unique(net$mir)),])
@@ -450,7 +450,7 @@ isoPlotNet = function(obj, minGenes = 2){
     mirna_df = .summary_mirna(df)
     ma = mirna_df %>% group_by(mir) %>% dplyr::summarise(total=n())
     mirna_df = mirna_df[mirna_df$mir %in% ma$mir[ma$total > 1], ]
-    mirna_ma = mirna_df %>% distinct() %>%
+    mirna_ma = mirna_df %>% dplyr::distinct() %>%
         mutate(value = 1) %>% spread(mir, value, fill=0)
 
     ma_temp = as.matrix(mirna_ma[,2:ncol(mirna_ma)])
@@ -569,7 +569,7 @@ mirna2targetscan <- function(mirna, species = "hsa", org = NULL, keytype = NULL)
                    stringsAsFactors = FALSE)
     }) %>% bind_rows() %>%
         .[.[["miRFamily"]] %in% unlist(fam),] %>% 
-        distinct()
+        dplyr::distinct()
     if (!is.null(org)){
         map <- AnnotationDbi::select(org, unique(df[["gene"]]),
                                      columns = keytype,

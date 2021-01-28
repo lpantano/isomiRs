@@ -6,23 +6,31 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Partial Least Squares Discriminant Analysis for <code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code> — isoPLSDA • isomiRs</title>
+<title>Partial Least Squares Discriminant Analysis for IsomirDataSeq — isoPLSDA • isomiRs</title>
+
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,14 +38,14 @@
 
 
 
-<meta property="og:title" content="Partial Least Squares Discriminant Analysis for <code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code> — isoPLSDA" />
 
+<meta property="og:title" content="Partial Least Squares Discriminant Analysis for IsomirDataSeq — isoPLSDA" />
 <meta property="og:description" content="Use PLS-DA method with the normalized count data to detect the most
 important features (miRNAs/isomiRs) that explain better
 the group of samples given by the experimental design. It is a supervised
 clustering method with permutations to calculate the significance
 of the analysis." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -51,9 +59,10 @@ of the analysis." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -67,7 +76,7 @@ of the analysis." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">isomiRs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.18.1</span>
       </span>
     </div>
 
@@ -75,7 +84,7 @@ of the analysis." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -86,9 +95,13 @@ of the analysis." />
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/lpantano/isomiRs/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -96,35 +109,34 @@ of the analysis." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Partial Least Squares Discriminant Analysis for <code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code></h1>
-    
+    <h1>Partial Least Squares Discriminant Analysis for <code><a href='IsomirDataSeq-class.html'>IsomirDataSeq</a></code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/lpantano/isomiRs/blob/master/R/PLSDA.R'><code>R/PLSDA.R</code></a></small>
     <div class="hidden name"><code>isoPLSDA.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Use PLS-DA method with the normalized count data to detect the most
 important features (miRNAs/isomiRs) that explain better
 the group of samples given by the experimental design. It is a supervised
 clustering method with permutations to calculate the significance
 of the analysis.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>isoPLSDA</span>(<span class='no'>ids</span>, <span class='no'>group</span>, <span class='kw'>validation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
- <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>nperm</span> <span class='kw'>=</span> <span class='fl'>400</span>, <span class='kw'>refinment</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vip</span> <span class='kw'>=</span> <span class='fl'>1.2</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>isoPLSDA</span><span class='op'>(</span><span class='va'>ids</span>, <span class='va'>group</span>, validation <span class='op'>=</span> <span class='cn'>NULL</span>, learn <span class='op'>=</span> <span class='cn'>NULL</span>, test <span class='op'>=</span> <span class='cn'>NULL</span>,
+ tol <span class='op'>=</span> <span class='fl'>0.001</span>, nperm <span class='op'>=</span> <span class='fl'>400</span>, refinment <span class='op'>=</span> <span class='cn'>FALSE</span>, vip <span class='op'>=</span> <span class='fl'>1.2</span><span class='op'>)</span></pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ids</th>
-      <td><p>Object of class <code><a href='IsomirDataSeq.html'>IsomirDataSeq</a></code></p></td>
+      <td><p>Object of class <code><a href='IsomirDataSeq-class.html'>IsomirDataSeq</a></code></p></td>
     </tr>
     <tr>
       <th>group</th>
@@ -166,10 +178,10 @@ filtering out variables with low VIP values.</p></td>
 a refinement process is considered. Default vip=1.2 .</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <a href='https://www.rdocumentation.org/packages/base/topics/list'>base::list</a> with the following elements: <code>R2Matrix</code>
+    <p>A <a href='https://rdrr.io/r/base/list.html'>base::list</a> with the following elements: <code>R2Matrix</code>
 (R-squared coefficients of the PLS model),
 <code>components</code> (of the PLS, similar to PCs in a PCA),
 <code>vip</code> (most important isomiRs/miRNAs),
@@ -185,7 +197,6 @@ permutations where samples were randomized. And finally,
 <code>p.valRefinedFixed</code> and <code>R2RefinedFixedPermutationVector</code> with
 p-value and R2 of the
 permutations where miRNAs/isomiRs were randomized.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
@@ -200,13 +211,12 @@ such that maximizes the separation between the different classes in the first
 few components (<em>Xia, 2011</em>). We used sum of squares captured by the model (R2) as
 a goodness of fit measure.</p>
 <p>We implemented this method using the
-<a href='https://www.rdocumentation.org/packages/DiscriMiner/topics/DiscriMiner-package'>DiscriMiner::DiscriMiner-package</a> into <code>isoPLSDA()</code> function.
+<a href='https://rdrr.io/pkg/DiscriMiner/man/DiscriMiner-package.html'>DiscriMiner::DiscriMiner-package</a> into <code>isoPLSDA()</code> function.
 The output
 p-value of this function will tell about the statistical
 significant of the group separation using miRNA/isomiR expression data.</p>
 <p>Read more about the parameters related to the PLS-DA directly from
-<code><a href='https://www.rdocumentation.org/packages/DiscriMiner/topics/plsDA'>DiscriMiner::plsDA()</a></code> function.</p>
-    
+<code><a href='https://rdrr.io/pkg/DiscriMiner/man/plsDA.html'>DiscriMiner::plsDA()</a></code> function.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Perez-Enciso, Miguel and Tenenhaus, Michel. Prediction of clinical outcome with microarray data:
@@ -214,31 +224,24 @@ a partial least  squares discriminant analysis (PLS-DA) approach. Human
 Genetics. 2003.</p>
 <p>Xia, Jianguo and Wishart, David S. Web-based inference of biological patterns, functions and
 pathways from metabolomic data using MetaboAnalyst. Nature Protocols. 2011.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>mirData</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>mirData</span><span class='op'>)</span>
 <span class='co'># Only miRNAs with &gt; 10 reads in all samples.</span>
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoCounts.html'>isoCounts</a></span>(<span class='no'>mirData</span>, <span class='kw'>minc</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>mins</span><span class='kw'>=</span><span class='fl'>6</span>)
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='isoNorm.html'>isoNorm</a></span>(<span class='no'>ids</span>, <span class='kw'>formula</span><span class='kw'>=</span>~<span class='no'>condition</span>)</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='input'><span class='no'>pls.ids</span> <span class='kw'>=</span> <span class='fu'>isoPLSDA</span>(<span class='no'>ids</span>, <span class='st'>"condition"</span>, <span class='kw'>nperm</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"pval:"</span>,<span class='no'>pls.ids</span>$<span class='no'>p.val</span>))</div><div class='output co'>#&gt; pval:0</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"components:"</span>,<span class='no'>pls.ids</span>$<span class='no'>components</span>))</div><div class='output co'>#&gt; components:14.3066596178107 components:-11.769315771148 components:14.4142576599142 components:6.91586361823262 components:-5.94565855757508 components:7.83823453786082 components:6.37966219440615 components:0.77047592389204 components:-3.48189388210199 components:-2.58942324451421 components:-6.46917735610708 components:-6.4767019837019 components:-8.74767309535914 components:-5.14530966160911 components:0.0106305759548893 components:16.885752026911 components:0.973708513256021 components:-2.28606297390309 components:6.9122282769113 components:-2.7637698249964 components:-3.37470489250291 components:32.0166670455131 components:-6.71678158378238 components:-7.75123811407566 components:-12.4101001782671 components:-9.5375605666833 components:-3.59033899564165 components:-8.36842930869385 components:0.820624147266242 components:1.51484239098632 components:-3.4029141894967 components:3.67521480108773 components:4.2155788897753 components:-2.77960349911779 components:1.95739528644248 components:-1.27071646976908 components:5.24843961107633 components:4.80080523104672 components:4.88542812875792 components:0.0463860216414878 components:-7.28795535480501 components:-12.4235249948919 components:-7.29467341274792 components:-8.276493798084 components:-9.45333734444255 components:6.61283427313152 components:5.61779362821582 components:8.0411408840617 components:7.51143466051071 components:4.30709971092472 components:-6.54173107493968 components:-2.82333600009153 components:4.38827637645591 components:-3.97939889128885 components:0.313488015981479 components:1.57690297231265 components:4.48982190582283 components:0.269206441717426 components:-4.79707522440519 components:-1.68513893453653 components:2.72459729928857 components:1.11188636423195 components:-0.872068707789588 components:-1.78913372280393 components:0.52303455297383 components:8.8547056334723 components:-4.49577918183526 components:-8.47439890847455 components:1.04273069809177 components:3.09761178424635</div></pre>
+<span class='va'>ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='isoCounts.html'>isoCounts</a></span><span class='op'>(</span><span class='va'>mirData</span>, minc<span class='op'>=</span><span class='fl'>10</span>, mins<span class='op'>=</span><span class='fl'>6</span><span class='op'>)</span>
+<span class='va'>ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='isoNorm.html'>isoNorm</a></span><span class='op'>(</span><span class='va'>ids</span>, formula<span class='op'>=</span><span class='op'>~</span><span class='va'>condition</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>converting counts to integer mode</span></div><div class='input'><span class='va'>pls.ids</span> <span class='op'>=</span> <span class='fu'>isoPLSDA</span><span class='op'>(</span><span class='va'>ids</span>, <span class='st'>"condition"</span>, nperm <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"pval:"</span>,<span class='va'>pls.ids</span><span class='op'>$</span><span class='va'>p.val</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; pval:1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"components:"</span>,<span class='va'>pls.ids</span><span class='op'>$</span><span class='va'>components</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; components:14.3066596178107 components:-11.769315771148 components:14.4142576599142 components:6.91586361823262 components:-5.94565855757508 components:7.83823453786082 components:6.37966219440615 components:0.77047592389204 components:-3.48189388210199 components:-2.58942324451421 components:-6.46917735610708 components:-6.4767019837019 components:-8.74767309535914 components:-5.14530966160911 components:0.0106305759548893 components:16.885752026911 components:0.973708513256021 components:-2.28606297390309 components:6.9122282769113 components:-2.7637698249964 components:-3.37470489250291 components:32.0166670455131 components:-6.71678158378238 components:-7.75123811407566 components:-12.4101001782671 components:-9.5375605666833 components:-3.59033899564165 components:-8.36842930869385 components:0.820624147266242 components:1.51484239098632 components:-3.4029141894967 components:3.67521480108773 components:4.2155788897753 components:-2.77960349911779 components:1.95739528644248 components:-1.27071646976908 components:5.24843961107633 components:4.80080523104672 components:4.88542812875792 components:0.0463860216414878 components:-7.28795535480501 components:-12.4235249948919 components:-7.29467341274792 components:-8.276493798084 components:-9.45333734444255 components:6.61283427313152 components:5.61779362821582 components:8.0411408840617 components:7.51143466051071 components:4.30709971092472 components:-6.54173107493968 components:-2.82333600009153 components:4.38827637645591 components:-3.97939889128885 components:0.313488015981479 components:1.57690297231265 components:4.48982190582283 components:0.269206441717426 components:-4.79707522440519 components:-1.68513893453653 components:2.72459729928857 components:1.11188636423195 components:-0.872068707789588 components:-1.78913372280393 components:0.52303455297383 components:8.8547056334723 components:-4.49577918183526 components:-8.47439890847455 components:1.04273069809177 components:3.09761178424635</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -246,13 +249,16 @@ pathways from metabolomic data using MetaboAnalyst. Nature Protocols. 2011.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

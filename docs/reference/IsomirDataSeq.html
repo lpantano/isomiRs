@@ -8,21 +8,29 @@
 
 <title>Class that contains all isomiRs annotation for all samples — IsomirDataSeq-class • isomiRs</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,8 +38,8 @@
 
 
 
-<meta property="og:title" content="Class that contains all isomiRs annotation for all samples — IsomirDataSeq-class" />
 
+<meta property="og:title" content="Class that contains all isomiRs annotation for all samples — IsomirDataSeq-class" />
 <meta property="og:description" content="The IsomirDataSeq is a subclass of
 SummarizedExperiment.
 used to store the raw data, intermediate calculations and results of an
@@ -40,7 +48,7 @@ data for each sample, processed information,
 summary for each isomiR type,
 raw counts, normalized counts, and table with
 experimental information for each sample." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -54,9 +62,10 @@ experimental information for each sample." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -70,7 +79,7 @@ experimental information for each sample." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">isomiRs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.18.1</span>
       </span>
     </div>
 
@@ -78,7 +87,7 @@ experimental information for each sample." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -89,9 +98,13 @@ experimental information for each sample." />
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/lpantano/isomiRs/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -99,18 +112,18 @@ experimental information for each sample." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Class that contains all isomiRs annotation for all samples</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/lpantano/isomiRs/blob/master/R/AllClasses.R'><code>R/AllClasses.R</code></a></small>
     <div class="hidden name"><code>IsomirDataSeq.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>The IsomirDataSeq is a subclass of
 <code>SummarizedExperiment</code>.
 used to store the raw data, intermediate calculations and results of an
@@ -119,29 +132,30 @@ data for each sample, processed information,
 summary for each isomiR type,
 raw counts, normalized counts, and table with
 experimental information for each sample.</p>
-    
     </div>
 
-        
+
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><a href='IsomirDataSeqFromFiles.html'>IsomirDataSeqFromFiles</a> creates this object using seqbuster
 output files.</p>
-<p>Methods for this objects are <code><a href='counts.html'>isomiRs::counts()</a></code> to get
-count matrix and <code><a href='isoSelect.html'>isomiRs::isoSelect()</a></code>
+<p>Methods for this objects are <code><a href='counts.html'>counts()</a></code> to get
+count matrix and <code><a href='isoSelect.html'>isoSelect()</a></code>
 for miRNA/isomiR selection. Functions
-available for this object are <code><a href='isoCounts.html'>isomiRs::isoCounts()</a></code> for
+available for this object are <code><a href='isoCounts.html'>isoCounts()</a></code> for
 count matrix creation,
-<code><a href='isoNorm.html'>isomiRs::isoNorm()</a></code> for normalization,
-<code><a href='isoDE.html'>isomiRs::isoDE()</a></code> for
-differential expression and <code><a href='isoPLSDA.html'>isomiRs::isoPLSDA()</a></code> for clustering.
-<code><a href='isoPlot.html'>isomiRs::isoPlot()</a></code> helps with basic expression plot.</p>
+<code><a href='isoNorm.html'>isoNorm()</a></code> for normalization,
+<code><a href='isoDE.html'>isoDE()</a></code> for
+differential expression and <code><a href='isoPLSDA.html'>isoPLSDA()</a></code> for clustering.
+<code><a href='isoPlot.html'>isoPlot()</a></code> helps with basic expression plot.</p>
 <p><code>metadata</code> contains one list:</p><ul>
-<li><p><code>rawData</code> is a <a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a>
+<li><p><code>rawData</code> is a <a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a>
 with the information of each sequence found in the data
 and the counts for each sample.</p></li>
 </ul>
-    <p>The naming of isomiRs follows these rules:</p><ul>
+
+<p>The naming of isomiRs follows these rules:</p><ul>
 <li><p>miRNA name</p></li>
 <li><p>type:ref if the sequence is the same than the miRNA reference.
 <code>iso</code> if the sequence has variations.</p></li>
@@ -176,31 +190,326 @@ the sequences. The naming contains three words:
 <li><p><code>iso_snv_seed tag</code>: same than <code>iso_snv</code> tag,
 but only if the change happens between nucleotide 2 and 8.</p></li>
 </ul>
-    <p>In general nucleotides in UPPER case mean insertions respect
+
+<p>In general nucleotides in UPPER case mean insertions respect
 to the reference sequence, and nucleotides in LOWER case
 mean deletions respect to the reference sequence.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extra"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"isomiRs"</span>)
-<span class='no'>fn_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>list.files</a></span>(<span class='no'>path</span>, <span class='kw'>full.names</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>de</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>row.names</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"f1"</span> , <span class='st'>"f2"</span>),
-                 <span class='kw'>condition</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"newborn"</span>, <span class='st'>"newborn"</span>))
-<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='IsomirDataSeqFromFiles.html'>IsomirDataSeqFromFiles</a></span>(<span class='no'>fn_list</span>, <span class='kw'>coldata</span><span class='kw'>=</span><span class='no'>de</span>)</div><div class='output co'>#&gt; <span class='error'>Error in guess_header_(datasource, tokenizer, locale): Cannot read file /Users/lpantano/repos/isomiRs/inst/extra/mirtop: Invalid argument</span></div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='counts.html'>counts</a></span>(<span class='no'>ids</span>))</div><div class='output co'>#&gt; <span class='error'>Error in counts(ids): object 'ids' not found</span></div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extra"</span>, package<span class='op'>=</span><span class='st'>"isomiRs"</span><span class='op'>)</span>
+<span class='va'>fn_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='va'>path</span>, pattern<span class='op'>=</span><span class='st'>"mirna"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>de</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>row.names<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"f1"</span> , <span class='st'>"f2"</span><span class='op'>)</span>,
+                 condition <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"newborn"</span>, <span class='st'>"newborn"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='IsomirDataSeqFromFiles.html'>IsomirDataSeqFromFiles</a></span><span class='op'>(</span><span class='va'>fn_list</span>, coldata<span class='op'>=</span><span class='va'>de</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 1.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 2.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 4.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 5.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 6.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 13.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 14.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 15.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 16.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 17.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 18.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 19.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 20.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 21.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 22.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 23.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 24.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 25.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 26.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 27.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 28.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 29.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 36.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 37.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 40.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 41.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 42.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 43.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 44.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 45.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 46.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 49.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 51.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 52.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 53.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 61.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 62.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 63.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 67.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 68.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 69.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 70.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 71.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 72.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 73.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 76.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 81.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 91.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 92.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 93.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 94.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 95.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 96.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 98.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 99.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 100.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 101.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 102.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 103.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 106.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 107.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 108.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 109.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 110.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 112.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 113.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 114.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 115.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 116.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 117.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 118.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 119.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 120.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 121.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 122.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 123.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 124.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 125.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 126.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 128.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 129.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 131.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 132.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 133.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 134.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 135.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 136.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 137.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 138.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 139.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 140.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 146.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Problem with `mutate()` input `prop`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Chi-squared approximation may be incorrect</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> Input `prop` is `list(tidy(prop.test(value, total, pctco, alternative = "greater")))`.</span>
+#&gt; <span class='warning'></span><span style='color: #0000BB;'>ℹ</span><span> The error occurred in row 147.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `funs()` is deprecated as of dplyr 0.8.0.</span>
+#&gt; <span class='warning'>Please use a list of either functions or lambdas: </span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>  # Simple named list: </span>
+#&gt; <span class='warning'>  list(mean = mean, median = median)</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>  # Auto named with `tibble::lst()`: </span>
+#&gt; <span class='warning'>  tibble::lst(mean, median)</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>  # Using lambdas</span>
+#&gt; <span class='warning'>  list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; <span class='message'>Total samples filtered due to low number of hits: 0</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='counts.html'>counts</a></span><span class='op'>(</span><span class='va'>ids</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                f1 f2
+#&gt; hsa-let-7a-5p   0  3
+#&gt; hsa-let-7b-5p   0 22
+#&gt; hsa-let-7d-3p  62  0
+#&gt; hsa-let-7d-5p   6  0
+#&gt; hsa-let-7e-5p   3  0
+#&gt; hsa-let-7f-5p 151  0</div><div class='input'>
+</div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -208,13 +517,16 @@ mean deletions respect to the reference sequence.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
