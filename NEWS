@@ -2,6 +2,7 @@ Changes in version  1.19.2
 
 FIX
 
+* Add affiliation of GE
 * Remove funs from dplyr to avoid future errors
 * Fix column_to_names error when there are rownames
 

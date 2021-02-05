@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 1.19.2
-Date: 2021-01-28
+Version: 1.19.3
+Date: 2021-02-05
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
@@ -56,7 +56,7 @@ Authors@R: c(
     person("Lorena", "Pantano",
            email = "lorena.pantano@gmail.com",
            role = c("aut", "cre")),
-    person("Georgia", "Escaramis", role = "aut"))
+    person("Georgia", "Escaramis", role = "aut", comment="CIBERESP - CIBER Epidemiologia y Salud Publica"))
 Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
