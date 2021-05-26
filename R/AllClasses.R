@@ -244,7 +244,7 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
             message(paste0("This sample hasn't any lines: ", f))
             return(NULL)
         }else{
-            d <- .filter_table(d, rate = rate, canonicalAdd = canonicalAdd,
+            d <- .filter_table(d, rate = 0, canonicalAdd = canonicalAdd,
                                uniqueMism = uniqueMism, uniqueHits = uniqueHits)
             if (nrow(d) < minHits){
                 n_filtered = n_filtered + 1
@@ -269,7 +269,7 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
     
     if (nrow(rawData) == 0)
         stop("No samples had valids miRNA hits.")
-    ids <- IsomirDataSeqFromRawData(rawData, coldata, ...)
+    ids <- IsomirDataSeqFromRawData(rawData, coldata, pct=rate, ...)
     # countData <- IsoCountsFromMatrix(rawData, coldata)
     # se <- SummarizedExperiment(assays = SimpleList(counts = countData),
     #                            colData = DataFrame(coldata), ...)
