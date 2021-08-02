@@ -32,34 +32,37 @@
         filter(changes <= n)
 }
 
-.clean_noise <- function(iso, pctco, whitelist=NULL){
+.clean_noise <- function(iso, pctco=0, whitelist=NULL){
     sample <- mir <- value <- seq <- NULL
     prop <- fdr <- p.value <- NULL
     whitelist <- intersect(iso[["seq"]], whitelist)
-    keep <- iso %>%  # calculate pct
-        .[,c(1:2,7:ncol(.))] %>%
-        gather("sample", "value", -mir, -seq) %>%
-        group_by(sample, mir) %>%
-        filter(value > 0) %>%
-        group_by(mir, seq) %>%
-        summarise(value=sum(value)) %>%
-        arrange(mir, desc(value)) %>%
-        mutate(rank = 1:n(),
-               total = sum(value),
-               pct = value / total * 100) %>% # statistically calculate if pct  > 10%
-        # filter(pct > pctco * 100) %>%
-        rowwise %>%
-        mutate(prop = list(tidy(prop.test(value,
-                                          total, pctco,
-                                          alternative = "greater")))) %>%
-        unnest(prop) %>%
-        group_by(seq) %>%
-        mutate(hits = n()) %>% # remove pct < 10% after p.adjust correction
-        ungroup() %>%
-        filter(hits == 1) %>% # only uniquely mapped reads
-        mutate(fdr = p.adjust(p.value, method = "BH")) %>%
-        filter(fdr < 0.05) %>% .[["seq"]] %>% unique()
-
+    if (pctco==0){
+        keep <- iso[["seq"]] %>% unique()
+    }else{
+        keep <- iso %>%  # calculate pct
+            .[,c(1:2,7:ncol(.))] %>%
+            gather("sample", "value", -mir, -seq) %>%
+            group_by(sample, mir) %>%
+            filter(value > 0) %>%
+            group_by(mir, seq) %>%
+            summarise(value=sum(value)) %>%
+            arrange(mir, desc(value)) %>%
+            mutate(rank = 1:n(),
+                   total = sum(value),
+                   pct = value / total * 100) %>% # statistically calculate if pct  > 10%
+            # filter(pct > pctco * 100) %>%
+            rowwise %>%
+            mutate(prop = list(tidy(prop.test(value,
+                                              total, pctco,
+                                              alternative = "greater")))) %>%
+            unnest(prop) %>%
+            group_by(seq) %>%
+            mutate(hits = n()) %>% # remove pct < 10% after p.adjust correction
+            ungroup() %>%
+            filter(hits == 1) %>% # only uniquely mapped reads
+            mutate(fdr = p.adjust(p.value, method = "BH")) %>%
+            filter(fdr < 0.05) %>% .[["seq"]] %>% unique()
+    }
     iso[iso[["seq"]]  %in%  unique(c(keep, whitelist)),]
 }
 
