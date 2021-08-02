@@ -1,3 +1,10 @@
+Changes in version  1.21.1
+
+FIX
+
+* rmarkdown dependcies
+* fix bug that will create difference with older versions (#19)
+
 Changes in version  1.19.2
 
 FIX
