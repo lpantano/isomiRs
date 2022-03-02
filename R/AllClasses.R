@@ -237,6 +237,7 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
         s <- rownames(coldata)[files==f]
         d <- as.data.frame(suppressMessages(read_tsv(f, skip = skip)),
                            stringsAsFactors = FALSE)
+        d <- d[d[,3]>0,]
         if (quiet == FALSE)
           message("reading file: ", f)
         if (nrow(d) < 2) {
@@ -259,7 +260,11 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
             select(uid, freq) %>%
             gather(uid, freq) %>% 
             mutate(sample = s)
-    }) %>% bind_rows() %>% 
+    }) %>% bind_rows() 
+    
+    stopifnot(nrow(rawData)>0)
+    
+    rawData <- rawData %>%  
         group_by(uid, sample) %>% 
         summarise(freq = sum(freq)) %>% 
         spread(sample, freq, fill = 0) %>% 
