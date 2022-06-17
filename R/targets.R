@@ -108,10 +108,10 @@ findTargets <- function(mirna_rse, gene_rse, target,
     gene = gene[,gene_group  %in%  lvs_common_group]
     stopifnot(is.factor(mirna_group))
     stopifnot(is.factor(gene_group))
-    message("Factors genes", paste(levels(gene_group)))
-    message("Factors mirnas", paste(levels(mirna_group)))
-    message("Order genes", paste(gene_group))
-    message("Order mirnas", paste(mirna_group))
+    # message("Factors genes", paste(levels(gene_group)))
+    # message("Factors mirnas", paste(levels(mirna_group)))
+    # message("Order genes", paste(gene_group))
+    # message("Order mirnas", paste(mirna_group))
 
     mirna_norm <- .apply_median(as.matrix(mirna), mirna_group, minfc = 0.5)
     gene_norm <- .apply_median(as.matrix(gene), gene_group, minfc = 0.5)

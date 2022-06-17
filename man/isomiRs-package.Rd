@@ -6,8 +6,7 @@
 \alias{isomiRs-package}
 \title{isomiRs}
 \description{
-Characterization of miRNAs and isomiRs, clustering and
-   differential expression.
+Characterization of miRNAs and isomiRs, clustering and differential expression.
 }
 \seealso{
 Useful links:
@@ -21,7 +20,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Georgia Escaramis
+  \item Georgia Escaramis (CIBERESP - CIBER Epidemiologia y Salud Publica)
 }
 
 }

@@ -19,7 +19,7 @@
 #' count matrix creation,
 #' [isomiRs::isoNorm()] for normalization,
 #' [isomiRs::isoDE()] for
-#' differential expression and [isomiRs::isoPLSDA()] for clustering.
+#' differential expression.
 #' [isomiRs::isoPlot()] helps with basic expression plot.
 #'
 #' `metadata` contains one list: 
