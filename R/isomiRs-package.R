@@ -24,7 +24,6 @@
 #'             if_else group_by "%>%" distinct n left_join inner_join
 #'             bind_rows ungroup summarise_all funs
 #' @importFrom tibble rownames_to_column column_to_rownames remove_rownames
-#' @importFrom DiscriMiner plsDA
 #' @importFrom grDevices colorRampPalette
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom gplots heatmap.2

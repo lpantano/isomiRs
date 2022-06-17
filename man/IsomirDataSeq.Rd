@@ -26,7 +26,7 @@ available for this object are \code{\link[=isoCounts]{isoCounts()}} for
 count matrix creation,
 \code{\link[=isoNorm]{isoNorm()}} for normalization,
 \code{\link[=isoDE]{isoDE()}} for
-differential expression and \code{\link[=isoPLSDA]{isoPLSDA()}} for clustering.
+differential expression.
 \code{\link[=isoPlot]{isoPlot()}} helps with basic expression plot.
 
 \code{metadata} contains one list:

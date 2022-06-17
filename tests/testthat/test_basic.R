@@ -16,14 +16,6 @@ test_that("counts", {
     expect_is(counts(obj, norm = TRUE), "matrix")
 })  
 
-test_that("psl-da", {
-    expect_error(isoPLSDA(mirData, "condition", nperm = 2),
-                 "please, run first isoNorm")
-    pls.ids = isoPLSDA(isoNorm(mirData), "condition", nperm = 2)
-    expect_output(str(pls.ids), "List of 6")
-    expect_is(isoPLSDAplot(pls.ids), "data.frame")
-})
-
 test_that("target", {
     mirna_ma <- data.frame(gene = names(gene_ex_rse)[1:20],
                            mir = names(mirna_ex_rse))

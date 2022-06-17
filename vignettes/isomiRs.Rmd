@@ -247,48 +247,6 @@ dds = DESeqDataSetFromMatrix(counts(ids),
 ```
 
 
-### Supervised classification
-
-Partial Least Squares Discriminant Analysis (PLS-DA) is a technique specifically
-appropriate for analysis of high dimensionality data sets and multicollineality
-[@perezenciso]. PLS-DA is a supervised method (i.e. makes use of class
-labels) with the aim to provide a dimension reduction strategy in a situation
-where we want to relate a binary response variable (in our case young or old
-status) to a set of predictor variables. Dimensionality reduction procedure is
-based on orthogonal transformations of the original variables (isomiRs) into a
-set of linearly uncorrelated latent variables (usually termed as components)
-such that maximizes the separation between the different classes in the first
-few components [@xia]. We used sum of squares captured by the model (R2) as
-a goodness of fit measure. We implemented this method using the
-`DiscriMiner` into `isoPLSDA` function. The output
-p-value of this function will tell about the statistical
-significant of the group separation using miRNA expression data.
-Moreover, the function `isoPLSDAplot`
-helps to visualize the results. It will plot the samples using the
-significant components (t1, t2, t3 ...) from the PLS-DA analysis and the
-samples distribution along the components.
-
-
-```{r package-pls}
-ids = isoCounts(ids, iso5=TRUE, minc=10, mins=6)
-ids = isoNorm(ids, formula = ~ condition)
-pls.ids = isoPLSDA(ids, "condition", nperm = 2)
-df = isoPLSDAplot(pls.ids)
-```
-
-The analysis can be done again using only the most important discriminant
-isomiRS from the PLS-DA models based on the analysis. We used Variable
-Importance for the Projection (VIP) criterion to select the most important
-features, since takes into account the contribution of a specific predictor
-for both the explained variability on the response and the explained
-variability on the predictors.
-
-
-```{r package-plsplot, message=FALSE, eval=FALSE}
-pls.ids = isoPLSDA(ids,"condition", refinment = FALSE, vip = 0.8)
-```
-
-
 ### Gene - miRNA integration
 
 The package offers a correlation analysis of miRNA and gene expression data.

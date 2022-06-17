@@ -1,3 +1,9 @@
+Changes in version  1.25.1
+
+FIX
+
+* remove DiscriMiner dependency and functions since it is not available for 3.16
+
 Changes in version  1.21.1
 
 FIX
