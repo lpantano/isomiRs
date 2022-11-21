@@ -1,7 +1,7 @@
 isomiRs
 =======
 
-<img src="https://github.com/lpantano/isomiRs/raw/master/inst/stickers/isomirs.png" width="150" height="150" align="right"/>
+<img src="https://raw.githubusercontent.com/lpantano/isomiRs/main/inst/stickers/isomirs.png" width="150" height="150" align="right"/>
 
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.45382.svg)](http://dx.doi.org/10.5281/zenodo.45382)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
