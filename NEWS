@@ -1,4 +1,8 @@
 
+Changes in version  1.25.2
+
+* Add color to PCA plot by `isoTop` function
+
 Changes in version  1.25.1
 
 FIX
