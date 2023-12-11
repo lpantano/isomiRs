@@ -64,7 +64,7 @@ isoDE <- function(ids, formula=NULL, ...){
 isoTop <- function(ids, top=20){
     select <- order(rowMeans(counts(ids)),
                     decreasing=TRUE)[1:top]
-    degPCA(counts(ids)[select,])
+    degPCA(counts(ids)[select,], metadata=colData(ids), condition="condition")
 }
 
 #' Plot the amount of isomiRs in different samples
