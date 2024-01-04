@@ -269,7 +269,7 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
         .[.[["pos"]] == position,] %>% 
         .[,c("id", "unique")]
     
-    inner_join(freq_pct, n_pct) %>%
+    inner_join(freq_pct, n_pct, by="id") %>%
         left_join(des, by ="iso_sample") %>%
         ggplot() +
         geom_jitter(aes_string(x="change",y="unique",colour=column,
