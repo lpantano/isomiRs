@@ -160,13 +160,13 @@ isoPlot <- function(ids, type="iso5", column=NULL,
     }
     freq_data <- rawData[,c("size", des[["iso_sample"]])] %>% 
         group_by(!!sym("size")) %>% 
-        summarise_all(funs(sum)) %>% 
+        summarise(across(everything(), sum)) %>% 
         ungroup() %>% 
         gather("iso_sample", "sum", -!!sym("size"))
     
     n_data <- rawData[,c("size", des[["iso_sample"]])] %>%
         group_by(!!sym("size")) %>% 
-        summarise_all(funs(sum(. > 0))) %>% 
+        summarise(across(everything(), ~sum(. > 0))) %>% 
         ungroup() %>% 
         gather("iso_sample", "sum", -!!sym("size"))
     
@@ -241,13 +241,13 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 
     freq_data <- rawData[,c("change", "pos", des[["iso_sample"]])] %>% 
         group_by(!!sym("change"), !!sym("pos")) %>% 
-        summarise_all(funs(sum)) %>% 
+        summarise(across(everything(), sum)) %>% 
         ungroup() %>% 
         gather(iso_sample, sum, -change, -pos)
     
     n_data <- rawData[,c("change", "pos", des[["iso_sample"]])] %>%
         group_by(!!sym("change"), !!sym("pos")) %>% 
-        summarise_all(funs(sum(. > 0))) %>% 
+        summarise(across(everything(), ~sum(. > 0))) %>% 
         ungroup() %>% 
         gather(iso_sample, sum, -change, -pos)
     
