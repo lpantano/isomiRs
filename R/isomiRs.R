@@ -141,7 +141,7 @@ isoPlot <- function(ids, type="iso5", column=NULL,
         rawData <- .make_uid(rawData)
         rawData <- rawData[rawData[["uid"]]  %in% use,]
     }
-    message("Ussing ", nrow(rawData), " isomiRs.")
+    message("Using ", nrow(rawData), " isomiRs.")
     if (nrow(rawData) == 0)
         stop("Any of the `use` elements is in the data set.")
 
@@ -186,7 +186,7 @@ isoPlot <- function(ids, type="iso5", column=NULL,
                id = paste(iso_sample, size)) %>% 
         .[,c("id", "unique")]
     
-    inner_join(freq_pct, n_pct) %>%
+    inner_join(freq_pct, n_pct, by="id") %>%
         filter(size!="0") %>% 
         left_join(des, by ="iso_sample") %>% 
         ggplot() +

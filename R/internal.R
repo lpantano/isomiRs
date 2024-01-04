@@ -360,7 +360,7 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
         rawData <- .make_uid(rawData)
         rawData <- rawData[rawData[["uid"]]  %in% use,]
     }
-    message("Ussing ", nrow(rawData), " isomiRs.")
+    message("Using ", nrow(rawData), " isomiRs.")
     if (nrow(rawData) == 0)
         stop("Any of the `use` elements is in the data set.")
 
