@@ -61,7 +61,7 @@ isoDE <- function(ids, formula=NULL, ...){
 #' isoTop(mirData)
 #' @return PCA of the top expressed miRNAs
 #' @export
-isoTop <- function(ids, top=20, condition="condition"){
+isoTop <- function(ids, top=20, condition=""){
     select <- order(rowMeans(counts(ids)),
                     decreasing=TRUE)[1:top]
     degPCA(counts(ids)[select,], metadata=colData(ids), condition=condition)
