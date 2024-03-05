@@ -53,7 +53,8 @@
             # filter(pct > pctco * 100) %>%
             rowwise %>%
             mutate(prop = list(tidy(prop.test(value,
-                                              total, pctco,
+                                              total,
+                                              pctco,
                                               alternative = "greater")))) %>%
             unnest(prop) %>%
             group_by(seq) %>%
