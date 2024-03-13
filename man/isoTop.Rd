@@ -4,12 +4,14 @@
 \alias{isoTop}
 \title{Heatmap of the top expressed isomiRs}
 \usage{
-isoTop(ids, top = 20)
+isoTop(ids, top = 20, condition = NULL)
 }
 \arguments{
 \item{ids}{Object of class \link{IsomirDataSeq}.}
 
 \item{top}{Number of isomiRs/miRNAs used.}
+
+\item{condition}{Give condition to color PCA samples}
 }
 \value{
 PCA of the top expressed miRNAs

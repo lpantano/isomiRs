@@ -39,7 +39,7 @@ and the counts for each sample.
 The naming of isomiRs follows these rules:
 \itemize{
 \item miRNA name
-\item type:ref if the sequence is the same than the miRNA reference.
+\item type:ref if the sequence is the same as the miRNA reference.
 \code{iso} if the sequence has variations.
 \item \verb{iso_5p tag}:indicates variations at 5 position.
 The naming contains two words: \code{direction - nucleotides},
@@ -47,7 +47,7 @@ where direction can be UPPER CASE NT
 (changes upstream of the 5 reference position) or
 LOWER CASE NT (changes downstream of the 5 reference position).
 \code{0} indicates no variation, meaning the 5 position is
-the same than the reference. After \code{direction},
+the same as the reference. After \code{direction},
 it follows the nucleotide/s that are added (for upstream changes)
 or deleted (for downstream changes).
 \item \verb{iso_3p tag}:indicates variations at 3 position.
@@ -56,7 +56,7 @@ where direction can be LOWER CASE NT
 (upstream of the 3 reference position) or
 UPPER CASE NT (downstream of the 3 reference position).
 \code{0} indicates no variation, meaning the 3 position is
-the same than the reference. After \code{direction},
+the same as the reference. After \code{direction},
 it follows the nucleotide/s that are added (for downstream changes)
 or deleted (for upstream chanes).
 \item \verb{iso_add tag}:indicates nucleotides additions at 3 position.
@@ -69,7 +69,7 @@ it follows the nucleotide/s that are added.
 \item \verb{iso_snv tag}: indicates nucleotides substitutions along
 the sequences. The naming contains three words:
 \code{position-nucleotide@isomiR-nucleotide@reference}.
-\item \verb{iso_snv_seed tag}: same than \code{iso_snv} tag,
+\item \verb{iso_snv_seed tag}: same as \code{iso_snv} tag,
 but only if the change happens between nucleotide 2 and 8.
 }
 

@@ -31,7 +31,7 @@
 #' The naming of isomiRs follows these rules:
 #'
 #' * miRNA name
-#' * type:ref if the sequence is the same than the miRNA reference.
+#' * type:ref if the sequence is the same as the miRNA reference.
 #' `iso` if the sequence has variations.
 #' * `iso_5p tag`:indicates variations at 5 position.
 #' The naming contains two words: `direction - nucleotides`,
@@ -39,7 +39,7 @@
 #' (changes upstream of the 5 reference position) or
 #' LOWER CASE NT (changes downstream of the 5 reference position).
 #' `0` indicates no variation, meaning the 5 position is
-#' the same than the reference. After `direction`,
+#' the same as the reference. After `direction`,
 #' it follows the nucleotide/s that are added (for upstream changes)
 #'  or deleted (for downstream changes).
 #' * `iso_3p tag`:indicates variations at 3 position.
@@ -48,7 +48,7 @@
 #' (upstream of the 3 reference position) or
 #' UPPER CASE NT (downstream of the 3 reference position).
 #' `0` indicates no variation, meaning the 3 position is
-#' the same than the reference. After `direction`,
+#' the same as the reference. After `direction`,
 #' it follows the nucleotide/s that are added (for downstream changes)
 #' or deleted (for upstream chanes).
 #' * `iso_add tag`:indicates nucleotides additions at 3 position.
@@ -61,7 +61,7 @@
 #' * `iso_snv tag`: indicates nucleotides substitutions along
 #' the sequences. The naming contains three words:
 #' `position-nucleotide@isomiR-nucleotide@reference`.
-#' * `iso_snv_seed tag`: same than `iso_snv` tag,
+#' * `iso_snv_seed tag`: same as `iso_snv` tag,
 #' but only if the change happens between nucleotide 2 and 8.
 #'
 #' In general nucleotides in UPPER case mean insertions respect
