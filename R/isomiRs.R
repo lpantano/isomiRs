@@ -55,13 +55,14 @@ isoDE <- function(ids, formula=NULL, ...){
 #'
 #' @param ids Object of class [IsomirDataSeq].
 #' @param top Number of isomiRs/miRNAs used.
+#' @param condition Give condition to color PCA samples
 #' 
 #' @examples
 #' data(mirData)
 #' isoTop(mirData)
 #' @return PCA of the top expressed miRNAs
 #' @export
-isoTop <- function(ids, top=20, condition=""){
+isoTop <- function(ids, top=20, condition=NULL){
     select <- order(rowMeans(counts(ids)),
                     decreasing=TRUE)[1:top]
     degPCA(counts(ids)[select,], metadata=colData(ids), condition=condition)
