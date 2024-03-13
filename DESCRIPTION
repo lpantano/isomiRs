@@ -57,7 +57,6 @@ Authors@R: c(
            email = "lorena.pantano@gmail.com",
            role = c("aut", "cre")),
     person("Georgia", "Escaramis", role = "aut", comment="CIBERESP - CIBER Epidemiologia y Salud Publica"))
-Maintainer: Lorena Pantano <lorena.pantano@gmail.com>
 License: MIT + file LICENSE
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
