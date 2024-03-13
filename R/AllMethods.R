@@ -123,7 +123,7 @@ isoSelect.IsomirDataSeq <- function(object, mirna,  minc=10) {
                             uid)) %>% 
         .[,c("uid", rownames(des))] %>% 
         group_by(!!sym("uid")) %>% 
-        summarise_all(funs(sum)) %>% 
+        summarise(across(everything(), sum)) %>% 
         as.data.frame() %>% 
         remove_rownames() %>%
         column_to_rownames("uid") %>% 

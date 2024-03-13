@@ -55,16 +55,17 @@ isoDE <- function(ids, formula=NULL, ...){
 #'
 #' @param ids Object of class [IsomirDataSeq].
 #' @param top Number of isomiRs/miRNAs used.
+#' @param condition Give condition to color PCA samples
 #' 
 #' @examples
 #' data(mirData)
 #' isoTop(mirData)
 #' @return PCA of the top expressed miRNAs
 #' @export
-isoTop <- function(ids, top=20){
+isoTop <- function(ids, top=20, condition=NULL){
     select <- order(rowMeans(counts(ids)),
                     decreasing=TRUE)[1:top]
-    degPCA(counts(ids)[select,])
+    degPCA(counts(ids)[select,], metadata=colData(ids), condition=condition)
 }
 
 #' Plot the amount of isomiRs in different samples
@@ -141,7 +142,7 @@ isoPlot <- function(ids, type="iso5", column=NULL,
         rawData <- .make_uid(rawData)
         rawData <- rawData[rawData[["uid"]]  %in% use,]
     }
-    message("Ussing ", nrow(rawData), " isomiRs.")
+    message("Using ", nrow(rawData), " isomiRs.")
     if (nrow(rawData) == 0)
         stop("Any of the `use` elements is in the data set.")
 
@@ -160,13 +161,13 @@ isoPlot <- function(ids, type="iso5", column=NULL,
     }
     freq_data <- rawData[,c("size", des[["iso_sample"]])] %>% 
         group_by(!!sym("size")) %>% 
-        summarise_all(funs(sum)) %>% 
+        summarise(across(everything(), sum)) %>% 
         ungroup() %>% 
         gather("iso_sample", "sum", -!!sym("size"))
     
     n_data <- rawData[,c("size", des[["iso_sample"]])] %>%
         group_by(!!sym("size")) %>% 
-        summarise_all(funs(sum(. > 0))) %>% 
+        summarise(across(everything(), ~sum(. > 0))) %>% 
         ungroup() %>% 
         gather("iso_sample", "sum", -!!sym("size"))
     
@@ -186,7 +187,7 @@ isoPlot <- function(ids, type="iso5", column=NULL,
                id = paste(iso_sample, size)) %>% 
         .[,c("id", "unique")]
     
-    inner_join(freq_pct, n_pct) %>%
+    inner_join(freq_pct, n_pct, by="id") %>%
         filter(size!="0") %>% 
         left_join(des, by ="iso_sample") %>% 
         ggplot() +
@@ -241,13 +242,13 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 
     freq_data <- rawData[,c("change", "pos", des[["iso_sample"]])] %>% 
         group_by(!!sym("change"), !!sym("pos")) %>% 
-        summarise_all(funs(sum)) %>% 
+        summarise(across(everything(), sum)) %>% 
         ungroup() %>% 
         gather(iso_sample, sum, -change, -pos)
     
     n_data <- rawData[,c("change", "pos", des[["iso_sample"]])] %>%
         group_by(!!sym("change"), !!sym("pos")) %>% 
-        summarise_all(funs(sum(. > 0))) %>% 
+        summarise(across(everything(), ~sum(. > 0))) %>% 
         ungroup() %>% 
         gather(iso_sample, sum, -change, -pos)
     
@@ -269,7 +270,7 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
         .[.[["pos"]] == position,] %>% 
         .[,c("id", "unique")]
     
-    inner_join(freq_pct, n_pct) %>%
+    inner_join(freq_pct, n_pct, by="id") %>%
         left_join(des, by ="iso_sample") %>%
         ggplot() +
         geom_jitter(aes_string(x="change",y="unique",colour=column,
