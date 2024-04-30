@@ -275,7 +275,7 @@ isoNetwork <- function(mirna_rse, gene_rse,
     net <- res %>% separate_rows("geneID") %>% 
         .[,c("ID", "Description", "geneID")] 
     # browser()
-    if (!are_intersecting_sets(net[["geneID"]], names(gene_rse))){
+    if (length(intersect(net[["geneID"]], names(gene_rse))) == 0){
         message("No matching genes between enrich and gene_rse.")
         mapping <- .is_mapping_needed(names(gene_rse), net$geneID)
         message(" Converting from ", mapping[[1]], " to ", mapping[[2]])

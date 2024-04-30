@@ -1,6 +1,6 @@
-
 Changes in version  1.31.2 (Ömer An)
 
+* remove `assertive.sets`
 * Add gitactions
 * Add color to PCA plot by `isoTop` function
 * Fix depreciated dplyr code
