@@ -11,7 +11,6 @@
 #' @import GGally
 #' @import gtools
 #' @import Biobase
-#' @import assertive.sets
 #' @import cluster
 #' @importFrom AnnotationDbi keys mget revmap
 #' @importFrom reshape melt melt.array melt.data.frame melt.list

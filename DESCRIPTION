@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 1.32.0
-Date: 2024-03-13
+Version: 1.32.1
+Date: 2024-05-03
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
@@ -17,11 +17,10 @@ Suggests:
     BiocStyle,
     testthat
 Depends:
-    R (>= 4.0),
+    R (>= 4.4),
     SummarizedExperiment
 Imports:
     AnnotationDbi,
-    assertive.sets,
     BiocGenerics,
     Biobase,
     broom,
