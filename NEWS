@@ -1,4 +1,9 @@
-Changes in version  1.33.1 (Ömer An)
+
+Changes in version  1.33.1
+
+* fix isoAnnotate error due to duplicates lines https://github.com/lpantano/isomiRs/issues/18
+
+Changes in version  1.31.2 (Ömer An)
 
 * remove `assertive.sets`
 * Add gitactions

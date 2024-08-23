@@ -56,7 +56,7 @@ isoDE <- function(ids, formula=NULL, ...){
 #' @param ids Object of class [IsomirDataSeq].
 #' @param top Number of isomiRs/miRNAs used.
 #' @param condition Give condition to color PCA samples
-#' 
+#'
 #' @examples
 #' data(mirData)
 #' isoTop(mirData)
@@ -107,8 +107,8 @@ isoTop <- function(ids, top=20, condition=NULL){
 #' will appear in the plot. When `type="subs"`, it will appear one
 #' position for each nucleotide in the reference miRNA. Points
 #' will indicate isomiRs with nucleotide changes at the given position.
-#' When `type="all"` a colar coordinate map will show 
-#' the abundance of each isomiR type in a single plot. 
+#' When `type="all"` a colar coordinate map will show
+#' the abundance of each isomiR type in a single plot.
 #' Note the position is relatively to the
 #' sequence not the miRNA.
 #'
@@ -118,7 +118,7 @@ isoTop <- function(ids, top=20, condition=NULL){
 #' @export
 isoPlot <- function(ids, type="iso5", column=NULL,
                     use = NULL, nts = FALSE){
-    
+
     if (is.null(column)){
         column <-  names(colData(ids))[1]
     }
@@ -128,14 +128,14 @@ isoPlot <- function(ids, type="iso5", column=NULL,
         type <- "snv"
     }
     stopifnot(type  %in% c("snv", "add", "iso5", "iso3"))
-    
+
     freq <- size <- group <- abundance <- NULL
     codevn <- 3:6
 
     names(codevn) <- supported
     coden <- codevn[type]
-    des <- colData(ids) %>% 
-        as.data.frame() %>% 
+    des <- colData(ids) %>%
+        as.data.frame() %>%
         rownames_to_column("iso_sample")
     rawData <- metadata(ids)[["rawData"]]
     if (!is.null(use)){
@@ -159,37 +159,37 @@ isoPlot <- function(ids, type="iso5", column=NULL,
         rawData[["size"]] <- as.factor(.isomir_position(rawData[[coden]]))
         xaxis <- "position respect to the reference"
     }
-    freq_data <- rawData[,c("size", des[["iso_sample"]])] %>% 
-        group_by(!!sym("size")) %>% 
-        summarise(across(everything(), sum)) %>% 
-        ungroup() %>% 
+    freq_data <- rawData[,c("size", des[["iso_sample"]])] %>%
+        group_by(!!sym("size")) %>%
+        summarise(across(everything(), sum)) %>%
+        ungroup() %>%
         gather("iso_sample", "sum", -!!sym("size"))
-    
+
     n_data <- rawData[,c("size", des[["iso_sample"]])] %>%
-        group_by(!!sym("size")) %>% 
-        summarise(across(everything(), ~sum(. > 0))) %>% 
-        ungroup() %>% 
+        group_by(!!sym("size")) %>%
+        summarise(across(everything(), ~sum(. > 0))) %>%
+        ungroup() %>%
         gather("iso_sample", "sum", -!!sym("size"))
-    
-    freq_pct <- freq_data %>% 
-        group_by(!!sym("iso_sample")) %>% 
+
+    freq_pct <- freq_data %>%
+        group_by(!!sym("iso_sample")) %>%
         summarise(total_sum = sum(sum)) %>%
-        left_join(freq_data, by = "iso_sample") %>% 
+        left_join(freq_data, by = "iso_sample") %>%
         mutate(pct_abundance = sum / total_sum * 100L,
-               id = paste(iso_sample, size)) %>% 
+               id = paste(iso_sample, size)) %>%
         .[,c("id", "iso_sample", "size", "pct_abundance")]
-    
-    n_pct <- n_data %>% 
-        group_by(!!sym("iso_sample")) %>% 
+
+    n_pct <- n_data %>%
+        group_by(!!sym("iso_sample")) %>%
         summarise(total_sum = sum(sum)) %>%
-        left_join(n_data, by = "iso_sample") %>% 
+        left_join(n_data, by = "iso_sample") %>%
         mutate(unique = sum / total_sum *100L,
-               id = paste(iso_sample, size)) %>% 
+               id = paste(iso_sample, size)) %>%
         .[,c("id", "unique")]
-    
+
     inner_join(freq_pct, n_pct, by="id") %>%
-        filter(size!="0") %>% 
-        left_join(des, by ="iso_sample") %>% 
+        filter(size!="0") %>%
+        left_join(des, by ="iso_sample") %>%
         ggplot() +
         geom_jitter(aes_string(x="size",y="unique", colour=column,
                         size="pct_abundance")) +
@@ -231,45 +231,45 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
         column <-  names(colData(ids))[1]
     }
 
-    des <- colData(ids) %>% 
-        as.data.frame() %>% 
+    des <- colData(ids) %>%
+        as.data.frame() %>%
         rownames_to_column("iso_sample")
     rawData <- metadata(ids)[["rawData"]]
-    
+
     parsed_change <- .subs_position(rawData[["mism"]])
     rawData[["change"]] <- as.factor(parsed_change[["change"]])
     rawData[["pos"]] <- as.character(parsed_change[["size"]])
 
-    freq_data <- rawData[,c("change", "pos", des[["iso_sample"]])] %>% 
-        group_by(!!sym("change"), !!sym("pos")) %>% 
-        summarise(across(everything(), sum)) %>% 
-        ungroup() %>% 
+    freq_data <- rawData[,c("change", "pos", des[["iso_sample"]])] %>%
+        group_by(!!sym("change"), !!sym("pos")) %>%
+        summarise(across(everything(), sum)) %>%
+        ungroup() %>%
         gather(iso_sample, sum, -change, -pos)
-    
+
     n_data <- rawData[,c("change", "pos", des[["iso_sample"]])] %>%
-        group_by(!!sym("change"), !!sym("pos")) %>% 
-        summarise(across(everything(), ~sum(. > 0))) %>% 
-        ungroup() %>% 
+        group_by(!!sym("change"), !!sym("pos")) %>%
+        summarise(across(everything(), ~sum(. > 0))) %>%
+        ungroup() %>%
         gather(iso_sample, sum, -change, -pos)
-    
-    freq_pct <- freq_data %>% 
-        group_by(!!sym("iso_sample")) %>% 
+
+    freq_pct <- freq_data %>%
+        group_by(!!sym("iso_sample")) %>%
         summarise(total_sum = sum(sum)) %>%
-        left_join(freq_data, by = "iso_sample", suffix = c("", "_tmp")) %>% 
+        left_join(freq_data, by = "iso_sample", suffix = c("", "_tmp")) %>%
         mutate(pct_abundance = sum / total_sum * 100L,
-               id = paste(iso_sample, change)) %>% 
-        .[.[["pos"]] == position,] %>% 
+               id = paste(iso_sample, change)) %>%
+        .[.[["pos"]] == position,] %>%
         .[,c("id", "iso_sample", "change", "pct_abundance")]
-    
-    n_pct <- n_data %>% 
-        group_by(!!sym("iso_sample")) %>% 
+
+    n_pct <- n_data %>%
+        group_by(!!sym("iso_sample")) %>%
         summarise(total_sum = sum(sum)) %>%
-        left_join(n_data, by = "iso_sample") %>% 
+        left_join(n_data, by = "iso_sample") %>%
         mutate(unique = sum / total_sum *100L,
-               id = paste(iso_sample, change)) %>% 
-        .[.[["pos"]] == position,] %>% 
+               id = paste(iso_sample, change)) %>%
+        .[.[["pos"]] == position,] %>%
         .[,c("id", "unique")]
-    
+
     inner_join(freq_pct, n_pct, by="id") %>%
         left_join(des, by ="iso_sample") %>%
         ggplot() +
@@ -281,7 +281,7 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
         labs(list(title=paste("Change distribution"),
                   y="pct of isomiRs",
                 x=paste0("changes at postiion ",
-                         position, 
+                         position,
                          " respect to the reference")))
 }
 
@@ -318,7 +318,7 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 #' You can get a table with 5' trimming isomiRS, miRBase reference and
 #' the rest by calling with `isoCounts(ids, ref=TRUE, iso5=TRUE)`.
 #' If you set up all parameters to TRUE, you will get a table for
-#' each different sequence mapping to a miRNA (i.e. all isomiRs). 
+#' each different sequence mapping to a miRNA (i.e. all isomiRs).
 #'
 #' Examples for the naming used for the isomiRs are at
 #' http://seqcluster.readthedocs.org/mirna_annotation.html#mirna-annotation.
@@ -334,7 +334,7 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
 #' head(counts(ids))
 #' @export
 isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
-                      add=FALSE, snv=FALSE, seed=FALSE, 
+                      add=FALSE, snv=FALSE, seed=FALSE,
                       all = FALSE,minc=1, mins=1,
                       merge_by=NULL){
     coldata <- colData(ids)
@@ -349,11 +349,11 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
         combined <- .merge_counts_by(counts, colData(ids), merge_by)
         counts <- combined[["counts"]]
         coldata <-  combined[["coldata"]]
-        
+
         raw_counts <- rawdata[,7:ncol(rawdata)] %>% as.matrix()
         new <- .merge_counts_by(raw_counts, colData(ids), merge_by)
         rawdata <- as.tibble(cbind(rawdata[,1:6], new[["counts"]]))
-        
+
     }
 
     counts <- counts[rowSums(counts > minc) >= mins, ]
@@ -363,19 +363,19 @@ isoCounts <- function(ids, ref=FALSE, iso5=FALSE, iso3=FALSE,
 }
 
 #' Annotate the rawData of the [IsomirDataSeq] object
-#' 
+#'
 #' Get the sequence and the name information for each isomiR,
 #' and the importance value (`isomir_reads/mirna_reads`) for
 #' each  sample.
-#' 
+#'
 #' @param ids Object of class [IsomirDataSeq].
-#' 
-#' @details 
+#'
+#' @details
 #' `edit_mature_position` represents the position at the mature
 #'  sequence + nucleotide at reference + nucleotide at isomiR.
 #' @return [data.frame] with the sequence, isomir name,
 #'   and importance for each sample and isomiR.
-#' 
+#'
 #' @examples
 #' data(mirData)
 #' head(isoAnnotate(mirData))
@@ -387,25 +387,27 @@ isoAnnotate <- function(ids){
     dt <- rawData %>%  # calculate pct
         .[,c(1:2,7:ncol(.))] %>%
         gather("sample", "value", -mir, -seq, -uid) %>%
-        group_by(sample, mir) %>% 
+        group_by(sample, mir) %>%
         filter(value > 0) %>%
-        group_by(mir, sample, seq, uid) %>% 
-        summarise(value=sum(value)) %>% 
-        group_by(mir, sample) %>% 
+        group_by(mir, sample, seq, uid) %>%
+        summarise(value=sum(value)) %>%
+        group_by(mir, sample) %>%
         arrange(sample, mir, desc(value)) %>%
         mutate(pct = value / sum(value) * 100) %>%
-        ungroup() %>% 
-        select(-value, -mir) %>% 
-        spread(sample, pct) %>% 
+        ungroup() %>%
+        select(-value, -mir) %>%
+        spread(sample, pct) %>%
         as.data.frame()
-    
-    lift <- ((grepl("[A-Z]", rawData[["t5"]]) * -1) + (grepl("[a-z]", rawData[["t5"]]) * 1)) * nchar(rawData[["t5"]])
-    pos <- as.numeric(str_extract(rawData[["mism"]], "[0-9]*")) + lift
+    dt_changes <- rawData %>% distinct(mir, uid, t5, mism)
+    lift <- ((grepl("[A-Z]", dt_changes[["t5"]]) * -1) + (grepl("[a-z]", dt_changes[["t5"]]) * 1)) * nchar(dt_changes[["t5"]])
+    pos <- as.numeric(str_extract(dt_changes[["mism"]], "[0-9]*")) + lift
     pos <- ifelse(pos==0, -1, pos)
-    change <- reverse(str_extract(rawData[["mism"]], "[ACTG]+"))
+    change <- reverse(str_extract(dt_changes[["mism"]], "[ACTG]+"))
     mature_pos <- ifelse(grepl("NA", change), "NA", paste0(pos, ":", change))
-    
-    dt[["edit_mature_position"]] = mature_pos
+    dt_changes[["edit_mature_position"]] <- mature_pos
+
+    dt <- left_join(dt, dt_changes[,c("uid", "edit_mature_position")], by=c("uid"))
+    #dt[["edit_mature_position"]] = mature_pos
     dt
 }
 
