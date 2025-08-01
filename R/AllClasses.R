@@ -22,12 +22,12 @@
 #' differential expression.
 #' [isomiRs::isoPlot()] helps with basic expression plot.
 #'
-#' `metadata` contains one list: 
-#' 
+#' `metadata` contains one list:
+#'
 #' * `rawData` is a [data.frame]
 #' with the information of each sequence found in the data
 #' and the counts for each sample.
-#' 
+#'
 #' The naming of isomiRs follows these rules:
 #'
 #' * miRNA name
@@ -104,13 +104,13 @@ setValidity("IsomirDataSeq", function(object) {
 })
 
 #' Update [IsomirDataSeq] object from version < 1.7
-#' 
+#'
 #' In version 1.9 IsomirDataSeq object changed their
-#' internal structure to save space and speed up 
+#' internal structure to save space and speed up
 #' loading and downstream functions.
-#' 
+#'
 #' This function will update to the current structure.
-#' 
+#'
 #' @param object [IsomirDataSeq].
 #' @export
 updateIsomirDataSeq <- function(object){
@@ -118,22 +118,22 @@ updateIsomirDataSeq <- function(object){
     rawList <- metadata(object)[["rawList"]]
     rawData <- lapply(names(rawList), function(s) {
         d <- rawList[[s]]
-        d %>% 
-            unite("uid", seq, mir, mism, add, t5, t3, sep = ":") %>% 
+        d %>%
+            unite("uid", seq, mir, mism, add, t5, t3, sep = ":") %>%
             select(uid, freq) %>%
-            gather(uid, freq) %>% 
+            gather(uid, freq) %>%
             mutate(sample = s)
-    }) %>% bind_rows() %>% 
-        group_by(uid, sample) %>% 
-        summarise(freq = sum(freq)) %>% 
-        spread(sample, freq, fill = 0) %>% 
+    }) %>% bind_rows() %>%
+        group_by(uid, sample) %>%
+        summarise(freq = sum(freq)) %>%
+        spread(sample, freq, fill = 0) %>%
         separate(uid,
                  into = c("seq", "mir", "mism", "add", "t5", "t3"),
                  sep = ":")
-    
+
     if (nrow(rawData) == 0)
         stop("No samples had valids miRNA hits.")
-    
+
     countData <- IsoCountsFromMatrix(rawData, coldata)
     se <- SummarizedExperiment(assays = SimpleList(counts = countData),
                                colData = DataFrame(coldata))
@@ -255,23 +255,23 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
             }
         }
 
-        d %>% 
-            unite("uid", seq, mir, mism, add, t5, t3, sep = ":") %>% 
+        d %>%
+            unite("uid", seq, mir, mism, add, t5, t3, sep = ":") %>%
             select(uid, freq) %>%
-            gather(uid, freq) %>% 
+            gather(uid, freq) %>%
             mutate(sample = s)
-    }) %>% bind_rows() 
-    
+    }) %>% bind_rows()
+
     stopifnot(nrow(rawData)>0)
-    
-    rawData <- rawData %>%  
-        group_by(uid, sample) %>% 
-        summarise(freq = sum(freq)) %>% 
-        spread(sample, freq, fill = 0) %>% 
+
+    rawData <- rawData %>%
+        group_by(uid, sample) %>%
+        summarise(freq = sum(freq)) %>%
+        spread(sample, freq, fill = 0) %>%
         separate(uid,
                  into = c("seq", "mir", "mism", "add", "t5", "t3"),
                  sep = ":")
-    
+
     if (nrow(rawData) == 0)
         stop("No samples had valids miRNA hits.")
     ids <- IsomirDataSeqFromRawData(rawData, coldata, pct=rate, ...)
@@ -284,18 +284,18 @@ IsomirDataSeqFromFiles <- function(files, coldata, rate = 0.2,
 }
 
 #' Import `mirtop` output into `IsomirDataSeq`
-#' 
-#' 
+#'
+#'
 #' The tabular output of [mirtop]() is compatible with [IsomirDataSeq]. This
 #' function allows to import the data and filter low confidence isomiRs for
 #' downstream analysis.
-#' 
+#'
 #' The output is generated with `mirtop export --format isomir`.
-#' 
+#'
 #' @param mirtop data.frame with the output of `mirtop export`
 #' @param coldata data.frame with the metadata of the samples
 #' @param ... It supports the same parameters as in [IsomirDataSeqFromRawData].
-#' 
+#'
 #' @return
 #' [IsomirDataSeq] class object.
 #' @examples
@@ -315,9 +315,9 @@ IsomirDataSeqFromMirtop <- function(mirtop, coldata, ...){
 }
 
 #' Loads miRNA annotation from seqbuster tool or pre-processed data.
-#' 
+#'
 #' Process raw data like tables to speed up filtering steps.
-#' 
+#'
 #' @param rawdata data.frame stored in metadata slot of [IsomirDataSeq] object.
 #' @param coldata data frame containing groups for each sample
 #' @param design a `formula` to pass to [DESeq2::DESeqDataSet]

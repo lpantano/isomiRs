@@ -1,3 +1,6 @@
+Changes in version 1.37.1
+
+* Remove functions that were using targetScan since it is not available anymore.
 
 Changes in version  1.33.1
 

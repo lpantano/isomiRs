@@ -246,50 +246,6 @@ dds = DESeqDataSetFromMatrix(counts(ids),
                              colData(ids), design = ~condition)
 ```
 
-
-### Gene - miRNA integration
-
-The package offers a correlation analysis of miRNA and gene expression data.
-Having two SummarizedExperiments objects with their expression, the target
-prediction for each miRNA, the function `isoNetwork` and `isoPlotNetwork` can
-generate a summarized figure showing the relationship between expression
-profile, miRNA repression and enrichment analysis:
-
-```{r isonetwork, message=FALSE, error=FALSE, fig.height=12, fig.width=7}
-# library(org.Mm.eg.db)
-# library(clusterProfiler)
-data(isoExample)
-
-# ego <- enrichGO(row.names(assay(gene_ex_rse, "norm")),
-#                 org.Mm.eg.db, "ENSEMBL", ont = "BP")
-data = isoNetwork(mirna_ex_rse, gene_ex_rse, target = ma_ex,
-                  enrich = ego, summarize = "group")
-isoPlotNet(data,  minGenes = 4)
-```
-
-
-As an option, `org` can be `org.Mm.eg.db` and `genename` can be
-`ENSEMBL` and it will run `enrcihGO` internally.
-
-To create the ma_ex matrix, the user can use `findTargets`:
-
-```{r findtarget}
-mirna_ma <- data.frame(gene = names(gene_ex_rse)[1:20],
-                       mir = names(mirna_ex_rse))
-ma_ex <- findTargets(mirna_ex_rse, gene_ex_rse, mirna_ma)
-head(ma_ex[,1:4])
-```
-
-And to get the `mirna_ma` data.frame with the miRNA-target information,
-the user can use `mirna2targetscan` function:
-
-```{r mirna2targetscan}
-library(targetscan.Hs.eg.db)
-mirna_ma <- mirna2targetscan(c("hsa-miR-34c-5p"))
-head(mirna_ma)
-```
-
-
 ## Session info
 
 Here is the output of `sessionInfo` on the system on which

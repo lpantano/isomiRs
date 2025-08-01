@@ -1,6 +1,6 @@
 Package: isomiRs
-Version: 1.37.0
-Date: 2024-08-23
+Version: 1.37.1
+Date: 2025-08-01
 Type: Package
 Title: Analyze isomiRs and miRNAs from small RNA-seq
 Description: Characterization of miRNAs and isomiRs, clustering and
@@ -12,7 +12,6 @@ Suggests:
     knitr,
     rmarkdown,
     org.Mm.eg.db,
-    targetscan.Hs.eg.db,
     pheatmap,
     BiocStyle,
     testthat

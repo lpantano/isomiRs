@@ -89,7 +89,6 @@ pairsMatrix <- function(df){
 #'                        mir = names(mirna_ex_rse))
 #' corMat <- findTargets(mirna_ex_rse, gene_ex_rse, mirna_ma)
 #' @return mirna-gene matrix
-#' @export
 findTargets <- function(mirna_rse, gene_rse, target,
                          summarize = "group", min_cor= -.6){
     target = pairsMatrix(target)
@@ -203,7 +202,6 @@ findTargets <- function(mirna_rse, gene_rse, target,
 #'                    enrich = ego)
 #' isoPlotNet(data, minGenes = 5)
 #' @return list with network information
-#' @export
 isoNetwork <- function(mirna_rse, gene_rse,
                        summarize = NULL,
                        target = NULL, org = NULL,
@@ -420,7 +418,6 @@ isoNetwork <- function(mirna_rse, gene_rse,
 #' @param obj Output from [isoNetwork()].
 #' @param minGenes Minimum number of genes per term to be kept.
 #' @return Network ggplot.
-#' @export
 isoPlotNet = function(obj, minGenes = 2){
     # browser()
     df = obj$analysis$table
@@ -521,7 +518,6 @@ isoPlotNet = function(obj, minGenes = 2){
 #' @examples 
 #' library(targetscan.Hs.eg.db)
 #' mirna2targetscan(c("hsa-miR-34c-5p"))
-#' @export
 mirna2targetscan <- function(mirna, species = "hsa", org = NULL, keytype = NULL){
     mirna_map <- data.frame(mir = mirna,
                             ext = gsub("-[53]p$", "", mirna),
