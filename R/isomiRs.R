@@ -191,8 +191,8 @@ isoPlot <- function(ids, type="iso5", column=NULL,
         filter(size!="0") %>%
         left_join(des, by ="iso_sample") %>%
         ggplot() +
-        geom_jitter(aes_string(x="size",y="unique", colour=column,
-                        size="pct_abundance")) +
+        geom_jitter(aes(x=.data$size,y=.data$unique, colour=column,
+                        size=.data$pct_abundance)) +
         scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
@@ -273,8 +273,8 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
     inner_join(freq_pct, n_pct, by="id") %>%
         left_join(des, by ="iso_sample") %>%
         ggplot() +
-        geom_jitter(aes_string(x="change",y="unique",colour=column,
-                        size="pct_abundance")) +
+        geom_jitter(aes(x=.data$change,y=.data$unique,colour=column,
+                        size=.data$pct_abundance)) +
         scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 11, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +

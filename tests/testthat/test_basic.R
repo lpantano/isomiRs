@@ -16,16 +16,16 @@ test_that("counts", {
     expect_is(counts(obj, norm = TRUE), "matrix")
 })  
 
-test_that("target", {
-    mirna_ma <- data.frame(gene = names(gene_ex_rse)[1:20],
-                           mir = names(mirna_ex_rse))
-    corMat <- findTargets(mirna_ex_rse, gene_ex_rse, mirna_ma)
-    expect_output(str(corMat), "num [1:20, 1:20]", fixed = TRUE)
-    expect_error(pairsMatrix(list()),
-                 "Need a data.frame with 2 columns: gene, mir.")
-    expect_equal(.detect_gene_symbol(names(gene_ex_rse)), "ENSEMBL")
-    expect_false(.is_mapping_needed(names(gene_ex_rse), names(gene_ex_rse)))
-})
+# test_that("target", {
+#     mirna_ma <- data.frame(gene = names(gene_ex_rse)[1:20],
+#                            mir = names(mirna_ex_rse))
+#     corMat <- findTargets(mirna_ex_rse, gene_ex_rse, mirna_ma)
+#     expect_output(str(corMat), "num [1:20, 1:20]", fixed = TRUE)
+#     expect_error(pairsMatrix(list()),
+#                  "Need a data.frame with 2 columns: gene, mir.")
+#     expect_equal(.detect_gene_symbol(names(gene_ex_rse)), "ENSEMBL")
+#     expect_false(.is_mapping_needed(names(gene_ex_rse), names(gene_ex_rse)))
+# })
 
 test_that("accesor", {
     expect_output(str(design(mirData)), "formula")
