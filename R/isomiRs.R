@@ -196,9 +196,9 @@ isoPlot <- function(ids, type="iso5", column=NULL,
         scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 14, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
-        labs(list(title=paste(type,"distribution"),
-                  y="pct of isomiRs",
-                x=xaxis))
+        labs(title=paste(type,"distribution"),
+             y="pct of isomiRs",
+             x=xaxis)
 }
 
 #' Plot nucleotides changes at a given position
@@ -278,11 +278,11 @@ isoPlotPosition <- function(ids, position = 1L, column = NULL){
         scale_colour_brewer("Groups",palette="Set1") +
         theme_bw(base_size = 11, base_family = "") +
         theme(strip.background=element_rect(fill="slategray3")) +
-        labs(list(title=paste("Change distribution"),
-                  y="pct of isomiRs",
-                x=paste0("changes at postiion ",
-                         position,
-                         " respect to the reference")))
+        labs(title=paste("Change distribution"),
+             y="pct of isomiRs",
+             x=paste0("changes at postiion ",
+                      position,
+                      " respect to the reference"))
 }
 
 #' Create count matrix with different summarizing options

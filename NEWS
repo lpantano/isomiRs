@@ -1,3 +1,10 @@
+Changes in version 1.39.1
+
+FIX
+
+* Fix ggplot2 compatibility issues with labs() function - removed deprecated list() syntax
+* Fix ggplot2 deprecation warning by replacing aes_string() with modern aes() and tidy evaluation
+
 Changes in version 1.37.1
 
 * Remove functions that were using targetScan since it is not available anymore.

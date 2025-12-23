@@ -427,8 +427,8 @@ IsoCountsFromMatrix <- function(rawData, des, ref=FALSE, iso5=FALSE,
     bind_rows(freq_pct, n_pct) %>%
         left_join(des, by ="iso_sample") %>%
         arrange(uid) %>%
-        ggplot(aes_string(x="uid", y="pct_abundance",
-                          group="iso_sample", color = column)) +
+        ggplot(aes(x=uid, y=pct_abundance,
+                   group=iso_sample, color = !!sym(column))) +
         geom_polygon(fill=NA) +
         coord_polar(start=-pi) +
         scale_color_brewer(palette = "Set1") +
